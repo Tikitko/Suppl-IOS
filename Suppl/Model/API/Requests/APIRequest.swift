@@ -4,32 +4,28 @@ final class APIRequest: CommonRequest {
     
     let API_URL = "https://wioz.su/suppl/api/0.1/"
     
-    public func request(query: Dictionary<String, String>, taskCallback: @escaping (NSError?, ResponseData?) -> ()) {
+    public func request(query: Dictionary<String, String>, taskCallback: @escaping (NSError?, NSDictionary?) -> ()) {
         super.request(url: API_URL, query: query) { error, data in
             if let error = error {
                 taskCallback(NSError(domain: error.localizedDescription, code: -1), nil)
+                return
             }
-            if let data = data {
-                let reportData = try? JSONDecoder().decode(ResponseData.self, from: data)
-                print(reportData)
-                taskCallback(nil, reportData)
+            guard let json = data, let dataParsed = try? JSONSerialization.jsonObject(with: json, options: []) as? NSDictionary, let data = dataParsed else {
+                taskCallback(NSError(domain: "JSON Parse error", code: -2), nil)
+                return
             }
-            /*
-            if let error_id = data["error_id"] as? Int, let error_desc = data["error_description"] as? String {
-                taskCallback(NSError(domain: error_desc, code: error_id), nil)
+            if let errorID = data["error_id"] as? Int, let errorDesc = data["error_description"] as? String {
+                taskCallback(NSError(domain: errorDesc, code: errorID), nil)
             } else if let data = data["data"] as? NSDictionary {
                 taskCallback(nil, data)
-            } else if let data = data["data"] as? [NSDictionary] {
-                taskCallback(nil, ["list":data])
             }
-            */
         }
     }
     
     override public func request(url: String, query: Dictionary<String, String>, taskCallback: @escaping (Error?, Data?) -> ()) {
         return;
     }
-    /*
+    
     public func method<T>(query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), method: @escaping (_ data: NSDictionary) -> T?) {
         self.request(query: query) { error, data in
             var returnError: NSError? = nil
@@ -45,6 +41,6 @@ final class APIRequest: CommonRequest {
             }
         }
     }
-     */
+    
 }
 

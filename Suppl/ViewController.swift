@@ -12,8 +12,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let api = SupplAPI()
+        let api = APIManager()
         api.userGet(ikey: 111, akey: 111) { error, data in
+            print(data)
             return
         }
     }

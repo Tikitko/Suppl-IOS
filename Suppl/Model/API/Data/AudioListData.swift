@@ -1,7 +1,7 @@
 import Foundation
 
 struct AudioListData {
-    var list: [AudioData]
+    private var list: [AudioData]
     
     static func parse(_ data: NSDictionary) -> AudioListData {
         let tempList = data["list"] as? [NSDictionary] ?? []

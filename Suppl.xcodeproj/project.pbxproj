@@ -12,9 +12,9 @@
 		8C67F5E5201B153100333EB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C67F5E3201B153100333EB2 /* Main.storyboard */; };
 		8C67F5E7201B153100333EB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C67F5E6201B153100333EB2 /* Assets.xcassets */; };
 		8C67F5EA201B153100333EB2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C67F5E8201B153100333EB2 /* LaunchScreen.storyboard */; };
-		8C67F600201B174200333EB2 /* SupplAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F3201B174200333EB2 /* SupplAPI.swift */; };
-		8C67F601201B174200333EB2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F5201B174200333EB2 /* User.swift */; };
-		8C67F602201B174200333EB2 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F6201B174200333EB2 /* Audio.swift */; };
+		8C67F600201B174200333EB2 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F3201B174200333EB2 /* APIManager.swift */; };
+		8C67F601201B174200333EB2 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F5201B174200333EB2 /* UserService.swift */; };
+		8C67F602201B174200333EB2 /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F6201B174200333EB2 /* AudioService.swift */; };
 		8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F8201B174200333EB2 /* CommonRequest.swift */; };
 		8C67F604201B174200333EB2 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F9201B174200333EB2 /* APIRequest.swift */; };
 		8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FB201B174200333EB2 /* UserSecretData.swift */; };
@@ -22,7 +22,6 @@
 		8C67F607201B174200333EB2 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FD201B174200333EB2 /* UserData.swift */; };
 		8C67F608201B174200333EB2 /* AudioListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FE201B174200333EB2 /* AudioListData.swift */; };
 		8C67F609201B174200333EB2 /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FF201B174200333EB2 /* AudioData.swift */; };
-		8C67F60B201B23F500333EB2 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F60A201B23F500333EB2 /* ResponseData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,9 +32,9 @@
 		8C67F5E6201B153100333EB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C67F5E9201B153100333EB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8C67F5EB201B153100333EB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8C67F5F3201B174200333EB2 /* SupplAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupplAPI.swift; sourceTree = "<group>"; };
-		8C67F5F5201B174200333EB2 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		8C67F5F6201B174200333EB2 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		8C67F5F3201B174200333EB2 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		8C67F5F5201B174200333EB2 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		8C67F5F6201B174200333EB2 /* AudioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
 		8C67F5F8201B174200333EB2 /* CommonRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonRequest.swift; sourceTree = "<group>"; };
 		8C67F5F9201B174200333EB2 /* APIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		8C67F5FB201B174200333EB2 /* UserSecretData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSecretData.swift; sourceTree = "<group>"; };
@@ -43,7 +42,6 @@
 		8C67F5FD201B174200333EB2 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		8C67F5FE201B174200333EB2 /* AudioListData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioListData.swift; sourceTree = "<group>"; };
 		8C67F5FF201B174200333EB2 /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
-		8C67F60A201B23F500333EB2 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,21 +96,21 @@
 		8C67F5F2201B174200333EB2 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				8C67F5F3201B174200333EB2 /* SupplAPI.swift */,
-				8C67F5F4201B174200333EB2 /* Components */,
+				8C67F5F3201B174200333EB2 /* APIManager.swift */,
+				8C67F5F4201B174200333EB2 /* Services */,
 				8C67F5F7201B174200333EB2 /* Requests */,
 				8C67F5FA201B174200333EB2 /* Data */,
 			);
 			path = API;
 			sourceTree = "<group>";
 		};
-		8C67F5F4201B174200333EB2 /* Components */ = {
+		8C67F5F4201B174200333EB2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8C67F5F5201B174200333EB2 /* User.swift */,
-				8C67F5F6201B174200333EB2 /* Audio.swift */,
+				8C67F5F5201B174200333EB2 /* UserService.swift */,
+				8C67F5F6201B174200333EB2 /* AudioService.swift */,
 			);
-			path = Components;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		8C67F5F7201B174200333EB2 /* Requests */ = {
@@ -132,7 +130,6 @@
 				8C67F5FD201B174200333EB2 /* UserData.swift */,
 				8C67F5FE201B174200333EB2 /* AudioListData.swift */,
 				8C67F5FF201B174200333EB2 /* AudioData.swift */,
-				8C67F60A201B23F500333EB2 /* ResponseData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -209,15 +206,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C67F601201B174200333EB2 /* User.swift in Sources */,
+				8C67F601201B174200333EB2 /* UserService.swift in Sources */,
 				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,
 				8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */,
-				8C67F600201B174200333EB2 /* SupplAPI.swift in Sources */,
+				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C67F5E2201B153100333EB2 /* ViewController.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
-				8C67F60B201B23F500333EB2 /* ResponseData.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
-				8C67F602201B174200333EB2 /* Audio.swift in Sources */,
+				8C67F602201B174200333EB2 /* AudioService.swift in Sources */,
 				8C67F608201B174200333EB2 /* AudioListData.swift in Sources */,
 				8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */,
 				8C67F607201B174200333EB2 /* UserData.swift in Sources */,

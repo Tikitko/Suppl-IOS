@@ -11,11 +11,8 @@ class CommonRequest {
         guard let url = urlComponents.url else { return }
         dataTask = defaultSession.dataTask(with: url) { data, response, error in
             defer { self.dataTask = nil }
-            if let error = error {
-                taskCallback(error, nil)
-            } else if let data = data /* , let response = response as? HTTPURLResponse , response.statusCode == 200 */ {
-                taskCallback(nil, data)
-            }
+            taskCallback(error, data)
+            /* , let response = response as? HTTPURLResponse , response.statusCode == 200 */ 
         }
         dataTask?.resume()
     }
