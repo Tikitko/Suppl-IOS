@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E466276201F87A30037FD0E /* TracklistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466275201F87A30037FD0E /* TracklistData.swift */; };
 		0E466278201F88890037FD0E /* TracklistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466277201F88890037FD0E /* TracklistService.swift */; };
+		0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF1AFB2201F9E44006B2761 /* ResponseData.swift */; };
 		8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5DF201B153100333EB2 /* AppDelegate.swift */; };
 		8C67F5E2201B153100333EB2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5E1201B153100333EB2 /* ViewController.swift */; };
 		8C67F5E5201B153100333EB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C67F5E3201B153100333EB2 /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		0E466275201F87A30037FD0E /* TracklistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistData.swift; sourceTree = "<group>"; };
 		0E466277201F88890037FD0E /* TracklistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistService.swift; sourceTree = "<group>"; };
+		0EF1AFB2201F9E44006B2761 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
 		8C67F5DC201B153100333EB2 /* Suppl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Suppl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C67F5DF201B153100333EB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C67F5E1201B153100333EB2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				8C67F5FE201B174200333EB2 /* AudioListData.swift */,
 				8C67F5FF201B174200333EB2 /* AudioData.swift */,
 				0E466275201F87A30037FD0E /* TracklistData.swift */,
+				0EF1AFB2201F9E44006B2761 /* ResponseData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C67F5E2201B153100333EB2 /* ViewController.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
+				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
 				8C67F602201B174200333EB2 /* AudioService.swift in Sources */,
 				8C67F608201B174200333EB2 /* AudioListData.swift in Sources */,

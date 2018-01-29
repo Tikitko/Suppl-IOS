@@ -14,43 +14,50 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let api = APIManager()
         api.userGet(ikey: 111, akey: 111) { error, data in
-            print("--------------")
+            print("+ --------------")
+            print("userGet")
             print("ERROR: \(error)")
             print("DATA: \(data)")
             print("--------------")
         }
-        /*api.userRegister() { error, data in
+        api.userRegister() { error, data in
             print("--------------")
+            print("userRegister")
             print("ERROR: \(error)")
             print("DATA: \(data)")
             print("--------------")
         }
         api.userUpdateEmail(ikey: 111, akey: 111, email: "bns.6587@gmail.com") { error, data in
-            print("--------------")
+            print("+ --------------")
+            print("userUpdateEmail")
             print("ERROR: \(error)")
             print("DATA: \(data)")
             print("--------------")
         }
         api.userSendResetKey(email: "bns.6587@gmail.com") { error, data in
-            print("--------------")
+            print("+ --------------")
+            print("userSendResetKey")
             print("ERROR: \(error)")
             print("DATA: \(data)")
             print("--------------")
         }
         api.userReset(resetKey: "11213") { error, data in
             print("--------------")
+            print("userReset")
             print("ERROR: \(error)")
             print("DATA: \(data)")
             print("--------------")
         }
         api.audioSearch(ikey: 111, akey: 111, query: "Dragons") { error, data in
-            print("--------------")
+            print("+ --------------")
+            print("audioSearch")
             print("ERROR: \(error)")
             print("DATA: \(data)")
             print("--------------")
-        }*/
+        }
         api.tracklistGet(ikey: 111, akey: 111) { error, data in
-            print("--------------")
+            print("+ --------------")
+            print("tracklistGet")
             print("ERROR: \(error)")
             print("DATA: \(data)")
             print("--------------")

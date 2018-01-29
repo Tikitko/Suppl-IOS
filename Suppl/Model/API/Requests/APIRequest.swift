@@ -4,40 +4,27 @@ final class APIRequest: CommonRequest {
     
     let API_URL = "https://wioz.su/suppl/api/0.1/"
     
-    public func request(query: Dictionary<String, String>, taskCallback: @escaping (NSError?, NSDictionary?) -> ()) {
-        super.request(url: API_URL, query: query) { error, data in
-            var returnError: NSError? = nil
-            var returnData: NSDictionary? = nil
-            if let error = error {
-                returnError = NSError(domain: error.localizedDescription, code: -1)
-            } else if let json = data, let dataParsed = try? JSONSerialization.jsonObject(with: json, options: []) as? NSDictionary, let data = dataParsed {
-                if let errorID = data["error_id"] as? Int, let errorDesc = data["error_description"] as? String {
-                    returnError = NSError(domain: errorDesc, code: errorID)
-                } else if let data = data["data"] as? NSDictionary {
-                    returnData = data
-                } else if let status = data["status"] as? Int, status == 1 {
-                    returnData = [:]
-                }
-            } else {
-                returnError = NSError(domain: "JSON Parse error", code: -2)
-            }
-            taskCallback(returnError, returnData)
-        }
-    }
-    
     override public func request(url: String, query: Dictionary<String, String>, taskCallback: @escaping (Error?, Data?) -> ()) {
         return;
     }
     
-    public func method<T>(query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), method: @escaping (_ data: NSDictionary) -> T?) {
-        self.request(query: query) { error, data in
+    // Твоя идея с шаблонами мне уже приходила в голову, но я все-таки надеялся на парсинг в тип Дата, но и так получилось очень даже красиво...
+    public func method<T>(_ method: String, query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), externalMethod: @escaping (_ data: ResponseData<T>) -> T?) {
+        var mainQuery: Dictionary<String, String> = ["method": method]
+        mainQuery.merge(other: query)
+        super.request(url: API_URL, query: mainQuery) { error, data in
             var returnError: NSError? = nil
             var returnData: T? = nil
             if let error = error {
-                returnError = error
-            } else if let data = data {
-                guard let tempData = method(data) else { return }
-                returnData = tempData
+                returnError = NSError(domain: error.localizedDescription, code: -1)
+            } else if let data = data, let dataObj = try? JSONDecoder().decode(ResponseData<T>.self, from: data) {
+                if let errorID = dataObj.errorID, let errorDesc = dataObj.errorDesc {
+                    returnError = NSError(domain: errorDesc, code: errorID)
+                } else {
+                    returnData = externalMethod(dataObj)
+                }
+            } else {
+                returnError = NSError(domain: "JSON_Parse_error", code: -2)
             }
             DispatchQueue.main.async {
                 dataReport(returnError, returnData)
@@ -46,4 +33,13 @@ final class APIRequest: CommonRequest {
     }
     
 }
+
+extension Dictionary {
+    mutating func merge(other:Dictionary) {
+        for (key,value) in other {
+            self.updateValue(value, forKey:key)
+        }
+    }
+}
+
 

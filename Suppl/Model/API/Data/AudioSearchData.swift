@@ -1,16 +1,13 @@
-import Foundation
-
-struct AudioSearchData {
+struct AudioSearchData: Codable {
     var hasMore: Bool
     var nextOffset: Int
     var totalCount: Int
-    var list: AudioListData
+    var list: [AudioData]
     
-    static func parse(_ data: NSDictionary) -> AudioSearchData {
-        let hasMore = data["has_more"] as? Bool ?? false
-        let nextOffset = data["next_offset"] as? Int ?? -1
-        let totalCount = data["total_count"] as? Int ?? -1
-        let list = AudioListData.parse(data)
-        return AudioSearchData(hasMore: hasMore, nextOffset: nextOffset, totalCount: totalCount, list: list)
+    enum CodingKeys: String, CodingKey {
+        case hasMore = "has_more"
+        case nextOffset = "next_offset"
+        case totalCount = "total_count"
+        case list
     }
 }

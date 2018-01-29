@@ -1,16 +1,5 @@
-import Foundation
-
-struct AudioListData {
+struct AudioListData: Codable {
     var list: [AudioData]
-    
-    static func parse(_ data: NSDictionary) -> AudioListData {
-        let tempList = data["list"] as? [NSDictionary] ?? []
-        var list: [AudioData] = []
-        tempList.forEach { value in
-            list.append(AudioData.parse(value))
-        }
-        return AudioListData(list: list)
-    }
     
     subscript(index: Int) -> AudioData {
         get {

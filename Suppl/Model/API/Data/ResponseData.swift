@@ -1,15 +1,13 @@
-import Foundation
-
-struct ResponseData: Codable{
+struct ResponseData<T: Codable>: Codable {
     var status: Int
-    var data: Dictionary<String, String>?
     var errorID: Int?
-    var errorDescription: String?
+    var errorDesc: String?
+    var data: T?
     
     enum CodingKeys: String, CodingKey {
-        case status = "status"
-        case data = "data"
+        case status
         case errorID = "error_id"
-        case errorDescription = "error_description"
+        case errorDesc = "error_description"
+        case data
     }
 }

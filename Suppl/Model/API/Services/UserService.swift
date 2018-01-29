@@ -2,53 +2,37 @@ import Foundation
 
 final class UserService {
     
-    /*public static func get(api: APIRequest, ikey: Int, akey: Int, dataReport: @escaping (NSError?, UserData?) -> ()) {
-        var query = ["method": "user.get"]
-        authPartAdd(query: &query, ikey, akey)
-        api.request(query: query) { error, data in
-            if let error = error {
-                print(error)
-            } else if let data = data {
-                print(data.status)
-                print(data.errorDescription)
-                //print(data.data)
-            }
-
-        }
-    }*/
-    
     public static func register(api: APIRequest, dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
-        let query = ["method": "user.register"]
-        api.method(query: query, dataReport: dataReport) { data in
-            return UserSecretData.parse(data)
+        api.method("user.register", query: [:], dataReport: dataReport) { data in
+            return data.data
         }
     }
     
     public static func get(api: APIRequest, ikey: Int, akey: Int, dataReport: @escaping (NSError?, UserData?) -> ()) {
-        let query = queryWithAuth(ikey, akey, ["method": "user.get"])
-        api.method(query: query, dataReport: dataReport) { data in
-            return UserData.parse(data)
+        let query = queryWithAuth(ikey, akey)
+        api.method("user.get", query: query, dataReport: dataReport) { data in
+            return data.data
         }
     }
     
     public static func updateEmail(api: APIRequest, ikey: Int, akey: Int, email: String, dataReport: @escaping (NSError?, Bool?) -> ()) {
-        let query = queryWithAuth(ikey, akey, ["method": "user.updateEmail", "reset_email": email])
-        api.method(query: query, dataReport: dataReport) { data in
-            return data.count == 0
+        let query = queryWithAuth(ikey, akey, ["reset_email": email])
+        api.method("user.updateEmail", query: query, dataReport: dataReport) { data in
+            return data.status == 1
         }
     }
     
     public static func sendResetKey(api: APIRequest, email: String, dataReport: @escaping (NSError?, Bool?) -> ()) {
-        let query = ["method": "user.sendResetKey", "reset_email": email]
-        api.method(query: query, dataReport: dataReport) { data in
-            return data.count == 0
+        let query = ["reset_email": email]
+        api.method("user.sendResetKey", query: query, dataReport: dataReport) { data in
+            return data.status == 1
         }
     }
     
     public static func reset(api: APIRequest, resetKey: String, dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
-        let query = ["method": "user.reset", "reset_key": resetKey]
-        api.method(query: query, dataReport: dataReport) { data in
-            return UserSecretData.parse(data)
+        let query = ["reset_key": resetKey]
+        api.method("user.reset", query: query, dataReport: dataReport) { data in
+            return data.data
         }
     }
     
@@ -58,6 +42,5 @@ final class UserService {
         query["access_key"] = String(akey)
         return query
     }
+    
 }
-
-
