@@ -6,19 +6,22 @@ final class APIRequest: CommonRequest {
     
     public func request(query: Dictionary<String, String>, taskCallback: @escaping (NSError?, NSDictionary?) -> ()) {
         super.request(url: API_URL, query: query) { error, data in
+            var returnError: NSError? = nil
+            var returnData: NSDictionary? = nil
             if let error = error {
-                taskCallback(NSError(domain: error.localizedDescription, code: -1), nil)
-                return
+                returnError = NSError(domain: error.localizedDescription, code: -1)
+            } else if let json = data, let dataParsed = try? JSONSerialization.jsonObject(with: json, options: []) as? NSDictionary, let data = dataParsed {
+                if let errorID = data["error_id"] as? Int, let errorDesc = data["error_description"] as? String {
+                    returnError = NSError(domain: errorDesc, code: errorID)
+                } else if let data = data["data"] as? NSDictionary {
+                    returnData = data
+                } else if let status = data["status"] as? Int, status == 1 {
+                    returnData = [:]
+                }
+            } else {
+                returnError = NSError(domain: "JSON Parse error", code: -2)
             }
-            guard let json = data, let dataParsed = try? JSONSerialization.jsonObject(with: json, options: []) as? NSDictionary, let data = dataParsed else {
-                taskCallback(NSError(domain: "JSON Parse error", code: -2), nil)
-                return
-            }
-            if let errorID = data["error_id"] as? Int, let errorDesc = data["error_description"] as? String {
-                taskCallback(NSError(domain: errorDesc, code: errorID), nil)
-            } else if let data = data["data"] as? NSDictionary {
-                taskCallback(nil, data)
-            }
+            taskCallback(returnError, returnData)
         }
     }
     
