@@ -1,10 +1,10 @@
 import Foundation
 import UIKit
 
-class TracklistViewController: UIViewController, ControllerInfoProtocol {
+class MainViewController: UIViewController, ControllerInfoProtocol {
     
-    let name: String = "Плейлист"
-    let image: UIImage = UIImage(named: "list-simple-star-7.png") ?? UIImage()
+    public let name = "Музыка"
+    public let imageName = "music-7.png"
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -15,4 +15,3 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         super.init(coder: aDecoder)
     }
 }
-
