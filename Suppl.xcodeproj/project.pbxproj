@@ -81,14 +81,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0EEC5A95202119690028694E /* General */ = {
+		0EEC5A95202119690028694E /* Generals */ = {
 			isa = PBXGroup;
 			children = (
 				8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */,
 				8CCAC59520205D5C00D91687 /* RootTabBarController.swift */,
 				0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */,
 			);
-			path = General;
+			path = Generals;
 			sourceTree = "<group>";
 		};
 		0EEC5AA7202135870028694E /* Tracklist */ = {
@@ -206,7 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				8C3301F02021A9AD00446945 /* Pages */,
-				0EEC5A95202119690028694E /* General */,
+				0EEC5A95202119690028694E /* Generals */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

@@ -2,8 +2,10 @@ import Foundation
 import UIKit
 
 class AuthViewController: UIViewController {
+    
     @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var activity: UIActivityIndicatorView!
+    
+    private var timer: Timer?
     
     private let errorTitle = "Ошибка: "
     private let okTitle = "Успешно!"
@@ -20,59 +22,73 @@ class AuthViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
             self.present(RootTabBarController(), animated: true)
         }
+        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true, block: authCheck)
+    }
+    
+    func authCheck(timerIn: Timer) -> Void {
+        guard let ikey = DataSingleton.identifierKey, let akey = DataSingleton.accessKey else { return }
+        DataSingleton.API.userGet(ikey: ikey, akey: akey) { [unowned self] error, data in
+            guard let error = error else { return }
+            defer { self.timer = nil }
+            self.timer?.invalidate()
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = AuthViewController()
+        }
     }
     
     private func auth(ikey: Int, akey: Int) {
         statusLabel.text = "Авторизация..."
         DataSingleton.API.userGet(ikey: ikey, akey: akey) { [unowned self] error, data in
-            if let error = error {
-                if error.domain == "account_user_not_found" {
-                    DataSingleton.identifierKey = nil
-                    DataSingleton.accessKey = nil
-                }
-                self.statusLabel.text = self.errorTitle + error.domain
-                self.activity.stopAnimating()
+            guard let error = error else {
+                guard let _ = data else { return }
+                self.statusLabel.text = self.okTitle
+                self.endAuth()
                 return
             }
-            guard let _ = data else { return }
-            self.statusLabel.text = self.okTitle
-            self.activity.stopAnimating()
-            self.endAuth()
+            if error.domain == "account_user_not_found" {
+                DataSingleton.identifierKey = nil
+                DataSingleton.accessKey = nil
+                self.register()
+                return
+            }
+            print(self.statusLabel.text)
+            self.statusLabel.text = self.errorTitle + error.domain
+            print(self.statusLabel.text)
         }
     }
     
-    private func reg() {
+    private func register() {
         statusLabel.text = "Регистрация..."
-        DataSingleton.API.userRegister() { error, data in
+        DataSingleton.API.userRegister() { [unowned self] error, data in
             if let error = error {
                 self.statusLabel.text = self.errorTitle + error.domain
-                self.activity.stopAnimating()
                 return
             }
             guard let data = data else { return }
             DataSingleton.identifierKey = data.identifierKey
             DataSingleton.accessKey = data.accessKey
             self.statusLabel.text = self.okTitle
-            self.activity.stopAnimating()
             self.endAuth()
         }
     }
     
     private func startAuth() {
         statusLabel.text = "Получение информации..."
-        activity.startAnimating()
         let ikey = DataSingleton.identifierKey
         let akey = DataSingleton.accessKey
         if let ikey = ikey, let akey = akey {
             auth(ikey: ikey, akey: akey)
-        } else {
-            reg()
+            return
         }
+        register()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startAuth()
+        
+        
+        
         /*api.userRegister() { error, data in
          print("--------------")
          print("userRegister")

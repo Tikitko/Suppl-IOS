@@ -8,7 +8,6 @@ final class APIRequest: CommonRequest {
         return;
     }
     
-    // Твоя идея с шаблонами мне уже приходила в голову, но я все-таки надеялся на парсинг в тип Дата, но и так получилось очень даже красиво...
     public func method<T>(_ method: String, query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), externalMethod: @escaping (_ data: ResponseData<T>) -> T?) {
         var mainQuery: Dictionary<String, String> = ["method": method]
         mainQuery.merge(other: query)
