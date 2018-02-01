@@ -102,7 +102,7 @@
 			path = Tracklist;
 			sourceTree = "<group>";
 		};
-		8C3301F02021A9AD00446945 /* Pages */ = {
+		8C3301F02021A9AD00446945 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
 				8C3301F12021BB6300446945 /* Auth */,
@@ -110,7 +110,7 @@
 				8CCAC59720205FB700D91687 /* Settings */,
 				0EEC5AA7202135870028694E /* Tracklist */,
 			);
-			path = Pages;
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		8C3301F12021BB6300446945 /* Auth */ = {
@@ -216,7 +216,7 @@
 		8CCAC58D2020563000D91687 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8C3301F02021A9AD00446945 /* Pages */,
+				8C3301F02021A9AD00446945 /* Modules */,
 				0EEC5A95202119690028694E /* Generals */,
 			);
 			path = Controllers;

@@ -4,6 +4,9 @@ import UIKit
 class AuthViewController: UIViewController {
     
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var identifierField: UITextField!
+    @IBOutlet weak var repeatButton: UIButton!
+    
     
     private let errorTitle = "Ошибка: "
     private let okTitle = "Добро пожаловать!"
@@ -16,52 +19,22 @@ class AuthViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startAuth()
-        
-        
-        
-        /*api.userRegister() { error, data in
-         print("--------------")
-         print("userRegister")
-         print("ERROR: \(error)")
-         print("DATA: \(data)")
-         print("--------------")
-         }
-         api.userUpdateEmail(ikey: 111, akey: 111, email: "bns.6587@gmail.com") { error, data in
-         print("+ --------------")
-         print("userUpdateEmail")
-         print("ERROR: \(error)")
-         print("DATA: \(data)")
-         print("--------------")
-         }
-         api.userSendResetKey(email: "bns.6587@gmail.com") { error, data in
-         print("+ --------------")
-         print("userSendResetKey")
-         print("ERROR: \(error)")
-         print("DATA: \(data)")
-         print("--------------")
-         }
-         api.userReset(resetKey: "11213") { error, data in
-         print("--------------")
-         print("userReset")
-         print("ERROR: \(error)")
-         print("DATA: \(data)")
-         print("--------------")
-         }
-         api.audioSearch(ikey: 111, akey: 111, query: "Dragons") { error, data in
-         print("+ --------------")
-         print("audioSearch")
-         print("ERROR: \(error)")
-         print("DATA: \(data)")
-         print("--------------")
-         }
-         api.tracklistGet(ikey: 111, akey: 111) { error, data in
-         print("+ --------------")
-         print("tracklistGet")
-         print("ERROR: \(error)")
-         print("DATA: \(data)")
-         print("--------------")
-         }*/
-        
+    }
+    
+    @IBAction func repeatButtonClick(_ sender: Any) {
+        guard let text = identifierField.text, let _ = Int(text), text.count % 2 == 0 else {
+            statusLabel.text = "Неверный формат идентификатора"
+            return
+        }
+        identifierField.isEnabled = false
+        repeatButton.isEnabled = false
+        statusLabel.text = "Проверка идентификатора"
+        let half: Int = text.count / 2
+        let ikey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
+        let akey = Int(text[text.index(text.startIndex, offsetBy: half)..<text.endIndex])
+        UserDefaultsManager.identifierKey = ikey
+        UserDefaultsManager.accessKey = akey
+        startAuth(ikey: ikey, akey: akey)
     }
     
     private func endAuth() {
@@ -69,7 +42,18 @@ class AuthViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
             self.present(RootTabBarController(), animated: true)
         }
-        AuthManager.startAuthCheck()
+        let _ = AuthManager.startAuthCheck(voidTopCheck: true)
+    }
+    
+    private func setAuthFormVisable() {
+        identifierField.text = "Введите ваш идентификатор"
+        if let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey {
+            identifierField.text = String("\(ikey)\(akey)")
+        }
+        identifierField.isEnabled = true
+        repeatButton.isEnabled = true
+        identifierField.isHidden = false
+        repeatButton.isHidden = false
     }
     
     private func auth(ikey: Int, akey: Int) {
@@ -81,13 +65,8 @@ class AuthViewController: UIViewController {
                 self.endAuth()
                 return
             }
-            if error.domain == "account_user_not_found" {
-                UserDefaultsManager.identifierKey = nil
-                UserDefaultsManager.accessKey = nil
-                self.register()
-                return
-            }
             self.statusLabel.text = self.errorTitle + error.domain
+            self.setAuthFormVisable()
         }
     }
     
@@ -96,6 +75,7 @@ class AuthViewController: UIViewController {
         APIManager.userRegister() { [unowned self] error, data in
             if let error = error {
                 self.statusLabel.text = self.errorTitle + error.domain
+                self.setAuthFormVisable()
                 return
             }
             guard let data = data else { return }
@@ -106,9 +86,9 @@ class AuthViewController: UIViewController {
         }
     }
     
-    private func startAuth() {
+    private func startAuth(ikey: Int? = nil, akey: Int? = nil) {
         statusLabel.text = "Получение информации..."
-        if let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey {
+        if let ikey = ikey ?? UserDefaultsManager.identifierKey, let akey = akey ?? UserDefaultsManager.accessKey {
             auth(ikey: ikey, akey: akey)
             return
         }

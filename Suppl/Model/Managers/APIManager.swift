@@ -46,5 +46,27 @@ class APIManager {
     
     public static func tracklistMove(ikey: Int, akey: Int, from: Int = 0, to: Int = 0, dataReport: @escaping (NSError?, Bool?) -> ()) {
         TracklistService.move(api: API, ikey: ikey, akey: akey, from: from, to: to, dataReport: dataReport)
+        
     }
+    
+    /*
+    private static func errorHandler(_ inError: inout NSError) -> String {
+        var error = inError.domain
+        switch error {
+        case "system_spam_control":
+            error = "Спам контроль"
+        case "account_user_not_found":
+            error = "Пользователь не найден"
+        case "account_wrong_access_key":
+            error = "Неверный идентификатор"
+        case "account_ip_clamed":
+            error = "Повторная регистрация невозможна"
+        case "account_database_error":
+            error = "Ошибка сервера"
+        default:
+            break
+        }
+        return error
+    }
+ */
 }

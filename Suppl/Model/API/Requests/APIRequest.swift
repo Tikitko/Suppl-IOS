@@ -2,6 +2,8 @@ import Foundation
 
 final class APIRequest: CommonRequest {
     
+    // API DOC: https://wioz.su/suppl/API_v0.1.pdf
+    
     let API_URL = "https://wioz.su/suppl/api/0.1/"
     
     override public func request(url: String, query: Dictionary<String, String>, taskCallback: @escaping (Error?, Data?) -> ()) {
