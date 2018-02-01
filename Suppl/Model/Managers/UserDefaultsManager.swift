@@ -1,20 +1,8 @@
 import Foundation
 
-class DataSingleton {
+class UserDefaultsManager {
     
-    private static let _userDefaults = UserDefaults()
-    public static var userDefaults: UserDefaults {
-        get {
-            return _userDefaults
-        }
-    }
-    
-    private static let _API = APIManager()
-    public static var API: APIManager {
-        get {
-            return _API
-        }
-    }
+    private(set) static var _userDefaults = UserDefaults()
     
     private static let ikey = "identifierKey"
     private static var _identifierKey: Int? = nil

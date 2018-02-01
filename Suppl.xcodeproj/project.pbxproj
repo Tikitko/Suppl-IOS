@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E466276201F87A30037FD0E /* TracklistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466275201F87A30037FD0E /* TracklistData.swift */; };
 		0E466278201F88890037FD0E /* TracklistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466277201F88890037FD0E /* TracklistService.swift */; };
-		0EEC5A902020EB5D0028694E /* DataSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A8F2020EB5D0028694E /* DataSingleton.swift */; };
+		0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */; };
 		0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */; };
 		0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5AA8202135AA0028694E /* TracklistViewController.swift */; };
 		0EEC5AAB202135B50028694E /* TracklistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC5AAA202135B50028694E /* TracklistViewController.xib */; };
@@ -29,6 +29,7 @@
 		8C67F607201B174200333EB2 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FD201B174200333EB2 /* UserData.swift */; };
 		8C67F608201B174200333EB2 /* AudioListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FE201B174200333EB2 /* AudioListData.swift */; };
 		8C67F609201B174200333EB2 /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FF201B174200333EB2 /* AudioData.swift */; };
+		8CBDFD642023001700BED743 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBDFD632023001700BED743 /* AuthManager.swift */; };
 		8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */; };
 		8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC59520205D5C00D91687 /* RootTabBarController.swift */; };
 		8CCAC5992020600E00D91687 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC5982020600E00D91687 /* SettingsViewController.swift */; };
@@ -40,7 +41,7 @@
 /* Begin PBXFileReference section */
 		0E466275201F87A30037FD0E /* TracklistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistData.swift; sourceTree = "<group>"; };
 		0E466277201F88890037FD0E /* TracklistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistService.swift; sourceTree = "<group>"; };
-		0EEC5A8F2020EB5D0028694E /* DataSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSingleton.swift; sourceTree = "<group>"; };
+		0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfoProtocol.swift; sourceTree = "<group>"; };
 		0EEC5AA8202135AA0028694E /* TracklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistViewController.swift; sourceTree = "<group>"; };
 		0EEC5AAA202135B50028694E /* TracklistViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TracklistViewController.xib; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 		8C67F5FD201B174200333EB2 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		8C67F5FE201B174200333EB2 /* AudioListData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioListData.swift; sourceTree = "<group>"; };
 		8C67F5FF201B174200333EB2 /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
+		8CBDFD632023001700BED743 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		8CCAC59520205D5C00D91687 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		8CCAC5982020600E00D91687 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -152,8 +154,8 @@
 		8C67F5F1201B172700333EB2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8CBDFD622022FEEF00BED743 /* Managers */,
 				8C67F5F2201B174200333EB2 /* API */,
-				0EEC5A8F2020EB5D0028694E /* DataSingleton.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -161,7 +163,6 @@
 		8C67F5F2201B174200333EB2 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				8C67F5F3201B174200333EB2 /* APIManager.swift */,
 				8C67F5F4201B174200333EB2 /* Services */,
 				8C67F5F7201B174200333EB2 /* Requests */,
 				8C67F5FA201B174200333EB2 /* Data */,
@@ -200,6 +201,16 @@
 				0EF1AFB2201F9E44006B2761 /* ResponseData.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		8CBDFD622022FEEF00BED743 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */,
+				8C67F5F3201B174200333EB2 /* APIManager.swift */,
+				8CBDFD632023001700BED743 /* AuthManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		8CCAC58D2020563000D91687 /* Controllers */ = {
@@ -305,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */,
+				8CBDFD642023001700BED743 /* AuthManager.swift in Sources */,
 				8C67F601201B174200333EB2 /* UserService.swift in Sources */,
 				0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */,
 				0E466278201F88890037FD0E /* TracklistService.swift in Sources */,
@@ -316,7 +328,7 @@
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
-				0EEC5A902020EB5D0028694E /* DataSingleton.swift in Sources */,
+				0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */,
 				8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */,
 				8C67F602201B174200333EB2 /* AudioService.swift in Sources */,
 				8C67F608201B174200333EB2 /* AudioListData.swift in Sources */,

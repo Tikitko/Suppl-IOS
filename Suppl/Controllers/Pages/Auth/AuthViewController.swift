@@ -5,82 +5,12 @@ class AuthViewController: UIViewController {
     
     @IBOutlet weak var statusLabel: UILabel!
     
-    private var timer: Timer?
-    
     private let errorTitle = "Ошибка: "
-    private let okTitle = "Успешно!"
+    private let okTitle = "Добро пожаловать!"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         statusLabel.text = "Загрузка..."
-    }
-    
-    private func endAuth() {
-        print(DataSingleton.identifierKey)
-        print(DataSingleton.accessKey)
-        let when = DispatchTime.now() + 1
-        DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
-            self.present(RootTabBarController(), animated: true)
-        }
-        timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true, block: authCheck)
-    }
-    
-    func authCheck(timerIn: Timer) -> Void {
-        guard let ikey = DataSingleton.identifierKey, let akey = DataSingleton.accessKey else { return }
-        DataSingleton.API.userGet(ikey: ikey, akey: akey) { [unowned self] error, data in
-            guard let error = error else { return }
-            defer { self.timer = nil }
-            self.timer?.invalidate()
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window?.rootViewController = AuthViewController()
-        }
-    }
-    
-    private func auth(ikey: Int, akey: Int) {
-        statusLabel.text = "Авторизация..."
-        DataSingleton.API.userGet(ikey: ikey, akey: akey) { [unowned self] error, data in
-            guard let error = error else {
-                guard let _ = data else { return }
-                self.statusLabel.text = self.okTitle
-                self.endAuth()
-                return
-            }
-            if error.domain == "account_user_not_found" {
-                DataSingleton.identifierKey = nil
-                DataSingleton.accessKey = nil
-                self.register()
-                return
-            }
-            print(self.statusLabel.text)
-            self.statusLabel.text = self.errorTitle + error.domain
-            print(self.statusLabel.text)
-        }
-    }
-    
-    private func register() {
-        statusLabel.text = "Регистрация..."
-        DataSingleton.API.userRegister() { [unowned self] error, data in
-            if let error = error {
-                self.statusLabel.text = self.errorTitle + error.domain
-                return
-            }
-            guard let data = data else { return }
-            DataSingleton.identifierKey = data.identifierKey
-            DataSingleton.accessKey = data.accessKey
-            self.statusLabel.text = self.okTitle
-            self.endAuth()
-        }
-    }
-    
-    private func startAuth() {
-        statusLabel.text = "Получение информации..."
-        let ikey = DataSingleton.identifierKey
-        let akey = DataSingleton.accessKey
-        if let ikey = ikey, let akey = akey {
-            auth(ikey: ikey, akey: akey)
-            return
-        }
-        register()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -132,5 +62,56 @@ class AuthViewController: UIViewController {
          print("--------------")
          }*/
         
+    }
+    
+    private func endAuth() {
+        let when = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
+            self.present(RootTabBarController(), animated: true)
+        }
+        AuthManager.startAuthCheck()
+    }
+    
+    private func auth(ikey: Int, akey: Int) {
+        statusLabel.text = "Авторизация..."
+        APIManager.userGet(ikey: ikey, akey: akey) { [unowned self] error, data in
+            guard let error = error else {
+                guard let _ = data else { return }
+                self.statusLabel.text = self.okTitle
+                self.endAuth()
+                return
+            }
+            if error.domain == "account_user_not_found" {
+                UserDefaultsManager.identifierKey = nil
+                UserDefaultsManager.accessKey = nil
+                self.register()
+                return
+            }
+            self.statusLabel.text = self.errorTitle + error.domain
+        }
+    }
+    
+    private func register() {
+        statusLabel.text = "Регистрация..."
+        APIManager.userRegister() { [unowned self] error, data in
+            if let error = error {
+                self.statusLabel.text = self.errorTitle + error.domain
+                return
+            }
+            guard let data = data else { return }
+            UserDefaultsManager.identifierKey = data.identifierKey
+            UserDefaultsManager.accessKey = data.accessKey
+            self.statusLabel.text = self.okTitle
+            self.endAuth()
+        }
+    }
+    
+    private func startAuth() {
+        statusLabel.text = "Получение информации..."
+        if let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey {
+            auth(ikey: ikey, akey: akey)
+            return
+        }
+        register()
     }
 }
