@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 
 class AuthManager {
     
@@ -17,20 +16,11 @@ class AuthManager {
         }
     }
     
-    public static func setAuthWindow(setInWindow: Bool = true) -> UIViewController? {
-        let authView = AuthViewController()
-        let _ = stopAuthCheck()
-        if setInWindow, let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            appDelegate.window?.rootViewController = authView
-            return nil
-        }
-        return authView
+    public static func setAuthWindow() -> Void {
+        NotificationCenter.default.post(name: .NeedAuthWindow, object: nil)
     }
     
-    public static func startAuthCheck(startNow: Bool = false, voidTopCheck: Bool = false) -> Bool {
-        if !voidTopCheck, let topController = UIApplication.topViewController(), let _ = topController as? AuthViewController {
-            return false;
-        }
+    public static func startAuthCheck(startNow: Bool = false) -> Bool {
         if startNow {
             authCheckRequest()
         }
@@ -52,19 +42,6 @@ class AuthManager {
     
 }
 
-extension UIApplication {
-    class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let navigationController = controller as? UINavigationController {
-            return topViewController(controller: navigationController.visibleViewController)
-        }
-        if let tabController = controller as? UITabBarController {
-            if let selected = tabController.selectedViewController {
-                return topViewController(controller: selected)
-            }
-        }
-        if let presented = controller?.presentedViewController {
-            return topViewController(controller: presented)
-        }
-        return controller
-    }
+extension Notification.Name {
+    static let NeedAuthWindow = Notification.Name("NeedAuthWindow")
 }

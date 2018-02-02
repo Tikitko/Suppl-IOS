@@ -49,8 +49,7 @@ class APIManager {
         
     }
     
-    /*
-    private static func errorHandler(_ inError: inout NSError) -> String {
+    public static func errorHandler(_ inError: NSError) -> String {
         var error = inError.domain
         switch error {
         case "system_spam_control":
@@ -68,5 +67,4 @@ class APIManager {
         }
         return error
     }
- */
 }

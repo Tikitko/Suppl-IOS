@@ -3,19 +3,18 @@ import UIKit
 
 class AuthViewController: UIViewController {
     
+    @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var identifierField: UITextField!
     @IBOutlet weak var repeatButton: UIButton!
     
-    
-    private let errorTitle = "Ошибка: "
-    private let okTitle = "Добро пожаловать!"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         statusLabel.text = "Загрузка..."
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startAuth()
@@ -37,12 +36,24 @@ class AuthViewController: UIViewController {
         startAuth(ikey: ikey, akey: akey)
     }
     
+    @objc func keyboardWillShow(sender: NSNotification) {
+        if let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect {
+            view.frame.origin.y = -keyboardFrame.height
+            logoLabel.isHidden = true
+        }
+    }
+    
+    @objc func keyboardWillHide(sender: NSNotification) {
+        view.frame.origin.y = 0
+        logoLabel.isHidden = false
+    }
+    
     private func endAuth() {
         let when = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
             self.present(RootTabBarController(), animated: true)
         }
-        let _ = AuthManager.startAuthCheck(voidTopCheck: true)
+        let _ = AuthManager.startAuthCheck()
     }
     
     private func setAuthFormVisable() {
@@ -61,12 +72,10 @@ class AuthViewController: UIViewController {
         APIManager.userGet(ikey: ikey, akey: akey) { [unowned self] error, data in
             guard let error = error else {
                 guard let _ = data else { return }
-                self.statusLabel.text = self.okTitle
-                self.endAuth()
+                self.setOkStatus()
                 return
             }
-            self.statusLabel.text = self.errorTitle + error.domain
-            self.setAuthFormVisable()
+            self.setErrorStatus(error: error)
         }
     }
     
@@ -74,16 +83,24 @@ class AuthViewController: UIViewController {
         statusLabel.text = "Регистрация..."
         APIManager.userRegister() { [unowned self] error, data in
             if let error = error {
-                self.statusLabel.text = self.errorTitle + error.domain
-                self.setAuthFormVisable()
+                self.setErrorStatus(error: error)
                 return
             }
             guard let data = data else { return }
             UserDefaultsManager.identifierKey = data.identifierKey
             UserDefaultsManager.accessKey = data.accessKey
-            self.statusLabel.text = self.okTitle
-            self.endAuth()
+            self.setOkStatus()
         }
+    }
+    
+    private func setOkStatus() {
+        statusLabel.text = "Добро пожаловать!"
+        endAuth()
+    }
+    
+    private func setErrorStatus(error: NSError) {
+        statusLabel.text = APIManager.errorHandler(error)
+        setAuthFormVisable()
     }
     
     private func startAuth(ikey: Int? = nil, akey: Int? = nil) {
