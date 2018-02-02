@@ -16,6 +16,10 @@
 		0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF1AFB2201F9E44006B2761 /* ResponseData.swift */; };
 		8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3301F22021BB7500446945 /* AuthViewController.swift */; };
 		8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C3301F42021BB8500446945 /* AuthViewController.xib */; };
+		8C4B1339202463C0004A997E /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */; };
+		8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */; };
+		8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */; };
+		8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133F202489AA004A997E /* SettingsDesignViewController.swift */; };
 		8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5DF201B153100333EB2 /* AppDelegate.swift */; };
 		8C67F5E7201B153100333EB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C67F5E6201B153100333EB2 /* Assets.xcassets */; };
 		8C67F5EA201B153100333EB2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C67F5E8201B153100333EB2 /* LaunchScreen.storyboard */; };
@@ -32,8 +36,7 @@
 		8CBDFD642023001700BED743 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBDFD632023001700BED743 /* AuthManager.swift */; };
 		8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */; };
 		8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC59520205D5C00D91687 /* RootTabBarController.swift */; };
-		8CCAC5992020600E00D91687 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC5982020600E00D91687 /* SettingsViewController.swift */; };
-		8CCAC59B2020601600D91687 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CCAC59A2020601600D91687 /* SettingsViewController.xib */; };
+		8CCAC5992020600E00D91687 /* SettingsMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC5982020600E00D91687 /* SettingsMainViewController.swift */; };
 		8CCAC59E202065AA00D91687 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC59D202065AA00D91687 /* MainViewController.swift */; };
 		8CCAC5A0202065B300D91687 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CCAC59F202065B300D91687 /* MainViewController.xib */; };
 /* End PBXBuildFile section */
@@ -48,6 +51,10 @@
 		0EF1AFB2201F9E44006B2761 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
 		8C3301F22021BB7500446945 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		8C3301F42021BB8500446945 /* AuthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
+		8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
+		8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralViewController.swift; sourceTree = "<group>"; };
+		8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAccountViewController.swift; sourceTree = "<group>"; };
+		8C4B133F202489AA004A997E /* SettingsDesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDesignViewController.swift; sourceTree = "<group>"; };
 		8C67F5DC201B153100333EB2 /* Suppl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Suppl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C67F5DF201B153100333EB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C67F5E6201B153100333EB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -66,8 +73,7 @@
 		8CBDFD632023001700BED743 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		8CCAC59520205D5C00D91687 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
-		8CCAC5982020600E00D91687 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		8CCAC59A2020601600D91687 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		8CCAC5982020600E00D91687 /* SettingsMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMainViewController.swift; sourceTree = "<group>"; };
 		8CCAC59D202065AA00D91687 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8CCAC59F202065B300D91687 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +126,16 @@
 				8C3301F42021BB8500446945 /* AuthViewController.xib */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		8C4B133A20248913004A997E /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */,
+				8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */,
+				8C4B133F202489AA004A997E /* SettingsDesignViewController.swift */,
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		8C67F5D3201B153100333EB2 = {
@@ -225,8 +241,9 @@
 		8CCAC59720205FB700D91687 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				8CCAC5982020600E00D91687 /* SettingsViewController.swift */,
-				8CCAC59A2020601600D91687 /* SettingsViewController.xib */,
+				8C4B133A20248913004A997E /* Modules */,
+				8CCAC5982020600E00D91687 /* SettingsMainViewController.swift */,
+				8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -300,11 +317,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EEC5AAB202135B50028694E /* TracklistViewController.xib in Resources */,
+				8C4B1339202463C0004A997E /* SettingsStoryboard.storyboard in Resources */,
 				8C67F5EA201B153100333EB2 /* LaunchScreen.storyboard in Resources */,
 				8C67F5E7201B153100333EB2 /* Assets.xcassets in Resources */,
 				8CCAC5A0202065B300D91687 /* MainViewController.xib in Resources */,
 				8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */,
-				8CCAC59B2020601600D91687 /* SettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,15 +341,18 @@
 				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,
 				8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */,
 				0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */,
+				8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */,
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
+				8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
+				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,
 				0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */,
 				8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */,
 				8C67F602201B174200333EB2 /* AudioService.swift in Sources */,
 				8C67F608201B174200333EB2 /* AudioListData.swift in Sources */,
-				8CCAC5992020600E00D91687 /* SettingsViewController.swift in Sources */,
+				8CCAC5992020600E00D91687 /* SettingsMainViewController.swift in Sources */,
 				8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */,
 				8C67F607201B174200333EB2 /* UserData.swift in Sources */,
 				0E466276201F87A30037FD0E /* TracklistData.swift in Sources */,

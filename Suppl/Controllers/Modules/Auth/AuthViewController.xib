@@ -88,7 +88,7 @@
                 </label>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CfD-fp-t4a">
                     <rect key="frame" x="61" y="278" width="198" height="42"/>
-                    <color key="backgroundColor" red="0.60433754277561502" green="0.22255908378797964" blue="0.69084501269999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.59215686274509804" green="0.17254901960784313" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="42" id="6dI-uv-18e"/>
                         <constraint firstAttribute="height" constant="42" id="cZE-IZ-7Hx"/>

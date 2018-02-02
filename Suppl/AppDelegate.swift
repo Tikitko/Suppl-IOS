@@ -28,11 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let topController = UIApplication.topViewController() {
             topController.present(authView, animated: true)
         }
-        /*
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            appDelegate.window?.rootViewController = authView
-        }
-         */
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {

@@ -62,6 +62,10 @@ class APIManager {
             error = "Повторная регистрация невозможна"
         case "account_database_error":
             error = "Ошибка сервера"
+        case "account_email_clamed":
+            error = "EMail занят"
+        case "account_email_not_valid":
+            error = "EMail неверного формата"
         default:
             break
         }

@@ -2,7 +2,6 @@ import Foundation
 import UIKit
 
 class BaseNavigationController: UINavigationController {
-    
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         setNavigationBarHidden(true, animated: false)
