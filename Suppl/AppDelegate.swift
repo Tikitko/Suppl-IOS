@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc private func authWindowSet(notification: NSNotification) {
-        let authView = AuthViewController()
+        let authView = AuthViewController(noAuth: notification.userInfo?["noAuth"] as? Bool ?? false)
         let _ = AuthManager.stopAuthCheck()
         if let topController = UIApplication.topViewController() {
             topController.present(authView, animated: true)

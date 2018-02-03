@@ -25,7 +25,7 @@ class APIManager {
     }
     
     public static func audioSearch(ikey: Int, akey: Int, query: String, offset: Int = 0, dataReport: @escaping (NSError?, AudioSearchData?) -> ()) {
-        AudioService.search(api: API, ikey: ikey, akey: akey, query: query, dataReport: dataReport)
+        AudioService.search(api: API, ikey: ikey, akey: akey, query: query, offset: offset, dataReport: dataReport)
     }
     
     public static func audioGet(ikey: Int, akey: Int, ids: String, dataReport: @escaping (NSError?, AudioListData?) -> ()) {

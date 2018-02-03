@@ -16,8 +16,8 @@ class AuthManager {
         }
     }
     
-    public static func setAuthWindow() -> Void {
-        NotificationCenter.default.post(name: .NeedAuthWindow, object: nil)
+    public static func setAuthWindow(noAuth: Bool = false) -> Void {
+        NotificationCenter.default.post(name: .NeedAuthWindow, object: nil, userInfo: ["noAuth": noAuth])
     }
     
     public static func startAuthCheck(startNow: Bool = false) -> Bool {

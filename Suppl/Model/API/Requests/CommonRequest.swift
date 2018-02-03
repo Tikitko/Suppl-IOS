@@ -5,14 +5,19 @@ class CommonRequest {
     private let defaultSession: URLSession = URLSession(configuration: .default)
     private var dataTask: URLSessionDataTask?
     
-    public func request(url: String, query: Dictionary<String, String>, taskCallback: @escaping (Error?, Data?) -> ()) {
+    public func request(url: String, query: Dictionary<String, String> = [:], inMain: Bool = false, taskCallback: @escaping (Error?, URLResponse?, Data?) -> ()) {
         guard var urlComponents = URLComponents(string: url) else { return }
         urlComponents.query = toQuery(query)
         guard let url = urlComponents.url else { return }
         dataTask = defaultSession.dataTask(with: url) { data, response, error in
             defer { self.dataTask = nil }
-            taskCallback(error, data)
-            /* , let response = response as? HTTPURLResponse , response.statusCode == 200 */ 
+            if !inMain {
+                taskCallback(error, response, data)
+                return
+            }
+            DispatchQueue.main.async() {
+                taskCallback(error, response, data)
+            }
         }
         dataTask?.resume()
     }

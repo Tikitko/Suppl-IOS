@@ -3,6 +3,8 @@ import UIKit
 
 class SettingsAccountViewController: UIViewController {
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var identifierField: UITextField!
     @IBOutlet weak var accountOutButton: UIButton!
     
@@ -24,9 +26,9 @@ class SettingsAccountViewController: UIViewController {
     }
     
     @IBAction func accountOutButtonClick(_ sender: Any) {
-        UserDefaultsManager.identifierKey = 1
-        UserDefaultsManager.accessKey = 1
-        AuthManager.setAuthWindow()
+        UserDefaultsManager.identifierKey = nil
+        UserDefaultsManager.accessKey = nil
+        AuthManager.setAuthWindow(noAuth: true)
     }
 
     @IBAction func emailButtonClick(_ sender: Any) {

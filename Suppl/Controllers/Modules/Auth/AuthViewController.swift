@@ -3,6 +3,8 @@ import UIKit
 
 class AuthViewController: UIViewController {
     
+    private var noAuthOnShow: Bool = false
+    
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var identifierField: UITextField!
@@ -14,9 +16,27 @@ class AuthViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
+    
+    convenience init(noAuth noAuthOnShow: Bool?) {
+        self.init(nibName: nil, bundle: nil)
+        guard let noAuthOnShow = noAuthOnShow else { return }
+        self.noAuthOnShow = noAuthOnShow
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if noAuthOnShow {
+            setAuthFormVisable()
+            return
+        }
         startAuth()
     }
     
@@ -57,9 +77,11 @@ class AuthViewController: UIViewController {
     }
     
     private func setAuthFormVisable() {
-        identifierField.text = "Введите ваш идентификатор"
         if let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey {
             identifierField.text = String("\(ikey)\(akey)")
+        } else {
+            statusLabel.text = "Введите ваш идентификатор"
+            identifierField.text = String()
         }
         identifierField.isEnabled = true
         repeatButton.isEnabled = true

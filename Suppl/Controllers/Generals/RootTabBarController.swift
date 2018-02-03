@@ -23,12 +23,6 @@ class RootTabBarController: UITabBarController {
         super.init(coder: aDecoder)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
     private func getSettedTab(controller: UIViewController) -> UIViewController {
         let controllerTab = BaseNavigationController(rootViewController: controller)
         setTabItem(controller: controller, tag: (viewControllers?.count ?? 0) + 1)
@@ -43,14 +37,5 @@ class RootTabBarController: UITabBarController {
         controller.navigationController?.navigationBar.tintColor = UIColor.white
         controller.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
     }
-    
-    @objc func keyboardWillShow(sender: NSNotification) {
-        if let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect {
-            view.frame.origin.y = -keyboardFrame.height / 2
-        }
-    }
-    
-    @objc func keyboardWillHide(sender: NSNotification) {
-        view.frame.origin.y = 0
-    }
+
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */; };
+		0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */; };
 		0E466276201F87A30037FD0E /* TracklistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466275201F87A30037FD0E /* TracklistData.swift */; };
 		0E466278201F88890037FD0E /* TracklistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466277201F88890037FD0E /* TracklistService.swift */; };
 		0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCell.swift; sourceTree = "<group>"; };
+		0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackTableCell.xib; sourceTree = "<group>"; };
 		0E466275201F87A30037FD0E /* TracklistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistData.swift; sourceTree = "<group>"; };
 		0E466277201F88890037FD0E /* TracklistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistService.swift; sourceTree = "<group>"; };
 		0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -89,6 +93,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E0F520A2025F346000C6DD3 /* TrackTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */,
+				0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */,
+			);
+			path = TrackTableCell;
+			sourceTree = "<group>";
+		};
+		0E0F520B2025F374000C6DD3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				0E0F520A2025F346000C6DD3 /* TrackTableCell */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		0EEC5A95202119690028694E /* Generals */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +132,7 @@
 		8C3301F02021A9AD00446945 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				0E0F520B2025F374000C6DD3 /* Components */,
 				8C3301F12021BB6300446945 /* Auth */,
 				8CCAC59C2020655A00D91687 /* Main */,
 				8CCAC59720205FB700D91687 /* Settings */,
@@ -322,6 +344,7 @@
 				8C67F5E7201B153100333EB2 /* Assets.xcassets in Resources */,
 				8CCAC5A0202065B300D91687 /* MainViewController.xib in Resources */,
 				8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */,
+				0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +357,7 @@
 			files = (
 				8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */,
 				8CBDFD642023001700BED743 /* AuthManager.swift in Sources */,
+				0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */,
 				8C67F601201B174200333EB2 /* UserService.swift in Sources */,
 				0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */,
 				0E466278201F88890037FD0E /* TracklistService.swift in Sources */,
