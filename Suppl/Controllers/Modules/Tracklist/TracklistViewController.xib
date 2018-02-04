@@ -6,12 +6,15 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TracklistViewController" customModule="Suppl" customModuleProvider="target">
             <connections>
+                <outlet property="tracksTable" destination="3pJ-XD-qtM" id="DVS-Wq-7Pv"/>
+                <outlet property="updateButton" destination="VPl-IA-S6M" id="gJL-a9-VZy"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6Ng-N5-kYf"/>
             </connections>
         </placeholder>
@@ -19,9 +22,64 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Поиск по плейлисту" translatesAutoresizingMaskIntoConstraints="NO" id="yBe-8n-PaE">
+                    <rect key="frame" x="16" y="88" width="289" height="56"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="7e8-YN-fGp"/>
+                    </connections>
+                </searchBar>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Плейлист" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AU-sj-sVD">
+                    <rect key="frame" x="16" y="35" width="343" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="53" id="zee-vd-w8k"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3pJ-XD-qtM">
+                    <rect key="frame" x="16" y="144" width="343" height="464"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="912-V6-Ctk"/>
+                        <outlet property="delegate" destination="-1" id="ezJ-C8-CuI"/>
+                    </connections>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPl-IA-S6M">
+                    <rect key="frame" x="305" y="88" width="54" height="56"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="54" id="zam-ml-Ge1"/>
+                    </constraints>
+                    <state key="normal" image="cloud-download-7"/>
+                    <connections>
+                        <action selector="updateButtonClick:" destination="-1" eventType="touchUpInside" id="znF-dj-TV4"/>
+                    </connections>
+                </button>
+            </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="9AU-sj-sVD" firstAttribute="leading" secondItem="yBe-8n-PaE" secondAttribute="leading" id="42x-t2-oOx"/>
+                <constraint firstItem="yBe-8n-PaE" firstAttribute="top" secondItem="9AU-sj-sVD" secondAttribute="bottom" id="432-2N-WPF"/>
+                <constraint firstItem="9AU-sj-sVD" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="5v6-3E-DIx"/>
+                <constraint firstItem="VPl-IA-S6M" firstAttribute="leading" secondItem="yBe-8n-PaE" secondAttribute="trailing" id="6cR-EH-sur"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="3pJ-XD-qtM" secondAttribute="bottom" constant="10" id="7pf-xq-K2H"/>
+                <constraint firstItem="9AU-sj-sVD" firstAttribute="trailing" secondItem="VPl-IA-S6M" secondAttribute="trailing" id="IHh-qR-4DB"/>
+                <constraint firstItem="9AU-sj-sVD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="LHz-5Y-CWd"/>
+                <constraint firstItem="3pJ-XD-qtM" firstAttribute="top" secondItem="yBe-8n-PaE" secondAttribute="bottom" id="cNj-f8-S1C"/>
+                <constraint firstItem="VPl-IA-S6M" firstAttribute="trailing" secondItem="3pJ-XD-qtM" secondAttribute="trailing" id="my9-Id-Kin"/>
+                <constraint firstItem="yBe-8n-PaE" firstAttribute="leading" secondItem="3pJ-XD-qtM" secondAttribute="leading" id="n9g-1b-zJS"/>
+                <constraint firstItem="9AU-sj-sVD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="pqa-Pe-Qpb"/>
+                <constraint firstItem="yBe-8n-PaE" firstAttribute="bottom" secondItem="VPl-IA-S6M" secondAttribute="bottom" id="reN-MX-msk"/>
+                <constraint firstItem="yBe-8n-PaE" firstAttribute="top" secondItem="VPl-IA-S6M" secondAttribute="top" id="tRs-pt-sBc"/>
+            </constraints>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="26.5" y="51.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="cloud-download-7" width="30" height="30"/>
+    </resources>
 </document>

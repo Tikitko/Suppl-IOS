@@ -21,7 +21,7 @@ final class APIRequest: CommonRequest {
                     returnData = externalMethod(dataObj)
                 }
             } else {
-                returnError = NSError(domain: "json_parse_error", code: -3)
+                returnError = NSError(domain: "get_data_error", code: -3)
             }
             DispatchQueue.main.async {
                 dataReport(returnError, returnData)

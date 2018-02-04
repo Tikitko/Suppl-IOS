@@ -13,9 +13,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="Suppl" customModuleProvider="target">
             <connections>
-                <outlet property="tracksSearch" destination="5uA-Ku-hgZ" id="AXq-rg-GbF"/>
-                <outlet property="tracksTable" destination="cFb-cI-qNG" id="oys-ai-4tH"/>
-                <outlet property="view" destination="iN0-l3-epB" id="PMD-cg-Dhd"/>
+                <outlet property="tracksSearch" destination="5uA-Ku-hgZ" id="cDQ-mB-aHw"/>
+                <outlet property="tracksTable" destination="cFb-cI-qNG" id="7x1-t4-r1p"/>
+                <outlet property="view" destination="iN0-l3-epB" id="bIf-Jz-NFB"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -27,7 +27,7 @@
                     <rect key="frame" x="16" y="88" width="343" height="56"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
-                        <outlet property="delegate" destination="-1" id="upf-sA-Rq8"/>
+                        <outlet property="delegate" destination="-1" id="Sze-OJ-g6t"/>
                     </connections>
                 </searchBar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Музыка" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPR-f1-7Wh">
@@ -43,8 +43,8 @@
                     <rect key="frame" x="16" y="144" width="343" height="464"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="AGN-Z8-vYf"/>
-                        <outlet property="delegate" destination="-1" id="dOW-Sa-cFg"/>
+                        <outlet property="dataSource" destination="-1" id="l4J-q0-vN3"/>
+                        <outlet property="delegate" destination="-1" id="4EN-bv-yK3"/>
                     </connections>
                 </tableView>
             </subviews>

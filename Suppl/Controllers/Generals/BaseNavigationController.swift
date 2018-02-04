@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 
 class BaseNavigationController: UINavigationController {
+    
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         setNavigationBarHidden(true, animated: false)
@@ -17,9 +18,10 @@ class BaseNavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startAvoidingKeyboard()
+        //startAvoidingKeyboard() // FIX THIS
     }
     
+    /*
     func startAvoidingKeyboard() {
         NotificationCenter.default.addObserver(self, selector: #selector(_onKeyboardFrameWillChangeNotificationReceived(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
@@ -48,6 +50,7 @@ class BaseNavigationController: UINavigationController {
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
+     */
     
     override func popToRootViewController(animated: Bool) -> [UIViewController]? {
         setNavigationBarHidden(true, animated: true)

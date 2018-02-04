@@ -72,6 +72,7 @@ class AuthViewController: UIViewController {
         let when = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
             self.present(RootTabBarController(), animated: true)
+            TracklistManager.update() { status in }
         }
         let _ = AuthManager.startAuthCheck()
     }

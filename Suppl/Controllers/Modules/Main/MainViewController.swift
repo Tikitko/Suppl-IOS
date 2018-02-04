@@ -9,17 +9,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var tracksSearch: UISearchBar!
     @IBOutlet weak var tracksTable: UITableView!
     
-    private struct Track {
-        let data: AudioData
-        var image: UIImage?
-        init(_ data: AudioData) {
-            self.data = data
-            self.image = nil
-        }
-    }
-    private var tracks: [Track] = []
-    private var hasMore = false
-    private var nextOffset = 0
+    private var searchData: AudioSearchData? = nil
     private var thisQuery = String()
     
     private var inSearchWork = false
@@ -41,12 +31,18 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
         searchTracks(tracksSearch.text ?? String())
     }
     
-    private func clearData() {
-        tracks = []
-        hasMore = false
-        nextOffset = 0
+    private func clearData(withReload: Bool = true) {
+        if let searchData = searchData {
+            for track in searchData.list {
+                guard let link = track.images.last else { continue }
+                ImagesManager.removeFromCache(link: link)
+            }
+        }
+        searchData = nil
         thisQuery = String()
-        tracksTable.reloadData()
+        if withReload {
+            tracksTable.reloadData()
+        }
     }
     
     private func searchTracks(_ query: String, offset: Int = 0) {
@@ -58,27 +54,23 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
         APIManager.audioSearch(ikey: ikey, akey: akey, query: query, offset: offset) { [weak self] error, data in
             defer { self?.inSearchWork = false }
             guard let `self` = self, let data = data else { return }
-            self.hasMore = data.hasMore
-            self.nextOffset = data.nextOffset
-            self.thisQuery = query
-            for track in data.list {
-                self.tracks.append(Track(track))
+            if let _ = self.searchData {
+                for track in data.list {
+                    self.searchData?.list.append(track)
+                }
+                self.searchData?.nextOffset = data.nextOffset
+                self.searchData?.hasMore = data.hasMore
+                self.searchData?.totalCount = data.totalCount
+            } else {
+                self.searchData = data
             }
+            self.thisQuery = query
             self.tracksTable.reloadData()
         }
-        
     }
     
-    private func imageLoader(link: String, cell: TrackTableCell, index: Int) {
-        APIManager.API.request(url: link, inMain: true) { [weak self] error, response, data in
-            guard let `self` = self,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data,
-                let image = UIImage(data: data)
-                else { return }
-            cell.configure(image: image)
-            self.tracks[index].image = image
-        }
+    deinit {
+        clearData(withReload: false)
     }
 
 }
@@ -97,20 +89,18 @@ extension MainViewController: UISearchBarDelegate {
 extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tracks.count
+        return searchData?.list.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tracksTable.dequeueReusableCell(withIdentifier: TrackTableCell.identifier, for: indexPath) as? TrackTableCell else {
+        guard let cell = tracksTable.dequeueReusableCell(withIdentifier: TrackTableCell.identifier, for: indexPath) as? TrackTableCell, let data = searchData else {
             return UITableViewCell()
         }
-        let track = tracks[indexPath.row]
-        cell.configure(title: track.data.title, performer: track.data.performer)
-        guard let imageLink = track.data.images.last, imageLink != String() else { return cell }
-        if let image = tracks[indexPath.row].image {
+        let track = data.list[indexPath.row]
+        cell.configure(title: track.title, performer: track.performer)
+        guard let imageLink = track.images.last, imageLink != String() else { return cell }
+        ImagesManager.getImage(link: imageLink) { image in
             cell.configure(image: image)
-        } else {
-            imageLoader(link: imageLink, cell: cell, index: indexPath.row)
         }
         return cell
     }
@@ -120,11 +110,30 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let data = searchData else { return }
         if inSearchWork { return }
-        if tracks.count - 10 == indexPath.row, hasMore {
+        if data.list.count - 10 == indexPath.row, data.hasMore {
             inSearchWork = true
-            searchTracks(thisQuery, offset: nextOffset)
+            searchTracks(thisQuery, offset: data.nextOffset)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+        guard let tracklist = TracklistManager.tracklist, let searchData = searchData else { return [] }
+        if let indexTrack = tracklist.index(of: searchData.list[editActionsForRowAt.row].id) {
+            let delete = UITableViewRowAction(style: .normal, title: "Удалить") { action, index in
+                TracklistManager.remove(from: indexTrack) { status in
+                }
+            }
+            delete.backgroundColor = .red
+            return [delete]
+        }
+        let add = UITableViewRowAction(style: .normal, title: "Добавить") { action, index in
+            TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in
+            }
+        }
+        add.backgroundColor = .green
+        return [add]
     }
     
 }
