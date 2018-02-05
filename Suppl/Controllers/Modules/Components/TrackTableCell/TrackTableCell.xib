@@ -45,21 +45,32 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="duration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aj2-Df-xdI">
+                        <rect key="frame" x="220" y="39" width="53" height="19"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="R2y-2Q-VgD" firstAttribute="leading" secondItem="l7X-UH-qGD" secondAttribute="leading" id="1wA-Vl-coL"/>
                     <constraint firstItem="wQb-tP-q6V" firstAttribute="top" secondItem="CdS-cV-k2a" secondAttribute="top" constant="3" id="25Y-d6-j6L"/>
                     <constraint firstItem="wQb-tP-q6V" firstAttribute="centerY" secondItem="CdS-cV-k2a" secondAttribute="centerY" id="6Lr-CY-ggO"/>
                     <constraint firstItem="wQb-tP-q6V" firstAttribute="bottom" secondItem="l7X-UH-qGD" secondAttribute="bottom" id="9kH-ek-mNO"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Aj2-Df-xdI" secondAttribute="trailing" constant="97" id="EZ8-Fj-sAk"/>
                     <constraint firstItem="wQb-tP-q6V" firstAttribute="leading" secondItem="CdS-cV-k2a" secondAttribute="leading" constant="3" id="GkF-YE-g6u"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Aj2-Df-xdI" secondAttribute="bottom" constant="26" id="Pyu-1U-RAc"/>
                     <constraint firstAttribute="trailing" secondItem="R2y-2Q-VgD" secondAttribute="trailing" constant="3" id="ara-bo-QBw"/>
                     <constraint firstItem="l7X-UH-qGD" firstAttribute="top" secondItem="R2y-2Q-VgD" secondAttribute="bottom" constant="2" id="cGi-lF-U4G"/>
+                    <constraint firstItem="Aj2-Df-xdI" firstAttribute="centerX" secondItem="l7X-UH-qGD" secondAttribute="centerX" id="gMR-31-F1f"/>
                     <constraint firstItem="R2y-2Q-VgD" firstAttribute="leading" secondItem="CdS-cV-k2a" secondAttribute="leadingMargin" constant="85" id="gXr-Y2-gcX"/>
+                    <constraint firstItem="Aj2-Df-xdI" firstAttribute="top" secondItem="l7X-UH-qGD" secondAttribute="top" constant="-12" id="ldQ-X8-4yA"/>
                     <constraint firstItem="R2y-2Q-VgD" firstAttribute="trailing" secondItem="l7X-UH-qGD" secondAttribute="trailing" id="wJ2-PP-5gb"/>
                     <constraint firstItem="wQb-tP-q6V" firstAttribute="top" secondItem="R2y-2Q-VgD" secondAttribute="top" id="zV6-Qc-O3f"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="trackDuration" destination="Aj2-Df-xdI" id="NfK-7T-gKo"/>
                 <outlet property="trackImage" destination="wQb-tP-q6V" id="yLp-F2-Qau"/>
                 <outlet property="trackPerformer" destination="l7X-UH-qGD" id="rAr-rq-HQB"/>
                 <outlet property="trackTitle" destination="R2y-2Q-VgD" id="ypU-Ih-Yqp"/>

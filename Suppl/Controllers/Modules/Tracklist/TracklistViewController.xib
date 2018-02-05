@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TracklistViewController" customModule="Suppl" customModuleProvider="target">
             <connections>
+                <outlet property="searchBar" destination="yBe-8n-PaE" id="N0R-xO-SFj"/>
                 <outlet property="tracksTable" destination="3pJ-XD-qtM" id="DVS-Wq-7Pv"/>
                 <outlet property="updateButton" destination="VPl-IA-S6M" id="gJL-a9-VZy"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6Ng-N5-kYf"/>
@@ -52,7 +53,7 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="54" id="zam-ml-Ge1"/>
                     </constraints>
-                    <state key="normal" image="cloud-download-7"/>
+                    <state key="normal" image="update-7"/>
                     <connections>
                         <action selector="updateButtonClick:" destination="-1" eventType="touchUpInside" id="znF-dj-TV4"/>
                     </connections>
@@ -80,6 +81,6 @@
         </view>
     </objects>
     <resources>
-        <image name="cloud-download-7" width="30" height="30"/>
+        <image name="update-7" width="30" height="30"/>
     </resources>
 </document>

@@ -82,7 +82,7 @@ class AuthViewController: UIViewController {
             identifierField.text = String("\(ikey)\(akey)")
         } else {
             statusLabel.text = "Введите ваш идентификатор"
-            identifierField.text = String()
+            identifierField.text = ""
         }
         identifierField.isEnabled = true
         repeatButton.isEnabled = true

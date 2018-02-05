@@ -12,6 +12,7 @@ class RootTabBarController: UITabBarController {
         tabBar.barTintColor = RootTabBarController.elementsColor
         tabBar.tintColor = UIColor.white
         tabBar.unselectedItemTintColor = UIColor.lightGray
+        //tabBar.backgroundImage = UIImage(named: "bg.png")
         
         let mainTab = getSettedTab(controller: MainViewController())
         let tracklistTab = getSettedTab(controller: TracklistViewController())

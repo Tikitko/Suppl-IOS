@@ -10,7 +10,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var tracksTable: UITableView!
     
     private var searchData: AudioSearchData? = nil
-    private var thisQuery = String()
+    private var thisQuery = ""
     
     private var inSearchWork = false
     
@@ -27,8 +27,8 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
         super.viewDidLoad()
         tracksTable.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
         tracksTable.reloadData()
-        tracksSearch.text = String()
-        searchTracks(tracksSearch.text ?? String())
+        tracksSearch.text = ""
+        searchTracks(tracksSearch.text ?? "")
     }
     
     private func clearData(withReload: Bool = true) {
@@ -39,7 +39,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
             }
         }
         searchData = nil
-        thisQuery = String()
+        thisQuery = ""
         if withReload {
             tracksTable.reloadData()
         }
@@ -78,6 +78,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
 extension MainViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)
         guard let query = tracksSearch.text else { return }
         clearData()
         searchTracks(query)
@@ -97,9 +98,10 @@ extension MainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let track = data.list[indexPath.row]
-        cell.configure(title: track.title, performer: track.performer)
-        guard let imageLink = track.images.last, imageLink != String() else { return cell }
+        cell.configure(title: track.title, performer: track.performer, duration: track.duration)
+        guard let imageLink = track.images.last, imageLink != "" else { return cell }
         ImagesManager.getImage(link: imageLink) { image in
+            guard cell.baseImage else { return }
             cell.configure(image: image)
         }
         return cell
@@ -122,15 +124,13 @@ extension MainViewController: UITableViewDelegate {
         guard let tracklist = TracklistManager.tracklist, let searchData = searchData else { return [] }
         if let indexTrack = tracklist.index(of: searchData.list[editActionsForRowAt.row].id) {
             let delete = UITableViewRowAction(style: .normal, title: "Удалить") { action, index in
-                TracklistManager.remove(from: indexTrack) { status in
-                }
+                TracklistManager.remove(from: indexTrack) { status in }
             }
             delete.backgroundColor = .red
             return [delete]
         }
         let add = UITableViewRowAction(style: .normal, title: "Добавить") { action, index in
-            TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in
-            }
+            TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in }
         }
         add.backgroundColor = .green
         return [add]
