@@ -136,4 +136,9 @@ extension MainViewController: UITableViewDelegate {
         return [add]
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let tracks = searchData?.list else { return }
+        navigationController?.pushViewController(PlayerViewController(tracks: tracks), animated: true)
+    }
+    
 }

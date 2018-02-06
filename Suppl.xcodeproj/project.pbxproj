@@ -11,6 +11,8 @@
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
 		0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */; };
 		0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */; };
+		0E29CBD9202A025900BE5975 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29CBD8202A025900BE5975 /* PlayerViewController.swift */; };
+		0E29CBDB202A2C0D00BE5975 /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */; };
 		0E466276201F87A30037FD0E /* TracklistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466275201F87A30037FD0E /* TracklistData.swift */; };
 		0E466278201F88890037FD0E /* TracklistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466277201F88890037FD0E /* TracklistService.swift */; };
 		0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */; };
@@ -50,6 +52,8 @@
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
 		0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCell.swift; sourceTree = "<group>"; };
 		0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackTableCell.xib; sourceTree = "<group>"; };
+		0E29CBD8202A025900BE5975 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		0E466275201F87A30037FD0E /* TracklistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistData.swift; sourceTree = "<group>"; };
 		0E466277201F88890037FD0E /* TracklistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistService.swift; sourceTree = "<group>"; };
 		0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -114,6 +118,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		0E29CBD52029FFD700BE5975 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				0E29CBD8202A025900BE5975 /* PlayerViewController.swift */,
+				0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
 		0EEC5A95202119690028694E /* Generals */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +149,7 @@
 		8C3301F02021A9AD00446945 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				0E29CBD52029FFD700BE5975 /* Player */,
 				0E0F520B2025F374000C6DD3 /* Components */,
 				8C3301F12021BB6300446945 /* Auth */,
 				8CCAC59C2020655A00D91687 /* Main */,
@@ -349,6 +363,7 @@
 				8C67F5EA201B153100333EB2 /* LaunchScreen.storyboard in Resources */,
 				8C67F5E7201B153100333EB2 /* Assets.xcassets in Resources */,
 				8CCAC5A0202065B300D91687 /* MainViewController.xib in Resources */,
+				0E29CBDB202A2C0D00BE5975 /* PlayerViewController.xib in Resources */,
 				8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */,
 				0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */,
 			);
@@ -390,6 +405,7 @@
 				0E466276201F87A30037FD0E /* TracklistData.swift in Sources */,
 				8C67F604201B174200333EB2 /* APIRequest.swift in Sources */,
 				8CCAC59E202065AA00D91687 /* MainViewController.swift in Sources */,
+				0E29CBD9202A025900BE5975 /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
