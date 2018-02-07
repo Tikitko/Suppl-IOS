@@ -14,7 +14,7 @@
             <connections>
                 <outlet property="backButton" destination="iWJ-mz-e0E" id="AbH-pJ-XWm"/>
                 <outlet property="goneLabel" destination="ks5-Qa-61Y" id="CFa-pN-5hm"/>
-                <outlet property="imageVIew" destination="9Ui-8Z-lGS" id="bgy-sL-KxF"/>
+                <outlet property="imageView" destination="9Ui-8Z-lGS" id="frW-Hh-nLG"/>
                 <outlet property="leftLabel" destination="JFu-8y-OX8" id="pxu-vm-cNu"/>
                 <outlet property="nextButton" destination="G4b-Rh-yn3" id="Xht-mv-dMb"/>
                 <outlet property="performerLabel" destination="zkc-ME-lot" id="ZaT-Un-qdd"/>
@@ -31,7 +31,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Ui-8Z-lGS">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Ui-8Z-lGS">
                     <rect key="frame" x="16" y="160" width="343" height="316"/>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VIl-32-4dV">
@@ -73,6 +73,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2e-Hi-6vS">
                             <rect key="frame" x="0.0" y="0.0" width="107.5" height="40"/>
                             <state key="normal" image="icon_155"/>
+                            <connections>
+                                <action selector="rewindMClicked:" destination="-1" eventType="touchUpInside" id="r9q-fL-DiG"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZj-dp-36V">
                             <rect key="frame" x="117.5" y="0.0" width="108" height="40"/>
@@ -84,6 +87,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uiy-CO-TEE">
                             <rect key="frame" x="235.5" y="0.0" width="107.5" height="40"/>
                             <state key="normal" image="icon_156"/>
+                            <connections>
+                                <action selector="rewindPClicked:" destination="-1" eventType="touchUpInside" id="7ck-SA-6F5"/>
+                            </connections>
                         </button>
                     </subviews>
                     <constraints>
@@ -127,7 +133,7 @@
                     </constraints>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" red="0.58039215686274503" green="0.12941176470588234" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.61402344703674316" green="0.28756436705589294" blue="0.64741700887680054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="VIl-32-4dV" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="5Rl-fK-K2C"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="VIl-32-4dV" secondAttribute="trailing" constant="16" id="BRl-kB-l5s"/>

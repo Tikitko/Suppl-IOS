@@ -7,7 +7,7 @@ class PlayerViewController: UIViewController {
    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
-    @IBOutlet weak var imageVIew: UIImageView!
+    @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var rewindMButton: UIButton!
@@ -38,6 +38,21 @@ class PlayerViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        performerLabel.text = ""
+        titleLabel.text = ""
+        progressSlider.value = 0
+        goneLabel.text = "0:00"
+        leftLabel.text = "0:00"
+        
+        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey, let tracks = tracks else { return }
+        APIManager.audioGet(ikey: ikey, akey: akey, ids: tracks[0].id) { [weak self] error, data in
+            guard let `self` = self, let data = data else { return }
+            self.setPlayerTrack(track: data.list[0])
+        }
+    }
+    
     private func secondsToMinutesSeconds (seconds : Int) -> (Int, Int) {
         return ((seconds % 3600) / 60, (seconds % 3600) % 60)
     }
@@ -49,29 +64,35 @@ class PlayerViewController: UIViewController {
         return String("\(min):\(sec)")
     }
     
-    private func setPlayerTrack(trackURL: URL) {
-        let playerItem:AVPlayerItem = AVPlayerItem(url: trackURL)
-        player = AVPlayer(playerItem: playerItem)
-
-        let duration = Float(playerItem.asset.duration.seconds)
+    private func setPlayerTrack(track: AudioData) {
+        guard let trackLink = track.track, let trackURL = URL(string: trackLink) else { return }
+        
+        titleLabel.text = track.title
+        performerLabel.text = track.performer
+        ImagesManager.getImage(link: track.images.last ?? "") { [weak self] image in
+            guard let `self` = self else { return }
+            self.imageView.image = image
+        }
+        
+        let playerItem = AVPlayerItem(url: trackURL)
+        let player = AVPlayer(playerItem: playerItem)
+        self.player = player
 
         progressSlider.minimumValue = 0
-        goneLabel.text = formatTime(sec: 0)
-        progressSlider.maximumValue = duration
-        leftLabel.text = formatTime(sec: Int(duration))
-        progressSlider.isContinuous = false
+        progressSlider.maximumValue = Float(playerItem.asset.duration.seconds)
         progressSlider.value = 0
+        progressSlider.isContinuous = false
         
-        player!.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
-            guard let `self` = self, let player = self.player else { return }
-            if player.currentItem?.status == .readyToPlay {
-                let current = Float(player.currentTime().seconds)
-                self.progressSlider.value = current;
-                self.goneLabel.text = self.formatTime(sec: Int(current))
-                self.leftLabel.text = self.formatTime(sec: Int(duration)-Int(current))
-                if self.progressSlider.value == self.progressSlider.maximumValue {
-                    self.pause()
-                }
+        goneLabel.text = formatTime(sec: Int(progressSlider.minimumValue))
+        leftLabel.text = formatTime(sec: Int(progressSlider.maximumValue))
+        
+        player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
+            guard let `self` = self, let player = self.player, player.currentItem?.status == .readyToPlay else { return }
+            self.progressSlider.value = Float(player.currentTime().seconds)
+            self.goneLabel.text = self.formatTime(sec: Int(self.progressSlider.value))
+            self.leftLabel.text = self.formatTime(sec: Int(self.progressSlider.maximumValue - self.progressSlider.value))
+            if Int(self.progressSlider.maximumValue - self.progressSlider.value) == 0 {
+                self.pause()
             }
         }
         
@@ -80,27 +101,32 @@ class PlayerViewController: UIViewController {
     
     @IBAction func sliderChanged(_ sender: Any) {
         guard let player = player else { return }
-        let seconds : Int64 = Int64(progressSlider.value)
-        let targetTime:CMTime = CMTimeMake(seconds, 1)
-        player.seek(to: targetTime)
-        if player.rate == 0
-        {
-            play()
-        }
+        player.seek(to: CMTimeMake(Int64(progressSlider.value), 1))
+        if player.rate == 0 { play() }
     }
     
     @IBAction func playButtonClicked(_ sender: Any) {
         guard let player = player else { return }
-        if player.rate == 0 {
-            if progressSlider.value == progressSlider.maximumValue {
-                let targetTime:CMTime = CMTimeMake(0, 1)
-                player.seek(to: targetTime)
-            }
-            play()
-        } else {
+        guard player.rate == 0 else {
             pause()
+            return
         }
+        if Int(progressSlider.value) == Int(progressSlider.maximumValue) {
+            player.seek(to: CMTimeMake(0, 1))
+        }
+        play()
     }
+    
+    @IBAction func rewindPClicked(_ sender: Any) {
+        guard let player = player else { return }
+        player.seek(to: CMTimeMake(Int64(player.currentTime().seconds + 15), 1))
+    }
+    
+    @IBAction func rewindMClicked(_ sender: Any) {
+        guard let player = player else { return }
+        player.seek(to: CMTimeMake(Int64(player.currentTime().seconds - 15), 1))
+    }
+    
     
     private func play() {
         guard let player = player else { return }
@@ -112,15 +138,6 @@ class PlayerViewController: UIViewController {
         guard let player = player else { return }
         playButton.setImage(UIImage(named: "icon_152.png"), for: .normal)
         player.pause()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey, let tracks = tracks else { return }
-        APIManager.audioGet(ikey: ikey, akey: akey, ids: tracks[0].id) { [weak self] error, data in
-            guard let `self` = self, let data = data, let trackURL = URL(string: data.list[0].track!) else { return }
-            self.setPlayerTrack(trackURL: trackURL)
-        }
     }
     
 }
