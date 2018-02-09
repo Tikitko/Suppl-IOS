@@ -12,7 +12,6 @@ class RootTabBarController: UITabBarController {
         tabBar.barTintColor = RootTabBarController.elementsColor
         tabBar.tintColor = UIColor.white
         tabBar.unselectedItemTintColor = UIColor.lightGray
-        //tabBar.backgroundImage = UIImage(named: "bg.png")
         
         let mainTab = getSettedTab(controller: MainViewController())
         let tracklistTab = getSettedTab(controller: TracklistViewController())
@@ -22,6 +21,37 @@ class RootTabBarController: UITabBarController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        startAvoidingKeyboard()
+    }
+    
+    func startAvoidingKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(_onKeyboardFrameWillChangeNotificationReceived(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+    }
+    
+    func stopAvoidingKeyboard() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+    }
+    
+    @objc private func _onKeyboardFrameWillChangeNotificationReceived(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        
+        let keyboardFrameInView = view.convert(keyboardFrame, from: nil)
+        let safeAreaFrame = view.safeAreaLayoutGuide.layoutFrame.insetBy(dx: 0, dy: -additionalSafeAreaInsets.bottom)
+        let intersection = safeAreaFrame.intersection(keyboardFrameInView)
+        
+        let animationDuration: TimeInterval = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+        let animationCurveRawNSN = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
+        let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
+        let animationCurve = UIViewAnimationOptions(rawValue: animationCurveRaw)
+        
+        UIView.animate(withDuration: animationDuration, delay: 0, options: animationCurve, animations: {
+            self.additionalSafeAreaInsets.bottom = intersection.height - self.tabBar.frame.height
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     private func getSettedTab(controller: UIViewController) -> UIViewController {

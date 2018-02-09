@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import AVKit
+import MediaPlayer
 
 class PlayerViewController: UIViewController {
    
@@ -94,8 +95,13 @@ class PlayerViewController: UIViewController {
             guard let `self` = self else { return }
             self.imageView.image = image
         }
+        let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
+        var nowPlayingInfo = nowPlayingInfoCenter.nowPlayingInfo ?? [String: Any]()
+        nowPlayingInfo[MPMediaItemPropertyTitle] = track.title
+        nowPlayingInfo[MPMediaItemPropertyArtist] = track.performer
+        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
     }
-    
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(AVPlayerItem.status) {
             let status: AVPlayerItemStatus

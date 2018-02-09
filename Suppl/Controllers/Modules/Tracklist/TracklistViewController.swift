@@ -49,23 +49,46 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     }
     
     private func updateTracks() {
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
-            AuthManager.setAuthWindow()
-            return
-        }
         guard let tracklist = TracklistManager.tracklist else { return }
         if tracklist.count == 0 {
             tracks = []
             tracksTable.reloadData()
-            setInfo("Ваш треклист пуст")
+            setInfo("Ваш плейлист пуст")
             return
         }
-        APIManager.audioGet(ikey: ikey, akey: akey, ids: tracklist.joined(separator: ",")) { [weak self] error, data in
-            guard let `self` = self, let data = data else { return }
-            self.tracks = data.list
-            self.tracksTable.reloadData()
-            self.setInfo()
+        tracks = []
+        recursiveTracksLoad()
+    }
+    
+    private func recursiveTracksLoad(from: Int = 0, packCount count: Int = 10) {
+        guard let tracklist = TracklistManager.tracklist else { return }
+        let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
+        if partCount * count < from {
+            tracksTable.reloadData()
+            setInfo()
+            return
         }
+        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
+            AuthManager.setAuthWindow()
+            return
+        }
+        let tracklistPart = getTracklistPart(from: from, count: count)
+        APIManager.audioGet(ikey: ikey, akey: akey, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
+            guard let `self` = self, let data = data else { return }
+            for track in data.list {
+                self.tracks.append(track)
+            }
+            self.recursiveTracksLoad(from: from + count)
+        }
+    }
+    
+    private func getTracklistPart(from: Int, count: Int) -> [String] {
+        var tracklistPart: [String] = []
+        for key in from...from+count-1 {
+            guard let tracklist = TracklistManager.tracklist, key < tracklist.count else { break }
+            tracklistPart.append(tracklist[key])
+        }
+        return tracklistPart
     }
     
     private func setInfo(_ text: String? = nil) {
@@ -140,6 +163,7 @@ extension TracklistViewController: UITableViewDelegate {
             tracksIDs.append(val.id)
         }
         let playerView = PlayerViewController(tracksIDs: tracksIDs, current: indexPath.row)
+        playerView.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(playerView, animated: true)
     }
     

@@ -155,13 +155,17 @@ extension MainViewController: UITableViewDelegate {
         guard let tracklist = TracklistManager.tracklist, let searchData = searchData else { return [] }
         if let indexTrack = tracklist.index(of: searchData.list[editActionsForRowAt.row].id) {
             let delete = UITableViewRowAction(style: .normal, title: "Удалить") { action, index in
-                TracklistManager.remove(from: indexTrack) { status in }
+                TracklistManager.remove(from: indexTrack) { status in
+                    UIAlertController.temporary(lifetime: 0.5, animated: true, title: "Удалено из плейлиста", message: nil, preferredStyle: .alert)
+                }
             }
             delete.backgroundColor = .red
             return [delete]
         }
         let add = UITableViewRowAction(style: .normal, title: "Добавить") { action, index in
-            TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in }
+            TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in
+                UIAlertController.temporary(lifetime: 0.5, animated: true, title: "Добавлено в плейлист", message: nil, preferredStyle: .alert)
+            }
         }
         add.backgroundColor = .green
         return [add]
@@ -175,6 +179,7 @@ extension MainViewController: UITableViewDelegate {
             tracksIDs.append(val.id)
         }
         let playerView = PlayerViewController(tracksIDs: tracksIDs, current: indexPath.row)
+        playerView.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(playerView, animated: true)
     }
     
