@@ -9,6 +9,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var tracksTable: UITableView!
+    @IBOutlet weak var infoLabel: UILabel!
     
     private var tracks: [AudioData] = []
     private var foundTracks: [AudioData]? = nil
@@ -54,13 +55,28 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         }
         guard let tracklist = TracklistManager.tracklist else { return }
         if tracklist.count == 0 {
-            self.tracks = []
-            self.tracksTable.reloadData()
+            tracks = []
+            tracksTable.reloadData()
+            setInfo("Ваш треклист пуст")
+            return
         }
         APIManager.audioGet(ikey: ikey, akey: akey, ids: tracklist.joined(separator: ",")) { [weak self] error, data in
             guard let `self` = self, let data = data else { return }
             self.tracks = data.list
             self.tracksTable.reloadData()
+            self.setInfo()
+        }
+    }
+    
+    private func setInfo(_ text: String? = nil) {
+        if let text = text {
+            self.tracksTable.isHidden = true
+            self.infoLabel.text = text
+            self.infoLabel.isHidden = false
+        } else {
+            self.tracksTable.isHidden = false
+            self.infoLabel.text = nil
+            self.infoLabel.isHidden = true
         }
     }
     
@@ -140,6 +156,9 @@ extension TracklistViewController: UISearchBarDelegate {
             foundTracks?.append(track)
         }
         tracksTable.reloadData()
+        if foundTracks?.count == 0 {
+            setInfo("Ничего не найдено")
+        }
     }
     
 }

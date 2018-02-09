@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="Suppl" customModuleProvider="target">
             <connections>
+                <outlet property="infoLabel" destination="vh2-OT-Ae6" id="Xie-RS-YvI"/>
                 <outlet property="tracksSearch" destination="5uA-Ku-hgZ" id="cDQ-mB-aHw"/>
                 <outlet property="tracksTable" destination="cFb-cI-qNG" id="7x1-t4-r1p"/>
                 <outlet property="view" destination="iN0-l3-epB" id="bIf-Jz-NFB"/>
@@ -47,13 +48,25 @@
                         <outlet property="delegate" destination="-1" id="4EN-bv-yK3"/>
                     </connections>
                 </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загрузка..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vh2-OT-Ae6">
+                    <rect key="frame" x="16" y="139" width="343" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="XMM-cq-K1m"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="dPR-f1-7Wh" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="J6J-Rg-IiJ"/>
+                <constraint firstItem="vh2-OT-Ae6" firstAttribute="top" secondItem="cFb-cI-qNG" secondAttribute="top" id="KEC-LB-dck"/>
                 <constraint firstItem="5uA-Ku-hgZ" firstAttribute="trailing" secondItem="cFb-cI-qNG" secondAttribute="trailing" id="KPh-EU-BaO"/>
                 <constraint firstItem="dPR-f1-7Wh" firstAttribute="trailing" secondItem="5uA-Ku-hgZ" secondAttribute="trailing" id="OS0-8f-Y3P"/>
                 <constraint firstItem="5uA-Ku-hgZ" firstAttribute="leading" secondItem="cFb-cI-qNG" secondAttribute="leading" id="QTS-HL-mmj"/>
+                <constraint firstItem="vh2-OT-Ae6" firstAttribute="leading" secondItem="cFb-cI-qNG" secondAttribute="leading" id="QuP-aK-j8m"/>
+                <constraint firstItem="vh2-OT-Ae6" firstAttribute="trailing" secondItem="cFb-cI-qNG" secondAttribute="trailing" id="Rra-Lh-ZAp"/>
                 <constraint firstItem="cFb-cI-qNG" firstAttribute="top" secondItem="5uA-Ku-hgZ" secondAttribute="bottom" id="Sza-MA-OdA"/>
                 <constraint firstItem="dPR-f1-7Wh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="cRy-bh-7HP"/>
                 <constraint firstItem="dPR-f1-7Wh" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="k60-f0-0cz"/>

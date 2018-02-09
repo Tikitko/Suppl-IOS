@@ -8,6 +8,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     
     @IBOutlet weak var tracksSearch: UISearchBar!
     @IBOutlet weak var tracksTable: UITableView!
+    @IBOutlet weak var infoLabel: UILabel!
     
     private let baseSearchQueries = [
         "Pink Floyd",
@@ -79,6 +80,23 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
             }
             self.thisQuery = query
             self.tracksTable.reloadData()
+            if self.searchData?.list.count == 0 {
+                self.setInfo("Ничего не найдено")
+            } else {
+                self.setInfo()
+            }
+        }
+    }
+    
+    private func setInfo(_ text: String? = nil) {
+        if let text = text {
+            self.tracksTable.isHidden = true
+            self.infoLabel.text = text
+            self.infoLabel.isHidden = false
+        } else {
+            self.tracksTable.isHidden = false
+            self.infoLabel.text = nil
+            self.infoLabel.isHidden = true
         }
     }
     

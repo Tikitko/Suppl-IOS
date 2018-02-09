@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TracklistViewController" customModule="Suppl" customModuleProvider="target">
             <connections>
+                <outlet property="infoLabel" destination="DPK-Ye-23v" id="VBf-FX-2Mj"/>
                 <outlet property="searchBar" destination="yBe-8n-PaE" id="N0R-xO-SFj"/>
                 <outlet property="tracksTable" destination="3pJ-XD-qtM" id="DVS-Wq-7Pv"/>
                 <outlet property="updateButton" destination="VPl-IA-S6M" id="gJL-a9-VZy"/>
@@ -25,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Поиск по плейлисту" translatesAutoresizingMaskIntoConstraints="NO" id="yBe-8n-PaE">
-                    <rect key="frame" x="16" y="83" width="289" height="56"/>
+                    <rect key="frame" x="16" y="83" width="306" height="56"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="7e8-YN-fGp"/>
@@ -49,15 +50,24 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPl-IA-S6M">
-                    <rect key="frame" x="305" y="83" width="54" height="56"/>
+                    <rect key="frame" x="322" y="83" width="37" height="56"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="54" id="zam-ml-Ge1"/>
+                        <constraint firstAttribute="width" constant="37" id="zam-ml-Ge1"/>
                     </constraints>
                     <state key="normal" image="update-7"/>
                     <connections>
                         <action selector="updateButtonClick:" destination="-1" eventType="touchUpInside" id="znF-dj-TV4"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загрузка..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPK-Ye-23v">
+                    <rect key="frame" x="16" y="139" width="343" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="WiR-Wy-TQC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -66,13 +76,16 @@
                 <constraint firstItem="9AU-sj-sVD" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="5v6-3E-DIx"/>
                 <constraint firstItem="VPl-IA-S6M" firstAttribute="leading" secondItem="yBe-8n-PaE" secondAttribute="trailing" id="6cR-EH-sur"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="3pJ-XD-qtM" secondAttribute="bottom" constant="10" id="7pf-xq-K2H"/>
+                <constraint firstItem="DPK-Ye-23v" firstAttribute="trailing" secondItem="3pJ-XD-qtM" secondAttribute="trailing" id="BBc-pd-K7z"/>
                 <constraint firstItem="9AU-sj-sVD" firstAttribute="trailing" secondItem="VPl-IA-S6M" secondAttribute="trailing" id="IHh-qR-4DB"/>
                 <constraint firstItem="9AU-sj-sVD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="LHz-5Y-CWd"/>
                 <constraint firstItem="3pJ-XD-qtM" firstAttribute="top" secondItem="yBe-8n-PaE" secondAttribute="bottom" id="cNj-f8-S1C"/>
                 <constraint firstItem="VPl-IA-S6M" firstAttribute="trailing" secondItem="3pJ-XD-qtM" secondAttribute="trailing" id="my9-Id-Kin"/>
                 <constraint firstItem="yBe-8n-PaE" firstAttribute="leading" secondItem="3pJ-XD-qtM" secondAttribute="leading" id="n9g-1b-zJS"/>
+                <constraint firstItem="DPK-Ye-23v" firstAttribute="top" secondItem="3pJ-XD-qtM" secondAttribute="top" id="oye-z2-qsT"/>
                 <constraint firstItem="9AU-sj-sVD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="pqa-Pe-Qpb"/>
                 <constraint firstItem="yBe-8n-PaE" firstAttribute="bottom" secondItem="VPl-IA-S6M" secondAttribute="bottom" id="reN-MX-msk"/>
+                <constraint firstItem="DPK-Ye-23v" firstAttribute="leading" secondItem="3pJ-XD-qtM" secondAttribute="leading" id="sUN-l9-33S"/>
                 <constraint firstItem="yBe-8n-PaE" firstAttribute="top" secondItem="VPl-IA-S6M" secondAttribute="top" id="tRs-pt-sBc"/>
             </constraints>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>

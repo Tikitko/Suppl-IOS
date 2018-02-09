@@ -127,14 +127,14 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
-		0EEC5A95202119690028694E /* Generals */ = {
+		0EEC5A95202119690028694E /* General */ = {
 			isa = PBXGroup;
 			children = (
 				8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */,
 				8CCAC59520205D5C00D91687 /* RootTabBarController.swift */,
 				0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */,
 			);
-			path = Generals;
+			path = General;
 			sourceTree = "<group>";
 		};
 		0EEC5AA7202135870028694E /* Tracklist */ = {
@@ -275,7 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				8C3301F02021A9AD00446945 /* Modules */,
-				0EEC5A95202119690028694E /* Generals */,
+				0EEC5A95202119690028694E /* General */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
