@@ -9,6 +9,19 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var tracksSearch: UISearchBar!
     @IBOutlet weak var tracksTable: UITableView!
     
+    private let baseSearchQueries = [
+        "Pink Floyd",
+        "Led Zeppelin",
+        "Rolling Stones",
+        "Queen",
+        "Nirvana",
+        "The Beatles",
+        "Metallica",
+        "Bon Jovi",
+        "AC/DC",
+        "Red Hot Chili Peppers"
+    ]
+    
     private var searchData: AudioSearchData? = nil
     private var thisQuery = ""
     
@@ -27,7 +40,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
         super.viewDidLoad()
         tracksTable.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
         tracksTable.reloadData()
-        tracksSearch.text = ""
+        tracksSearch.text = baseSearchQueries[Int(arc4random_uniform(UInt32(baseSearchQueries.count)))]
         searchTracks(tracksSearch.text ?? "")
     }
     
@@ -138,7 +151,13 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let tracks = searchData?.list else { return }
-        navigationController?.pushViewController(PlayerViewController(tracks: tracks), animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        var tracksIDs: [String] = []
+        for val in tracks {
+            tracksIDs.append(val.id)
+        }
+        let playerView = PlayerViewController(tracksIDs: tracksIDs, current: indexPath.row)
+        navigationController?.pushViewController(playerView, animated: true)
     }
     
 }

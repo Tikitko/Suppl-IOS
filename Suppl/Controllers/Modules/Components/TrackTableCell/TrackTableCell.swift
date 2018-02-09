@@ -28,10 +28,7 @@ class TrackTableCell: UITableViewCell {
             trackPerformer.text = performer
         }
         if let duration = duration {
-            let time = secondsToMinutesSeconds(seconds: duration)
-            let min = String(time.0)
-            let sec = (time.1 < 10 ? "0" : "") + String("\(time.1)")
-            trackDuration.text = String("\(min):\(sec)")
+            trackDuration.text = TrackTableCell.formatTime(sec: duration)
         }
         if let image = image {
             baseImage = false
@@ -39,7 +36,14 @@ class TrackTableCell: UITableViewCell {
         }
     }
     
-    private func secondsToMinutesSeconds (seconds : Int) -> (Int, Int) {
+    public static func formatTime(sec: Int) -> String {
+        let minSec = TrackTableCell.secondsToMinutesSeconds(seconds: sec)
+        let min = String(minSec.0)
+        let sec = (minSec.1 < 10 ? "0" : "") + String("\(minSec.1)")
+        return String("\(min):\(sec)")
+    }
+    
+    public static func secondsToMinutesSeconds (seconds : Int) -> (Int, Int) {
         return ((seconds % 3600) / 60, (seconds % 3600) % 60)
     }
 

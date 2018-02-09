@@ -63,6 +63,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
             self.tracksTable.reloadData()
         }
     }
+    
 }
 
 extension TracklistViewController: UITableViewDataSource {
@@ -114,6 +115,16 @@ extension TracklistViewController: UITableViewDelegate {
         }
         delete.backgroundColor = .red
         return [delete]
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        var tracksIDs: [String] = []
+        for val in tracks {
+            tracksIDs.append(val.id)
+        }
+        let playerView = PlayerViewController(tracksIDs: tracksIDs, current: indexPath.row)
+        navigationController?.pushViewController(playerView, animated: true)
     }
     
 }

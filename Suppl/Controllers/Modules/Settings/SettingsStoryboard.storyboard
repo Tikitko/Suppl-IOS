@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Настройки" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ew6-xt-Arj">
-                                <rect key="frame" x="16" y="35" width="343" height="53"/>
+                                <rect key="frame" x="16" y="30" width="343" height="53"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="53" id="Hlk-va-L7G"/>
                                 </constraints>
@@ -29,7 +29,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hZg-uR-ucV">
-                                <rect key="frame" x="16" y="96" width="343" height="502"/>
+                                <rect key="frame" x="16" y="91" width="343" height="507"/>
                                 <connections>
                                     <segue destination="y91-gk-j50" kind="embed" id="gVz-th-Z8B"/>
                                 </connections>
@@ -38,7 +38,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ew6-xt-Arj" firstAttribute="leading" secondItem="Hct-6R-qmS" secondAttribute="leadingMargin" id="Luf-uZ-eno"/>
-                            <constraint firstItem="ew6-xt-Arj" firstAttribute="top" secondItem="FnF-dx-auF" secondAttribute="top" constant="15" id="feX-iQ-PMK"/>
+                            <constraint firstItem="ew6-xt-Arj" firstAttribute="top" secondItem="FnF-dx-auF" secondAttribute="top" constant="10" id="feX-iQ-PMK"/>
                             <constraint firstItem="hZg-uR-ucV" firstAttribute="top" secondItem="ew6-xt-Arj" secondAttribute="bottom" constant="8" symbolic="YES" id="jaL-bd-KwG"/>
                             <constraint firstAttribute="bottom" secondItem="hZg-uR-ucV" secondAttribute="bottom" constant="20" symbolic="YES" id="pyC-N4-6yd"/>
                             <constraint firstItem="ew6-xt-Arj" firstAttribute="leading" secondItem="hZg-uR-ucV" secondAttribute="leading" id="rng-b8-eMO"/>
@@ -58,7 +58,7 @@
             <objects>
                 <tableViewController id="y91-gk-j50" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="peR-TX-ulk">
-                        <rect key="frame" x="0.0" y="0.0" width="343" height="502"/>
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
@@ -184,11 +184,11 @@
             <objects>
                 <viewController id="PPn-AI-Cvi" customClass="SettingsAccountViewController" customModule="Suppl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="23u-Mj-E2O">
-                        <rect key="frame" x="0.0" y="0.0" width="343" height="502"/>
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SXQ-5B-3v7">
-                                <rect key="frame" x="0.0" y="64" width="343" height="389"/>
+                                <rect key="frame" x="0.0" y="64" width="343" height="394"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vbj-qJ-hGY">
                                         <rect key="frame" x="20" y="20" width="303" height="100"/>
@@ -287,7 +287,7 @@
             <objects>
                 <viewController id="OFz-Pm-Xd5" customClass="SettingsGeneralViewController" customModule="Suppl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="izF-je-mZZ">
-                        <rect key="frame" x="0.0" y="0.0" width="343" height="502"/>
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="bLs-Rz-Np8"/>
@@ -302,7 +302,7 @@
             <objects>
                 <viewController id="Bml-9r-Voz" customClass="SettingsDesignViewController" customModule="Suppl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="elQ-Lw-VAP">
-                        <rect key="frame" x="0.0" y="0.0" width="343" height="502"/>
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ymC-xk-N81"/>

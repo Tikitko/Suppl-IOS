@@ -25,14 +25,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Поиск по плейлисту" translatesAutoresizingMaskIntoConstraints="NO" id="yBe-8n-PaE">
-                    <rect key="frame" x="16" y="88" width="289" height="56"/>
+                    <rect key="frame" x="16" y="83" width="289" height="56"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="7e8-YN-fGp"/>
                     </connections>
                 </searchBar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Плейлист" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AU-sj-sVD">
-                    <rect key="frame" x="16" y="35" width="343" height="53"/>
+                    <rect key="frame" x="16" y="30" width="343" height="53"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="53" id="zee-vd-w8k"/>
                     </constraints>
@@ -41,7 +41,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3pJ-XD-qtM">
-                    <rect key="frame" x="16" y="144" width="343" height="464"/>
+                    <rect key="frame" x="16" y="139" width="343" height="469"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="912-V6-Ctk"/>
@@ -49,7 +49,7 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPl-IA-S6M">
-                    <rect key="frame" x="305" y="88" width="54" height="56"/>
+                    <rect key="frame" x="305" y="83" width="54" height="56"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="54" id="zam-ml-Ge1"/>
                     </constraints>
@@ -71,7 +71,7 @@
                 <constraint firstItem="3pJ-XD-qtM" firstAttribute="top" secondItem="yBe-8n-PaE" secondAttribute="bottom" id="cNj-f8-S1C"/>
                 <constraint firstItem="VPl-IA-S6M" firstAttribute="trailing" secondItem="3pJ-XD-qtM" secondAttribute="trailing" id="my9-Id-Kin"/>
                 <constraint firstItem="yBe-8n-PaE" firstAttribute="leading" secondItem="3pJ-XD-qtM" secondAttribute="leading" id="n9g-1b-zJS"/>
-                <constraint firstItem="9AU-sj-sVD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="pqa-Pe-Qpb"/>
+                <constraint firstItem="9AU-sj-sVD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="pqa-Pe-Qpb"/>
                 <constraint firstItem="yBe-8n-PaE" firstAttribute="bottom" secondItem="VPl-IA-S6M" secondAttribute="bottom" id="reN-MX-msk"/>
                 <constraint firstItem="yBe-8n-PaE" firstAttribute="top" secondItem="VPl-IA-S6M" secondAttribute="top" id="tRs-pt-sBc"/>
             </constraints>
