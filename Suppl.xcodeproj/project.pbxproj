@@ -63,6 +63,7 @@
 		0E12FAC420308B3C00EE3422 /* Purple.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Purple.plist; sourceTree = "<group>"; };
 		0E12FAC62030973500EE3422 /* Blue.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Blue.plist; sourceTree = "<group>"; };
 		0E12FAC92030A3D400EE3422 /* SettingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableCell.swift; sourceTree = "<group>"; };
+		0E12FACD2030E97A00EE3422 /* Suppl-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Suppl-Bridging-Header.h"; sourceTree = "<group>"; };
 		0E29CBD8202A025900BE5975 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		0E466275201F87A30037FD0E /* TracklistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistData.swift; sourceTree = "<group>"; };
@@ -245,6 +246,7 @@
 				8CCAC58D2020563000D91687 /* Controllers */,
 				8C67F5F1201B172700333EB2 /* Model */,
 				8C67F5DF201B153100333EB2 /* AppDelegate.swift */,
+				0E12FACD2030E97A00EE3422 /* Suppl-Bridging-Header.h */,
 				8C67F5E6201B153100333EB2 /* Assets.xcassets */,
 				8C67F5E8201B153100333EB2 /* LaunchScreen.storyboard */,
 				8C67F5EB201B153100333EB2 /* Info.plist */,
@@ -666,6 +668,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Tikitko.Suppl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Suppl/Suppl-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -683,6 +686,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Tikitko.Suppl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Suppl/Suppl-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
