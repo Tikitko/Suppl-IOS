@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftTheme
 
 class MainViewController: UIViewController, ControllerInfoProtocol {
     

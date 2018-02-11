@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftTheme
 
 class BaseNavigationController: UINavigationController {
     
@@ -14,6 +15,20 @@ class BaseNavigationController: UINavigationController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setTheme()
+    }
+    
+    func setTheme() {
+        //navigationBar.barTintColor = AppData.getTheme(SettingsManager.theme).secondColor
+        //navigationBar.tintColor = UIColor.white
+        //navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        navigationBar.theme_barTintColor = "secondColor"
+        navigationBar.theme_tintColor = ["#FFF"]
+        navigationBar.theme_titleTextAttributes = ThemeDictionaryPicker.pickerWithAttributes([[NSAttributedStringKey.foregroundColor: UIColor.white]])
     }
     
     override func popToRootViewController(animated: Bool) -> [UIViewController]? {

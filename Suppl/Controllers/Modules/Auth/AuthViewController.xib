@@ -83,12 +83,11 @@
                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="60"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.38322011169999998" green="0.2632894362" blue="0.69084501269999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <size key="shadowOffset" width="0.0" height="-3"/>
                 </label>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CfD-fp-t4a">
                     <rect key="frame" x="61" y="465" width="253" height="42"/>
-                    <color key="backgroundColor" red="0.59215686274509804" green="0.17254901960784313" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.58823529411764708" green="0.14901960784313725" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="42" id="6dI-uv-18e"/>
                         <constraint firstAttribute="height" constant="42" id="cZE-IZ-7Hx"/>

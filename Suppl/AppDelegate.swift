@@ -15,21 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        SettingsManager.initialize()
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = AuthViewController()
         window.makeKeyAndVisible()
         self.window = window
         NotificationCenter.default.addObserver(self, selector: #selector(authWindowSet(notification:)), name: .NeedAuthWindow, object: nil)
-        do
-        {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
-        }
-        catch
-        {
-            print(error)
-        }
+
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        try? AVAudioSession.sharedInstance().setActive(true)
         application.beginReceivingRemoteControlEvents()
+        
         return true
     }
     

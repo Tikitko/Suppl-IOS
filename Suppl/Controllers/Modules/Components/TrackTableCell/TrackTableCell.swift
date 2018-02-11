@@ -13,6 +13,7 @@ class TrackTableCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        loadImageType()
         baseImage = true
         trackTitle.text = nil
         trackPerformer.text = nil
@@ -21,6 +22,7 @@ class TrackTableCell: UITableViewCell {
     }
     
     public func configure(title: String? = nil, performer: String? = nil, duration: Int? = nil, image: UIImage? = nil) -> Void {
+        loadImageType()
         if let title = title {
             trackTitle.text = title
         }
@@ -34,6 +36,16 @@ class TrackTableCell: UITableViewCell {
             baseImage = false
             trackImage.image = image
         }
+    }
+    
+    private func loadImageType() {
+        if let round = SettingsManager.roundIcons, round {
+            trackImage.layer.cornerRadius = trackImage.frame.size.width / 2
+            trackImage.clipsToBounds = true
+            return
+        }
+        trackImage.layer.cornerRadius = 0
+        trackImage.clipsToBounds = false
     }
     
     public static func formatTime(sec: Int) -> String {

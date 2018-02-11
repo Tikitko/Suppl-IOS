@@ -28,7 +28,7 @@
                                 <size key="shadowOffset" width="0.0" height="-3"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.5794183611869812" green="0.12953862547874451" blue="0.57286161184310913" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.58039215686274503" green="0.12941176470588234" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="vuO-fc-SqJ" secondAttribute="bottom" constant="20" symbolic="YES" id="aIo-eg-UgL"/>
                             <constraint firstItem="vuO-fc-SqJ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="fg8-cV-lxu"/>

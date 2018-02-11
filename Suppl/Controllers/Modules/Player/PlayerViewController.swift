@@ -3,6 +3,7 @@ import UIKit
 import AVFoundation
 import AVKit
 import MediaPlayer
+import SwiftTheme
 
 class PlayerViewController: UIViewController {
    
@@ -66,9 +67,15 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTheme()
         clearPlayer()
         guard let tracks = tracks else { return }
         loadTrackByID(tracks.curr())
+    }
+    
+    func setTheme() {
+        //view.backgroundColor = AppData.getTheme(SettingsManager.theme).thirdColor
+        view.theme_backgroundColor = "thirdColor"
     }
     
     private func loadTrackByID(_ trackID: String) {
@@ -138,8 +145,10 @@ class PlayerViewController: UIViewController {
             self.goneLabel.text = TrackTableCell.formatTime(sec: Int(self.progressSlider.value))
             self.leftLabel.text = TrackTableCell.formatTime(sec: Int(self.progressSlider.maximumValue - self.progressSlider.value))
             if Int(self.progressSlider.maximumValue - self.progressSlider.value) == 0, let tracks = self.tracks {
+                self.pause()
+                guard let next = SettingsManager.autoNextTrack, next else { return }
+                self.clearPlayer()
                 self.loadTrackByID(tracks.next())
-                //self.pause()
             }
         }
         pause()

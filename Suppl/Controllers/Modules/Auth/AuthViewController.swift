@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftTheme
 
 class AuthViewController: UIViewController {
     
@@ -9,13 +10,6 @@ class AuthViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var identifierField: UITextField!
     @IBOutlet weak var repeatButton: UIButton!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        statusLabel.text = "Загрузка..."
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
     
     convenience init(noAuth noAuthOnShow: Bool?) {
         self.init(nibName: nil, bundle: nil)
@@ -30,6 +24,14 @@ class AuthViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setTheme()
+        statusLabel.text = "Загрузка..."
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -38,6 +40,15 @@ class AuthViewController: UIViewController {
             return
         }
         startAuth()
+    }
+    
+    func setTheme() {
+        //view.backgroundColor = AppData.getTheme(SettingsManager.theme).firstColor
+        //identifierField.backgroundColor = AppData.getTheme(SettingsManager.theme).secondColor
+        //repeatButton.backgroundColor = AppData.getTheme(SettingsManager.theme).secondColor
+        view.theme_backgroundColor = "firstColor"
+        identifierField.theme_backgroundColor = "secondColor"
+        repeatButton.theme_backgroundColor = "secondColor"
     }
     
     @IBAction func repeatButtonClick(_ sender: Any) {

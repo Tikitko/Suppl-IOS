@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftTheme
 
 class SettingsAccountViewController: UIViewController {
     
@@ -22,6 +23,7 @@ class SettingsAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTheme()
         getAccount()
     }
     
@@ -52,6 +54,13 @@ class SettingsAccountViewController: UIViewController {
                 self.emailField.text = email
             }
         }
+    }
+    
+    func setTheme() {
+        //emailButton.backgroundColor = AppData.getTheme(SettingsManager.theme).secondColor
+        //accountOutButton.backgroundColor = AppData.getTheme(SettingsManager.theme).secondColor
+        emailButton.theme_backgroundColor = "secondColor"
+        accountOutButton.theme_backgroundColor = "secondColor"
     }
     
     private func getAccount() {

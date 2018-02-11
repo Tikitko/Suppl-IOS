@@ -289,13 +289,28 @@
                     <view key="view" contentMode="scaleToFill" id="izF-je-mZZ">
                         <rect key="frame" x="0.0" y="0.0" width="343" height="507"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pdQ-Pp-SUQ">
+                                <rect key="frame" x="16" y="20" width="311" height="467"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="pdQ-Pp-SUQ" firstAttribute="leading" secondItem="izF-je-mZZ" secondAttribute="leadingMargin" id="3DM-ke-600"/>
+                            <constraint firstAttribute="bottom" secondItem="pdQ-Pp-SUQ" secondAttribute="bottom" constant="20" symbolic="YES" id="CMI-78-fPe"/>
+                            <constraint firstItem="pdQ-Pp-SUQ" firstAttribute="trailing" secondItem="izF-je-mZZ" secondAttribute="trailingMargin" id="rrB-cU-vKx"/>
+                            <constraint firstItem="pdQ-Pp-SUQ" firstAttribute="top" secondItem="bLs-Rz-Np8" secondAttribute="top" id="tNN-Vv-kAa"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="bLs-Rz-Np8"/>
                     </view>
+                    <connections>
+                        <outlet property="settingsTable" destination="pdQ-Pp-SUQ" id="wIL-h7-QeU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F2M-eT-lEc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1374" y="-311"/>
+            <point key="canvasLocation" x="1373.5999999999999" y="-311.69415292353824"/>
         </scene>
         <!--Settings Design View Controller-->
         <scene sceneID="T7I-45-nDu">

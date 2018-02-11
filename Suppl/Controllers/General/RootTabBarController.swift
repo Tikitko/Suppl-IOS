@@ -1,17 +1,11 @@
 import Foundation
 import UIKit
+import SwiftTheme
 
 class RootTabBarController: UITabBarController {
     
-    public static let baseColor = UIColor(red: 0.58, green: 0.13, blue: 0.57, alpha: 1.0)
-    public static let elementsColor = UIColor(red: 0.59, green: 0.17, blue: 0.63, alpha: 1.0)
-    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
-        tabBar.barTintColor = RootTabBarController.elementsColor
-        tabBar.tintColor = UIColor.white
-        tabBar.unselectedItemTintColor = UIColor.lightGray
         
         let mainTab = getSettedTab(controller: MainViewController())
         let tracklistTab = getSettedTab(controller: TracklistViewController())
@@ -25,7 +19,17 @@ class RootTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTheme()
         startAvoidingKeyboard()
+    }
+    
+    func setTheme() {
+        //tabBar.barTintColor = AppData.getTheme(SettingsManager.theme).secondColor
+        //tabBar.tintColor = UIColor.white
+        //tabBar.unselectedItemTintColor = UIColor.lightGray
+        tabBar.theme_barTintColor = "secondColor"
+        tabBar.theme_tintColor = ["#FFF"]
+        tabBar.unselectedItemTintColor = UIColor.lightGray
     }
     
     func startAvoidingKeyboard() {
@@ -63,10 +67,6 @@ class RootTabBarController: UITabBarController {
     private func setTabItem(controller: UIViewController, tag: Int) {
         guard let controllerInfo = controller as? ControllerInfoProtocol else { return }
         controller.navigationController?.tabBarItem = UITabBarItem(title: controllerInfo.name, image: UIImage(named: controllerInfo.imageName), tag: tag)
-        
-        controller.navigationController?.navigationBar.barTintColor = RootTabBarController.elementsColor
-        controller.navigationController?.navigationBar.tintColor = UIColor.white
-        controller.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
     }
 
 }
