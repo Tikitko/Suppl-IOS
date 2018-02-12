@@ -4,6 +4,8 @@ import SwiftTheme
 
 class RootTabBarController: UITabBarController {
     
+    var tapGestureRecognizer: UITapGestureRecognizer?
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
@@ -20,13 +22,11 @@ class RootTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        startAvoidingKeyboard()
-        /*
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAndHideKeyboard(_:)))
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panAndHideKeyboard(_:)))
-        view.addGestureRecognizer(tapGestureRecognizer)
-        view.addGestureRecognizer(panGestureRecognizer)
-         */
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        // NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func setTheme() {
@@ -38,29 +38,23 @@ class RootTabBarController: UITabBarController {
         tabBar.unselectedItemTintColor = UIColor.lightGray
     }
     
-    private func startAvoidingKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(_onKeyboardFrameWillChangeNotificationReceived(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-    }
-    
-    private func stopAvoidingKeyboard() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-    }
-    
     @objc func tapAndHideKeyboard(_ gesture: UITapGestureRecognizer) {
-        print(123)
-        if(gesture.state == UIGestureRecognizerState.ended) {
-            view.endEditing(true)
+        if gesture.state == UIGestureRecognizerState.ended {
+            view.endEditing(false)
         }
     }
     
-    @objc func panAndHideKeyboard(_ gesture: UIPanGestureRecognizer) {
-        print(321)
-        if(gesture.state == UIGestureRecognizerState.ended) {
-            view.endEditing(true)
-        }
+    @objc func keyboardWillShow() {
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAndHideKeyboard(_:)))
+        view.addGestureRecognizer(tapGestureRecognizer!)
     }
     
-    @objc private func _onKeyboardFrameWillChangeNotificationReceived(_ notification: Notification) {
+    @objc func keyboardWillHide() {
+        guard let tapGestureRecognizer = tapGestureRecognizer else { return }
+        view.removeGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc private func keyboardFrameWillChange(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         
         let keyboardFrameInView = view.convert(keyboardFrame, from: nil)
