@@ -13,6 +13,11 @@ class SettingsGeneralViewController: UIViewController {
         super.init(coder: aDecoder)
         navigationItem.title = "Основное"
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        settingsTable.allowsSelection = false
+    }
 }
 
 extension SettingsGeneralViewController: UITableViewDataSource {

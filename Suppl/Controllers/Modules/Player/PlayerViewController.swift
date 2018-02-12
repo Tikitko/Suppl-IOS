@@ -48,6 +48,8 @@ class PlayerViewController: UIViewController {
         }
     }
     
+    private var observerPlayStatusWorking = false
+    
     private var tracks: TracksList?
     private var player: AVPlayer?
     
@@ -90,9 +92,20 @@ class PlayerViewController: UIViewController {
         guard let trackLink = track.track, let trackURL = URL(string: trackLink) else { return }
         clearPlayer()
         setTrackInfo(track)
-        let player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
-        player.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new, .old], context: nil)
-        self.player = player
+        player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
+        appPlayStatusObserver()
+    }
+    
+    private func appPlayStatusObserver() {
+        if observerPlayStatusWorking { return }
+        observerPlayStatusWorking = true
+        player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new, .old], context: nil)
+    }
+    
+    private func removePlayStatusObserver() {
+        if !observerPlayStatusWorking { return }
+        player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
+        observerPlayStatusWorking = false
     }
     
     private func setTrackInfo(_ track: AudioData) {
@@ -102,11 +115,40 @@ class PlayerViewController: UIViewController {
             guard let `self` = self else { return }
             self.imageView.image = image
         }
+        addNowPlayingInfoCenter()
+        addRemoteCommandCenter()
+    }
+    
+    private func addNowPlayingInfoCenter() {
         let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
         var nowPlayingInfo = nowPlayingInfoCenter.nowPlayingInfo ?? [String: Any]()
-        nowPlayingInfo[MPMediaItemPropertyTitle] = track.title
-        nowPlayingInfo[MPMediaItemPropertyArtist] = track.performer
+        nowPlayingInfo[MPMediaItemPropertyTitle] = titleLabel.text ?? ""
+        nowPlayingInfo[MPMediaItemPropertyArtist] = performerLabel.text ?? ""
         nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
+    }
+    
+    private func addRemoteCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.addTarget() { [weak self] event in
+            guard let `self` = self else { return MPRemoteCommandHandlerStatus.commandFailed }
+            self.play()
+            return MPRemoteCommandHandlerStatus.success
+        }
+        commandCenter.pauseCommand.addTarget() { [weak self] event in
+            guard let `self` = self else { return MPRemoteCommandHandlerStatus.commandFailed }
+            self.pause()
+            return MPRemoteCommandHandlerStatus.success
+        }
+        commandCenter.nextTrackCommand.addTarget() { [weak self] event in
+            guard let `self` = self, let tracks = self.tracks else { return MPRemoteCommandHandlerStatus.commandFailed }
+            self.loadTrackByID(tracks.next())
+            return MPRemoteCommandHandlerStatus.success
+        }
+        commandCenter.previousTrackCommand.addTarget() { [weak self] event in
+            guard let `self` = self, let tracks = self.tracks else { return MPRemoteCommandHandlerStatus.commandFailed }
+            self.loadTrackByID(tracks.prev())
+            return MPRemoteCommandHandlerStatus.success
+        }
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -117,11 +159,10 @@ class PlayerViewController: UIViewController {
             } else {
                 status = .unknown
             }
-            
             switch status {
             case .readyToPlay:
+                removePlayStatusObserver()
                 guard let player = player else { break }
-                player.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
                 openPlayer(player)
                 play()
             case .failed: break
@@ -160,6 +201,7 @@ class PlayerViewController: UIViewController {
     }
     
     private func clearPlayer() {
+        removePlayStatusObserver()
         player = nil
         imageView.image = nil
         performerLabel.text = nil
@@ -225,5 +267,8 @@ class PlayerViewController: UIViewController {
         loadTrackByID(tracks.next())
     }
     
+    deinit {
+        removePlayStatusObserver()
+    }
     
 }
