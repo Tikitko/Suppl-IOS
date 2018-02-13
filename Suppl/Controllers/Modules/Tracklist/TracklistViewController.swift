@@ -139,6 +139,7 @@ extension TracklistViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .normal, title: "Удалить") { [weak self] action, index in
             guard let `self` = self else { return }
+            tableView.setEditing(false, animated: true)
             guard let foundTracks = self.foundTracks else {
                 TracklistManager.remove(from: index.row) { status in }
                 return

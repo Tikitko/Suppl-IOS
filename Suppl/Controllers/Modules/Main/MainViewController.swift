@@ -156,6 +156,7 @@ extension MainViewController: UITableViewDelegate {
         guard let tracklist = TracklistManager.tracklist, let searchData = searchData else { return [] }
         if let indexTrack = tracklist.index(of: searchData.list[editActionsForRowAt.row].id) {
             let delete = UITableViewRowAction(style: .normal, title: "Удалить") { action, index in
+                tableView.setEditing(false, animated: true)
                 TracklistManager.remove(from: indexTrack) { status in
                     UIAlertController.temporary(lifetime: 0.5, animated: true, title: "Удалено из плейлиста", message: nil, preferredStyle: .alert)
                 }
@@ -164,6 +165,7 @@ extension MainViewController: UITableViewDelegate {
             return [delete]
         }
         let add = UITableViewRowAction(style: .normal, title: "Добавить") { action, index in
+            tableView.setEditing(false, animated: true)
             TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in
                 UIAlertController.temporary(lifetime: 0.5, animated: true, title: "Добавлено в плейлист", message: nil, preferredStyle: .alert)
             }
