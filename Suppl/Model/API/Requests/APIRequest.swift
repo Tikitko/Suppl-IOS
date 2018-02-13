@@ -4,12 +4,12 @@ final class APIRequest: CommonRequest {
     
     // API DOC: https://wioz.su/suppl/API_v0.1.pdf
     
-    let API_URL = "https://wioz.su/suppl/api/0.1/"
+    public static let API_URL = "https://wioz.su/suppl/api/0.1/"
     
     public func method<T>(_ method: String, query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), externalMethod: @escaping (_ data: ResponseData<T>) -> T?) {
         var mainQuery: Dictionary<String, String> = ["method": method]
         mainQuery.merge(other: query)
-        super.request(url: API_URL, query: mainQuery, inMain: false) { error, response, data in
+        super.request(url: APIRequest.API_URL, query: mainQuery, inMain: false) { error, response, data in
             var returnError: NSError? = nil
             var returnData: T? = nil
             if let error = error {

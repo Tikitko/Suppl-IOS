@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Example of usage objC language...
         
-        CommonRequestC().request("https://wioz.su/suppl/api/0.1/", query: ["method": "info"], inMain: true) { data, response, error in
+        CommonRequestC().request(APIRequest.API_URL, query: ["method": "info"], inMain: true) { data, response, error in
             guard let data = data,
                 let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                 let jsonCheck = json,
