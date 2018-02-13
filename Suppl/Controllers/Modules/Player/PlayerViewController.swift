@@ -93,6 +93,7 @@ class PlayerViewController: UIViewController {
         clearPlayer()
         setTrackInfo(track)
         player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
+        player?.automaticallyWaitsToMinimizeStalling = false
         appPlayStatusObserver()
     }
     
