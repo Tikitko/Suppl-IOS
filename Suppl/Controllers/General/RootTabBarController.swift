@@ -52,6 +52,7 @@ class RootTabBarController: UITabBarController {
     @objc func keyboardWillHide() {
         guard let tapGestureRecognizer = tapGestureRecognizer else { return }
         view.removeGestureRecognizer(tapGestureRecognizer)
+        self.tapGestureRecognizer = nil
     }
     
     @objc private func keyboardFrameWillChange(_ notification: Notification) {
