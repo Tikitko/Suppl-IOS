@@ -10,9 +10,14 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var tracksTable: UITableView!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var filterButton: UIButton!
     
     private var tracks: [AudioData] = []
+    
     private var foundTracks: [AudioData]? = nil
+    private var searchByTitle = true
+    private var searchByPerformer = true
+    private var searchTimeRate: Float = 1.0
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -43,7 +48,63 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         }
     }
     
+    @IBAction func filterButtonClick(_ sender: Any) {
+        guard let btn = sender as? UIButton else { return }
+        let filterView = FilterViewController()
+        filterView.preferredContentSize = CGSize(width: 400, height: 180)
+        filterView.modalPresentationStyle = .popover
+        let pop = filterView.popoverPresentationController
+        pop?.delegate = self
+        pop?.sourceView = btn
+        pop?.sourceRect = btn.bounds
+        present(filterView, animated: true, completion: nil)
+        filterView.titleValue(searchByTitle)
+        filterView.titleCallback() { [weak self] switchElement in
+            guard let `self` = self else { return false }
+            if self.searchByTitle, !self.searchByPerformer { return self.searchByTitle }
+            self.searchByTitle = !self.searchByTitle
+            return self.searchByTitle
+        }
+        filterView.performerValue(searchByPerformer)
+        filterView.performerCallback() { [weak self] switchElement in
+            guard let `self` = self else { return false }
+            if self.searchByPerformer, !self.searchByTitle { return self.searchByPerformer }
+            self.searchByPerformer = !self.searchByPerformer
+            return self.searchByPerformer
+        }
+        filterView.timeValue(searchTimeRate)
+        filterView.timeCallback() { [weak self] slider in
+            guard let `self` = self else { return 1.0 }
+            
+            var maxRate = 0
+            for track in self.tracks {
+                if maxRate < track.duration + 5 {
+                    maxRate = track.duration + 5
+                }
+            }
+            self.foundTracks = []
+            for track in self.tracks {
+                if Float(track.duration) / Float(maxRate) < self.searchTimeRate {
+                    self.foundTracks?.append(track)
+                }
+            }
+            self.tracksTable.reloadData()
+            if self.foundTracks?.count == 0 {
+                self.setInfo("Ничего не найдено")
+            } else {
+                self.setInfo()
+            }
+            
+            self.searchTimeRate = slider.value
+            return self.searchTimeRate
+        }
+    }
+    
     private func clearSearch() {
+        searchTimeRate = 1.0
+        searchByTitle = true
+        searchByPerformer = true
+        
         foundTracks = nil
         searchBar.text = ""
     }
@@ -164,8 +225,15 @@ extension TracklistViewController: UITableViewDelegate {
             tracksIDs.append(val.id)
         }
         let playerView = PlayerViewController(tracksIDs: tracksIDs, current: indexPath.row)
-        playerView.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(playerView, animated: true)
+    }
+    
+}
+
+extension TracklistViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
     
 }
@@ -175,14 +243,21 @@ extension TracklistViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         guard let query = searchBar.text else { return }
+        searchTimeRate = 1.0
         foundTracks = []
         for track in tracks {
-            if (track.title.range(of: query) == nil) && (track.performer.range(of: query) == nil) { continue }
+            var title = false
+            var performer = false
+            if searchByTitle, track.title.range(of: query) != nil { title = true }
+            if searchByPerformer, track.performer.range(of: query) != nil { performer = true }
+            guard title || performer else { continue }
             foundTracks?.append(track)
         }
         tracksTable.reloadData()
         if foundTracks?.count == 0 {
             setInfo("Ничего не найдено")
+        } else {
+            setInfo()
         }
     }
     

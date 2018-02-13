@@ -10,6 +10,8 @@
 		0E0304A3202E31F100E295C8 /* UIAlertControllerTemporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0304A2202E31F100E295C8 /* UIAlertControllerTemporary.swift */; };
 		0E0641A020273A8900998D8A /* ImagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E06419F20273A8900998D8A /* ImagesManager.swift */; };
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
+		0E0A98412033141600E91922 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A983F2033141500E91922 /* FilterViewController.swift */; };
+		0E0A98422033141600E91922 /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A98402033141500E91922 /* FilterViewController.xib */; };
 		0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */; };
 		0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */; };
 		0E12FABE2030604200EE3422 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E12FABD2030604200EE3422 /* SettingsManager.swift */; };
@@ -57,6 +59,8 @@
 		0E0304A2202E31F100E295C8 /* UIAlertControllerTemporary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertControllerTemporary.swift; sourceTree = "<group>"; };
 		0E06419F20273A8900998D8A /* ImagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesManager.swift; sourceTree = "<group>"; };
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
+		0E0A983F2033141500E91922 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		0E0A98402033141500E91922 /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCell.swift; sourceTree = "<group>"; };
 		0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackTableCell.xib; sourceTree = "<group>"; };
 		0E12FABD2030604200EE3422 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
@@ -117,6 +121,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E0A983E2033141500E91922 /* FilterView */ = {
+			isa = PBXGroup;
+			children = (
+				0E0A983F2033141500E91922 /* FilterViewController.swift */,
+				0E0A98402033141500E91922 /* FilterViewController.xib */,
+			);
+			path = FilterView;
+			sourceTree = "<group>";
+		};
 		0E0F520A2025F346000C6DD3 /* TrackTableCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +142,7 @@
 		0E0F520B2025F374000C6DD3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				0E0A983E2033141500E91922 /* FilterView */,
 				0E12FAC82030A39300EE3422 /* SettingTableCell */,
 				0E0F520A2025F346000C6DD3 /* TrackTableCell */,
 			);
@@ -424,6 +438,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E0A98422033141600E91922 /* FilterViewController.xib in Resources */,
 				0EEC5AAB202135B50028694E /* TracklistViewController.xib in Resources */,
 				8C4B1339202463C0004A997E /* SettingsStoryboard.storyboard in Resources */,
 				0E12FAC72030973500EE3422 /* Blue.plist in Resources */,
@@ -508,6 +523,7 @@
 				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,
 				8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */,
 				0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */,
+				0E0A98412033141600E91922 /* FilterViewController.swift in Sources */,
 				8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */,
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
