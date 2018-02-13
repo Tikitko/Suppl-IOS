@@ -12,6 +12,7 @@
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
 		0E0A98412033141600E91922 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A983F2033141500E91922 /* FilterViewController.swift */; };
 		0E0A98422033141600E91922 /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A98402033141500E91922 /* FilterViewController.xib */; };
+		0E0A984520334A7600E91922 /* CommonRequestC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A984420334A7600E91922 /* CommonRequestC.m */; };
 		0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */; };
 		0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */; };
 		0E12FABE2030604200EE3422 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E12FABD2030604200EE3422 /* SettingsManager.swift */; };
@@ -61,6 +62,8 @@
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
 		0E0A983F2033141500E91922 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		0E0A98402033141500E91922 /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		0E0A984420334A7600E91922 /* CommonRequestC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonRequestC.m; sourceTree = "<group>"; };
+		0E0A984620334A8D00E91922 /* CommonRequestC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonRequestC.h; sourceTree = "<group>"; };
 		0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCell.swift; sourceTree = "<group>"; };
 		0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackTableCell.xib; sourceTree = "<group>"; };
 		0E12FABD2030604200EE3422 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
@@ -128,6 +131,15 @@
 				0E0A98402033141500E91922 /* FilterViewController.xib */,
 			);
 			path = FilterView;
+			sourceTree = "<group>";
+		};
+		0E0A984320334A5300E91922 /* objC */ = {
+			isa = PBXGroup;
+			children = (
+				0E0A984420334A7600E91922 /* CommonRequestC.m */,
+				0E0A984620334A8D00E91922 /* CommonRequestC.h */,
+			);
+			path = objC;
 			sourceTree = "<group>";
 		};
 		0E0F520A2025F346000C6DD3 /* TrackTableCell */ = {
@@ -300,6 +312,7 @@
 		8C67F5F7201B174200333EB2 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				0E0A984320334A5300E91922 /* objC */,
 				8C67F5F8201B174200333EB2 /* CommonRequest.swift */,
 				8C67F5F9201B174200333EB2 /* APIRequest.swift */,
 			);
@@ -528,6 +541,7 @@
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
+				0E0A984520334A7600E91922 /* CommonRequestC.m in Sources */,
 				8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */,
 				0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */,
 				0E0641A020273A8900998D8A /* ImagesManager.swift in Sources */,
