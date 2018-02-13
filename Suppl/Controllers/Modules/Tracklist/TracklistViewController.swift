@@ -76,15 +76,20 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         filterView.timeCallback() { [weak self] slider in
             guard let `self` = self else { return 1.0 }
             
+            let offset = 3
+            var minRate = 0
             var maxRate = 0
             for track in self.tracks {
-                if maxRate < track.duration + 5 {
-                    maxRate = track.duration + 5
+                if maxRate < track.duration + offset {
+                    maxRate = track.duration + offset
+                }
+                if minRate == 0 || minRate > track.duration - offset {
+                    minRate = track.duration - offset
                 }
             }
             self.foundTracks = []
             for track in self.tracks {
-                if Float(track.duration) / Float(maxRate) < self.searchTimeRate {
+                if Float(track.duration - minRate) / Float(maxRate - minRate) < self.searchTimeRate {
                     self.foundTracks?.append(track)
                 }
             }
@@ -225,6 +230,7 @@ extension TracklistViewController: UITableViewDelegate {
             tracksIDs.append(val.id)
         }
         let playerView = PlayerViewController(tracksIDs: tracksIDs, current: indexPath.row)
+        playerView.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(playerView, animated: true)
     }
     

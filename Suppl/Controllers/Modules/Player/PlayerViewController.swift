@@ -48,7 +48,10 @@ class PlayerViewController: UIViewController {
         }
     }
     
+    private var needPlayingStatus = false
+    
     private var observerPlayStatusWorking = false
+    private var observerPlayerRateWorking = false
     
     private var tracks: TracksList?
     private var player: AVPlayer?
@@ -94,10 +97,12 @@ class PlayerViewController: UIViewController {
         setTrackInfo(track)
         player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
         player?.automaticallyWaitsToMinimizeStalling = false
-        appPlayStatusObserver()
+        addPlayStatusObserver()
+        addPlayerRateObserver()
+        
     }
     
-    private func appPlayStatusObserver() {
+    private func addPlayStatusObserver() {
         if observerPlayStatusWorking { return }
         observerPlayStatusWorking = true
         player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new, .old], context: nil)
@@ -107,6 +112,18 @@ class PlayerViewController: UIViewController {
         if !observerPlayStatusWorking { return }
         player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
         observerPlayStatusWorking = false
+    }
+    
+    private func addPlayerRateObserver() {
+        if observerPlayerRateWorking { return }
+        observerPlayerRateWorking = true
+        player?.addObserver(self, forKeyPath: #keyPath(AVPlayer.rate), options: [.new, .old], context: nil)
+    }
+    
+    private func removePlayerRateObserver() {
+        if !observerPlayerRateWorking { return }
+        player?.removeObserver(self, forKeyPath: #keyPath(AVPlayer.rate))
+        observerPlayerRateWorking = false
     }
     
     private func setTrackInfo(_ track: AudioData) {
@@ -132,12 +149,14 @@ class PlayerViewController: UIViewController {
         let commandCenter = MPRemoteCommandCenter.shared()
         commandCenter.playCommand.addTarget() { [weak self] event in
             guard let `self` = self else { return MPRemoteCommandHandlerStatus.commandFailed }
-            self.play()
+            self.needPlayingStatus = true
+            self.player?.play()
             return MPRemoteCommandHandlerStatus.success
         }
         commandCenter.pauseCommand.addTarget() { [weak self] event in
             guard let `self` = self else { return MPRemoteCommandHandlerStatus.commandFailed }
-            self.pause()
+            self.needPlayingStatus = false
+            self.player?.pause()
             return MPRemoteCommandHandlerStatus.success
         }
         commandCenter.nextTrackCommand.addTarget() { [weak self] event in
@@ -154,6 +173,7 @@ class PlayerViewController: UIViewController {
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(AVPlayerItem.status) {
+            removePlayStatusObserver()
             let status: AVPlayerItemStatus
             if let statusNumber = change?[.newKey] as? NSNumber {
                 status = AVPlayerItemStatus(rawValue: statusNumber.intValue)!
@@ -162,12 +182,30 @@ class PlayerViewController: UIViewController {
             }
             switch status {
             case .readyToPlay:
-                removePlayStatusObserver()
                 guard let player = player else { break }
                 openPlayer(player)
-                play()
+                needPlayingStatus = true
+                player.play()
             case .failed: break
             case .unknown: break
+            }
+        }
+        
+        if keyPath == #keyPath(AVPlayer.rate) {
+            var rate: Float = 0.0
+            if let statusNumber = change?[.newKey] as? Float {
+                rate = statusNumber
+            }
+            if rate == 1.0 {
+                playButton.setImage(UIImage(named: "icon_154.png"), for: .normal)
+            } else if rate == 0.0 {
+                playButton.setImage(UIImage(named: "icon_152.png"), for: .normal)
+                if SettingsManager.autoNextTrack!, Int(self.progressSlider.maximumValue - self.progressSlider.value) == 0, let tracks = tracks {
+                    clearPlayer()
+                    loadTrackByID(tracks.next())
+                } else if needPlayingStatus {
+                    player?.play()
+                }
             }
         }
     }
@@ -186,14 +224,7 @@ class PlayerViewController: UIViewController {
             self.progressSlider.value = Float(player.currentTime().seconds)
             self.goneLabel.text = TrackTableCell.formatTime(sec: Int(self.progressSlider.value))
             self.leftLabel.text = TrackTableCell.formatTime(sec: Int(self.progressSlider.maximumValue - self.progressSlider.value))
-            if Int(self.progressSlider.maximumValue - self.progressSlider.value) == 0, let tracks = self.tracks {
-                self.pause()
-                guard let next = SettingsManager.autoNextTrack, next else { return }
-                self.clearPlayer()
-                self.loadTrackByID(tracks.next())
-            }
         }
-        pause()
         
         playButton.isEnabled = true
         rewindMButton.isEnabled = true
@@ -202,7 +233,9 @@ class PlayerViewController: UIViewController {
     }
     
     private func clearPlayer() {
+        needPlayingStatus = false
         removePlayStatusObserver()
+        removePlayerRateObserver()
         player = nil
         imageView.image = nil
         performerLabel.text = nil
@@ -219,18 +252,6 @@ class PlayerViewController: UIViewController {
         progressSlider.isEnabled = false
     }
     
-    private func play() {
-        guard let player = player else { return }
-        playButton.setImage(UIImage(named: "icon_154.png"), for: .normal)
-        player.play()
-    }
-    
-    private func pause() {
-        guard let player = player else { return }
-        playButton.setImage(UIImage(named: "icon_152.png"), for: .normal)
-        player.pause()
-    }
-    
     @IBAction func sliderChanged(_ sender: Any) {
         guard let player = player else { return }
         player.seek(to: CMTimeMake(Int64(progressSlider.value), 1))
@@ -239,13 +260,15 @@ class PlayerViewController: UIViewController {
     @IBAction func playButtonClicked(_ sender: Any) {
         guard let player = player else { return }
         guard player.rate == 0 else {
-            pause()
+            needPlayingStatus = false
+            player.pause()
             return
         }
         if Int(progressSlider.value) == Int(progressSlider.maximumValue) {
             player.seek(to: CMTimeMake(0, 1))
         }
-        play()
+        needPlayingStatus = true
+        player.play()
     }
     
     @IBAction func rewindPClicked(_ sender: Any) {
@@ -270,6 +293,7 @@ class PlayerViewController: UIViewController {
     
     deinit {
         removePlayStatusObserver()
+        removePlayerRateObserver()
     }
     
 }
