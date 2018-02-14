@@ -9,7 +9,7 @@ class AuthManager {
     }
     
     private static func authCheckRequest() {
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else { return }
+        guard let (ikey, akey) = getAuthKeys() else { return }
         APIManager.userGet(ikey: ikey, akey: akey) { error, data in
             guard let _ = error else { return }
             let _ = self.setAuthWindow()
@@ -38,6 +38,14 @@ class AuthManager {
             return true
         }
         return false
+    }
+    
+    public static func getAuthKeys() -> (ikey:Int, akey:Int)? {
+        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
+            setAuthWindow()
+            return nil
+        }
+        return (ikey, akey)
     }
     
 }

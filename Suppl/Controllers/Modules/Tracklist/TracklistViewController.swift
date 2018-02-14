@@ -134,10 +134,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
             setInfo()
             return
         }
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
-            AuthManager.setAuthWindow()
-            return
-        }
+        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
         let tracklistPart = getTracklistPart(from: from, count: count)
         APIManager.audioGet(ikey: ikey, akey: akey, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
             guard let `self` = self, let data = data else { return }
@@ -159,13 +156,13 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     
     private func setInfo(_ text: String? = nil) {
         if let text = text {
-            self.tracksTable.isHidden = true
-            self.infoLabel.text = text
-            self.infoLabel.isHidden = false
+            tracksTable.isHidden = true
+            infoLabel.text = text
+            infoLabel.isHidden = false
         } else {
-            self.tracksTable.isHidden = false
-            self.infoLabel.text = nil
-            self.infoLabel.isHidden = true
+            tracksTable.isHidden = false
+            infoLabel.text = nil
+            infoLabel.isHidden = true
         }
     }
     

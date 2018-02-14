@@ -3,14 +3,15 @@ import Foundation
 class CommonRequest {
     
     private let defaultSession: URLSession = URLSession(configuration: .default)
-    private var dataTask: URLSessionDataTask?
     
     public func request(url: String, query: Dictionary<String, String> = [:], inMain: Bool = false, taskCallback: @escaping (Error?, URLResponse?, Data?) -> ()) {
         guard var urlComponents = URLComponents(string: url) else { return }
-        urlComponents.query = toQuery(query)
+        let queryItems = query.map {
+            return URLQueryItem(name: "\($0)", value: "\($1)")
+        }
+        urlComponents.queryItems = queryItems
         guard let url = urlComponents.url else { return }
-        dataTask = defaultSession.dataTask(with: url) { data, response, error in
-            defer { self.dataTask = nil }
+        defaultSession.dataTask(with: url) { data, response, error in
             if !inMain {
                 taskCallback(error, response, data)
                 return
@@ -18,17 +19,7 @@ class CommonRequest {
             DispatchQueue.main.async() {
                 taskCallback(error, response, data)
             }
-        }
-        dataTask?.resume()
-    }
-    
-    private func toQuery(_ data: Dictionary<String, String>) -> String {
-        var output: String = ""
-        for (key,value) in data {
-            output +=  "\(key)=\(value)&"
-        }
-        output = String(output.dropLast())
-        return output
+        }.resume()
     }
     
 }

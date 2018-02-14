@@ -56,10 +56,10 @@ class SettingsManager {
     }
     
     private static let themeName = "theme"
-    private static let themeDefault: UInt = 1
-    public static var theme: UInt? {
+    private static let themeDefault: Int = 0
+    public static var theme: Int? {
         get {
-            guard let value: UInt? = UserDefaultsManager.keyGet(themeName), let returnValue = value else {
+            guard let value: Int? = UserDefaultsManager.keyGet(themeName), let returnValue = value else {
                 UserDefaultsManager.keySet(themeName, value: themeDefault)
                 return themeDefault
             }
@@ -72,12 +72,10 @@ class SettingsManager {
         }
     }
     
-    public static let themesList = ["Purple", "Blue"]
+    public static let themesList = ["Purple", "Blue", "Black"]
     private static func setTheme() {
-        let themeId = themesList.count <= theme ?? 1 ? themesList.count : 1
-        ThemeManager.setTheme(plistName: themesList[themeId - 1], path: .mainBundle)
+        ThemeManager.setTheme(plistName: themesList[theme!], path: .mainBundle)
     }
-    
 }
 
 extension Notification.Name {

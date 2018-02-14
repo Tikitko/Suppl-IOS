@@ -61,10 +61,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     }
     
     private func searchTracks(_ query: String, offset: Int = 0) {
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
-            AuthManager.setAuthWindow()
-            return
-        }
+        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
         inSearchWork = true
         APIManager.audioSearch(ikey: ikey, akey: akey, query: query, offset: offset) { [weak self] error, data in
             defer { self?.inSearchWork = false }
@@ -91,13 +88,13 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     
     private func setInfo(_ text: String? = nil) {
         if let text = text {
-            self.tracksTable.isHidden = true
-            self.infoLabel.text = text
-            self.infoLabel.isHidden = false
+            tracksTable.isHidden = true
+            infoLabel.text = text
+            infoLabel.isHidden = false
         } else {
-            self.tracksTable.isHidden = false
-            self.infoLabel.text = nil
-            self.infoLabel.isHidden = true
+            tracksTable.isHidden = false
+            infoLabel.text = nil
+            infoLabel.isHidden = true
         }
     }
     

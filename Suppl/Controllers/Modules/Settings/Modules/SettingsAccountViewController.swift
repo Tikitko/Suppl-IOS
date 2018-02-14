@@ -35,22 +35,22 @@ class SettingsAccountViewController: UIViewController {
 
     @IBAction func emailButtonClick(_ sender: Any) {
         view.endEditing(true)
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
-            AuthManager.setAuthWindow()
-            return
-        }
+        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
         guard let email = self.emailField.text else { return }
-        self.emailField.text = "Установка..."
+        let lastPlacehilderText = emailField.placeholder
+        self.emailField.text = ""
+        self.emailField.placeholder = "Установка..."
         APIManager.userUpdateEmail(ikey: ikey, akey: akey, email: email) { [weak self] error, data in
             guard let `self` = self else { return }
             if let error = error {
-                self.emailField.text = APIManager.errorHandler(error)
-                return
+                self.emailField.placeholder = APIManager.errorHandler(error)
+            } else {
+                self.emailField.placeholder = "EMail установлен!"
             }
-            self.emailField.text = "EMail установлен!"
             let when = DispatchTime.now() + 2
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                 guard let `self` = self else { return }
+                self.emailField.placeholder = lastPlacehilderText
                 self.emailField.text = email
             }
         }
@@ -67,10 +67,7 @@ class SettingsAccountViewController: UIViewController {
         let loadText = "Получение данных..."
         emailField.text = loadText
         identifierField.text = loadText
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
-            AuthManager.setAuthWindow()
-            return
-        }
+        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
         APIManager.userGet(ikey: ikey, akey: akey) { [weak self] error, data in
             guard let `self` = self else { return }
             guard let data = data else {
@@ -78,7 +75,10 @@ class SettingsAccountViewController: UIViewController {
                 return
             }
             self.emailButton.isEnabled = true
-            self.emailField.text = data.email ?? "EMail не установлен"
+            self.emailField.placeholder = "Ваш EMail"
+            if let email = data.email {
+                self.emailField.text = email
+            }
             self.accountOutButton.isEnabled = true
             self.identifierField.text = String(ikey) + String(akey)
         }

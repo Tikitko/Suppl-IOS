@@ -84,7 +84,7 @@ class PlayerViewController: UIViewController {
     }
     
     private func loadTrackByID(_ trackID: String) {
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else { return }
+        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
         APIManager.audioGet(ikey: ikey, akey: akey, ids: trackID) { [weak self] error, data in
             guard let `self` = self, let data = data, data.list.count > 0 else { return }
             self.setTrack(data.list[0])
