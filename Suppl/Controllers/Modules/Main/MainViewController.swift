@@ -11,19 +11,6 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var tracksTable: UITableView!
     @IBOutlet weak var infoLabel: UILabel!
     
-    private let baseSearchQueries = [
-        "Pink Floyd",
-        "Led Zeppelin",
-        "Rolling Stones",
-        "Queen",
-        "Nirvana",
-        "The Beatles",
-        "Metallica",
-        "Bon Jovi",
-        "AC/DC",
-        "Red Hot Chili Peppers"
-    ]
-    
     private var searchData: AudioSearchData? = nil
     private var thisQuery = ""
     
@@ -42,7 +29,8 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
         super.viewDidLoad()
         tracksTable.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
         tracksTable.reloadData()
-        tracksSearch.text = baseSearchQueries[Int(arc4random_uniform(UInt32(baseSearchQueries.count)))]
+        let baseQueries = AppStaticData.baseSearchQueriesList
+        tracksSearch.text = baseQueries[Int(arc4random_uniform(UInt32(baseQueries.count)))]
         searchTracks(tracksSearch.text ?? "")
     }
     
@@ -66,23 +54,28 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
         APIManager.audioSearch(ikey: ikey, akey: akey, query: query, offset: offset) { [weak self] error, data in
             defer { self?.inSearchWork = false }
             guard let `self` = self, let data = data else { return }
-            if let _ = self.searchData {
-                for track in data.list {
-                    self.searchData?.list.append(track)
-                }
-                self.searchData?.nextOffset = data.nextOffset
-                self.searchData?.hasMore = data.hasMore
-                self.searchData?.totalCount = data.totalCount
-            } else {
-                self.searchData = data
-            }
+            self.addFoundTracks(data)
             self.thisQuery = query
             self.tracksTable.reloadData()
-            if self.searchData?.list.count == 0 {
-                self.setInfo("Ничего не найдено")
-            } else {
-                self.setInfo()
+
+        }
+    }
+    
+    private func addFoundTracks(_ data: AudioSearchData) {
+        if let _ = searchData {
+            for track in data.list {
+                searchData?.list.append(track)
             }
+            searchData?.nextOffset = data.nextOffset
+            searchData?.hasMore = data.hasMore
+            searchData?.totalCount = data.totalCount
+        } else {
+            searchData = data
+        }
+        if searchData?.list.count == 0 {
+            setInfo("Ничего не найдено")
+        } else {
+            setInfo()
         }
     }
     

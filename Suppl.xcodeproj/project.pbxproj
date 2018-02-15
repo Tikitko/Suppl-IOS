@@ -23,6 +23,7 @@
 		0E29CBDB202A2C0D00BE5975 /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */; };
 		0E466276201F87A30037FD0E /* TracklistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466275201F87A30037FD0E /* TracklistData.swift */; };
 		0E466278201F88890037FD0E /* TracklistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466277201F88890037FD0E /* TracklistService.swift */; };
+		0E6454D2203575C300D881BD /* AppStaticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6454D1203575C300D881BD /* AppStaticData.swift */; };
 		0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */; };
 		0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */; };
 		0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5AA8202135AA0028694E /* TracklistViewController.swift */; };
@@ -76,6 +77,7 @@
 		0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		0E466275201F87A30037FD0E /* TracklistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistData.swift; sourceTree = "<group>"; };
 		0E466277201F88890037FD0E /* TracklistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistService.swift; sourceTree = "<group>"; };
+		0E6454D1203575C300D881BD /* AppStaticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStaticData.swift; sourceTree = "<group>"; };
 		0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfoProtocol.swift; sourceTree = "<group>"; };
 		0EEC5AA8202135AA0028694E /* TracklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistViewController.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				8C67F5E6201B153100333EB2 /* Assets.xcassets */,
 				8C67F5E8201B153100333EB2 /* LaunchScreen.storyboard */,
 				8C67F5EB201B153100333EB2 /* Info.plist */,
+				0E6454D1203575C300D881BD /* AppStaticData.swift */,
 			);
 			path = Suppl;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */,
 				8C67F601201B174200333EB2 /* UserService.swift in Sources */,
 				0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */,
+				0E6454D2203575C300D881BD /* AppStaticData.swift in Sources */,
 				0E466278201F88890037FD0E /* TracklistService.swift in Sources */,
 				8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */,
 				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,

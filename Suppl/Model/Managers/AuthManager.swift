@@ -25,7 +25,7 @@ class AuthManager {
             authCheckRequest()
         }
         guard let _ = timer else {
-            timer = Timer.scheduledTimer(withTimeInterval: 60 * 3, repeats: true, block: authCheck)
+            timer = Timer.scheduledTimer(withTimeInterval: 60 * 1, repeats: true, block: authCheck)
             return true
         }
         return false

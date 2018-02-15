@@ -72,9 +72,8 @@ class SettingsManager {
         }
     }
     
-    public static let themesList = ["Purple", "Blue", "Black"]
     private static func setTheme() {
-        ThemeManager.setTheme(plistName: themesList[theme!], path: .mainBundle)
+        ThemeManager.setTheme(plistName: AppStaticData.themesList[theme!], path: .mainBundle)
     }
 }
 

@@ -42,11 +42,11 @@ extension SettingsGeneralViewController: UITableViewDataSource {
                 SettingsManager.autoNextTrack = switchElement.isOn
             }
         case 3:
-            var themeId = SettingsManager.themesList.count > SettingsManager.theme! ? SettingsManager.theme! : 0
-            cell = SettingTableCell(labelText: "Тема приложения", buttonText:
-            SettingsManager.themesList[themeId]) { button in
-                themeId = SettingsManager.themesList.count > themeId + 1 ? themeId + 1 : 0
-                button.setTitle(SettingsManager.themesList[themeId], for: .normal)
+            let themes = AppStaticData.themesList
+            var themeId = themes.count > SettingsManager.theme! ? SettingsManager.theme! : 0
+            cell = SettingTableCell(labelText: "Тема приложения", buttonText: themes[themeId]) { button in
+                themeId = themes.count > themeId + 1 ? themeId + 1 : 0
+                button.setTitle(themes[themeId], for: .normal)
                 SettingsManager.theme = themeId
             }
         default:

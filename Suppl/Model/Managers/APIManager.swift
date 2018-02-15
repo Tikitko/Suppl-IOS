@@ -50,24 +50,13 @@ class APIManager {
     }
     
     public static func errorHandler(_ inError: NSError) -> String {
-        var error = inError.domain
-        switch error {
-        case "system_spam_control":
-            error = "Спам контроль"
-        case "account_user_not_found":
-            error = "Пользователь не найден"
-        case "account_wrong_access_key":
-            error = "Неверный идентификатор"
-        case "account_ip_clamed":
-            error = "Повторная регистрация невозможна"
-        case "account_database_error":
-            error = "Ошибка сервера"
-        case "account_email_clamed":
-            error = "EMail занят"
-        case "account_email_not_valid":
-            error = "EMail неверного формата"
-        default:
-            break
+        var error: String
+        if let ruError = AppStaticData.ruAPIErrorsList[inError.code] {
+            error = ruError
+        } else if let enError = AppStaticData.APIErrorsList[inError.code] {
+            error = enError
+        } else {
+            error = inError.domain
         }
         return error
     }

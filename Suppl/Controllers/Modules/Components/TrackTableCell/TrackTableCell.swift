@@ -39,7 +39,7 @@ class TrackTableCell: UITableViewCell {
     }
     
     private func loadImageType() {
-        if let round = SettingsManager.roundIcons, round {
+        if SettingsManager.roundIcons! {
             trackImage.layer.cornerRadius = trackImage.frame.size.width / 2
             trackImage.clipsToBounds = true
             return

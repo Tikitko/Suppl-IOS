@@ -172,40 +172,51 @@ class PlayerViewController: UIViewController {
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == #keyPath(AVPlayerItem.status) {
-            removePlayStatusObserver()
-            let status: AVPlayerItemStatus
-            if let statusNumber = change?[.newKey] as? NSNumber {
-                status = AVPlayerItemStatus(rawValue: statusNumber.intValue)!
-            } else {
-                status = .unknown
-            }
-            switch status {
-            case .readyToPlay:
-                guard let player = player else { break }
-                openPlayer(player)
-                needPlayingStatus = true
-                player.play()
-            case .failed: break
-            case .unknown: break
-            }
+        guard let keyPath = keyPath, let statusNumber = change?[.newKey] as? NSNumber else { return }
+        switch keyPath {
+        case #keyPath(AVPlayerItem.status):
+            observePlayerItemStatus(statusNumber)
+        case #keyPath(AVPlayer.rate):
+            observePlayerRate(statusNumber)
+        default: break
         }
-        
-        if keyPath == #keyPath(AVPlayer.rate) {
-            var rate: Float = 0.0
-            if let statusNumber = change?[.newKey] as? Float {
-                rate = statusNumber
-            }
-            if rate == 1.0 {
-                playButton.setImage(UIImage(named: "icon_154.png"), for: .normal)
-            } else if rate == 0.0 {
-                playButton.setImage(UIImage(named: "icon_152.png"), for: .normal)
-                if SettingsManager.autoNextTrack!, Int(self.progressSlider.maximumValue - self.progressSlider.value) == 0, let tracks = tracks {
-                    clearPlayer()
-                    loadTrackByID(tracks.next())
-                } else if needPlayingStatus {
-                    player?.play()
-                }
+    }
+    
+    private func observePlayerItemStatus(_ statusNumber: NSNumber?) {
+        removePlayStatusObserver()
+        let status: AVPlayerItemStatus
+        if let statusNumber = statusNumber {
+            status = AVPlayerItemStatus(rawValue: statusNumber.intValue)!
+        } else {
+            status = .unknown
+        }
+        switch status {
+        case .readyToPlay:
+            guard let player = player else { break }
+            openPlayer(player)
+            needPlayingStatus = true
+            player.play()
+        case .failed: break
+        case .unknown: break
+        }
+    }
+    
+    private func observePlayerRate(_ statusNumber: NSNumber?) {
+        var rate: Float
+        if let statusNumber = statusNumber {
+            rate = statusNumber.floatValue
+        } else {
+            rate = -1.0
+        }
+        if rate == 1.0 {
+            playButton.setImage(UIImage(named: "icon_154.png"), for: .normal)
+        } else if rate == 0.0 {
+            playButton.setImage(UIImage(named: "icon_152.png"), for: .normal)
+            if SettingsManager.autoNextTrack!, Int(self.progressSlider.maximumValue - self.progressSlider.value) == 0, let tracks = tracks {
+                clearPlayer()
+                loadTrackByID(tracks.next())
+            } else if needPlayingStatus {
+                player?.play()
             }
         }
     }
