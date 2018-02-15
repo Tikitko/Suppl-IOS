@@ -3,7 +3,7 @@ import Foundation
 class TracklistManager {
     
     private(set) static var inUpdate: Bool = false
-    private(set) static var tracklist: [String]? = nil {
+    private(set) static var tracklist: [String]? {
         didSet {
             NotificationCenter.default.post(name: .TracklistUpdated, object: nil)
         }

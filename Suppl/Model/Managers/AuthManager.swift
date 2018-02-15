@@ -2,7 +2,7 @@ import Foundation
 
 class AuthManager {
     
-    private static var timer: Timer? = nil
+    private static var timer: Timer?
     
     private static func authCheck(timerIn: Timer) -> Void {
         authCheckRequest()

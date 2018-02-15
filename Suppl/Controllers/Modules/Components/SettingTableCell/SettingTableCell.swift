@@ -7,11 +7,11 @@ class SettingTableCell: UITableViewCell {
     
     private var settingLabel: UILabel = UILabel()
     
-    private var settingSwitch: UISwitch? = nil
-    private var settingSwitchCallback: ((_ switch:UISwitch) -> Void)? = nil
+    private var settingSwitch: UISwitch?
+    private var settingSwitchCallback: ((_ switch:UISwitch) -> Void)?
     
-    private var settingButton: UIButton? = nil
-    private var settingButtonCallback: ((_ button:UIButton) -> Void)? = nil
+    private var settingButton: UIButton?
+    private var settingButtonCallback: ((_ button:UIButton) -> Void)?
     
     convenience init(labelText: String, buttonText:String, buttonCallback: @escaping (_ button:UIButton) -> Void) {
         self.init(style: .default, reuseIdentifier: nil)
@@ -80,6 +80,7 @@ class SettingTableCell: UITableViewCell {
         guard let settingSwitchCallback = settingSwitchCallback, let settingSwitch = settingSwitch else { return }
         settingSwitchCallback(settingSwitch)
     }
+    
 }
 
 

@@ -14,7 +14,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     
     private var tracks: [AudioData] = []
     
-    private var foundTracks: [AudioData]? = nil
+    private var foundTracks: [AudioData]?
     private var searchByTitle = true
     private var searchByPerformer = true
     private var searchTimeRate: Float = 1.0

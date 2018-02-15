@@ -11,7 +11,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var tracksTable: UITableView!
     @IBOutlet weak var infoLabel: UILabel!
     
-    private var searchData: AudioSearchData? = nil
+    private var searchData: AudioSearchData?
     private var thisQuery = ""
     
     private var inSearchWork = false
