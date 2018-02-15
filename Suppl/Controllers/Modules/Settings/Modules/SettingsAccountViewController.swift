@@ -78,6 +78,8 @@ class SettingsAccountViewController: UIViewController {
             self.emailField.placeholder = "Ваш EMail"
             if let email = data.email {
                 self.emailField.text = email
+            } else {
+                self.emailField.text = ""
             }
             self.accountOutButton.isEnabled = true
             self.identifierField.text = String(ikey) + String(akey)
