@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             print("""
                 
-                API Information:
+                API Core Information:
                 Title: \(info["title"] ?? "")
                 Description: \(info["description"] ?? "")
                 Author: \(info["author"] ?? "")

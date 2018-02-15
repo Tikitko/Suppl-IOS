@@ -6,7 +6,7 @@ class ImagesManager {
     private static var cache = NSCache<NSString, UIImage>()
     
     public static func getImage(link: String, noCache: Bool = false, callbackImage: @escaping (UIImage) -> ()) {
-        guard let load = SettingsManager.loadImages, load else { return }
+        guard SettingsManager.loadImages! else { return }
         let nsLink = link as NSString
         if let cachedVersion = cache.object(forKey: nsLink) {
             if noCache {

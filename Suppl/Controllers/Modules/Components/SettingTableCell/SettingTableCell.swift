@@ -3,7 +3,7 @@ import SwiftTheme
 
 class SettingTableCell: UITableViewCell {
     
-    static let identifier = String(describing: TrackTableCell.self)
+    static let identifier = String(describing: SettingTableCell.self)
     
     private var settingLabel: UILabel = UILabel()
     
