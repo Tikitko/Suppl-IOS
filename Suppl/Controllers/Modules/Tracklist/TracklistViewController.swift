@@ -246,13 +246,14 @@ extension TracklistViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         guard let query = searchBar.text else { return }
+        let lowerQuery = query.lowercased()
         searchTimeRate = 1.0
         foundTracks = []
         for track in tracks {
             var title = false
             var performer = false
-            if searchByTitle, track.title.range(of: query) != nil { title = true }
-            if searchByPerformer, track.performer.range(of: query) != nil { performer = true }
+            if searchByTitle, track.title.lowercased().range(of: lowerQuery) != nil { title = true }
+            if searchByPerformer, track.performer.lowercased().range(of: lowerQuery) != nil { performer = true }
             guard title || performer else { continue }
             foundTracks?.append(track)
         }

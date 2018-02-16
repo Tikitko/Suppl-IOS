@@ -13,7 +13,6 @@ class TrackTableCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        loadImageType()
         baseImage = true
         trackTitle.text = nil
         trackPerformer.text = nil
