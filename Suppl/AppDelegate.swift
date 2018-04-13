@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         SettingsManager.initialize()
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = AuthViewController()
+        window.rootViewController = AuthAssembly.create(noAuth: false).viewController
         window.makeKeyAndVisible()
         self.window = window
         NotificationCenter.default.addObserver(self, selector: #selector(authWindowSet(notification:)), name: .NeedAuthWindow, object: nil)
@@ -54,10 +54,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc private func authWindowSet(notification: NSNotification) {
-        let authView = AuthViewController(noAuth: notification.userInfo?["noAuth"] as? Bool ?? false)
+        let authView = AuthAssembly.create(noAuth: notification.userInfo?["noAuth"] as? Bool ?? false)
         let _ = AuthManager.stopAuthCheck()
         if let topController = UIApplication.topViewController() {
-            topController.present(authView, animated: true)
+            topController.present(authView.viewController, animated: true)
         }
     }
 
