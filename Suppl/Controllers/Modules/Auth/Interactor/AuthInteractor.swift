@@ -2,7 +2,7 @@ import Foundation
 
 class AuthInteractor: AuthInteractorProtocol {
     
-    var presenter: AuthPresenter!
+    var presenter: AuthPresenterProtocol!
     
     var noAuthOnShow = false
     

@@ -4,7 +4,7 @@ import SwiftTheme
 
 class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
-    var presenter: AuthPresenter!
+    var presenter: AuthPresenterProtocol!
     
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
@@ -58,8 +58,6 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         view.frame.origin.y = 0
         logoLabel.isHidden = false
     }
-    
-    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     
     @IBAction func repeatButtonClick(_ sender: Any) {
         presenter.repeatButtonClick(sender, identifierText: identifierField.text)

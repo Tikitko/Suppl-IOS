@@ -1,9 +1,9 @@
 import Foundation
 
 class AuthPresenter: AuthPresenterProtocol {
-    var router: AuthRouter!
-    var interactor: AuthInteractor!
-    var view: AuthViewController!
+    var router: AuthRouterProtocol!
+    var interactor: AuthInteractorProtocol!
+    var view: AuthViewControllerProtocol!
     
     func viewDidLoad() {
         view.setLabel("Загрузка...")
@@ -30,7 +30,7 @@ class AuthPresenter: AuthPresenterProtocol {
         }
     }
     
-    private func auth(ikey: Int, akey: Int) {
+    func auth(ikey: Int, akey: Int) {
         view.setLabel("Авторизация...")
         interactor.auth(ikey: ikey, akey: akey) { [weak self] error in
             guard let `self` = self else { return }
@@ -38,7 +38,7 @@ class AuthPresenter: AuthPresenterProtocol {
         }
     }
     
-    private func register() {
+    func register() {
         view.setLabel("Регистрация...")
         interactor.reg() { [weak self] error in
             guard let `self` = self else { return }
@@ -46,7 +46,7 @@ class AuthPresenter: AuthPresenterProtocol {
         }
     }
     
-    private func setResult(error: String?) {
+    func setResult(error: String?) {
         if let error = error {
             view.setLabel(error)
             setAuthFormVisable()
