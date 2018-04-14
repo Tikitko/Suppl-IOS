@@ -18,10 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SettingsManager.initialize()
         
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = AuthRouter.setup(noAuth: false)
+        window.rootViewController = AuthRouter.setup()
         window.makeKeyAndVisible()
         self.window = window
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(authWindowSet(notification:)), name: .NeedAuthWindow, object: nil)
 

@@ -14,6 +14,8 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,14 +49,14 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         repeatButton.isEnabled = false
     }
     
-    func keyboardWillShow(sender: NSNotification) {
+    @objc func keyboardWillShow(sender: NSNotification) {
         if let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect {
             view.frame.origin.y = -keyboardFrame.height
             logoLabel.isHidden = true
         }
     }
     
-    func keyboardWillHide(sender: NSNotification) {
+    @objc func keyboardWillHide(sender: NSNotification) {
         view.frame.origin.y = 0
         logoLabel.isHidden = false
     }
@@ -62,4 +64,5 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     @IBAction func repeatButtonClick(_ sender: Any) {
         presenter.repeatButtonClick(sender, identifierText: identifierField.text)
     }
+    
 }

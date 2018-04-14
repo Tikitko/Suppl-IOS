@@ -8,8 +8,6 @@ class AuthPresenter: AuthPresenterProtocol {
     func viewDidLoad() {
         view.setLabel("Загрузка...")
         view.setTheme()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func viewDidAppear(_ animated: Bool) {
@@ -24,29 +22,15 @@ class AuthPresenter: AuthPresenterProtocol {
         view.setLabel("Получение информации...")
         let keys = interactor.getKeys()
         if let ikey = ikey ?? keys?.i, let akey = akey ?? keys?.a {
-            auth(ikey: ikey, akey: akey)
+            view.setLabel("Авторизация...")
+            interactor.auth(ikey: ikey, akey: akey)
         } else {
-            register()
+            view.setLabel("Регистрация...")
+            interactor.reg()
         }
     }
     
-    func auth(ikey: Int, akey: Int) {
-        view.setLabel("Авторизация...")
-        interactor.auth(ikey: ikey, akey: akey) { [weak self] error in
-            guard let `self` = self else { return }
-            self.setResult(error: error)
-        }
-    }
-    
-    func register() {
-        view.setLabel("Регистрация...")
-        interactor.reg() { [weak self] error in
-            guard let `self` = self else { return }
-            self.setResult(error: error)
-        }
-    }
-    
-    func setResult(error: String?) {
+    func setAuthResult(error: String?) {
         if let error = error {
             view.setLabel(error)
             setAuthFormVisable()
@@ -79,13 +63,5 @@ class AuthPresenter: AuthPresenterProtocol {
             return
         }
         startAuth(ikey: ikey, akey: akey)
-    }
-    
-    @objc func keyboardWillShow(sender: NSNotification) {
-        view.keyboardWillShow(sender: sender)
-    }
-    
-    @objc func keyboardWillHide(sender: NSNotification) {
-        view.keyboardWillHide(sender: sender)
     }
 }

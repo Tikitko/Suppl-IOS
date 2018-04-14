@@ -6,10 +6,10 @@ class AuthRouter: AuthRouterProtocol {
     weak var viewController: UIViewController!
     
     func goToRootTabBar() {
-        viewController.present(RootTabBarController(), animated: true)
+        viewController.view.window?.rootViewController = RootTabBarController()
     }
     
-    static func setup(noAuth noAuthOnShow: Bool) -> UIViewController {
+    static func setup(noAuth noAuthOnShow: Bool = false) -> UIViewController {
         let router = AuthRouter()
         let interactor = AuthInteractor()
         interactor.noAuthOnShow = noAuthOnShow

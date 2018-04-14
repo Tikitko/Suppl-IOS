@@ -23,27 +23,27 @@ class AuthInteractor: AuthInteractorProtocol {
         let _ = AuthManager.startAuthCheck()
     }
     
-    func auth(ikey: Int, akey: Int, report: @escaping (String?) -> ()) {
-        APIManager.userGet(ikey: ikey, akey: akey) { error, data in
-            guard let error = error else {
-                guard let _ = data else { return }
-                report(nil)
+    func auth(ikey: Int, akey: Int) {
+        APIManager.userGet(ikey: ikey, akey: akey) { [weak self] error, data in
+            guard let `self` = self else { return }
+            if let error = error {
+                self.presenter.setAuthResult(error: APIManager.errorHandler(error))
                 return
             }
-            report(APIManager.errorHandler(error))
+            self.presenter.setAuthResult(error: nil)
         }
     }
     
-    func reg(report: @escaping (String?) -> ()) {
+    func reg() {
         APIManager.userRegister() { error, data in
             if let error = error {
-                report(APIManager.errorHandler(error))
+                self.presenter.setAuthResult(error: APIManager.errorHandler(error))
                 return
             }
             guard let data = data else { return }
             UserDefaultsManager.identifierKey = data.identifierKey
             UserDefaultsManager.accessKey = data.accessKey
-            report(nil)
+            self.presenter.setAuthResult(error: nil)
         }
     }
     
