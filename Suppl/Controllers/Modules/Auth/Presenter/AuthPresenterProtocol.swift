@@ -1,6 +1,6 @@
 import Foundation
 
-protocol AuthPresenterProtocol {
+protocol AuthPresenterProtocol: class {
     func viewDidLoad()
     func viewDidAppear(_ animated: Bool)
     func startAuth(ikey: Int?, akey: Int?)

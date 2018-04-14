@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-protocol AuthViewControllerProtocol {
+protocol AuthViewControllerProtocol: class {
     func setTheme()
     
     func setLabel(_ text: String)

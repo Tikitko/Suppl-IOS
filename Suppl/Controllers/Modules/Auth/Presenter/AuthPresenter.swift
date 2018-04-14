@@ -3,7 +3,7 @@ import Foundation
 class AuthPresenter: AuthPresenterProtocol {
     var router: AuthRouterProtocol!
     var interactor: AuthInteractorProtocol!
-    var view: AuthViewControllerProtocol!
+    weak var view: AuthViewControllerProtocol!
     
     func viewDidLoad() {
         view.setLabel("Загрузка...")

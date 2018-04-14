@@ -3,17 +3,10 @@ import UIKit
 
 class AuthRouter: AuthRouterProtocol {
     
-    var viewController: AuthViewController!
+    weak var viewController: UIViewController!
     
     func goToRootTabBar() {
         viewController.present(RootTabBarController(), animated: true)
-    }
-    
-    static func setupInWindow() -> UIWindow {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = self.setup(noAuth: false)
-        window.makeKeyAndVisible()
-        return window
     }
     
     static func setup(noAuth noAuthOnShow: Bool) -> UIViewController {

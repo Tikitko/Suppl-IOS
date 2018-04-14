@@ -2,7 +2,7 @@ import Foundation
 
 class AuthInteractor: AuthInteractorProtocol {
     
-    var presenter: AuthPresenterProtocol!
+    weak var presenter: AuthPresenterProtocol!
     
     var noAuthOnShow = false
     
@@ -58,6 +58,4 @@ class AuthInteractor: AuthInteractorProtocol {
         }
         return nil
     }
-    
-    
 }

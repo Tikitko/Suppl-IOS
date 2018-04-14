@@ -13,10 +13,16 @@ import AVFoundation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         SettingsManager.initialize()
-        self.window = AuthRouter.setupInWindow()
+        
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = AuthRouter.setup(noAuth: false)
+        window.makeKeyAndVisible()
+        self.window = window
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(authWindowSet(notification:)), name: .NeedAuthWindow, object: nil)
 
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
