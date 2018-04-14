@@ -12,7 +12,6 @@
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
 		0E0A98412033141600E91922 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A983F2033141500E91922 /* FilterViewController.swift */; };
 		0E0A98422033141600E91922 /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A98402033141500E91922 /* FilterViewController.xib */; };
-		0E0A984520334A7600E91922 /* CommonRequestC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A984420334A7600E91922 /* CommonRequestC.m */; };
 		0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */; };
 		0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */; };
 		0E12FABE2030604200EE3422 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E12FABD2030604200EE3422 /* SettingsManager.swift */; };
@@ -52,7 +51,6 @@
 		8C67F609201B174200333EB2 /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FF201B174200333EB2 /* AudioData.swift */; };
 		8C71CE2B2080BE9100AC4BDB /* AuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE2A2080BE9100AC4BDB /* AuthInteractor.swift */; };
 		8C71CE2D2080BECD00AC4BDB /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE2C2080BECD00AC4BDB /* AuthRouter.swift */; };
-		8C71CE2F2080BF2E00AC4BDB /* AuthAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE2E2080BF2E00AC4BDB /* AuthAssembly.swift */; };
 		8C71CE312080BF7300AC4BDB /* AuthRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE302080BF7300AC4BDB /* AuthRouterProtocol.swift */; };
 		8C71CE332080BF9C00AC4BDB /* AuthInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE322080BF9C00AC4BDB /* AuthInteractorProtocol.swift */; };
 		8C71CE352080BFCB00AC4BDB /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE342080BFCB00AC4BDB /* AuthPresenter.swift */; };
@@ -72,8 +70,6 @@
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
 		0E0A983F2033141500E91922 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		0E0A98402033141500E91922 /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
-		0E0A984420334A7600E91922 /* CommonRequestC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonRequestC.m; sourceTree = "<group>"; };
-		0E0A984620334A8D00E91922 /* CommonRequestC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonRequestC.h; sourceTree = "<group>"; };
 		0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCell.swift; sourceTree = "<group>"; };
 		0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackTableCell.xib; sourceTree = "<group>"; };
 		0E12FABD2030604200EE3422 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
@@ -117,7 +113,6 @@
 		8C67F5FF201B174200333EB2 /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
 		8C71CE2A2080BE9100AC4BDB /* AuthInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
 		8C71CE2C2080BECD00AC4BDB /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
-		8C71CE2E2080BF2E00AC4BDB /* AuthAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAssembly.swift; sourceTree = "<group>"; };
 		8C71CE302080BF7300AC4BDB /* AuthRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouterProtocol.swift; sourceTree = "<group>"; };
 		8C71CE322080BF9C00AC4BDB /* AuthInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInteractorProtocol.swift; sourceTree = "<group>"; };
 		8C71CE342080BFCB00AC4BDB /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
@@ -151,15 +146,6 @@
 				0E0A98402033141500E91922 /* FilterViewController.xib */,
 			);
 			path = FilterView;
-			sourceTree = "<group>";
-		};
-		0E0A984320334A5300E91922 /* objC */ = {
-			isa = PBXGroup;
-			children = (
-				0E0A984420334A7600E91922 /* CommonRequestC.m */,
-				0E0A984620334A8D00E91922 /* CommonRequestC.h */,
-			);
-			path = objC;
 			sourceTree = "<group>";
 		};
 		0E0F520A2025F346000C6DD3 /* TrackTableCell */ = {
@@ -256,7 +242,6 @@
 				8C71CE292080BE6B00AC4BDB /* Router */,
 				8C71CE282080BE5400AC4BDB /* Interactor */,
 				8C71CE272080BE3700AC4BDB /* View */,
-				8C71CE2E2080BF2E00AC4BDB /* AuthAssembly.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -337,7 +322,6 @@
 		8C67F5F7201B174200333EB2 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				0E0A984320334A5300E91922 /* objC */,
 				8C67F5F8201B174200333EB2 /* CommonRequest.swift */,
 				8C67F5F9201B174200333EB2 /* APIRequest.swift */,
 			);
@@ -603,14 +587,12 @@
 				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,
 				8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */,
 				0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */,
-				8C71CE2F2080BF2E00AC4BDB /* AuthAssembly.swift in Sources */,
 				0E0A98412033141600E91922 /* FilterViewController.swift in Sources */,
 				8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */,
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
 				8C71CE382080BFEC00AC4BDB /* AuthPresenterProtocol.swift in Sources */,
-				0E0A984520334A7600E91922 /* CommonRequestC.m in Sources */,
 				8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */,
 				8C71CE352080BFCB00AC4BDB /* AuthPresenter.swift in Sources */,
 				0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */,

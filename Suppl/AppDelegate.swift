@@ -16,48 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         SettingsManager.initialize()
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = AuthAssembly.create(noAuth: false).viewController
-        window.makeKeyAndVisible()
-        self.window = window
+        self.window = AuthRouter.setupInWindow()
         NotificationCenter.default.addObserver(self, selector: #selector(authWindowSet(notification:)), name: .NeedAuthWindow, object: nil)
 
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
         try? AVAudioSession.sharedInstance().setActive(true)
         application.beginReceivingRemoteControlEvents()
         
-        getAndPrintAPIInfo()
-        
         return true
     }
-    
-    private func getAndPrintAPIInfo() {
-        
-        // Example of usage objC language...
-        
-        CommonRequestC().request(APIRequest.API_URL, query: ["method": "info"], inMain: true) { data, response, error in
-            guard let data = data,
-                let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                let jsonCheck = json,
-                let info = jsonCheck["data"] as? [String: String] else { return }
-            
-            print("""
-                
-                API Core Information:
-                Title: \(info["title"] ?? "")
-                Description: \(info["description"] ?? "")
-                Author: \(info["author"] ?? "")
-                Version: \(info["version"] ?? "")
-                
-            """)
-        }
-    }
-    
+
     @objc private func authWindowSet(notification: NSNotification) {
-        let authView = AuthAssembly.create(noAuth: notification.userInfo?["noAuth"] as? Bool ?? false)
         let _ = AuthManager.stopAuthCheck()
         if let topController = UIApplication.topViewController() {
-            topController.present(authView.viewController, animated: true)
+            topController.present(AuthRouter.setup(noAuth: notification.userInfo?["noAuth"] as? Bool ?? false), animated: true)
         }
     }
 

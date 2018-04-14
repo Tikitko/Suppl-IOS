@@ -46,4 +46,18 @@ class AuthInteractor: AuthInteractorProtocol {
             report(nil)
         }
     }
+    
+    func inputProcessing(input: String?) -> (ikey: Int, akey: Int)? {
+        if let text = input, let _ = Int(text), text.count % 2 == 0 {
+            let half: Int = text.count / 2
+            let ikey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
+            let akey = Int(text[text.index(text.startIndex, offsetBy: half)..<text.endIndex])
+            UserDefaultsManager.identifierKey = ikey
+            UserDefaultsManager.accessKey = akey
+            return (ikey!, akey!)
+        }
+        return nil
+    }
+    
+    
 }

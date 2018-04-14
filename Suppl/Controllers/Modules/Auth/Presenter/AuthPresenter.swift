@@ -5,27 +5,87 @@ class AuthPresenter: AuthPresenterProtocol {
     var interactor: AuthInteractor!
     var view: AuthViewController!
     
-    func getNoAuthOnShow() -> Bool {
-        return interactor.noAuthOnShow
+    func viewDidLoad() {
+        view.setLabel("Загрузка...")
+        view.setTheme()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func getKeys() -> (i: Int, a: Int)? {
-        return interactor.getKeys()
+    func viewDidAppear(_ animated: Bool) {
+        if interactor.noAuthOnShow {
+            setAuthFormVisable()
+            return
+        }
+        startAuth(ikey: nil, akey: nil)
+    }
+    
+    func startAuth(ikey: Int?, akey: Int?) {
+        view.setLabel("Получение информации...")
+        let keys = interactor.getKeys()
+        if let ikey = ikey ?? keys?.i, let akey = akey ?? keys?.a {
+            auth(ikey: ikey, akey: akey)
+        } else {
+            register()
+        }
+    }
+    
+    private func auth(ikey: Int, akey: Int) {
+        view.setLabel("Авторизация...")
+        interactor.auth(ikey: ikey, akey: akey) { [weak self] error in
+            guard let `self` = self else { return }
+            self.setResult(error: error)
+        }
+    }
+    
+    private func register() {
+        view.setLabel("Регистрация...")
+        interactor.reg() { [weak self] error in
+            guard let `self` = self else { return }
+            self.setResult(error: error)
+        }
+    }
+    
+    private func setResult(error: String?) {
+        if let error = error {
+            view.setLabel(error)
+            setAuthFormVisable()
+        } else {
+            view.setLabel("Добро пожаловать!")
+            interactor.endAuth()
+        }
+    }
+    
+    func setAuthFormVisable() {
+        if let (ikey, akey) = interactor.getKeys() {
+            view.setIdentifier(String("\(ikey)\(akey)"))
+        } else {
+            view.setLabel("Введите ваш идентификатор")
+            view.setIdentifier("")
+        }
+        view.enableButtons()
     }
     
     func goToRoot() {
         router.goToRootTabBar()
     }
     
-    func endAuth() {
-        interactor.endAuth()
+    func repeatButtonClick(_ sender: Any, identifierText: String?) {
+        view.setLabel("Проверка идентификатора")
+        view.disableButtons()
+        guard let (ikey, akey) = interactor.inputProcessing(input: identifierText) else {
+            view.setLabel("Неверный формат идентификатора")
+            view.enableButtons()
+            return
+        }
+        startAuth(ikey: ikey, akey: akey)
     }
     
-    func auth(ikey: Int, akey: Int, report: @escaping (String?) -> ()) {
-        interactor.auth(ikey: ikey, akey: akey, report: report)
+    @objc func keyboardWillShow(sender: NSNotification) {
+        view.keyboardWillShow(sender: sender)
     }
     
-    func reg(report: @escaping (String?) -> ()) {
-        interactor.reg(report: report)
+    @objc func keyboardWillHide(sender: NSNotification) {
+        view.keyboardWillHide(sender: sender)
     }
 }
