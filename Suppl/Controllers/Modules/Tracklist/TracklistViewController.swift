@@ -226,7 +226,7 @@ extension TracklistViewController: UITableViewDelegate {
         for val in tracks {
             tracksIDs.append(val.id)
         }
-        let playerView = PlayerViewController(tracksIDs: tracksIDs, current: indexPath.row)
+        let playerView = PlayerRouter.setup(tracksIDs: tracksIDs, current: indexPath.row)
         playerView.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(playerView, animated: true)
     }

@@ -7,10 +7,9 @@ class AuthPresenter: AuthPresenterProtocol {
     
     func viewDidLoad() {
         view.setLabel("Загрузка...")
-        view.setTheme()
     }
     
-    func viewDidAppear(_ animated: Bool) {
+    func viewDidAppear() {
         if interactor.noAuthOnShow {
             setAuthFormVisable()
             return

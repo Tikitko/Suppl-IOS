@@ -2,7 +2,7 @@ import Foundation
 
 protocol AuthPresenterProtocol: class {
     func viewDidLoad()
-    func viewDidAppear(_ animated: Bool)
+    func viewDidAppear()
     func startAuth(ikey: Int?, akey: Int?)
     func setAuthResult(error: String?)
     func setAuthFormVisable()

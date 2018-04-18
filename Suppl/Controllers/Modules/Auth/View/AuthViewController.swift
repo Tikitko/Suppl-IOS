@@ -13,14 +13,15 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.viewDidLoad()
+        setTheme()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        presenter.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        presenter.viewDidAppear(animated)
+        presenter.viewDidAppear()
     }
     
     func setTheme() {
