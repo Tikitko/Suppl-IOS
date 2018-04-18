@@ -24,12 +24,12 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        presenter.viewDidLoad()
+        presenter.load()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.viewWillAppear()
+        presenter.show()
     }
     
     func setTheme() {

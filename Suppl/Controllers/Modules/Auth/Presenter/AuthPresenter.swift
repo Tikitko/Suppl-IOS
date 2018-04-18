@@ -5,11 +5,11 @@ class AuthPresenter: AuthPresenterProtocol {
     var interactor: AuthInteractorProtocol!
     weak var view: AuthViewControllerProtocol!
     
-    func viewDidLoad() {
+    func load() {
         view.setLabel("Загрузка...")
     }
     
-    func viewDidAppear() {
+    func show() {
         if interactor.noAuthOnShow {
             setAuthFormVisable()
             return

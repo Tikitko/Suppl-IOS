@@ -171,8 +171,8 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
         presenter.clearPlayer()
         setTrackInfo(track)
         player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
-        presenter.startObservers()
         player?.automaticallyWaitsToMinimizeStalling = false
+        presenter.startObservers()
     }
     
     func setTrackInfo(_ track: AudioData) {

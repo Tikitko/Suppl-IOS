@@ -6,15 +6,14 @@ class PlayerPresenter: PlayerPresenterProtocol {
     var interactor: PlayerInteractorProtocol!
     weak var view: PlayerViewControllerProtocol!
     
-    func viewDidLoad() {
+    func load() {
         view.setNavTitle("Плеер")
         clearPlayer()
         guard let tracks = interactor.tracks else { return }
         interactor.loadTrackByID(tracks.curr())
     }
     
-    func viewWillAppear() {
-    }
+    func show() {}
     
     func setTrackInfo(title: String, performer: String) {
         view.setTrackInfo(title: title, performer: performer)
@@ -60,10 +59,6 @@ class PlayerPresenter: PlayerPresenterProtocol {
     func navButtonClick(next: Bool) {
         guard let tracks = interactor.tracks else { return }
         interactor.loadTrackByID(next ? tracks.next() : tracks.prev())
-    }
-    
-    func setPlayerCurrentTime(_ sec: Double) {
-        setPlayerCurrentTime(sec)
     }
     
     func play() {

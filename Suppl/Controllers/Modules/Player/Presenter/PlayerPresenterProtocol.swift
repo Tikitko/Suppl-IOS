@@ -2,8 +2,8 @@ import Foundation
 import UIKit
 
 protocol PlayerPresenterProtocol: class {
-    func viewDidLoad()
-    func viewWillAppear()
+    func load()
+    func show()
     func setTrackInfo(title: String, performer: String)
     func setTrackImage(_ image: UIImage)
     func clearPlayer()
