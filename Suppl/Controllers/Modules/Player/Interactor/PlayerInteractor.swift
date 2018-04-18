@@ -74,7 +74,6 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        print("inOb")
         guard let keyPath = keyPath, let statusNumber = change?[.newKey] as? NSNumber else { return }
         switch keyPath {
         case #keyPath(AVPlayerItem.status):
@@ -160,8 +159,11 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
         guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
         APIManager.audioGet(ikey: ikey, akey: akey, ids: trackID) { [weak self] error, data in
             guard let `self` = self, let data = data, data.list.count > 0 else { return }
-            self.setTrack(data.list[0])
+            let track = data.list[0]
+            self.setTrack(track)
+            self.addNowPlayingInfoCenter(title: track.title, performer: track.performer)
         }
+        addRemoteCommandCenter()
     }
     
     func setTrack(_ track: AudioData) {

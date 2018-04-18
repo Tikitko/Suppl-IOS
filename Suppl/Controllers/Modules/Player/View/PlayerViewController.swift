@@ -66,9 +66,9 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     }
     
     func updatePlayerProgress(currentTime: Double) {
-        self.progressSlider.value = Float(currentTime)
-        self.goneLabel.text = TrackTableCell.formatTime(sec: Int(self.progressSlider.value))
-        self.leftLabel.text = TrackTableCell.formatTime(sec: Int(self.progressSlider.maximumValue - self.progressSlider.value))
+        progressSlider.value = Float(currentTime)
+        goneLabel.text = TrackTableCell.formatTime(sec: Int(progressSlider.value))
+        leftLabel.text = TrackTableCell.formatTime(sec: Int(progressSlider.maximumValue - progressSlider.value))
     }
     
     
@@ -93,7 +93,6 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     }
     
     @IBAction func sliderChanged(_ sender: Any) {
-
         presenter.setPlayerCurrentTime(Double(progressSlider.value), withCurrentTime: false)
     }
     

@@ -32,13 +32,13 @@ class PlayerPresenter: PlayerPresenterProtocol {
     }
     
     func startObservers() {
-        interactor.addPlayerRateObserver()
         interactor.addPlayStatusObserver()
+        interactor.addPlayerRateObserver()
     }
     
     func stopObservers() {
+        interactor.removePlayStatusObserver()
         interactor.removePlayerRateObserver()
-        interactor.addPlayStatusObserver()
     }
     
     func updatePlayerProgress(currentTime: Double) {
