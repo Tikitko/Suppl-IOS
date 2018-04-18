@@ -21,6 +21,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
+    let zeroTime = "0:00"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
@@ -79,8 +81,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         progressSlider.minimumValue = 0
         progressSlider.maximumValue = 1
         progressSlider.value = 0
-        goneLabel.text = "0:00"
-        leftLabel.text = "0:00"
+        goneLabel.text = zeroTime
+        leftLabel.text = zeroTime
         
         playButton.isEnabled = false
         rewindMButton.isEnabled = false
