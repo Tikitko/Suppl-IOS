@@ -12,9 +12,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var filterButton: UIButton!
     
-    // TEST
-    var tracksTableTest: TrackTableView = TrackTableRouter.setupForTracklist()
-    // TEST
+    var tracksTableTest: TrackTableView!
     
     private var tracks: [AudioData] = []
     
@@ -34,15 +32,23 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TEST
-        tracksTableTest.frame = tracksTable.frame
-        tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
-        view.addSubview(tracksTableTest)
-        // TEST
         
-        tracksTable.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
+        loadTable()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateTracksNotification(notification:)), name: .TracklistUpdated, object: nil)
         updateTracks()
+    }
+    
+    private func loadTable() {
+        tracksTableTest = TrackTableRouter.setupForTracklist()
+        tracksTable.addSubview(tracksTableTest)
+        tracksTableTest.translatesAutoresizingMaskIntoConstraints = false
+        tracksTableTest.topAnchor.constraint(equalTo: tracksTable.topAnchor).isActive = true
+        tracksTableTest.bottomAnchor.constraint(equalTo: tracksTable.bottomAnchor).isActive = true
+        tracksTableTest.leadingAnchor.constraint(equalTo: tracksTable.leadingAnchor).isActive = true
+        tracksTableTest.trailingAnchor.constraint(equalTo: tracksTable.trailingAnchor).isActive = true
+        tracksTableTest.heightAnchor.constraint(equalTo: tracksTable.heightAnchor, multiplier: 1, constant: 1).isActive = true
+        tracksTableTest.widthAnchor.constraint(equalTo: tracksTable.widthAnchor, multiplier: 1, constant: 1).isActive = true
     }
 
     @objc private func updateTracksNotification(notification: NSNotification) {
@@ -103,11 +109,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
                     self.foundTracks?.append(track)
                 }
             }
-            // TEST
-            self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
-            self.tracksTableTest.reloadData()
-            // TEST
-            self.tracksTable.reloadData()
+            self.updateTable()
             if self.foundTracks?.count == 0 {
                 self.setInfo("Ничего не найдено")
             } else {
@@ -132,11 +134,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         guard let tracklist = TracklistManager.tracklist else { return }
         if tracklist.count == 0 {
             tracks = []
-            // TEST
-            self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
-            self.tracksTableTest.reloadData()
-            // TEST
-            tracksTable.reloadData()
+            updateTable()
             setInfo("Ваш плейлист пуст")
             return
         }
@@ -148,11 +146,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         guard let tracklist = TracklistManager.tracklist else { return }
         let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
         if partCount * count < from {
-            // TEST
-            self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
-            self.tracksTableTest.reloadData()
-            // TEST
-            tracksTable.reloadData()
+            updateTable()
             setInfo()
             return
         }
@@ -178,79 +172,19 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     
     private func setInfo(_ text: String? = nil) {
         if let text = text {
-            tracksTable.isHidden = true
+            tracksTableTest.isHidden = true
             infoLabel.text = text
             infoLabel.isHidden = false
         } else {
-            tracksTable.isHidden = false
+            tracksTableTest.isHidden = false
             infoLabel.text = nil
             infoLabel.isHidden = true
         }
     }
     
-}
-
-extension TracklistViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let foundTracks = foundTracks {
-            return foundTracks.count
-        }
-        return tracks.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tracksTable.dequeueReusableCell(withIdentifier: TrackTableCell.identifier, for: indexPath) as? TrackTableCell else {
-            return UITableViewCell()
-        }
-        let track = foundTracks != nil ? foundTracks![indexPath.row] : tracks[indexPath.row]
-        cell.configure(title: track.title, performer: track.performer, duration: track.duration)
-        guard let imageLink = track.images.last, imageLink != "" else { return cell }
-        ImagesManager.getImage(link: imageLink) { image in
-            guard cell.baseImage else { return }
-            cell.configure(image: image)
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-}
-
-extension TracklistViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .normal, title: "Удалить") { [weak self] action, index in
-            guard let `self` = self else { return }
-            tableView.setEditing(false, animated: true)
-            guard let foundTracks = self.foundTracks else {
-                TracklistManager.remove(from: index.row) { status in }
-                return
-            }
-            for (key, track) in self.tracks.enumerated() {
-                guard track.id == foundTracks[index.row].id else { continue }
-                TracklistManager.remove(from: key) { [weak self] status in
-                    guard let `self` = self else { return }
-                    self.foundTracks?.remove(at: index.row)
-                }
-                break
-            }
-        }
-        delete.backgroundColor = .red
-        return [delete]
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        var tracksIDs: [String] = []
-        for val in tracks {
-            tracksIDs.append(val.id)
-        }
-        let playerView = PlayerRouter.setup(tracksIDs: tracksIDs, current: indexPath.row)
-        playerView.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(playerView, animated: true)
+    private func updateTable() {
+        self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
+        self.tracksTableTest.reloadData()
     }
     
 }
@@ -279,16 +213,8 @@ extension TracklistViewController: UISearchBarDelegate {
             guard title || performer else { continue }
             foundTracks?.append(track)
         }
-        // TEST
-        self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
-        self.tracksTableTest.reloadData()
-        // TEST
-        tracksTable.reloadData()
-        if foundTracks?.count == 0 {
-            setInfo("Ничего не найдено")
-        } else {
-            setInfo()
-        }
+        updateTable()
+        setInfo(foundTracks?.count == 0 ? "Ничего не найдено" : nil)
     }
     
 }
