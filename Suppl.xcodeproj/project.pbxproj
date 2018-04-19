@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E0304A3202E31F100E295C8 /* UIAlertControllerTemporary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0304A2202E31F100E295C8 /* UIAlertControllerTemporary.swift */; };
 		0E0641A020273A8900998D8A /* ImagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E06419F20273A8900998D8A /* ImagesManager.swift */; };
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
 		0E0A98412033141600E91922 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A983F2033141500E91922 /* FilterViewController.swift */; };
@@ -29,6 +28,15 @@
 		0EEC5AAB202135B50028694E /* TracklistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC5AAA202135B50028694E /* TracklistViewController.xib */; };
 		0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF1AFB2201F9E44006B2761 /* ResponseData.swift */; };
 		4C501C538AB7351FFAA0F3A7 /* Pods_Suppl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC594A90A504837522D11FA5 /* Pods_Suppl.framework */; };
+		8C285F6D20887C16007427E7 /* TrackTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F6C20887C16007427E7 /* TrackTableView.swift */; };
+		8C285F6F20887E69007427E7 /* TrackTableViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F6E20887E69007427E7 /* TrackTableViewProtocol.swift */; };
+		8C285F712088811C007427E7 /* TrackTableInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F702088811C007427E7 /* TrackTableInteractorProtocol.swift */; };
+		8C285F7320888126007427E7 /* TrackTableInteractorTracklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F7220888126007427E7 /* TrackTableInteractorTracklist.swift */; };
+		8C285F7520888173007427E7 /* TrackTableRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F7420888173007427E7 /* TrackTableRouterProtocol.swift */; };
+		8C285F772088818A007427E7 /* TrackTableRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F762088818A007427E7 /* TrackTableRouter.swift */; };
+		8C285F79208881B5007427E7 /* TrackTablePresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F78208881B5007427E7 /* TrackTablePresenterProtocol.swift */; };
+		8C285F7B208881CC007427E7 /* TrackTablePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F7A208881CC007427E7 /* TrackTablePresenter.swift */; };
+		8C285F7D2088A2A8007427E7 /* TrackTableInteractorMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F7C2088A2A8007427E7 /* TrackTableInteractorMusic.swift */; };
 		8C316CB8208710BF00BD891B /* PlayerViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CB7208710BF00BD891B /* PlayerViewControllerProtocol.swift */; };
 		8C316CBB208710E800BD891B /* PlayerInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CBA208710E800BD891B /* PlayerInteractorProtocol.swift */; };
 		8C316CBD208710F600BD891B /* PlayerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CBC208710F600BD891B /* PlayerInteractor.swift */; };
@@ -72,7 +80,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E0304A2202E31F100E295C8 /* UIAlertControllerTemporary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertControllerTemporary.swift; sourceTree = "<group>"; };
 		0E06419F20273A8900998D8A /* ImagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesManager.swift; sourceTree = "<group>"; };
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
 		0E0A983F2033141500E91922 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +103,15 @@
 		0EF1AFB2201F9E44006B2761 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
 		27028F1F091779E3391AF02A /* Pods-Suppl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Suppl.release.xcconfig"; path = "Pods/Target Support Files/Pods-Suppl/Pods-Suppl.release.xcconfig"; sourceTree = "<group>"; };
 		574C548F0169B641AE8964C1 /* Pods-Suppl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Suppl.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Suppl/Pods-Suppl.debug.xcconfig"; sourceTree = "<group>"; };
+		8C285F6C20887C16007427E7 /* TrackTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableView.swift; sourceTree = "<group>"; };
+		8C285F6E20887E69007427E7 /* TrackTableViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewProtocol.swift; sourceTree = "<group>"; };
+		8C285F702088811C007427E7 /* TrackTableInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableInteractorProtocol.swift; sourceTree = "<group>"; };
+		8C285F7220888126007427E7 /* TrackTableInteractorTracklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableInteractorTracklist.swift; sourceTree = "<group>"; };
+		8C285F7420888173007427E7 /* TrackTableRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableRouterProtocol.swift; sourceTree = "<group>"; };
+		8C285F762088818A007427E7 /* TrackTableRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableRouter.swift; sourceTree = "<group>"; };
+		8C285F78208881B5007427E7 /* TrackTablePresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTablePresenterProtocol.swift; sourceTree = "<group>"; };
+		8C285F7A208881CC007427E7 /* TrackTablePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTablePresenter.swift; sourceTree = "<group>"; };
+		8C285F7C2088A2A8007427E7 /* TrackTableInteractorMusic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableInteractorMusic.swift; sourceTree = "<group>"; };
 		8C316CB7208710BF00BD891B /* PlayerViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewControllerProtocol.swift; sourceTree = "<group>"; };
 		8C316CBA208710E800BD891B /* PlayerInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInteractorProtocol.swift; sourceTree = "<group>"; };
 		8C316CBC208710F600BD891B /* PlayerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInteractor.swift; sourceTree = "<group>"; };
@@ -174,6 +190,7 @@
 		0E0F520B2025F374000C6DD3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8C285F6720887B68007427E7 /* TrackTable */,
 				0E0A983E2033141500E91922 /* FilterView */,
 				0E12FAC82030A39300EE3422 /* SettingTableCell */,
 				0E0F520A2025F346000C6DD3 /* TrackTableCell */,
@@ -213,7 +230,6 @@
 		0EEC5A95202119690028694E /* General */ = {
 			isa = PBXGroup;
 			children = (
-				0E0304A2202E31F100E295C8 /* UIAlertControllerTemporary.swift */,
 				8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */,
 				8CCAC59520205D5C00D91687 /* RootTabBarController.swift */,
 				0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */,
@@ -236,6 +252,54 @@
 				DC594A90A504837522D11FA5 /* Pods_Suppl.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8C285F6720887B68007427E7 /* TrackTable */ = {
+			isa = PBXGroup;
+			children = (
+				8C285F6B20887B93007427E7 /* Presenter */,
+				8C285F6A20887B8C007427E7 /* Router */,
+				8C285F6920887B7E007427E7 /* Interactor */,
+				8C285F6820887B76007427E7 /* View */,
+			);
+			path = TrackTable;
+			sourceTree = "<group>";
+		};
+		8C285F6820887B76007427E7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8C285F6C20887C16007427E7 /* TrackTableView.swift */,
+				8C285F6E20887E69007427E7 /* TrackTableViewProtocol.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8C285F6920887B7E007427E7 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8C285F702088811C007427E7 /* TrackTableInteractorProtocol.swift */,
+				8C285F7220888126007427E7 /* TrackTableInteractorTracklist.swift */,
+				8C285F7C2088A2A8007427E7 /* TrackTableInteractorMusic.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8C285F6A20887B8C007427E7 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				8C285F7420888173007427E7 /* TrackTableRouterProtocol.swift */,
+				8C285F762088818A007427E7 /* TrackTableRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		8C285F6B20887B93007427E7 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8C285F78208881B5007427E7 /* TrackTablePresenterProtocol.swift */,
+				8C285F7A208881CC007427E7 /* TrackTablePresenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		8C316CB6208710A000BD891B /* View */ = {
@@ -627,25 +691,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C71CE312080BF7300AC4BDB /* AuthRouterProtocol.swift in Sources */,
+				8C285F772088818A007427E7 /* TrackTableRouter.swift in Sources */,
 				8C71CE2B2080BE9100AC4BDB /* AuthInteractor.swift in Sources */,
+				8C285F7320888126007427E7 /* TrackTableInteractorTracklist.swift in Sources */,
 				8C71CE332080BF9C00AC4BDB /* AuthInteractorProtocol.swift in Sources */,
 				8C316CBB208710E800BD891B /* PlayerInteractorProtocol.swift in Sources */,
 				8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */,
+				8C285F6F20887E69007427E7 /* TrackTableViewProtocol.swift in Sources */,
 				8CBDFD642023001700BED743 /* AuthManager.swift in Sources */,
 				0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */,
 				8C67F601201B174200333EB2 /* UserService.swift in Sources */,
 				0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */,
+				8C285F7B208881CC007427E7 /* TrackTablePresenter.swift in Sources */,
 				0E6454D2203575C300D881BD /* AppStaticData.swift in Sources */,
+				8C285F712088811C007427E7 /* TrackTableInteractorProtocol.swift in Sources */,
 				0E466278201F88890037FD0E /* TracklistService.swift in Sources */,
 				8C316CC02087111B00BD891B /* PlayerRouterProtocol.swift in Sources */,
 				8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */,
 				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,
+				8C285F7520888173007427E7 /* TrackTableRouterProtocol.swift in Sources */,
 				8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */,
 				0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */,
 				0E0A98412033141600E91922 /* FilterViewController.swift in Sources */,
+				8C285F6D20887C16007427E7 /* TrackTableView.swift in Sources */,
 				8C316CBD208710F600BD891B /* PlayerInteractor.swift in Sources */,
 				8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */,
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
+				8C285F7D2088A2A8007427E7 /* TrackTableInteractorMusic.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
 				8C316CC72087116900BD891B /* PlayerPresenter.swift in Sources */,
@@ -653,8 +725,8 @@
 				8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */,
 				8C71CE352080BFCB00AC4BDB /* AuthPresenter.swift in Sources */,
 				0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */,
+				8C285F79208881B5007427E7 /* TrackTablePresenterProtocol.swift in Sources */,
 				0E0641A020273A8900998D8A /* ImagesManager.swift in Sources */,
-				0E0304A3202E31F100E295C8 /* UIAlertControllerTemporary.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
 				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,
 				0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */,

@@ -16,6 +16,10 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     
     private var inSearchWork = false
     
+    // TEST
+    var tracksTableTest: TrackTableView!
+    // TEST
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         navigationItem.title = name
@@ -27,6 +31,20 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // TEST
+        tracksTableTest = TrackTableRouter.setupForMusic { [weak self] index in
+            guard let `self` = self, let data = self.searchData else { return }
+            if self.inSearchWork { return }
+            if data.list.count - 10 == index.row, data.hasMore {
+                self.inSearchWork = true
+                self.searchTracks(self.thisQuery, offset: data.nextOffset)
+            }
+        }
+        tracksTableTest.frame = tracksTable.frame
+        tracksTableTest.presenter.updateTracks(tracks: searchData?.list ?? [], foundTracks: nil)
+        view.addSubview(tracksTableTest)
+        // TEST
+        
         tracksTable.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
         tracksTable.reloadData()
         let baseQueries = AppStaticData.baseSearchQueriesList
@@ -44,6 +62,10 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
         searchData = nil
         thisQuery = ""
         if withReload {
+            // TEST
+            self.tracksTableTest.presenter.updateTracks(tracks: self.searchData?.list ?? [], foundTracks: nil)
+            self.tracksTableTest.reloadData()
+            // TEST
             tracksTable.reloadData()
         }
     }
@@ -56,6 +78,10 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
             guard let `self` = self, let data = data else { return }
             self.addFoundTracks(data)
             self.thisQuery = query
+            // TEST
+            self.tracksTableTest.presenter.updateTracks(tracks: self.searchData?.list ?? [], foundTracks: nil)
+            self.tracksTableTest.reloadData()
+            // TEST
             self.tracksTable.reloadData()
 
         }
@@ -147,18 +173,14 @@ extension MainViewController: UITableViewDelegate {
         if let indexTrack = tracklist.index(of: searchData.list[editActionsForRowAt.row].id) {
             let delete = UITableViewRowAction(style: .normal, title: "Удалить") { action, index in
                 tableView.setEditing(false, animated: true)
-                TracklistManager.remove(from: indexTrack) { status in
-                    UIAlertController.temporary(lifetime: 0.5, animated: true, title: "Удалено из плейлиста", message: nil, preferredStyle: .alert)
-                }
+                TracklistManager.remove(from: indexTrack) { status in }
             }
             delete.backgroundColor = .red
             return [delete]
         }
         let add = UITableViewRowAction(style: .normal, title: "Добавить") { action, index in
             tableView.setEditing(false, animated: true)
-            TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in
-                UIAlertController.temporary(lifetime: 0.5, animated: true, title: "Добавлено в плейлист", message: nil, preferredStyle: .alert)
-            }
+            TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in }
         }
         add.backgroundColor = .green
         return [add]

@@ -12,6 +12,10 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var filterButton: UIButton!
     
+    // TEST
+    var tracksTableTest: TrackTableView = TrackTableRouter.setupForTracklist()
+    // TEST
+    
     private var tracks: [AudioData] = []
     
     private var foundTracks: [AudioData]?
@@ -30,6 +34,12 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // TEST
+        tracksTableTest.frame = tracksTable.frame
+        tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
+        view.addSubview(tracksTableTest)
+        // TEST
+        
         tracksTable.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTracksNotification(notification:)), name: .TracklistUpdated, object: nil)
         updateTracks()
@@ -93,6 +103,10 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
                     self.foundTracks?.append(track)
                 }
             }
+            // TEST
+            self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
+            self.tracksTableTest.reloadData()
+            // TEST
             self.tracksTable.reloadData()
             if self.foundTracks?.count == 0 {
                 self.setInfo("Ничего не найдено")
@@ -118,6 +132,10 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         guard let tracklist = TracklistManager.tracklist else { return }
         if tracklist.count == 0 {
             tracks = []
+            // TEST
+            self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
+            self.tracksTableTest.reloadData()
+            // TEST
             tracksTable.reloadData()
             setInfo("Ваш плейлист пуст")
             return
@@ -130,6 +148,10 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         guard let tracklist = TracklistManager.tracklist else { return }
         let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
         if partCount * count < from {
+            // TEST
+            self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
+            self.tracksTableTest.reloadData()
+            // TEST
             tracksTable.reloadData()
             setInfo()
             return
@@ -257,6 +279,10 @@ extension TracklistViewController: UISearchBarDelegate {
             guard title || performer else { continue }
             foundTracks?.append(track)
         }
+        // TEST
+        self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
+        self.tracksTableTest.reloadData()
+        // TEST
         tracksTable.reloadData()
         if foundTracks?.count == 0 {
             setInfo("Ничего не найдено")
