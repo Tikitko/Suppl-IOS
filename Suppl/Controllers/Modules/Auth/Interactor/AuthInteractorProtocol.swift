@@ -1,7 +1,7 @@
 import Foundation
 
 protocol AuthInteractorProtocol: class {
-    var noAuthOnShow: Bool { get set }
+    var noAuthOnShow: Bool { get }
     func getKeys() -> (i: Int, a: Int)?
     func endAuth()
     func auth(ikey: Int, akey: Int)

@@ -18,24 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SettingsManager.initialize()
         
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = AuthRouter.setup()
         window.makeKeyAndVisible()
         self.window = window
         
-        NotificationCenter.default.addObserver(self, selector: #selector(authWindowSet(notification:)), name: .NeedAuthWindow, object: nil)
+        AuthManager.setAuthWindow()
 
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
         try? AVAudioSession.sharedInstance().setActive(true)
         application.beginReceivingRemoteControlEvents()
         
         return true
-    }
-
-    @objc private func authWindowSet(notification: NSNotification) {
-        let _ = AuthManager.stopAuthCheck()
-        if let topController = UIApplication.topViewController() {
-            topController.present(AuthRouter.setup(noAuth: notification.userInfo?["noAuth"] as? Bool ?? false), animated: true)
-        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {

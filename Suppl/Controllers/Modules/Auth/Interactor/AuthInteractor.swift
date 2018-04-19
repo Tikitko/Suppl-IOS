@@ -4,7 +4,11 @@ class AuthInteractor: AuthInteractorProtocol {
     
     weak var presenter: AuthPresenterProtocol!
     
-    var noAuthOnShow = false
+    let noAuthOnShow: Bool
+    
+    init(noAuth noAuthOnShow: Bool = false) {
+        self.noAuthOnShow = noAuthOnShow
+    }
     
     func getKeys() -> (i: Int, a: Int)? {
         if let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey {

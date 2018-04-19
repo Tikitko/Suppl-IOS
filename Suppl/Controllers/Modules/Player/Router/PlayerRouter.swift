@@ -7,8 +7,7 @@ class PlayerRouter: PlayerRouterProtocol {
     
     static func setup(tracksIDs: [String], current: Int = 0) -> UIViewController {
         let router = PlayerRouter()
-        let interactor = PlayerInteractor()
-        interactor.tracks = PlayerInteractor.TracksList.get(IDs: tracksIDs, current: current)
+        let interactor = PlayerInteractor(tracksIDs: tracksIDs, current: current)
         let presenter = PlayerPresenter()
         let viewController = PlayerViewController()
         

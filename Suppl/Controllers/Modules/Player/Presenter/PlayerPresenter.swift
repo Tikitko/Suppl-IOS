@@ -24,7 +24,7 @@ class PlayerPresenter: PlayerPresenterProtocol {
     }
     
     func clearPlayer() {
-        interactor.setPlayingStatus(false)
+        interactor.needPlayingStatus = false
         stopObservers()
         interactor.clearPlayer()
         view.clearPlayerForm()

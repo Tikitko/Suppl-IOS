@@ -7,11 +7,10 @@ import UIKit
 protocol PlayerInteractorProtocol: class {
     
     var needPlayingStatus: Bool { get set }
-    var tracks: PlayerInteractor.TracksList? { get set }
+    var tracks: PlayerInteractor.TracksList? { get }
     
     func loadTrackByID(_ trackID: String)
     func clearPlayer()
-    func setPlayingStatus(_ status: Bool)
     func addPlayStatusObserver()
     func removePlayStatusObserver()
     func addPlayerRateObserver()

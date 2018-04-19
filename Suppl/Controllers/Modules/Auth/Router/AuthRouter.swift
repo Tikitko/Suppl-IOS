@@ -11,8 +11,7 @@ class AuthRouter: AuthRouterProtocol {
     
     static func setup(noAuth noAuthOnShow: Bool = false) -> UIViewController {
         let router = AuthRouter()
-        let interactor = AuthInteractor()
-        interactor.noAuthOnShow = noAuthOnShow
+        let interactor = AuthInteractor(noAuth: noAuthOnShow)
         let presenter = AuthPresenter()
         let viewController = AuthViewController()
         

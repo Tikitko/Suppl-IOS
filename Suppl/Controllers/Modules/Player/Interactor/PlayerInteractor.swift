@@ -38,15 +38,15 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
     var observerPlayStatusWorking = false
     var observerPlayerRateWorking = false
     
-    var tracks: TracksList?
+    let tracks: TracksList?
     var player: AVPlayer?
+    
+    init(tracksIDs: [String], current: Int = 0) {
+        tracks = TracksList.get(IDs: tracksIDs, current: current)
+    }
     
     func clearPlayer() {
         player = nil
-    }
-    
-    func setPlayingStatus(_ status: Bool) {
-        needPlayingStatus = status
     }
     
     func addPlayStatusObserver() {
@@ -111,13 +111,17 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
             presenter.setPlayButtonImage(UIImage(named: "icon_154.png")!)
         } else if rate == 0.0 {
             presenter.setPlayButtonImage(UIImage(named: "icon_152.png")!)
-            guard let currentItem = player?.currentItem else { return }
-            if SettingsManager.autoNextTrack!, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0, let tracks = tracks {
-                clearPlayer()
-                loadTrackByID(tracks.next())
-            } else if needPlayingStatus {
-                player?.play()
-            }
+            autoPlayHandler()
+        }
+    }
+    
+    func autoPlayHandler() {
+        guard let currentItem = player?.currentItem else { return }
+        if SettingsManager.autoNextTrack!, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0, let tracks = tracks {
+            clearPlayer()
+            loadTrackByID(tracks.next())
+        } else if needPlayingStatus {
+            player?.play()
         }
     }
     

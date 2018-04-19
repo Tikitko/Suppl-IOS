@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class AuthManager {
     
@@ -16,8 +17,8 @@ class AuthManager {
         }
     }
     
-    public static func setAuthWindow(noAuth: Bool = false) -> Void {
-        NotificationCenter.default.post(name: .NeedAuthWindow, object: nil, userInfo: ["noAuth": noAuth])
+    public static func setAuthWindow(noAuth: Bool = false) {
+        UIApplication.shared.keyWindow?.rootViewController = AuthRouter.setup(noAuth: noAuth)
     }
     
     public static func startAuthCheck(startNow: Bool = false) -> Bool {
@@ -48,8 +49,4 @@ class AuthManager {
         return (ikey, akey)
     }
     
-}
-
-extension Notification.Name {
-    static let NeedAuthWindow = Notification.Name("NeedAuthWindow")
 }
