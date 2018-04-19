@@ -11,14 +11,12 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var tracksTable: UITableView!
     @IBOutlet weak var infoLabel: UILabel!
     
+    var tracksTableTest: TrackTableView!
+    
     private var searchData: AudioSearchData?
     private var thisQuery = ""
     
     private var inSearchWork = false
-    
-    // TEST
-    var tracksTableTest: TrackTableView!
-    // TEST
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -31,25 +29,33 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TEST
-        tracksTableTest = TrackTableRouter.setupForMusic { [weak self] index in
-            guard let `self` = self, let data = self.searchData else { return }
-            if self.inSearchWork { return }
-            if data.list.count - 10 == index.row, data.hasMore {
-                self.inSearchWork = true
-                self.searchTracks(self.thisQuery, offset: data.nextOffset)
-            }
-        }
-        tracksTableTest.frame = tracksTable.frame
-        tracksTableTest.presenter.updateTracks(tracks: searchData?.list ?? [], foundTracks: nil)
-        view.addSubview(tracksTableTest)
-        // TEST
         
-        tracksTable.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
-        tracksTable.reloadData()
+        loadTable()
+        
         let baseQueries = AppStaticData.baseSearchQueriesList
         tracksSearch.text = baseQueries[Int(arc4random_uniform(UInt32(baseQueries.count)))]
         searchTracks(tracksSearch.text ?? "")
+    }
+    
+    private func loadTable() {
+        tracksTableTest = TrackTableRouter.setupForMusic(updateCallback: loadMoreCallback(_:))
+        tracksTable.addSubview(tracksTableTest)
+        tracksTableTest.translatesAutoresizingMaskIntoConstraints = false
+        tracksTableTest.topAnchor.constraint(equalTo: tracksTable.topAnchor).isActive = true
+        tracksTableTest.bottomAnchor.constraint(equalTo: tracksTable.bottomAnchor).isActive = true
+        tracksTableTest.leadingAnchor.constraint(equalTo: tracksTable.leadingAnchor).isActive = true
+        tracksTableTest.trailingAnchor.constraint(equalTo: tracksTable.trailingAnchor).isActive = true
+        tracksTableTest.heightAnchor.constraint(equalTo: tracksTable.heightAnchor, multiplier: 1, constant: 1).isActive = true
+        tracksTableTest.widthAnchor.constraint(equalTo: tracksTable.widthAnchor, multiplier: 1, constant: 1).isActive = true
+    }
+    
+    private func loadMoreCallback(_ indexPath: IndexPath) -> Void {
+        guard let data = self.searchData else { return }
+        if self.inSearchWork { return }
+        if data.list.count - 10 == indexPath.row, data.hasMore {
+            self.inSearchWork = true
+            self.searchTracks(self.thisQuery, offset: data.nextOffset)
+        }
     }
     
     private func clearData(withReload: Bool = true) {
@@ -62,11 +68,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
         searchData = nil
         thisQuery = ""
         if withReload {
-            // TEST
-            self.tracksTableTest.presenter.updateTracks(tracks: self.searchData?.list ?? [], foundTracks: nil)
-            self.tracksTableTest.reloadData()
-            // TEST
-            tracksTable.reloadData()
+            updateTable()
         }
     }
     
@@ -78,11 +80,7 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
             guard let `self` = self, let data = data else { return }
             self.addFoundTracks(data)
             self.thisQuery = query
-            // TEST
-            self.tracksTableTest.presenter.updateTracks(tracks: self.searchData?.list ?? [], foundTracks: nil)
-            self.tracksTableTest.reloadData()
-            // TEST
-            self.tracksTable.reloadData()
+            self.updateTable()
 
         }
     }
@@ -107,14 +105,19 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     
     private func setInfo(_ text: String? = nil) {
         if let text = text {
-            tracksTable.isHidden = true
+            tracksTableTest.isHidden = true
             infoLabel.text = text
             infoLabel.isHidden = false
         } else {
-            tracksTable.isHidden = false
+            tracksTableTest.isHidden = false
             infoLabel.text = nil
             infoLabel.isHidden = true
         }
+    }
+    
+    private func updateTable() {
+        tracksTableTest.presenter.updateTracks(tracks: searchData?.list ?? [], foundTracks: nil)
+        tracksTableTest.reloadData()
     }
     
     deinit {
@@ -130,72 +133,7 @@ extension MainViewController: UISearchBarDelegate {
         guard let query = tracksSearch.text else { return }
         clearData()
         searchTracks(query)
-        tracksTable.setContentOffset(CGPoint.zero, animated: false)
+        tracksTableTest.setContentOffset(CGPoint.zero, animated: false)
     }
 
-}
-
-extension MainViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchData?.list.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tracksTable.dequeueReusableCell(withIdentifier: TrackTableCell.identifier, for: indexPath) as? TrackTableCell, let data = searchData else {
-            return UITableViewCell()
-        }
-        let track = data.list[indexPath.row]
-        cell.configure(title: track.title, performer: track.performer, duration: track.duration)
-        guard let imageLink = track.images.last, imageLink != "" else { return cell }
-        ImagesManager.getImage(link: imageLink) { image in
-            guard cell.baseImage else { return }
-            cell.configure(image: image)
-        }
-        return cell
-    }
-    
-}
-
-extension MainViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let data = searchData else { return }
-        if inSearchWork { return }
-        if data.list.count - 10 == indexPath.row, data.hasMore {
-            inSearchWork = true
-            searchTracks(thisQuery, offset: data.nextOffset)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-        guard let tracklist = TracklistManager.tracklist, let searchData = searchData else { return [] }
-        if let indexTrack = tracklist.index(of: searchData.list[editActionsForRowAt.row].id) {
-            let delete = UITableViewRowAction(style: .normal, title: "Удалить") { action, index in
-                tableView.setEditing(false, animated: true)
-                TracklistManager.remove(from: indexTrack) { status in }
-            }
-            delete.backgroundColor = .red
-            return [delete]
-        }
-        let add = UITableViewRowAction(style: .normal, title: "Добавить") { action, index in
-            tableView.setEditing(false, animated: true)
-            TracklistManager.add(trackId: searchData.list[editActionsForRowAt.row].id) { status in }
-        }
-        add.backgroundColor = .green
-        return [add]
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let tracks = searchData?.list else { return }
-        tableView.deselectRow(at: indexPath, animated: true)
-        var tracksIDs: [String] = []
-        for val in tracks {
-            tracksIDs.append(val.id)
-        }
-        let playerView = PlayerRouter.setup(tracksIDs: tracksIDs, current: indexPath.row)
-        playerView.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(playerView, animated: true)
-    }
-    
 }
