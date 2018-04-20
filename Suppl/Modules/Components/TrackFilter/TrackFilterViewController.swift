@@ -9,10 +9,10 @@ class TrackFilterViewController: UIViewController {
     @IBOutlet weak var searchPerformerSwitch: UISwitch!
     @IBOutlet weak var okButton: UIButton!
     
-    private var timeCallback: ((_:UISlider) -> Float)?
-    private var titleCallback: ((_:UISwitch) -> Bool)?
-    private var performerCallback: ((_:UISwitch) -> Bool)?
-    private var okCallback: ((_:UIButton) -> Void)?
+    private var timeCallback: ((_:inout Float) -> Void)?
+    private var titleCallback: ((_: inout Bool) -> Void)?
+    private var performerCallback: ((_:inout Bool) -> Void)?
+    private var okCallback: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,7 @@ class TrackFilterViewController: UIViewController {
         timeSlider.value = value
     }
     
-    public func timeCallback(_ timeCallback: @escaping ((_:UISlider) -> Float)) {
+    public func timeCallback(_ timeCallback: @escaping ((_: inout Float) -> Void)) {
         self.timeCallback = timeCallback
         timeSlider.isEnabled = true
     }
@@ -44,7 +44,7 @@ class TrackFilterViewController: UIViewController {
         searchTitleSwitch.isOn = value
     }
     
-    public func titleCallback(_ titleCallback: @escaping ((_:UISwitch) -> Bool)) {
+    public func titleCallback(_ titleCallback: @escaping ((_: inout Bool) -> Void)) {
         self.titleCallback = titleCallback
         searchTitleSwitch.isEnabled = true
     }
@@ -53,7 +53,7 @@ class TrackFilterViewController: UIViewController {
         searchPerformerSwitch.isOn = value
     }
     
-    public func performerCallback(_ performerCallback: @escaping ((_:UISwitch) -> Bool)) {
+    public func performerCallback(_ performerCallback: @escaping ((_: inout Bool) -> Void)) {
         self.performerCallback = performerCallback
         searchPerformerSwitch.isEnabled = true
     }
@@ -62,25 +62,25 @@ class TrackFilterViewController: UIViewController {
         okButton.setTitle(text, for: .normal)
     }
     
-    public func okCallback(_ okCallback: @escaping ((_:UIButton) -> Void)) {
+    public func okCallback(_ okCallback: @escaping (() -> Void)) {
         self.okCallback = okCallback
         okButton.isEnabled = true
     }
     
     @IBAction func timeChange(_ sender: Any) {
         guard let timeCallback = timeCallback else { return }
-        timeSlider.value = timeCallback(sender as! UISlider)
+        timeCallback(&timeSlider.value)
     }
     @IBAction func titleChange(_ sender: Any) {
         guard let titleCallback = titleCallback else { return }
-        searchTitleSwitch.isOn = titleCallback(sender as! UISwitch)
+        titleCallback(&searchTitleSwitch.isOn)
     }
     @IBAction func performerChange(_ sender: Any) {
         guard let performerCallback = performerCallback else { return }
-        searchPerformerSwitch.isOn = performerCallback(sender as! UISwitch)
+        performerCallback(&searchTitleSwitch.isOn)
     }
     @IBAction func okButtonClick(_ sender: Any) {
         guard let okCallback = okCallback else { return }
-        okCallback(sender as! UIButton)
+        okCallback()
     }
 }

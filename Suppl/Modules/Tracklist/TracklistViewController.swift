@@ -21,20 +21,10 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     private var searchByPerformer = true
     private var searchTimeRate: Float = 1.0
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        navigationItem.title = name
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = name
         loadTable()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(updateTracksNotification(notification:)), name: .TracklistUpdated, object: nil)
         updateTracks()
     }
@@ -75,22 +65,20 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
         pop?.sourceRect = btn.bounds
         present(filterView, animated: true, completion: nil)
         filterView.titleValue(searchByTitle)
-        filterView.titleCallback() { [weak self] switchElement in
-            guard let `self` = self else { return false }
-            if self.searchByTitle, !self.searchByPerformer { return self.searchByTitle }
+        filterView.titleCallback() { [weak self] isOn in
+            guard let `self` = self else { return }
+            if self.searchByTitle, !self.searchByPerformer { return }
             self.searchByTitle = !self.searchByTitle
-            return self.searchByTitle
         }
         filterView.performerValue(searchByPerformer)
-        filterView.performerCallback() { [weak self] switchElement in
-            guard let `self` = self else { return false }
-            if self.searchByPerformer, !self.searchByTitle { return self.searchByPerformer }
+        filterView.performerCallback() { [weak self] isOn in
+            guard let `self` = self else { return }
+            if self.searchByPerformer, !self.searchByTitle { return }
             self.searchByPerformer = !self.searchByPerformer
-            return self.searchByPerformer
         }
         filterView.timeValue(searchTimeRate)
-        filterView.timeCallback() { [weak self] slider in
-            guard let `self` = self else { return 1.0 }
+        filterView.timeCallback() { [weak self] value in
+            guard let `self` = self else { return }
             
             let offset = 3
             var minRate = 0
@@ -110,14 +98,9 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
                 }
             }
             self.updateTable()
-            if self.foundTracks?.count == 0 {
-                self.setInfo("Ничего не найдено")
-            } else {
-                self.setInfo()
-            }
+            self.setInfo(self.foundTracks?.count == 0 ? "Ничего не найдено" : nil)
             
-            self.searchTimeRate = slider.value
-            return self.searchTimeRate
+            self.searchTimeRate = value
         }
     }
     

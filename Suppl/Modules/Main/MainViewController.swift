@@ -18,20 +18,10 @@ class MainViewController: UIViewController, ControllerInfoProtocol {
     
     private var inSearchWork = false
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        navigationItem.title = name
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = name
         loadTable()
-        
         let baseQueries = AppStaticData.baseSearchQueriesList
         tracksSearch.text = baseQueries[Int(arc4random_uniform(UInt32(baseQueries.count)))]
         searchTracks(tracksSearch.text ?? "")

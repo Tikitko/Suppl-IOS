@@ -54,8 +54,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         progressSlider.maximumValue = Float(duration)
         progressSlider.value = 0
         
-        goneLabel.text = TrackTime.init(sec: Int(progressSlider.minimumValue)).formatted
-        leftLabel.text = TrackTime.init(sec: Int(progressSlider.maximumValue)).formatted
+        goneLabel.text = TrackTime(sec: Int(progressSlider.minimumValue)).formatted
+        leftLabel.text = TrackTime(sec: Int(progressSlider.maximumValue)).formatted
         
         presenter.addPlayerTimeObserver()
         
@@ -67,8 +67,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     
     func updatePlayerProgress(currentTime: Double) {
         progressSlider.value = Float(currentTime)
-        goneLabel.text = TrackTime.init(sec: Int(progressSlider.value)).formatted
-        leftLabel.text = TrackTime.init(sec: Int(progressSlider.maximumValue - progressSlider.value)).formatted
+        goneLabel.text = TrackTime(sec: Int(progressSlider.value)).formatted
+        leftLabel.text = TrackTime(sec: Int(progressSlider.maximumValue - progressSlider.value)).formatted
     }
     
     
