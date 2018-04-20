@@ -50,14 +50,6 @@ class APIManager {
     }
     
     public static func errorHandler(_ inError: NSError) -> String {
-        var error: String
-        if let ruError = AppStaticData.ruAPIErrorsList[inError.code] {
-            error = ruError
-        } else if let enError = AppStaticData.APIErrorsList[inError.code] {
-            error = enError
-        } else {
-            error = inError.domain
-        }
-        return error
+        return AppStaticData.ruAPIErrorsList[inError.code] ?? AppStaticData.APIErrorsList[inError.code] ?? inError.domain
     }
 }

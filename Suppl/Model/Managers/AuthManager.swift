@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 
 class AuthManager {
     
@@ -18,7 +17,7 @@ class AuthManager {
     }
     
     public static func setAuthWindow(noAuth: Bool = false) {
-        UIApplication.shared.keyWindow?.rootViewController = AuthRouter.setup(noAuth: noAuth)
+        AuthRouter.setSelf()
     }
     
     public static func startAuthCheck(startNow: Bool = false) -> Bool {

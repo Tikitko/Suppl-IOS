@@ -1,4 +1,4 @@
-class AppStaticData {
+final class AppStaticData {
     
     public static let baseSearchQueriesList = [
         "Pink Floyd",
