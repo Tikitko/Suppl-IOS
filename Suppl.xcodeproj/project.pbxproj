@@ -42,6 +42,13 @@
 		8C0CB611208DCD6500456A68 /* MainRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB610208DCD6500456A68 /* MainRouter.swift */; };
 		8C0CB613208DCD8F00456A68 /* MainPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB612208DCD8F00456A68 /* MainPresenterProtocol.swift */; };
 		8C0CB615208DCD9A00456A68 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB614208DCD9A00456A68 /* MainPresenter.swift */; };
+		8C0CB61C208DDAD000456A68 /* TracklistViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB61B208DDAD000456A68 /* TracklistViewControllerProtocol.swift */; };
+		8C0CB61E208DDB0400456A68 /* TracklistInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB61D208DDB0400456A68 /* TracklistInteractorProtocol.swift */; };
+		8C0CB620208DDB0F00456A68 /* TracklistInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB61F208DDB0F00456A68 /* TracklistInteractor.swift */; };
+		8C0CB622208DDB3900456A68 /* TracklistRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB621208DDB3900456A68 /* TracklistRouterProtocol.swift */; };
+		8C0CB624208DDB4200456A68 /* TracklistRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB623208DDB4200456A68 /* TracklistRouter.swift */; };
+		8C0CB626208DDB7800456A68 /* TracklistPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB625208DDB7800456A68 /* TracklistPresenterProtocol.swift */; };
+		8C0CB628208DDB8300456A68 /* TracklistPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB627208DDB8300456A68 /* TracklistPresenter.swift */; };
 		8C20889C2089D7F0000505F9 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889B2089D7F0000505F9 /* TrackList.swift */; };
 		8C20889E2089D851000505F9 /* RowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889D2089D851000505F9 /* RowAction.swift */; };
 		8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889F2089DBEF000505F9 /* TrackTime.swift */; };
@@ -134,6 +141,13 @@
 		8C0CB610208DCD6500456A68 /* MainRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouter.swift; sourceTree = "<group>"; };
 		8C0CB612208DCD8F00456A68 /* MainPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenterProtocol.swift; sourceTree = "<group>"; };
 		8C0CB614208DCD9A00456A68 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
+		8C0CB61B208DDAD000456A68 /* TracklistViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistViewControllerProtocol.swift; sourceTree = "<group>"; };
+		8C0CB61D208DDB0400456A68 /* TracklistInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistInteractorProtocol.swift; sourceTree = "<group>"; };
+		8C0CB61F208DDB0F00456A68 /* TracklistInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistInteractor.swift; sourceTree = "<group>"; };
+		8C0CB621208DDB3900456A68 /* TracklistRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistRouterProtocol.swift; sourceTree = "<group>"; };
+		8C0CB623208DDB4200456A68 /* TracklistRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistRouter.swift; sourceTree = "<group>"; };
+		8C0CB625208DDB7800456A68 /* TracklistPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistPresenterProtocol.swift; sourceTree = "<group>"; };
+		8C0CB627208DDB8300456A68 /* TracklistPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistPresenter.swift; sourceTree = "<group>"; };
 		8C20889B2089D7F0000505F9 /* TrackList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
 		8C20889D2089D851000505F9 /* RowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowAction.swift; sourceTree = "<group>"; };
 		8C20889F2089DBEF000505F9 /* TrackTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTime.swift; sourceTree = "<group>"; };
@@ -276,8 +290,10 @@
 		0EEC5AA7202135870028694E /* Tracklist */ = {
 			isa = PBXGroup;
 			children = (
-				0EEC5AA8202135AA0028694E /* TracklistViewController.swift */,
-				0EEC5AAA202135B50028694E /* TracklistViewController.xib */,
+				8C0CB619208DDA9900456A68 /* Presenter */,
+				8C0CB618208DDA9300456A68 /* Router */,
+				8C0CB617208DDA8D00456A68 /* Interactor */,
+				8C0CB616208DDA7B00456A68 /* View */,
 			);
 			path = Tracklist;
 			sourceTree = "<group>";
@@ -360,6 +376,43 @@
 			children = (
 				8C0CB612208DCD8F00456A68 /* MainPresenterProtocol.swift */,
 				8C0CB614208DCD9A00456A68 /* MainPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8C0CB616208DDA7B00456A68 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0EEC5AA8202135AA0028694E /* TracklistViewController.swift */,
+				0EEC5AAA202135B50028694E /* TracklistViewController.xib */,
+				8C0CB61B208DDAD000456A68 /* TracklistViewControllerProtocol.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8C0CB617208DDA8D00456A68 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB61D208DDB0400456A68 /* TracklistInteractorProtocol.swift */,
+				8C0CB61F208DDB0F00456A68 /* TracklistInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8C0CB618208DDA9300456A68 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB621208DDB3900456A68 /* TracklistRouterProtocol.swift */,
+				8C0CB623208DDB4200456A68 /* TracklistRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		8C0CB619208DDA9900456A68 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB625208DDB7800456A68 /* TracklistPresenterProtocol.swift */,
+				8C0CB627208DDB8300456A68 /* TracklistPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -809,6 +862,7 @@
 				8C285F772088818A007427E7 /* TrackTableRouter.swift in Sources */,
 				8C71CE2B2080BE9100AC4BDB /* AuthInteractor.swift in Sources */,
 				8C285F7320888126007427E7 /* TrackTableInteractorTracklist.swift in Sources */,
+				8C0CB620208DDB0F00456A68 /* TracklistInteractor.swift in Sources */,
 				8C71CE332080BF9C00AC4BDB /* AuthInteractorProtocol.swift in Sources */,
 				8C316CBB208710E800BD891B /* PlayerInteractorProtocol.swift in Sources */,
 				8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */,
@@ -831,11 +885,14 @@
 				8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */,
 				0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */,
 				8C20889E2089D851000505F9 /* RowAction.swift in Sources */,
+				8C0CB61E208DDB0400456A68 /* TracklistInteractorProtocol.swift in Sources */,
+				8C0CB626208DDB7800456A68 /* TracklistPresenterProtocol.swift in Sources */,
 				8C0CB5F8208DA83000456A68 /* TrackFilterInteractorProtocol.swift in Sources */,
 				0E0A98412033141600E91922 /* TrackFilterViewController.swift in Sources */,
 				8C285F6D20887C16007427E7 /* TrackTableViewController.swift in Sources */,
 				8C0CB60B208DCD2B00456A68 /* MainInteractorProtocol.swift in Sources */,
 				8C316CBD208710F600BD891B /* PlayerInteractor.swift in Sources */,
+				8C0CB61C208DDAD000456A68 /* TracklistViewControllerProtocol.swift in Sources */,
 				8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */,
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C285F7D2088A2A8007427E7 /* TrackTableInteractorMusic.swift in Sources */,
@@ -851,6 +908,7 @@
 				8C285F79208881B5007427E7 /* TrackTablePresenterProtocol.swift in Sources */,
 				8C0CB5FC208DA87100456A68 /* TrackFilterRouterProtocol.swift in Sources */,
 				8C0CB5FE208DA87E00456A68 /* TrackFilterRouter.swift in Sources */,
+				8C0CB628208DDB8300456A68 /* TracklistPresenter.swift in Sources */,
 				0E0641A020273A8900998D8A /* ImagesManager.swift in Sources */,
 				8C0CB5FA208DA85500456A68 /* TrackFilterInteractor.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
@@ -867,6 +925,7 @@
 				8CCAC5992020600E00D91687 /* SettingsMainViewController.swift in Sources */,
 				8C71CE2D2080BECD00AC4BDB /* AuthRouter.swift in Sources */,
 				8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */,
+				8C0CB624208DDB4200456A68 /* TracklistRouter.swift in Sources */,
 				8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */,
 				8C0CB615208DCD9A00456A68 /* MainPresenter.swift in Sources */,
 				8C67F607201B174200333EB2 /* UserData.swift in Sources */,
@@ -874,6 +933,7 @@
 				0E12FABE2030604200EE3422 /* SettingsManager.swift in Sources */,
 				8C71CE3A2080C03A00AC4BDB /* AuthViewControllerProtocol.swift in Sources */,
 				8C67F604201B174200333EB2 /* APIRequest.swift in Sources */,
+				8C0CB622208DDB3900456A68 /* TracklistRouterProtocol.swift in Sources */,
 				8CCAC59E202065AA00D91687 /* MainViewController.swift in Sources */,
 				0E29CBD9202A025900BE5975 /* PlayerViewController.swift in Sources */,
 				8C0CB602208DA8D200456A68 /* TrackFilterPresenter.swift in Sources */,

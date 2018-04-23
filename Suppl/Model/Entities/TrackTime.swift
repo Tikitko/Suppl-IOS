@@ -6,8 +6,8 @@ struct TrackTime {
     var formatted: String {
         get {
             let minSec = minAndSec
-            let min = String(minSec.0)
-            let sec = (minSec.1 < 10 ? "0" : "") + String("\(minSec.1)")
+            let min = String(minSec.min)
+            let sec = (minSec.1 < 10 ? "0" : "") + String("\(minSec.sec)")
             return String("\(min):\(sec)")
         }
     }

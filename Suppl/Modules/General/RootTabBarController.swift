@@ -10,7 +10,7 @@ final class RootTabBarController: UITabBarController {
         super.viewDidLoad()
         setTheme()
         
-        setupControllers([MainRouter.setup(), TracklistViewController(), SettingsMainViewController.initial()])
+        setupControllers([MainRouter.setup(), TracklistRouter.setup(), SettingsMainViewController.initial()])
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
