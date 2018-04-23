@@ -7,7 +7,7 @@ struct TrackTime {
         get {
             let minSec = minAndSec
             let min = String(minSec.min)
-            let sec = (minSec.1 < 10 ? "0" : "") + String("\(minSec.sec)")
+            let sec = (minSec.sec < 10 ? "0" : "") + String("\(minSec.sec)")
             return String("\(min):\(sec)")
         }
     }
