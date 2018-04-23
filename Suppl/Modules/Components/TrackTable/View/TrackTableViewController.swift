@@ -10,6 +10,10 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     }
     
+    func reloadData() {
+        tableView.reloadData()
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.numberOfRowsInSection(section)
     }

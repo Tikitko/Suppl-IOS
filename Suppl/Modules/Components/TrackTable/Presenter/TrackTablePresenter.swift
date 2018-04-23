@@ -8,6 +8,7 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
     func updateTracks(tracks: [AudioData], foundTracks: [AudioData]?) {
         interactor.tracks = tracks
         interactor.foundTracks = foundTracks
+        view.reloadData()
     }
     
     func openPlayer(tracksIDs: [String], current: Int) {

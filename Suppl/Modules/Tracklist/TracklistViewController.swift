@@ -12,7 +12,8 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var filterButton: UIButton!
     
-    private var tracksTableTest: TrackTableViewController!
+    private var tracksTableTest: UITableViewController!
+    private var reloadData: ((_ tracks: [AudioData], _ foundTracks: [AudioData]?) -> Void)!
     
     private var tracks: [AudioData] = []
     
@@ -30,7 +31,7 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     }
     
     private func loadTable() {
-        tracksTableTest = TrackTableRouter.setupForTracklist()
+        tracksTableTest = TrackTableRouter.setupForTracklist(reloadData: &reloadData)
         tracksTable.addSubview(tracksTableTest.tableView)
         tracksTableTest.tableView.translatesAutoresizingMaskIntoConstraints = false
         tracksTableTest.tableView.topAnchor.constraint(equalTo: tracksTable.topAnchor).isActive = true
@@ -56,28 +57,17 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     
     @IBAction func filterButtonClick(_ sender: Any) {
         guard let btn = sender as? UIButton else { return }
-        let filterView = TrackFilterViewController()
-        filterView.preferredContentSize = CGSize(width: 400, height: 180)
-        filterView.modalPresentationStyle = .popover
-        let pop = filterView.popoverPresentationController
-        pop?.delegate = self
-        pop?.sourceView = btn
-        pop?.sourceRect = btn.bounds
-        present(filterView, animated: true, completion: nil)
-        filterView.titleValue(searchByTitle)
-        filterView.titleCallback() { [weak self] isOn in
+        let titleCallback: ( _: inout Bool) -> Void = { [weak self] isOn in
             guard let `self` = self else { return }
             if self.searchByTitle, !self.searchByPerformer { return }
             self.searchByTitle = !self.searchByTitle
         }
-        filterView.performerValue(searchByPerformer)
-        filterView.performerCallback() { [weak self] isOn in
+        let performerCallback: ( _: inout Bool) -> Void =  { [weak self] isOn in
             guard let `self` = self else { return }
             if self.searchByPerformer, !self.searchByTitle { return }
             self.searchByPerformer = !self.searchByPerformer
         }
-        filterView.timeValue(searchTimeRate)
-        filterView.timeCallback() { [weak self] value in
+        let timeCallback: ( _: inout Float) -> Void = { [weak self] value in
             guard let `self` = self else { return }
             
             let offset = 3
@@ -102,6 +92,14 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
             
             self.searchTimeRate = value
         }
+        let filterView = TrackFilterRouter.setup(timeValue: searchTimeRate, titleValue: searchByTitle, performerValue: searchByPerformer, timeCallback: timeCallback, titleCallback: titleCallback, performerCallback: performerCallback)
+        filterView.preferredContentSize = CGSize(width: 400, height: 180)
+        filterView.modalPresentationStyle = .popover
+        let pop = filterView.popoverPresentationController
+        pop?.delegate = self
+        pop?.sourceView = btn
+        pop?.sourceRect = btn.bounds
+        present(filterView, animated: true, completion: nil)
     }
     
     private func clearSearch() {
@@ -166,8 +164,8 @@ class TracklistViewController: UIViewController, ControllerInfoProtocol {
     }
     
     private func updateTable() {
-        self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
-        self.tracksTableTest.tableView.reloadData()
+        //self.tracksTableTest.presenter.updateTracks(tracks: self.tracks, foundTracks: self.foundTracks)
+        reloadData(self.tracks, self.foundTracks)
     }
     
 }

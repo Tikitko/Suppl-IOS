@@ -28,6 +28,20 @@
 		0EEC5AAB202135B50028694E /* TracklistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC5AAA202135B50028694E /* TracklistViewController.xib */; };
 		0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF1AFB2201F9E44006B2761 /* ResponseData.swift */; };
 		4C501C538AB7351FFAA0F3A7 /* Pods_Suppl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC594A90A504837522D11FA5 /* Pods_Suppl.framework */; };
+		8C0CB5F6208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5F5208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift */; };
+		8C0CB5F8208DA83000456A68 /* TrackFilterInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5F7208DA83000456A68 /* TrackFilterInteractorProtocol.swift */; };
+		8C0CB5FA208DA85500456A68 /* TrackFilterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5F9208DA85500456A68 /* TrackFilterInteractor.swift */; };
+		8C0CB5FC208DA87100456A68 /* TrackFilterRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5FB208DA87100456A68 /* TrackFilterRouterProtocol.swift */; };
+		8C0CB5FE208DA87E00456A68 /* TrackFilterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5FD208DA87E00456A68 /* TrackFilterRouter.swift */; };
+		8C0CB600208DA8C800456A68 /* TrackFilterPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5FF208DA8C800456A68 /* TrackFilterPresenterProtocol.swift */; };
+		8C0CB602208DA8D200456A68 /* TrackFilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB601208DA8D200456A68 /* TrackFilterPresenter.swift */; };
+		8C0CB609208DCCAC00456A68 /* MainViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB608208DCCAC00456A68 /* MainViewControllerProtocol.swift */; };
+		8C0CB60B208DCD2B00456A68 /* MainInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB60A208DCD2B00456A68 /* MainInteractorProtocol.swift */; };
+		8C0CB60D208DCD3400456A68 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB60C208DCD3400456A68 /* MainInteractor.swift */; };
+		8C0CB60F208DCD5900456A68 /* MainRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB60E208DCD5900456A68 /* MainRouterProtocol.swift */; };
+		8C0CB611208DCD6500456A68 /* MainRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB610208DCD6500456A68 /* MainRouter.swift */; };
+		8C0CB613208DCD8F00456A68 /* MainPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB612208DCD8F00456A68 /* MainPresenterProtocol.swift */; };
+		8C0CB615208DCD9A00456A68 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB614208DCD9A00456A68 /* MainPresenter.swift */; };
 		8C20889C2089D7F0000505F9 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889B2089D7F0000505F9 /* TrackList.swift */; };
 		8C20889E2089D851000505F9 /* RowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889D2089D851000505F9 /* RowAction.swift */; };
 		8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889F2089DBEF000505F9 /* TrackTime.swift */; };
@@ -106,6 +120,20 @@
 		0EF1AFB2201F9E44006B2761 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
 		27028F1F091779E3391AF02A /* Pods-Suppl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Suppl.release.xcconfig"; path = "Pods/Target Support Files/Pods-Suppl/Pods-Suppl.release.xcconfig"; sourceTree = "<group>"; };
 		574C548F0169B641AE8964C1 /* Pods-Suppl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Suppl.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Suppl/Pods-Suppl.debug.xcconfig"; sourceTree = "<group>"; };
+		8C0CB5F5208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterViewControllerProtocol.swift; sourceTree = "<group>"; };
+		8C0CB5F7208DA83000456A68 /* TrackFilterInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterInteractorProtocol.swift; sourceTree = "<group>"; };
+		8C0CB5F9208DA85500456A68 /* TrackFilterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterInteractor.swift; sourceTree = "<group>"; };
+		8C0CB5FB208DA87100456A68 /* TrackFilterRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterRouterProtocol.swift; sourceTree = "<group>"; };
+		8C0CB5FD208DA87E00456A68 /* TrackFilterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterRouter.swift; sourceTree = "<group>"; };
+		8C0CB5FF208DA8C800456A68 /* TrackFilterPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterPresenterProtocol.swift; sourceTree = "<group>"; };
+		8C0CB601208DA8D200456A68 /* TrackFilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterPresenter.swift; sourceTree = "<group>"; };
+		8C0CB608208DCCAC00456A68 /* MainViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewControllerProtocol.swift; sourceTree = "<group>"; };
+		8C0CB60A208DCD2B00456A68 /* MainInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractorProtocol.swift; sourceTree = "<group>"; };
+		8C0CB60C208DCD3400456A68 /* MainInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractor.swift; sourceTree = "<group>"; };
+		8C0CB60E208DCD5900456A68 /* MainRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouterProtocol.swift; sourceTree = "<group>"; };
+		8C0CB610208DCD6500456A68 /* MainRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouter.swift; sourceTree = "<group>"; };
+		8C0CB612208DCD8F00456A68 /* MainPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenterProtocol.swift; sourceTree = "<group>"; };
+		8C0CB614208DCD9A00456A68 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		8C20889B2089D7F0000505F9 /* TrackList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
 		8C20889D2089D851000505F9 /* RowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowAction.swift; sourceTree = "<group>"; };
 		8C20889F2089DBEF000505F9 /* TrackTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTime.swift; sourceTree = "<group>"; };
@@ -178,8 +206,10 @@
 		0E0A983E2033141500E91922 /* TrackFilter */ = {
 			isa = PBXGroup;
 			children = (
-				0E0A983F2033141500E91922 /* TrackFilterViewController.swift */,
-				0E0A98402033141500E91922 /* TrackFilterViewController.xib */,
+				8C0CB5F4208DA7D200456A68 /* Presenter */,
+				8C0CB5F3208DA7CC00456A68 /* Router */,
+				8C0CB5F2208DA7C600456A68 /* Interactor */,
+				8C0CB5F1208DA7BE00456A68 /* View */,
 			);
 			path = TrackFilter;
 			sourceTree = "<group>";
@@ -258,6 +288,80 @@
 				DC594A90A504837522D11FA5 /* Pods_Suppl.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8C0CB5F1208DA7BE00456A68 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0E0A983F2033141500E91922 /* TrackFilterViewController.swift */,
+				0E0A98402033141500E91922 /* TrackFilterViewController.xib */,
+				8C0CB5F5208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8C0CB5F2208DA7C600456A68 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB5F7208DA83000456A68 /* TrackFilterInteractorProtocol.swift */,
+				8C0CB5F9208DA85500456A68 /* TrackFilterInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8C0CB5F3208DA7CC00456A68 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB5FB208DA87100456A68 /* TrackFilterRouterProtocol.swift */,
+				8C0CB5FD208DA87E00456A68 /* TrackFilterRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		8C0CB5F4208DA7D200456A68 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB5FF208DA8C800456A68 /* TrackFilterPresenterProtocol.swift */,
+				8C0CB601208DA8D200456A68 /* TrackFilterPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8C0CB603208DCC6E00456A68 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8CCAC59D202065AA00D91687 /* MainViewController.swift */,
+				8CCAC59F202065B300D91687 /* MainViewController.xib */,
+				8C0CB608208DCCAC00456A68 /* MainViewControllerProtocol.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8C0CB604208DCC7700456A68 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB60A208DCD2B00456A68 /* MainInteractorProtocol.swift */,
+				8C0CB60C208DCD3400456A68 /* MainInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8C0CB605208DCC8300456A68 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB60E208DCD5900456A68 /* MainRouterProtocol.swift */,
+				8C0CB610208DCD6500456A68 /* MainRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		8C0CB606208DCC8A00456A68 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8C0CB612208DCD8F00456A68 /* MainPresenterProtocol.swift */,
+				8C0CB614208DCD9A00456A68 /* MainPresenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		8C20889A2089D412000505F9 /* Entities */ = {
@@ -540,8 +644,10 @@
 		8CCAC59C2020655A00D91687 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				8CCAC59D202065AA00D91687 /* MainViewController.swift */,
-				8CCAC59F202065B300D91687 /* MainViewController.xib */,
+				8C0CB606208DCC8A00456A68 /* Presenter */,
+				8C0CB605208DCC8300456A68 /* Router */,
+				8C0CB604208DCC7700456A68 /* Interactor */,
+				8C0CB603208DCC6E00456A68 /* View */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -707,6 +813,7 @@
 				8C316CBB208710E800BD891B /* PlayerInteractorProtocol.swift in Sources */,
 				8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */,
 				8C285F6F20887E69007427E7 /* TrackTableViewControllerProtocol.swift in Sources */,
+				8C0CB613208DCD8F00456A68 /* MainPresenterProtocol.swift in Sources */,
 				8CBDFD642023001700BED743 /* AuthManager.swift in Sources */,
 				0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */,
 				8C67F601201B174200333EB2 /* UserService.swift in Sources */,
@@ -716,6 +823,7 @@
 				8C285F712088811C007427E7 /* TrackTableInteractorProtocol.swift in Sources */,
 				0E466278201F88890037FD0E /* TracklistService.swift in Sources */,
 				8C316CC02087111B00BD891B /* PlayerRouterProtocol.swift in Sources */,
+				8C0CB611208DCD6500456A68 /* MainRouter.swift in Sources */,
 				8C20889C2089D7F0000505F9 /* TrackList.swift in Sources */,
 				8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */,
 				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,
@@ -723,23 +831,31 @@
 				8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */,
 				0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */,
 				8C20889E2089D851000505F9 /* RowAction.swift in Sources */,
+				8C0CB5F8208DA83000456A68 /* TrackFilterInteractorProtocol.swift in Sources */,
 				0E0A98412033141600E91922 /* TrackFilterViewController.swift in Sources */,
 				8C285F6D20887C16007427E7 /* TrackTableViewController.swift in Sources */,
+				8C0CB60B208DCD2B00456A68 /* MainInteractorProtocol.swift in Sources */,
 				8C316CBD208710F600BD891B /* PlayerInteractor.swift in Sources */,
 				8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */,
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C285F7D2088A2A8007427E7 /* TrackTableInteractorMusic.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
+				8C0CB60D208DCD3400456A68 /* MainInteractor.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
 				8C316CC72087116900BD891B /* PlayerPresenter.swift in Sources */,
+				8C0CB5F6208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift in Sources */,
 				8C71CE382080BFEC00AC4BDB /* AuthPresenterProtocol.swift in Sources */,
 				8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */,
 				8C71CE352080BFCB00AC4BDB /* AuthPresenter.swift in Sources */,
 				0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */,
 				8C285F79208881B5007427E7 /* TrackTablePresenterProtocol.swift in Sources */,
+				8C0CB5FC208DA87100456A68 /* TrackFilterRouterProtocol.swift in Sources */,
+				8C0CB5FE208DA87E00456A68 /* TrackFilterRouter.swift in Sources */,
 				0E0641A020273A8900998D8A /* ImagesManager.swift in Sources */,
+				8C0CB5FA208DA85500456A68 /* TrackFilterInteractor.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
 				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,
+				8C0CB600208DA8C800456A68 /* TrackFilterPresenterProtocol.swift in Sources */,
 				0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */,
 				8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */,
 				8C316CC22087112500BD891B /* PlayerRouter.swift in Sources */,
@@ -747,10 +863,12 @@
 				8C67F602201B174200333EB2 /* AudioService.swift in Sources */,
 				0E12FACA2030A3D400EE3422 /* SettingTableCell.swift in Sources */,
 				8C67F608201B174200333EB2 /* AudioListData.swift in Sources */,
+				8C0CB609208DCCAC00456A68 /* MainViewControllerProtocol.swift in Sources */,
 				8CCAC5992020600E00D91687 /* SettingsMainViewController.swift in Sources */,
 				8C71CE2D2080BECD00AC4BDB /* AuthRouter.swift in Sources */,
 				8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */,
 				8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */,
+				8C0CB615208DCD9A00456A68 /* MainPresenter.swift in Sources */,
 				8C67F607201B174200333EB2 /* UserData.swift in Sources */,
 				0E466276201F87A30037FD0E /* TracklistData.swift in Sources */,
 				0E12FABE2030604200EE3422 /* SettingsManager.swift in Sources */,
@@ -758,7 +876,9 @@
 				8C67F604201B174200333EB2 /* APIRequest.swift in Sources */,
 				8CCAC59E202065AA00D91687 /* MainViewController.swift in Sources */,
 				0E29CBD9202A025900BE5975 /* PlayerViewController.swift in Sources */,
+				8C0CB602208DA8D200456A68 /* TrackFilterPresenter.swift in Sources */,
 				8C316CC52087115200BD891B /* PlayerPresenterProtocol.swift in Sources */,
+				8C0CB60F208DCD5900456A68 /* MainRouterProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
