@@ -5,9 +5,9 @@ class TracklistRouter: TracklistRouterProtocol {
     
     weak var viewController: UIViewController!
     
-    func showFilter(sender: Any, timeValue: Float, titleValue: Bool, performerValue: Bool, timeCallback: ((inout Float) -> Void)?, titleCallback: ((inout Bool) -> Void)?, performerCallback: ((inout Bool) -> Void)?) {
+    func showFilter(sender: Any, defaultValues: FilterDefaultValues, name: String) {
         guard let btn = sender as? UIButton else { return }
-        let filterView = TrackFilterRouter.setup(timeValue: timeValue, titleValue: titleValue, performerValue: performerValue, timeCallback: timeCallback, titleCallback: titleCallback, performerCallback: performerCallback)
+        let filterView = TrackFilterRouter.setup(defaultValues: defaultValues, name: name)
         filterView.preferredContentSize = CGSize(width: 400, height: 180)
         filterView.modalPresentationStyle = .popover
         let pop = filterView.popoverPresentationController

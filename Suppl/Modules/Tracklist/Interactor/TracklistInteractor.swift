@@ -13,49 +13,52 @@ class TracklistInteractor: TracklistInteractorProtocol {
     var searchByPerformer = true
     var searchTimeRate: Float = 1.0
     
-    var titleCallback: (( _: inout Bool) -> Void)!
-    var performerCallback: (( _: inout Bool) -> Void)!
-    var timeCallback: (( _: inout Float) -> Void)!
-    
     func load() {
         NotificationCenter.default.addObserver(self, selector: #selector(updateTracksNotification(notification:)), name: .TracklistUpdated, object: nil)
         updateTracks()
+    }
+    
+    func createFilterListeners(name: String) {
+        /*
+        NotificationManager.addListener(name, inSection: "FilterTitleCallback", callback: titleCallback)
+        NotificationManager.addListener(name, inSection: "FilterPerformerCallback", callback: performerCallback)
+        NotificationManager.addListener(name, inSection: "FilterTimeCallback", callback: timeCallback)
+         */
+    }
+    
+    func titleCallback(_ value: Any?) {
+        guard let isOn = value as? Bool else { return }
+        searchByTitle = isOn
+    }
+    
+    func performerCallback(_ value: Any?) {
+        guard let isOn = value as? Bool else { return }
+        searchByPerformer = isOn
+    }
+    
+    func timeCallback(_ value: Any?) {
+        guard let value = value as? Float else { return }
+        searchTimeRate = value
         
-        titleCallback = { [weak self] isOn in
-            guard let `self` = self else { return }
-            if self.searchByTitle, !self.searchByPerformer { return }
-            self.searchByTitle = !self.searchByTitle
-        }
-        performerCallback =  { [weak self] isOn in
-            guard let `self` = self else { return }
-            if self.searchByPerformer, !self.searchByTitle { return }
-            self.searchByPerformer = !self.searchByPerformer
-        }
-        timeCallback = { [weak self] value in
-            guard let `self` = self else { return }
-            
-            let offset = 3
-            var minRate = 0
-            var maxRate = 0
-            for track in self.tracks {
-                if maxRate < track.duration + offset {
-                    maxRate = track.duration + offset
-                }
-                if minRate == 0 || minRate > track.duration - offset {
-                    minRate = track.duration - offset
-                }
+        let offset = 3
+        var minRate = 0
+        var maxRate = 0
+        for track in tracks {
+            if maxRate < track.duration + offset {
+                maxRate = track.duration + offset
             }
-            self.foundTracks = []
-            for track in self.tracks {
-                if Float(track.duration - minRate) / Float(maxRate - minRate) < self.searchTimeRate {
-                    self.foundTracks?.append(track)
-                }
+            if minRate == 0 || minRate > track.duration - offset {
+                minRate = track.duration - offset
             }
-            self.updateTable()
-            self.presenter.setInfo(self.foundTracks?.count == 0 ? "Ничего не найдено" : nil)
-            
-            self.searchTimeRate = value
         }
+        foundTracks = []
+        for track in tracks {
+            if Float(track.duration - minRate) / Float(maxRate - minRate) < searchTimeRate {
+                foundTracks?.append(track)
+            }
+        }
+        updateTable()
+        presenter.setInfo(foundTracks?.count == 0 ? "Ничего не найдено" : nil)
     }
     
     func clearSearch() {
@@ -108,7 +111,7 @@ class TracklistInteractor: TracklistInteractorProtocol {
     }
     
     func updateTable() {
-        reloadData(self.tracks, self.foundTracks)
+        reloadData(tracks, foundTracks)
     }
     
     func searchBarSearchButtonClicked(searchText: String) {

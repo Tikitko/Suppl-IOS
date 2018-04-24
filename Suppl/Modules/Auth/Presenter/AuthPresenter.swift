@@ -19,8 +19,8 @@ class AuthPresenter: AuthPresenterProtocol {
     
     func startAuth(ikey: Int?, akey: Int?) {
         view.setLabel("Получение информации...")
-        let keys = interactor.getKeys()
-        if let ikey = ikey ?? keys?.i, let akey = akey ?? keys?.a {
+        let keys = AuthManager.getAuthKeys(setFailAuth: false)
+        if let ikey = ikey ?? keys?.ikey, let akey = akey ?? keys?.akey {
             view.setLabel("Авторизация...")
             interactor.auth(ikey: ikey, akey: akey)
         } else {
@@ -40,7 +40,7 @@ class AuthPresenter: AuthPresenterProtocol {
     }
     
     func setAuthFormVisable() {
-        if let (ikey, akey) = interactor.getKeys() {
+        if let (ikey, akey) = AuthManager.getAuthKeys(setFailAuth: false) {
             view.setIdentifier(String("\(ikey)\(akey)"))
         } else {
             view.setLabel("Введите ваш идентификатор")
@@ -56,7 +56,7 @@ class AuthPresenter: AuthPresenterProtocol {
     func repeatButtonClick(_ sender: Any, identifierText: String?) {
         view.setLabel("Проверка идентификатора")
         view.disableButtons()
-        guard let (ikey, akey) = interactor.inputProcessing(input: identifierText) else {
+        guard interactor.inputProcessing(input: identifierText), let (ikey, akey) = AuthManager.getAuthKeys(setFailAuth: false) else {
             view.setLabel("Неверный формат идентификатора")
             view.enableButtons()
             return

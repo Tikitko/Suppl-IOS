@@ -19,7 +19,6 @@ class SettingsManager {
         }
         set(value) {
             UserDefaultsManager.keySet(roundIconsName, value: value)
-            NotificationCenter.default.post(name: .RoundIconsSettingChanged, object: nil, userInfo: nil)
         }
     }
     
@@ -35,7 +34,6 @@ class SettingsManager {
         }
         set(value) {
             UserDefaultsManager.keySet(loadImagesName, value: value)
-            NotificationCenter.default.post(name: .LoadImagesSettingChanged, object: nil, userInfo: nil)
         }
     }
     
@@ -51,7 +49,6 @@ class SettingsManager {
         }
         set(value) {
             UserDefaultsManager.keySet(autoNextTrackName, value: value)
-            NotificationCenter.default.post(name: .AutoNextTrackSettingChanged, object: nil, userInfo: nil)
         }
     }
     
@@ -67,7 +64,6 @@ class SettingsManager {
         }
         set(value) {
             UserDefaultsManager.keySet(themeName, value: value)
-            NotificationCenter.default.post(name: .ThemeSettingChanged, object: nil, userInfo: nil)
             setTheme()
         }
     }
@@ -76,11 +72,3 @@ class SettingsManager {
         ThemeManager.setTheme(plistName: AppStaticData.themesList[theme!], path: .mainBundle)
     }
 }
-
-extension Notification.Name {
-    static let RoundIconsSettingChanged = Notification.Name("RoundIconsSettingChanged")
-    static let LoadImagesSettingChanged = Notification.Name("LoadImagesSettingChanged")
-    static let AutoNextTrackSettingChanged = Notification.Name("AutoNextTrackSettingChanged")
-    static let ThemeSettingChanged = Notification.Name("ThemeSettingChanged")
-}
-

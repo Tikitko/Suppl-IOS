@@ -40,12 +40,38 @@ class AuthManager {
         return false
     }
     
-    public static func getAuthKeys() -> (ikey:Int, akey:Int)? {
+    public static func getAuthKeys(setFailAuth: Bool = true) -> (ikey:Int, akey:Int)? {
         guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
-            setAuthWindow()
+            if setFailAuth {
+                setAuthWindow()
+            }
             return nil
         }
         return (ikey, akey)
+    }
+    
+    public static func authorization(ikey: Int?, akey: Int?, callback: @escaping (String?) -> Void) {
+        let keys = getAuthKeys()
+        guard let ikey = ikey ?? keys?.ikey, let akey = akey ?? keys?.akey else { return }
+        APIManager.userGet(ikey: ikey, akey: akey) { error, data in
+            if let error = error {
+                callback(APIManager.errorHandler(error))
+                return
+            }
+            callback(nil)
+        }
+    }
+    
+    public static func registration(callback: @escaping (String?) -> Void) {
+        APIManager.userRegister() { error, data in
+            if let error = error {
+                callback(APIManager.errorHandler(error))
+                return
+            }
+            UserDefaultsManager.identifierKey = data!.identifierKey
+            UserDefaultsManager.accessKey = data!.accessKey
+            callback(nil)
+        }
     }
     
 }

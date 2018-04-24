@@ -8,5 +8,5 @@ protocol TracklistPresenterProtocol: class {
     func setInfo(_ text: String?)
     func load()
     func updateButtonClick()
-    func filterButtonClick(_ sender: Any)
+    func filterButtonClick(_ sender: Any, name: String)
 }

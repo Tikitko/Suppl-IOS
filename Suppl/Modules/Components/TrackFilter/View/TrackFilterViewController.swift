@@ -11,12 +11,19 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
     @IBOutlet weak var searchPerformerSwitch: UISwitch!
     @IBOutlet weak var okButton: UIButton!
     
+    var defaultValues: FilterDefaultValues?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        timeSlider.isEnabled = false
-        searchTitleSwitch.isEnabled = false
-        searchPerformerSwitch.isEnabled = false
+        if let df = defaultValues {
+            timeSlider.value = df.timeValue
+            searchTitleSwitch.isOn = df.titleValue
+            searchPerformerSwitch.isOn = df.performerValue
+        }
+        timeSlider.isEnabled = true
+        searchTitleSwitch.isEnabled = true
+        searchPerformerSwitch.isEnabled =  true
         okButton.isEnabled = false
         okButton.isHidden = true
     }
@@ -26,30 +33,6 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
         searchTitleSwitch.theme_onTintColor = "secondColor"
         searchPerformerSwitch.theme_onTintColor = "secondColor"
         timeSlider.theme_tintColor = "secondColor"
-    }
-    
-    func timeValue(_ value: Float) {
-        timeSlider.value = value
-    }
-    
-    func timeIsEnabled(_ isEnabled: Bool) {
-        timeSlider.isEnabled = isEnabled
-    }
-    
-    func titleValue(_ value: Bool) {
-        searchTitleSwitch.isOn = value
-    }
-    
-    func titleIsEnabled(_ isEnabled: Bool) {
-        searchTitleSwitch.isEnabled = isEnabled
-    }
-    
-    func performerValue(_ value: Bool) {
-        searchPerformerSwitch.isOn = value
-    }
-    
-    func performerIsEnabled(_ isEnabled: Bool) {
-        searchPerformerSwitch.isEnabled = isEnabled
     }
     
     @IBAction func timeChange(_ sender: Any) {

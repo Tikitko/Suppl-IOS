@@ -6,37 +6,6 @@ class TracklistPresenter: TracklistPresenterProtocol {
     var interactor: TracklistInteractorProtocol!
     weak var view: TracklistViewControllerProtocol!
     
-    var titleCallback: (( _: inout Bool) -> Void)! {
-        get {
-            return interactor.titleCallback
-        }
-    }
-    var performerCallback: (( _: inout Bool) -> Void)! {
-        get {
-            return interactor.performerCallback
-        }
-    }
-    var timeCallback: (( _: inout Float) -> Void)! {
-        get {
-            return interactor.timeCallback
-        }
-    }
-    var searchByTitle: Bool {
-        get {
-            return interactor.searchByTitle
-        }
-    }
-    var searchByPerformer: Bool {
-        get {
-            return interactor.searchByPerformer
-        }
-    }
-    var searchTimeRate: Float {
-        get {
-            return interactor.searchTimeRate
-        }
-    }
-    
     func clearSearch() {
         view.clearSearch()
     }
@@ -61,8 +30,10 @@ class TracklistPresenter: TracklistPresenterProtocol {
         interactor.updateButtonClick()
     }
     
-    func filterButtonClick(_ sender: Any) {
-        router.showFilter(sender: sender, timeValue: interactor.searchTimeRate, titleValue: interactor.searchByTitle, performerValue: interactor.searchByPerformer, timeCallback: interactor.timeCallback, titleCallback: interactor.titleCallback, performerCallback: interactor.performerCallback)
+    func filterButtonClick(_ sender: Any, name: String) {
+        let filterValues = FilterDefaultValues(timeValue: interactor.searchTimeRate, titleValue: interactor.searchByTitle, performerValue: interactor.searchByPerformer)
+        interactor.createFilterListeners(name: name)
+        router.showFilter(sender: sender, defaultValues: filterValues, name: name)
     }
     
 }

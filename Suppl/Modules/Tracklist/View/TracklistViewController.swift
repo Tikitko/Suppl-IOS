@@ -72,7 +72,8 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     }
     
     @IBAction func filterButtonClick(_ sender: Any) {
-        presenter.filterButtonClick(sender)
+        guard let btn = sender as? UIButton else { return }
+        presenter.filterButtonClick(sender, name: String(btn.hashValue))
     }
     
 }

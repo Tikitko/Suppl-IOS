@@ -5,11 +5,12 @@ class TrackFilterRouter: TrackFilterRouterProtocol {
     
     weak var viewController: UIViewController!
 
-    static func setup(timeValue: Float, titleValue: Bool, performerValue: Bool, timeCallback: ((inout Float) -> Void)?, titleCallback: ((inout Bool) -> Void)?, performerCallback: ((inout Bool) -> Void)?) -> UIViewController {
+    static func setup(defaultValues: FilterDefaultValues, name: String) -> UIViewController {
         let router = TrackFilterRouter()
-        let interactor = TrackFilterInteractor()
+        let interactor = TrackFilterInteractor(name: name)
         let presenter = TrackFilterPresenter()
         let viewController = TrackFilterViewController()
+        viewController.defaultValues = defaultValues
         
         presenter.interactor = interactor
         presenter.router = router
@@ -20,17 +21,6 @@ class TrackFilterRouter: TrackFilterRouterProtocol {
         viewController.presenter = presenter
         
         interactor.presenter = presenter
-        
-        viewController.loadViewIfNeeded()
-        
-        interactor.timeCallbackSet(timeCallback)
-        viewController.timeValue(timeValue)
-        
-        interactor.titleCallbackSet(titleCallback)
-        viewController.titleValue(titleValue)
-        
-        interactor.performerCallbackSet(performerCallback)
-        viewController.performerValue(performerValue)
         
         return viewController
     }

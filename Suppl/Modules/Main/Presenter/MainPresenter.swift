@@ -10,8 +10,8 @@ class MainPresenter: MainPresenterProtocol {
         view.setSearchQuery(query)
     }
     
-    func searchBarSearchButtonClicked(searchText: String) {
-        interactor.searchBarSearchButtonClicked(searchText: searchText)
+    func searchButtonClicked(searchText: String) {
+        interactor.searchButtonClicked(searchText: searchText)
     }
     
     func setInfo(_ text: String? = nil) {
@@ -24,9 +24,5 @@ class MainPresenter: MainPresenterProtocol {
     
     func load() {
         interactor.loadBaseTracks()
-    }
-    
-    func unload() {
-        interactor.clearData(withReload: false)
     }
 }

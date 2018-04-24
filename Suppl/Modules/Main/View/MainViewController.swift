@@ -65,10 +65,6 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     func setOffsetZero() {
         tracksTableTest.tableView.setContentOffset(CGPoint.zero, animated: false)
     }
-    
-    deinit {
-        presenter.unload()
-    }
 
 }
 
@@ -77,7 +73,7 @@ extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         guard let query = tracksSearch.text else { return }
-        presenter.searchBarSearchButtonClicked(searchText: query)
+        presenter.searchButtonClicked(searchText: query)
     }
 
 }

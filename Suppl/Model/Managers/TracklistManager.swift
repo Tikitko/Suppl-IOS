@@ -12,7 +12,7 @@ class TracklistManager {
     public static func update(callback: @escaping (Bool) -> ()) {
         if inUpdate { return }
         inUpdate = true
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
+        guard let (ikey, akey) = AuthManager.getAuthKeys() else {
             sendCallbackStatus(false, callback: callback)
             return
         }
@@ -100,3 +100,4 @@ class TracklistManager {
 extension Notification.Name {
     static let TracklistUpdated = Notification.Name("TracklistUpdated")
 }
+

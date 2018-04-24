@@ -28,12 +28,6 @@ class MainInteractor: MainInteractorProtocol {
     }
     
     func clearData(withReload: Bool = true) {
-        if let searchData = searchData {
-            for track in searchData.list {
-                guard let link = track.images.last else { continue }
-                ImagesManager.removeFromCache(link: link)
-            }
-        }
         searchData = nil
         thisQuery = ""
         if withReload {
@@ -50,7 +44,6 @@ class MainInteractor: MainInteractorProtocol {
             self.addFoundTracks(data)
             self.thisQuery = query
             self.updateTable()
-            
         }
     }
     
@@ -72,7 +65,7 @@ class MainInteractor: MainInteractorProtocol {
         reloadData(searchData?.list ?? [], nil)
     }
     
-    func searchBarSearchButtonClicked(searchText: String) {
+    func searchButtonClicked(searchText: String) {
         clearData()
         searchTracks(searchText)
         presenter.setOffsetZero()
