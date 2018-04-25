@@ -6,5 +6,5 @@ protocol AuthPresenterProtocol: class {
     func setAuthResult(error: String?)
     func setAuthFormVisable()
     func goToRoot()
-    func repeatButtonClick(_ sender: Any, identifierText: String?)
+    func repeatButtonClick(identifierText: String?)
 }

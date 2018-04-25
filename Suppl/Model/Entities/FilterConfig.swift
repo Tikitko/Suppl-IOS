@@ -1,7 +1,8 @@
 import Foundation
 
-struct FilterDefaultValues {
+struct FilterConfig {
     let timeValue: Float
     let titleValue: Bool
     let performerValue: Bool
+    let delegate: TrackFilterDelegate
 }

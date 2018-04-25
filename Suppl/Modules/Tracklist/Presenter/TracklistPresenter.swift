@@ -30,10 +30,22 @@ class TracklistPresenter: TracklistPresenterProtocol {
         interactor.updateButtonClick()
     }
     
-    func filterButtonClick(_ sender: Any, name: String) {
-        let filterValues = FilterDefaultValues(timeValue: interactor.searchTimeRate, titleValue: interactor.searchByTitle, performerValue: interactor.searchByPerformer)
-        interactor.createFilterListeners(name: name)
-        router.showFilter(sender: sender, defaultValues: filterValues, name: name)
+    func timeChange(_ value: inout Float) {
+        interactor.timeChange(&value)
+    }
+    
+    func titleChange(_ value: inout Bool) {
+        interactor.titleChange(&value)
+    }
+    
+    func performerChange(_ value: inout Bool) {
+        interactor.performerChange(&value)
+    }
+    
+    func filterButtonClick(_ sender: Any) {
+        guard let delegate = view as? TrackFilterDelegate else { return }
+        let config = FilterConfig(timeValue: interactor.searchTimeRate, titleValue: interactor.searchByTitle, performerValue: interactor.searchByPerformer, delegate: delegate)
+        router.showFilter(sender: sender, config: config)
     }
     
 }

@@ -72,8 +72,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     }
     
     @IBAction func filterButtonClick(_ sender: Any) {
-        guard let btn = sender as? UIButton else { return }
-        presenter.filterButtonClick(sender, name: String(btn.hashValue))
+        presenter.filterButtonClick(sender)
     }
     
 }
@@ -92,6 +91,22 @@ extension TracklistViewController: UISearchBarDelegate {
         view.endEditing(true)
         guard let query = searchBar.text else { return }
         presenter.searchBarSearchButtonClicked(searchText: query)
+    }
+    
+}
+
+extension TracklistViewController: TrackFilterDelegate {
+    
+    func timeChange(_ value: inout Float) {
+        presenter.timeChange(&value)
+    }
+    
+    func titleChange(_ value: inout Bool) {
+        presenter.titleChange(&value)
+    }
+    
+    func performerChange(_ value: inout Bool) {
+        presenter.performerChange(&value)
     }
     
 }

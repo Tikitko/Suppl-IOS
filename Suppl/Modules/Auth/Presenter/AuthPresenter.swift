@@ -53,7 +53,7 @@ class AuthPresenter: AuthPresenterProtocol {
         router.goToRootTabBar()
     }
     
-    func repeatButtonClick(_ sender: Any, identifierText: String?) {
+    func repeatButtonClick(identifierText: String?) {
         view.setLabel("Проверка идентификатора")
         view.disableButtons()
         guard interactor.inputProcessing(input: identifierText), let (ikey, akey) = AuthManager.getAuthKeys(setFailAuth: false) else {

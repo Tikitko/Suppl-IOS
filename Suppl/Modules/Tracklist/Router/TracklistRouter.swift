@@ -5,9 +5,9 @@ class TracklistRouter: TracklistRouterProtocol {
     
     weak var viewController: UIViewController!
     
-    func showFilter(sender: Any, defaultValues: FilterDefaultValues, name: String) {
+    func showFilter(sender: Any, config: FilterConfig) {
         guard let btn = sender as? UIButton else { return }
-        let filterView = TrackFilterRouter.setup(defaultValues: defaultValues, name: name)
+        let filterView = TrackFilterRouter.setup(config: config)
         filterView.preferredContentSize = CGSize(width: 400, height: 180)
         filterView.modalPresentationStyle = .popover
         let pop = filterView.popoverPresentationController

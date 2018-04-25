@@ -18,26 +18,16 @@ class TracklistInteractor: TracklistInteractorProtocol {
         updateTracks()
     }
     
-    func createFilterListeners(name: String) {
-        /*
-        NotificationManager.addListener(name, inSection: "FilterTitleCallback", callback: titleCallback)
-        NotificationManager.addListener(name, inSection: "FilterPerformerCallback", callback: performerCallback)
-        NotificationManager.addListener(name, inSection: "FilterTimeCallback", callback: timeCallback)
-         */
+    func clearSearch() {
+        searchTimeRate = 1.0
+        searchByTitle = true
+        searchByPerformer = true
+        
+        foundTracks = nil
+        presenter.clearSearch()
     }
     
-    func titleCallback(_ value: Any?) {
-        guard let isOn = value as? Bool else { return }
-        searchByTitle = isOn
-    }
-    
-    func performerCallback(_ value: Any?) {
-        guard let isOn = value as? Bool else { return }
-        searchByPerformer = isOn
-    }
-    
-    func timeCallback(_ value: Any?) {
-        guard let value = value as? Float else { return }
+    func timeChange(_ value: inout Float) {
         searchTimeRate = value
         
         let offset = 3
@@ -61,24 +51,31 @@ class TracklistInteractor: TracklistInteractorProtocol {
         presenter.setInfo(foundTracks?.count == 0 ? "Ничего не найдено" : nil)
     }
     
-    func clearSearch() {
-        searchTimeRate = 1.0
-        searchByTitle = true
-        searchByPerformer = true
+    func titleChange(_ value: inout Bool) {
+        if searchByTitle, !searchByPerformer {
+            value = searchByTitle
+            return
+        }
+        searchByTitle = !searchByTitle
         
-        foundTracks = nil
-        presenter.clearSearch()
+    }
+    
+    func performerChange(_ value: inout Bool) {
+        if searchByPerformer, !searchByTitle {
+            value = searchByPerformer
+            return
+        }
+        searchByPerformer = !searchByPerformer
     }
     
     func updateTracks() {
         guard let tracklist = TracklistManager.tracklist else { return }
+        tracks = []
         if tracklist.count == 0 {
-            tracks = []
             updateTable()
             presenter.setInfo("Ваш плейлист пуст")
             return
         }
-        tracks = []
         recursiveTracksLoad()
     }
     

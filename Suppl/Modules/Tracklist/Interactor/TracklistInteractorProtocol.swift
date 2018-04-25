@@ -8,5 +8,8 @@ protocol TracklistInteractorProtocol: class {
     func load()
     func searchBarSearchButtonClicked(searchText: String)
     func updateButtonClick()
-    func createFilterListeners(name: String)
+    
+    func timeChange(_ value: inout Float)
+    func titleChange(_ value: inout Bool)
+    func performerChange(_ value: inout Bool)
 }

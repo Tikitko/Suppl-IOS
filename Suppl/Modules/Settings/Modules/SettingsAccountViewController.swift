@@ -12,19 +12,13 @@ class SettingsAccountViewController: UIViewController {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var emailButton: UIButton!
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)   {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        navigationItem.title = "Аккаунт"
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Аккаунт"
         setTheme()
         getAccount()
+        emailField.delegate = self
+        identifierField.delegate = self
     }
     
     @IBAction func accountOutButtonClick(_ sender: Any) {
@@ -84,6 +78,25 @@ class SettingsAccountViewController: UIViewController {
             self.accountOutButton.isEnabled = true
             self.identifierField.text = String(ikey) + String(akey)
         }
+    }
+}
+
+extension SettingsAccountViewController: UITextFieldDelegate {
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        textField.text = nil
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == identifierField {
+            accountOutButtonClick(textField)
+            return true
+        }
+        if textField == emailField {
+            emailButtonClick(textField)
+        }
+        return false
     }
 }
 

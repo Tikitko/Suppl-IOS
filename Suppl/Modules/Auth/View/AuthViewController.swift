@@ -50,6 +50,10 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         repeatButton.isEnabled = false
     }
     
+    func goButton() {
+        presenter.repeatButtonClick(identifierText: identifierField.text)
+    }
+    
     @objc func keyboardWillShow(sender: NSNotification) {
         if let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect {
             view.frame.origin.y = -keyboardFrame.height
@@ -63,7 +67,22 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     }
     
     @IBAction func repeatButtonClick(_ sender: Any) {
-        presenter.repeatButtonClick(sender, identifierText: identifierField.text)
+        goButton()
+    }
+    
+}
+
+extension AuthViewController: UITextFieldDelegate {
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        textField.text = nil
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(false)
+        goButton()
+        return true
     }
     
 }

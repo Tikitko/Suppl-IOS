@@ -11,21 +11,21 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
     @IBOutlet weak var searchPerformerSwitch: UISwitch!
     @IBOutlet weak var okButton: UIButton!
     
-    var defaultValues: FilterDefaultValues?
+    var config: FilterConfig?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        if let df = defaultValues {
-            timeSlider.value = df.timeValue
-            searchTitleSwitch.isOn = df.titleValue
-            searchPerformerSwitch.isOn = df.performerValue
-        }
+        okButton.isEnabled = false
+        okButton.isHidden = true
+        
+        guard let c = config else { return }
+        timeSlider.value = c.timeValue
+        searchTitleSwitch.isOn = c.titleValue
+        searchPerformerSwitch.isOn = c.performerValue
         timeSlider.isEnabled = true
         searchTitleSwitch.isEnabled = true
         searchPerformerSwitch.isEnabled =  true
-        okButton.isEnabled = false
-        okButton.isHidden = true
     }
     
     func setTheme() {
@@ -36,12 +36,12 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
     }
     
     @IBAction func timeChange(_ sender: Any) {
-        presenter.timeCallbackFunc(&timeSlider.value)
+        config?.delegate.timeChange(&timeSlider.value)
     }
     @IBAction func titleChange(_ sender: Any) {
-        presenter.titleCallbackFunc(&searchTitleSwitch.isOn)
+        config?.delegate.titleChange(&searchTitleSwitch.isOn)
     }
     @IBAction func performerChange(_ sender: Any) {
-        presenter.performerCallbackFunc(&searchTitleSwitch.isOn)
+        config?.delegate.performerChange(&searchPerformerSwitch.isOn)
     }
 }
