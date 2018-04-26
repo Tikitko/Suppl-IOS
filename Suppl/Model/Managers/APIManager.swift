@@ -1,55 +1,63 @@
 import Foundation
 
-class APIManager {
+final class APIManager {
 
-    private(set) static var API = APIRequest()
+    static public let s = APIManager()
+    private init() {}
     
-    public static func userRegister(dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
-        UserService.register(api: API, dataReport: dataReport)
+    private let API = APIRequest()
+    
+    private let userService = UserService()
+    private let audioService = AudioService()
+    private let tracklistService = TracklistService()
+    
+    public func userRegister(dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
+        userService.register(api: API, dataReport: dataReport)
     }
     
-    public static func userGet(ikey: Int, akey: Int, dataReport: @escaping (NSError?, UserData?) -> ()) {
-        UserService.get(api: API, ikey: ikey, akey: akey, dataReport: dataReport)
+    public func userGet(keys: KeysPair, dataReport: @escaping (NSError?, UserData?) -> ()) {
+        userService.get(api: API, keys: keys, dataReport: dataReport)
     }
     
-    public static func userUpdateEmail(ikey: Int, akey: Int, email: String, dataReport: @escaping (NSError?, Bool?) -> ()) {
-        UserService.updateEmail(api: API, ikey: ikey, akey: akey, email: email, dataReport: dataReport)
+    public func userUpdateEmail(keys: KeysPair,email: String, dataReport: @escaping (NSError?, Bool?) -> ()) {
+        userService.updateEmail(api: API, keys: keys, email: email, dataReport: dataReport)
     }
     
-    public static func userSendResetKey(email: String, dataReport: @escaping (NSError?, Bool?) -> ()) {
-        UserService.sendResetKey(api: API, email: email, dataReport: dataReport)
+    public func userSendResetKey(email: String, dataReport: @escaping (NSError?, Bool?) -> ()) {
+        userService.sendResetKey(api: API, email: email, dataReport: dataReport)
     }
     
-    public static func userReset(resetKey: String, dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
-        UserService.reset(api: API, resetKey: resetKey, dataReport: dataReport)
+    public func userReset(resetKey: String, dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
+        userService.reset(api: API, resetKey: resetKey, dataReport: dataReport)
     }
     
-    public static func audioSearch(ikey: Int, akey: Int, query: String, offset: Int = 0, dataReport: @escaping (NSError?, AudioSearchData?) -> ()) {
-        AudioService.search(api: API, ikey: ikey, akey: akey, query: query, offset: offset, dataReport: dataReport)
+    public func audioSearch(keys: KeysPair, query: String, offset: Int = 0, dataReport: @escaping (NSError?, AudioSearchData?) -> ()) {
+        audioService.search(api: API, keys: keys, query: query, offset: offset, dataReport: dataReport)
     }
     
-    public static func audioGet(ikey: Int, akey: Int, ids: String, dataReport: @escaping (NSError?, AudioListData?) -> ()) {
-        AudioService.get(api: API, ikey: ikey, akey: akey, ids: ids, dataReport: dataReport)
+    public func audioGet(keys: KeysPair, ids: String, dataReport: @escaping (NSError?, AudioListData?) -> ()) {
+        audioService.get(api: API, keys: keys, ids: ids, dataReport: dataReport)
     }
     
-    public static func tracklistGet(ikey: Int, akey: Int, dataReport: @escaping (NSError?, TracklistData?) -> ()) {
-        TracklistService.get(api: API, ikey: ikey, akey: akey, dataReport: dataReport)
+    public func tracklistGet(keys: KeysPair, dataReport: @escaping (NSError?, TracklistData?) -> ()) {
+        tracklistService.get(api: API, keys: keys, dataReport: dataReport)
     }
     
-    public static func tracklistAdd(ikey: Int, akey: Int, trackID: String, to: Int = 0, dataReport: @escaping (NSError?, Bool?) -> ()) {
-        TracklistService.add(api: API, ikey: ikey, akey: akey, trackID: trackID, to: to, dataReport: dataReport)
+    public func tracklistAdd(keys: KeysPair, trackID: String, to: Int = 0, dataReport: @escaping (NSError?, Bool?) -> ()) {
+        tracklistService.add(api: API, keys: keys, trackID: trackID, to: to, dataReport: dataReport)
     }
     
-    public static func tracklistRemove(ikey: Int, akey: Int, from: Int = 0, dataReport: @escaping (NSError?, Bool?) -> ()) {
-        TracklistService.remove(api: API, ikey: ikey, akey: akey, from: from, dataReport: dataReport)
+    public func tracklistRemove(keys: KeysPair, from: Int = 0, dataReport: @escaping (NSError?, Bool?) -> ()) {
+        tracklistService.remove(api: API, keys: keys, from: from, dataReport: dataReport)
     }
     
-    public static func tracklistMove(ikey: Int, akey: Int, from: Int = 0, to: Int = 0, dataReport: @escaping (NSError?, Bool?) -> ()) {
-        TracklistService.move(api: API, ikey: ikey, akey: akey, from: from, to: to, dataReport: dataReport)
-        
+    public func tracklistMove(keys: KeysPair, from: Int = 0, to: Int = 0, dataReport: @escaping (NSError?, Bool?) -> ()) {
+        tracklistService.move(api: API, keys: keys, from: from, to: to, dataReport: dataReport)
     }
-    
-    public static func errorHandler(_ inError: NSError) -> String {
-        return AppStaticData.ruAPIErrorsList[inError.code] ?? AppStaticData.APIErrorsList[inError.code] ?? inError.domain
+}
+
+extension NSError {
+    public func getAPIErrorString() -> String {
+        return LocalesManager.s.locale["APIError_\(code)"] ?? domain
     }
 }

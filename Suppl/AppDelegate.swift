@@ -15,13 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        SettingsManager.initialize()
-        
+        let _ = SettingsManager.s
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()
         self.window = window
         
-        AuthManager.setAuthWindow()
+        AuthManager.s.setAuthWindow()
 
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
         try? AVAudioSession.sharedInstance().setActive(true)
@@ -31,16 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        let _ = AuthManager.stopAuthCheck()
+        let _ = AuthManager.s.stopAuthCheck()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         if let topController = UIApplication.topViewController(), let _ = topController as? AuthViewController { return }
-        let _ = AuthManager.startAuthCheck(startNow: true)
+        let _ = AuthManager.s.startAuthCheck(startNow: true)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        let _ = AuthManager.stopAuthCheck()
+        let _ = AuthManager.s.stopAuthCheck()
     }
 }
 

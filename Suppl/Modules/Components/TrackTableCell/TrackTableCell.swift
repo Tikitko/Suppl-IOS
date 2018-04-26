@@ -17,7 +17,7 @@ class TrackTableCell: UITableViewCell {
         trackTitle.text = nil
         trackPerformer.text = nil
         trackDuration.text = nil
-        trackImage.image = UIImage(named: "cd.png")
+        trackImage.image = #imageLiteral(resourceName: "cd")
     }
     
     public func configure(title: String? = nil, performer: String? = nil, duration: Int? = nil) -> Void {
@@ -45,7 +45,7 @@ class TrackTableCell: UITableViewCell {
     }
     
     private func loadImageType() {
-        if SettingsManager.roundIcons! {
+        if SettingsManager.s.roundIcons! {
             trackImage.layer.cornerRadius = trackImage.frame.size.width / 2
             trackImage.clipsToBounds = true
             return

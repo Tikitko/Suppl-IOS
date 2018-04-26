@@ -6,7 +6,7 @@ class AuthPresenter: AuthPresenterProtocol {
     weak var view: AuthViewControllerProtocol!
     
     func load() {
-        view.setLabel("Загрузка...")
+        view.setLabel(LocalesManager.s.get(.load))
     }
     
     func show() {
@@ -14,17 +14,17 @@ class AuthPresenter: AuthPresenterProtocol {
             setAuthFormVisable()
             return
         }
-        startAuth(ikey: nil, akey: nil)
+        startAuth(keys: nil)
     }
     
-    func startAuth(ikey: Int?, akey: Int?) {
-        view.setLabel("Получение информации...")
-        let keys = AuthManager.getAuthKeys(setFailAuth: false)
-        if let ikey = ikey ?? keys?.ikey, let akey = akey ?? keys?.akey {
-            view.setLabel("Авторизация...")
-            interactor.auth(ikey: ikey, akey: akey)
+    func startAuth(keys: KeysPair?) {
+        view.setLabel(LocalesManager.s.get(.getInfo))
+        let keysFromDefaults = AuthManager.s.getAuthKeys(setFailAuth: false)
+        if let keys = keys ?? keysFromDefaults {
+            view.setLabel(LocalesManager.s.get(.auth))
+            interactor.auth(keys: keys)
         } else {
-            view.setLabel("Регистрация...")
+            view.setLabel(LocalesManager.s.get(.reg))
             interactor.reg()
         }
     }
@@ -34,16 +34,16 @@ class AuthPresenter: AuthPresenterProtocol {
             view.setLabel(error)
             setAuthFormVisable()
         } else {
-            view.setLabel("Добро пожаловать!")
+            view.setLabel(LocalesManager.s.get(.hi))
             interactor.endAuth()
         }
     }
     
     func setAuthFormVisable() {
-        if let (ikey, akey) = AuthManager.getAuthKeys(setFailAuth: false) {
-            view.setIdentifier(String("\(ikey)\(akey)"))
+        if let keys = AuthManager.s.getAuthKeys(setFailAuth: false) {
+            view.setIdentifier(String("\(keys.i)\(keys.a)"))
         } else {
-            view.setLabel("Введите ваш идентификатор")
+            view.setLabel(LocalesManager.s.get(.inputIdentifier))
             view.setIdentifier("")
         }
         view.enableButtons()
@@ -54,13 +54,13 @@ class AuthPresenter: AuthPresenterProtocol {
     }
     
     func repeatButtonClick(identifierText: String?) {
-        view.setLabel("Проверка идентификатора")
+        view.setLabel(LocalesManager.s.get(.checkIdentifier))
         view.disableButtons()
-        guard interactor.inputProcessing(input: identifierText), let (ikey, akey) = AuthManager.getAuthKeys(setFailAuth: false) else {
-            view.setLabel("Неверный формат идентификатора")
+        guard interactor.inputProcessing(input: identifierText), let keys = AuthManager.s.getAuthKeys(setFailAuth: false) else {
+            view.setLabel(LocalesManager.s.get(.badIdentifier))
             view.enableButtons()
             return
         }
-        startAuth(ikey: ikey, akey: akey)
+        startAuth(keys: keys)
     }
 }

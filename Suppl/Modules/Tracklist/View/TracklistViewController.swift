@@ -5,7 +5,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     
     var presenter: TracklistPresenterProtocol!
     
-    public let name = "Плейлист"
+    public let name: String = LocalesManager.s.get(.tracklistTitle)
     public let imageName = "list-simple-star-7.png"
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -19,7 +19,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name
-        includeTable()
+        ConstraintConstructor.includeView(child: tracksTableTest.tableView, parent: tracksTable)
         presenter.load()
     }
     
@@ -34,17 +34,6 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    func includeTable() {
-        tracksTable.addSubview(tracksTableTest.tableView)
-        tracksTableTest.tableView.translatesAutoresizingMaskIntoConstraints = false
-        tracksTableTest.tableView.topAnchor.constraint(equalTo: tracksTable.topAnchor).isActive = true
-        tracksTableTest.tableView.bottomAnchor.constraint(equalTo: tracksTable.bottomAnchor).isActive = true
-        tracksTableTest.tableView.leadingAnchor.constraint(equalTo: tracksTable.leadingAnchor).isActive = true
-        tracksTableTest.tableView.trailingAnchor.constraint(equalTo: tracksTable.trailingAnchor).isActive = true
-        tracksTableTest.tableView.heightAnchor.constraint(equalTo: tracksTable.heightAnchor, multiplier: 1, constant: 1).isActive = true
-        tracksTableTest.tableView.widthAnchor.constraint(equalTo: tracksTable.widthAnchor, multiplier: 1, constant: 1).isActive = true
     }
     
     func clearSearch() {

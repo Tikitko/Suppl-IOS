@@ -7,7 +7,7 @@ class SettingsDesignViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Дизайн"
+        navigationItem.title = LocalesManager.s.get(.titleSDesign)
     }
 }
 

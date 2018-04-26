@@ -48,7 +48,7 @@ class TracklistInteractor: TracklistInteractorProtocol {
             }
         }
         updateTable()
-        presenter.setInfo(foundTracks?.count == 0 ? "Ничего не найдено" : nil)
+        presenter.setInfo(foundTracks?.count == 0 ? LocalesManager.s.get(.notFound) : nil)
     }
     
     func titleChange(_ value: inout Bool) {
@@ -69,27 +69,27 @@ class TracklistInteractor: TracklistInteractorProtocol {
     }
     
     func updateTracks() {
-        guard let tracklist = TracklistManager.tracklist else { return }
+        guard let tracklist = TracklistManager.s.tracklist else { return }
         tracks = []
         if tracklist.count == 0 {
             updateTable()
-            presenter.setInfo("Ваш плейлист пуст")
+            presenter.setInfo(LocalesManager.s.get(.emptyTracklist))
             return
         }
         recursiveTracksLoad()
     }
     
     func recursiveTracksLoad(from: Int = 0, packCount count: Int = 10) {
-        guard let tracklist = TracklistManager.tracklist else { return }
+        guard let tracklist = TracklistManager.s.tracklist else { return }
         let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
         if partCount * count < from {
             updateTable()
             presenter.setInfo(nil)
             return
         }
-        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
+        guard let keys = AuthManager.s.getAuthKeys() else { return }
         let tracklistPart = getTracklistPart(from: from, count: count)
-        APIManager.audioGet(ikey: ikey, akey: akey, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
+        APIManager.s.audioGet(keys: keys, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
             guard let `self` = self, let data = data else { return }
             for track in data.list {
                 self.tracks.append(track)
@@ -101,7 +101,7 @@ class TracklistInteractor: TracklistInteractorProtocol {
     func getTracklistPart(from: Int, count: Int) -> [String] {
         var tracklistPart: [String] = []
         for key in from...from+count-1 {
-            guard let tracklist = TracklistManager.tracklist, key < tracklist.count else { break }
+            guard let tracklist = TracklistManager.s.tracklist, key < tracklist.count else { break }
             tracklistPart.append(tracklist[key])
         }
         return tracklistPart
@@ -124,13 +124,13 @@ class TracklistInteractor: TracklistInteractorProtocol {
             foundTracks?.append(track)
         }
         updateTable()
-        presenter.setInfo(foundTracks?.count == 0 ? "Ничего не найдено" : nil)
+        presenter.setInfo(foundTracks?.count == 0 ? LocalesManager.s.get(.notFound) : nil)
     }
     
     func updateButtonClick() {
         clearSearch()
         presenter.updateButtonIsEnabled(false)
-        TracklistManager.update() { [weak self] status in
+        TracklistManager.s.update() { [weak self] status in
             guard let `self` = self else { return }
             self.presenter.updateButtonIsEnabled(true)
         }

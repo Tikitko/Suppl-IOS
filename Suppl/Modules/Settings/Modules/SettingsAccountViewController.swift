@@ -14,7 +14,7 @@ class SettingsAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Аккаунт"
+        navigationItem.title = LocalesManager.s.get(.titleSAccount)
         setTheme()
         getAccount()
         emailField.delegate = self
@@ -22,25 +22,21 @@ class SettingsAccountViewController: UIViewController {
     }
     
     @IBAction func accountOutButtonClick(_ sender: Any) {
-        UserDefaultsManager.identifierKey = nil
-        UserDefaultsManager.accessKey = nil
-        AuthManager.setAuthWindow(noAuth: true)
+        UserDefaultsManager.s.identifierKey = nil
+        UserDefaultsManager.s.accessKey = nil
+        AuthManager.s.setAuthWindow(noAuth: true)
     }
 
     @IBAction func emailButtonClick(_ sender: Any) {
         view.endEditing(true)
-        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
+        guard let keys = AuthManager.s.getAuthKeys() else { return }
         guard let email = self.emailField.text else { return }
         let lastPlacehilderText = emailField.placeholder
         self.emailField.text = ""
-        self.emailField.placeholder = "Установка..."
-        APIManager.userUpdateEmail(ikey: ikey, akey: akey, email: email) { [weak self] error, data in
+        self.emailField.placeholder = LocalesManager.s.get(.install)
+        APIManager.s.userUpdateEmail(keys: keys, email: email) { [weak self] error, data in
             guard let `self` = self else { return }
-            if let error = error {
-                self.emailField.placeholder = APIManager.errorHandler(error)
-            } else {
-                self.emailField.placeholder = "EMail установлен!"
-            }
+            self.emailField.placeholder = error != nil ? error!.getAPIErrorString() : LocalesManager.s.get(.emailSet)
             let when = DispatchTime.now() + 2
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                 guard let `self` = self else { return }
@@ -51,32 +47,26 @@ class SettingsAccountViewController: UIViewController {
     }
     
     func setTheme() {
-        //emailButton.backgroundColor = AppData.getTheme(SettingsManager.theme).secondColor
-        //accountOutButton.backgroundColor = AppData.getTheme(SettingsManager.theme).secondColor
         emailButton.theme_backgroundColor = "secondColor"
         accountOutButton.theme_backgroundColor = "secondColor"
     }
     
     private func getAccount() {
-        let loadText = "Получение данных..."
+        let loadText: String = LocalesManager.s.get(.getInfo)
         emailField.text = loadText
         identifierField.text = loadText
-        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
-        APIManager.userGet(ikey: ikey, akey: akey) { [weak self] error, data in
+        guard let keys = AuthManager.s.getAuthKeys() else { return }
+        APIManager.s.userGet(keys: keys) { [weak self] error, data in
             guard let `self` = self else { return }
             guard let data = data else {
-                AuthManager.setAuthWindow()
+                AuthManager.s.setAuthWindow()
                 return
             }
             self.emailButton.isEnabled = true
-            self.emailField.placeholder = "Ваш EMail"
-            if let email = data.email {
-                self.emailField.text = email
-            } else {
-                self.emailField.text = ""
-            }
+            self.emailField.placeholder = LocalesManager.s.get(.youEmail)
+            self.emailField.text = data.email != nil ? data.email! : ""
             self.accountOutButton.isEnabled = true
-            self.identifierField.text = String(ikey) + String(akey)
+            self.identifierField.text = String(keys.i) + String(keys.a)
         }
     }
 }

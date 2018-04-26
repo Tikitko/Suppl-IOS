@@ -7,7 +7,7 @@ class SettingsGeneralViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Основное"
+        navigationItem.title = LocalesManager.s.get(.titleSMain)
         settingsTable.allowsSelection = false
     }
 }
@@ -22,24 +22,25 @@ extension SettingsGeneralViewController: UITableViewDataSource {
         let cell: UITableViewCell
         switch indexPath.row {
         case 2:
-            cell = SettingTableCell(labelText: "Круглые миниатюры", switchValue: SettingsManager.roundIcons!) { switchElement in
-                SettingsManager.roundIcons = switchElement.isOn
+            cell = SettingTableCell(labelText: LocalesManager.s.get(.setting2), switchValue: SettingsManager.s.roundIcons!) { switchElement in
+                SettingsManager.s.roundIcons = switchElement.isOn
             }
         case 1:
-            cell = SettingTableCell(labelText: "Загружать миниатюры треков", switchValue: SettingsManager.loadImages!) { switchElement in
-                SettingsManager.loadImages = switchElement.isOn
+            cell = SettingTableCell(labelText: LocalesManager.s.get(.setting1), switchValue: SettingsManager.s.loadImages!) { switchElement in
+                SettingsManager.s.loadImages = switchElement.isOn
             }
         case 0:
-            cell = SettingTableCell(labelText: "Авто. переключение трека", switchValue: SettingsManager.autoNextTrack!) { switchElement in
-                SettingsManager.autoNextTrack = switchElement.isOn
+            cell = SettingTableCell(labelText: LocalesManager.s.get(.setting0), switchValue: SettingsManager.s.autoNextTrack!) { switchElement in
+                SettingsManager.s.autoNextTrack = switchElement.isOn
             }
         case 3:
             let themes = AppStaticData.themesList
-            var themeId = themes.count > SettingsManager.theme! ? SettingsManager.theme! : 0
-            cell = SettingTableCell(labelText: "Тема приложения", buttonText: themes[themeId]) { button in
+            var themeId = themes.count > SettingsManager.s.theme! ? SettingsManager.s.theme! : 0
+            let labelText: String = LocalesManager.s.get(.setting3)
+            cell = SettingTableCell(labelText: labelText, buttonText: themes[themeId]) { button in
                 themeId = themes.count > themeId + 1 ? themeId + 1 : 0
                 button.setTitle(themes[themeId], for: .normal)
-                SettingsManager.theme = themeId
+                SettingsManager.s.theme = themeId
             }
         default:
             cell = UITableViewCell()

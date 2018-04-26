@@ -15,7 +15,7 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
     var player: AVPlayer?
     
     init(tracksIDs: [String], current: Int = 0) {
-        tracks = TrackList.get(IDs: tracksIDs, current: current)
+        tracks = TrackList(IDs: tracksIDs, current: current)
     }
     
     func clearPlayer() {
@@ -81,16 +81,16 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
     func observePlayerRate(_ statusNumber: NSNumber?) {
         let rate: Float = statusNumber?.floatValue ?? -1.0
         if rate == 1.0 {
-            presenter.setPlayButtonImage(UIImage(named: "icon_154.png")!)
+            presenter.setPlayButtonImage(#imageLiteral(resourceName: "icon_154"))
         } else if rate == 0.0 {
-            presenter.setPlayButtonImage(UIImage(named: "icon_152.png")!)
+            presenter.setPlayButtonImage(#imageLiteral(resourceName: "icon_152"))
             autoPlayHandler()
         }
     }
     
     func autoPlayHandler() {
         guard let currentItem = player?.currentItem else { return }
-        if SettingsManager.autoNextTrack!, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0, let _ = tracks {
+        if SettingsManager.s.autoNextTrack!, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0, let _ = tracks {
             clearPlayer()
             loadTrackByID(tracks!.next())
         } else if needPlayingStatus {
@@ -133,8 +133,8 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
     }
     
     func loadTrackByID(_ trackID: String) {
-        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
-        APIManager.audioGet(ikey: ikey, akey: akey, ids: trackID) { [weak self] error, data in
+        guard let keys = AuthManager.s.getAuthKeys() else { return }
+        APIManager.s.audioGet(keys: keys, ids: trackID) { [weak self] error, data in
             guard let `self` = self, let data = data, data.list.count > 0 else { return }
             let track = data.list[0]
             self.setTrack(track)
@@ -154,7 +154,7 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
     
     func setTrackInfo(_ track: AudioData) {
         presenter.setTrackInfo(title: track.title, performer: track.performer)
-        ImagesManager.getImage(link: track.images.last ?? "") { [weak self] image in
+        ImagesManager.s.getImage(link: track.images.last ?? "") { [weak self] image in
             guard let `self` = self else { return }
             self.presenter.setTrackImage(image)
             

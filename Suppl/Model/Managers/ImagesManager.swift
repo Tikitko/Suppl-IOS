@@ -1,11 +1,15 @@
 import Foundation
 
-class ImagesManager {
+final class ImagesManager {
     
-    private static var cache = NSCache<NSString, NSData>()
+    static public let s = ImagesManager()
+    private init() {}
     
-    public static func getImage(link: String, noCache: Bool = false, callbackImage: @escaping (NSData) -> ()) {
-        guard SettingsManager.loadImages! else { return }
+    private var cache = NSCache<NSString, NSData>()
+    private let session = CommonRequest()
+    
+    public func getImage(link: String, noCache: Bool = false, callbackImage: @escaping (NSData) -> ()) {
+        guard SettingsManager.s.loadImages! else { return }
         let nsLink = link as NSString
         if let cachedVersion = cache.object(forKey: nsLink) {
             if noCache {
@@ -15,21 +19,22 @@ class ImagesManager {
                 return
             }
         }
-        APIManager.API.request(url: link, inMain: true) { error, response, data in
+        session.request(url: link, inMain: true) { [weak self] error, response, data in
+            guard let `self` = self else { return }
             guard let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
                 let data = data
                 else { return }
             let nsData = data as NSData
-            cache.setObject(nsData, forKey: nsLink)
+            self.cache.setObject(nsData, forKey: nsLink)
             callbackImage(nsData)
         }
     }
     
-    public static func clearCache() {
+    public func clearCache() {
         cache.removeAllObjects()
     }
     
-    public static func removeFromCache(link: String) {
+    public func removeFromCache(link: String) {
         cache.removeObject(forKey: link as NSString)
     }
 }

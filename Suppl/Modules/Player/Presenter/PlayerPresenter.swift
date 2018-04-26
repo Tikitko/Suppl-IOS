@@ -7,7 +7,7 @@ class PlayerPresenter: PlayerPresenterProtocol {
     weak var view: PlayerViewControllerProtocol!
     
     func load() {
-        view.setNavTitle("Плеер")
+        view.setNavTitle(LocalesManager.s.get(.playerTitle))
         clearPlayer()
         guard let tracks = interactor.tracks else { return }
         interactor.loadTrackByID(tracks.curr())

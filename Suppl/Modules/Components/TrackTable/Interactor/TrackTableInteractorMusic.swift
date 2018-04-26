@@ -20,7 +20,7 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
         let track = tracks[indexPath.row]
         cell.configure(title: track.title, performer: track.performer, duration: track.duration)
         guard let imageLink = track.images.last, imageLink != "" else { return cell }
-        ImagesManager.getImage(link: imageLink) { image in
+        ImagesManager.s.getImage(link: imageLink) { image in
             guard cell.baseImage else { return }
             cell.setImage(imageData: image)
         }
@@ -33,15 +33,15 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
     
     func editActionsForRowAt(_ indexPath: IndexPath) -> [RowAction] {
         var actions: [RowAction] = []
-        guard let tracklist = TracklistManager.tracklist else { return [] }
+        guard let tracklist = TracklistManager.s.tracklist else { return [] }
         if let indexTrack = tracklist.index(of: tracks[indexPath.row].id) {
-            actions.append(RowAction(color: "#FF0000", title: "Удалить") { index in
-                TracklistManager.remove(from: indexTrack) { status in }
+            actions.append(RowAction(color: "#FF0000", title: LocalesManager.s.get(.del)) { index in
+                TracklistManager.s.remove(from: indexTrack) { status in }
             })
         } else {
-            actions.append(RowAction(color: "#4FAB5B", title: "Добавить") { [weak self] index in
+            actions.append(RowAction(color: "#4FAB5B", title: LocalesManager.s.get(.add)) { [weak self] index in
                 guard let `self` = self else { return }
-                TracklistManager.add(trackId: self.tracks[indexPath.row].id) { status in }
+                TracklistManager.s.add(trackId: self.tracks[indexPath.row].id) { status in }
             })
         }
     

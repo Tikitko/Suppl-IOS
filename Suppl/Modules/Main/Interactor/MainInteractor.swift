@@ -36,9 +36,9 @@ class MainInteractor: MainInteractorProtocol {
     }
     
     private func searchTracks(_ query: String, offset: Int = 0) {
-        guard let (ikey, akey) = AuthManager.getAuthKeys() else { return }
+        guard let keys = AuthManager.s.getAuthKeys() else { return }
         inSearchWork = true
-        APIManager.audioSearch(ikey: ikey, akey: akey, query: query, offset: offset) { [weak self] error, data in
+        APIManager.s.audioSearch(keys: keys, query: query, offset: offset) { [weak self] error, data in
             defer { self?.inSearchWork = false }
             guard let `self` = self, let data = data else { return }
             self.addFoundTracks(data)
@@ -58,7 +58,7 @@ class MainInteractor: MainInteractorProtocol {
         } else {
             searchData = data
         }
-        presenter.setInfo(searchData?.list.count == 0 ? "Ничего не найдено" : nil)
+        presenter.setInfo(searchData?.list.count == 0 ? LocalesManager.s.get(.notFound) : nil)
     }
     
     private func updateTable() {

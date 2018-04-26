@@ -1,39 +1,42 @@
 import Foundation
 
-class TracklistManager {
+final class TracklistManager {
     
-    private(set) static var inUpdate: Bool = false
-    private(set) static var tracklist: [String]? {
+    static public let s = TracklistManager()
+    private init() {}
+    
+    private(set) var inUpdate: Bool = false
+    private(set) var tracklist: [String]? {
         didSet {
             NotificationCenter.default.post(name: .TracklistUpdated, object: nil)
         }
     }
     
-    public static func update(callback: @escaping (Bool) -> ()) {
+    public func update(callback: @escaping (Bool) -> ()) {
         if inUpdate { return }
         inUpdate = true
-        guard let (ikey, akey) = AuthManager.getAuthKeys() else {
+        guard let keys = AuthManager.s.getAuthKeys() else {
             sendCallbackStatus(false, callback: callback)
             return
         }
-        APIManager.tracklistGet(ikey: ikey, akey: akey) { error, data in
+        APIManager.s.tracklistGet(keys: keys) { [weak self] error, data in
+            guard let `self` = self else { return }
             if let error = error, error.domain == "music_tracklist_empty" {
-                TracklistManager.tracklist = []
-                sendCallbackStatus(false, callback: callback)
+                TracklistManager.s.tracklist = []
+                self.sendCallbackStatus(false, callback: callback)
                 return
             }
             guard let data = data else {
-                sendCallbackStatus(false, callback: callback)
+                self.sendCallbackStatus(false, callback: callback)
                 return
             }
-            tracklist = data.list
-            sendCallbackStatus(true, callback: callback)
+            self.tracklist = data.list
+            self.sendCallbackStatus(true, callback: callback)
         }
     }
     
-    public static func add(trackId: String, to: Int = 0, callback: @escaping (Bool) -> ()) {
-        guard let (ikey, akey) = AuthManager.getAuthKeys(),
-            let tracklist = TracklistManager.tracklist else
+    public func add(trackId: String, to: Int = 0, callback: @escaping (Bool) -> ()) {
+        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = TracklistManager.s.tracklist else
         {
             sendCallbackStatus(false, callback: callback)
             return
@@ -42,56 +45,59 @@ class TracklistManager {
             sendCallbackStatus(false, callback: callback)
             return
         }
-        APIManager.tracklistAdd(ikey: ikey, akey: akey, trackID: trackId, to: to) { error, status in
+        APIManager.s.tracklistAdd(keys: keys, trackID: trackId, to: to) { [weak self] error, status in
+            guard let `self` = self else { return }
             if let _ = error {
-                sendCallbackStatus(false, callback: callback)
+                self.sendCallbackStatus(false, callback: callback)
                 return
             }
-            TracklistManager.tracklist?.insert(trackId, at: to)
-            sendCallbackStatus(true, callback: callback)
+            TracklistManager.s.tracklist?.insert(trackId, at: to)
+            self.sendCallbackStatus(true, callback: callback)
         }
     }
     
-    public static func remove(from: Int = 0, callback: @escaping (Bool) -> ()) {
-        guard let (ikey, akey) = AuthManager.getAuthKeys(),
-            let tracklist = TracklistManager.tracklist,
+    public func remove(from: Int = 0, callback: @escaping (Bool) -> ()) {
+        guard let keys = AuthManager.s.getAuthKeys(),
+            let tracklist = TracklistManager.s.tracklist,
             from <= tracklist.count - 1 else
         {
             sendCallbackStatus(false, callback: callback)
             return
         }
-        APIManager.tracklistRemove(ikey: ikey, akey: akey, from: from) { error, status in
+        APIManager.s.tracklistRemove(keys: keys, from: from) { [weak self] error, status in
+            guard let `self` = self else { return }
             if let _ = error {
-                sendCallbackStatus(false, callback: callback)
+                self.sendCallbackStatus(false, callback: callback)
                 return
             }
-            TracklistManager.tracklist?.remove(at: from)
-            sendCallbackStatus(true, callback: callback)
+            TracklistManager.s.tracklist?.remove(at: from)
+            self.sendCallbackStatus(true, callback: callback)
         }
     }
     
-    public static func move(from: Int = 0, to: Int = 0, callback: @escaping (Bool) -> ()) {
-        guard let (ikey, akey) = AuthManager.getAuthKeys(),
-            let tracklist = TracklistManager.tracklist, from <= tracklist.count - 1,
+    public func move(from: Int = 0, to: Int = 0, callback: @escaping (Bool) -> ()) {
+        guard let keys = AuthManager.s.getAuthKeys(),
+            let tracklist = TracklistManager.s.tracklist, from <= tracklist.count - 1,
             to <= tracklist.count else
         {
             sendCallbackStatus(false, callback: callback)
             return
         }
-        APIManager.tracklistMove(ikey: ikey, akey: akey, from: from, to: to) { error, status in
+        APIManager.s.tracklistMove(keys: keys, from: from, to: to) { [weak self] error, status in
+            guard let `self` = self else { return }
             if let _ = error {
-                sendCallbackStatus(false, callback: callback)
+                self.sendCallbackStatus(false, callback: callback)
                 return
             }
             var tracklistTemp = tracklist
             tracklistTemp.remove(at: from)
             tracklistTemp.insert(tracklist[from], at: to)
-            TracklistManager.tracklist = tracklistTemp
-            sendCallbackStatus(true, callback: callback)
+            TracklistManager.s.tracklist = tracklistTemp
+            self.sendCallbackStatus(true, callback: callback)
         }
     }
     
-    private static func sendCallbackStatus(_ status: Bool ,callback: @escaping (Bool) -> ()) {
+    private func sendCallbackStatus(_ status: Bool ,callback: @escaping (Bool) -> ()) {
         inUpdate = false
         callback(status)
     }

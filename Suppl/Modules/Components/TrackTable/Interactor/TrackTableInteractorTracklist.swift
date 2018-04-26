@@ -17,7 +17,7 @@ class TrackTableInteractorTracklist: TrackTableInteractorProtocol {
         let track = foundTracks != nil ? foundTracks![indexPath.row] : tracks[indexPath.row]
         cell.configure(title: track.title, performer: track.performer, duration: track.duration)
         guard let imageLink = track.images.last, imageLink != "" else { return cell }
-        ImagesManager.getImage(link: imageLink) { image in
+        ImagesManager.s.getImage(link: imageLink) { image in
             guard cell.baseImage else { return }
             cell.setImage(imageData: image)
         }
@@ -30,15 +30,15 @@ class TrackTableInteractorTracklist: TrackTableInteractorProtocol {
     
     func editActionsForRowAt(_ indexPath: IndexPath) -> [RowAction] {
         var actions: [RowAction] = []
-        actions.append(RowAction(color: "#FF0000", title: "Удалить") { [weak self] index in
+        actions.append(RowAction(color: "#FF0000", title: LocalesManager.s.get(.del)) { [weak self] index in
             guard let `self` = self else { return }
             guard let foundTracks = self.foundTracks else {
-                TracklistManager.remove(from: index.row) { status in }
+                TracklistManager.s.remove(from: index.row) { status in }
                 return
             }
             for (key, track) in self.tracks.enumerated() {
                 guard track.id == foundTracks[index.row].id else { continue }
-                TracklistManager.remove(from: key) { [weak self] status in
+                TracklistManager.s.remove(from: key) { [weak self] status in
                     guard let `self` = self else { return }
                     self.foundTracks?.remove(at: index.row)
                 }

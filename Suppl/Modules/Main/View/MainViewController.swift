@@ -6,7 +6,7 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     
     var presenter: MainPresenterProtocol!
     
-    public let name = "Музыка"
+    public let name: String = LocalesManager.s.get(.musicTitle)
     public let imageName = "music-7.png"
     
     @IBOutlet weak var tracksSearch: UISearchBar!
@@ -31,23 +31,12 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name
-        includeTable()
+        ConstraintConstructor.includeView(child: tracksTableTest.tableView, parent: tracksTable)
         presenter.load()
     }
     
     func setSearchQuery(_ query: String) {
         tracksSearch.text = query
-    }
-    
-    func includeTable() {
-        tracksTable.addSubview(tracksTableTest.tableView)
-        tracksTableTest.tableView.translatesAutoresizingMaskIntoConstraints = false
-        tracksTableTest.tableView.topAnchor.constraint(equalTo: tracksTable.topAnchor).isActive = true
-        tracksTableTest.tableView.bottomAnchor.constraint(equalTo: tracksTable.bottomAnchor).isActive = true
-        tracksTableTest.tableView.leadingAnchor.constraint(equalTo: tracksTable.leadingAnchor).isActive = true
-        tracksTableTest.tableView.trailingAnchor.constraint(equalTo: tracksTable.trailingAnchor).isActive = true
-        tracksTableTest.tableView.heightAnchor.constraint(equalTo: tracksTable.heightAnchor, multiplier: 1, constant: 1).isActive = true
-        tracksTableTest.tableView.widthAnchor.constraint(equalTo: tracksTable.widthAnchor, multiplier: 1, constant: 1).isActive = true
     }
     
     func onLabel(text: String) {

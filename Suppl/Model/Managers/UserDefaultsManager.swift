@@ -1,16 +1,19 @@
 import Foundation
 
-class UserDefaultsManager {
+final class UserDefaultsManager {
     
-    private(set) static var obj = UserDefaults()
+    static public let s = UserDefaultsManager()
+    private init() {}
+
+    public let obj = UserDefaults()
     
-    public static func keyGet<T>(_ key: String) -> T? {
+    public func keyGet<T>(_ key: String) -> T? {
         let value = obj.object(forKey: key)
         guard let returnValue = value as? T else { return nil }
         return returnValue
     }
     
-    public static func keySet<T>(_ key: String, value: T?) {
+    public func keySet<T>(_ key: String, value: T?) {
         if let value = value {
             obj.set(value, forKey: key)
             return
@@ -19,8 +22,8 @@ class UserDefaultsManager {
     }
     
     
-    private static let ikey = "identifierKey"
-    public static var identifierKey: Int? {
+    private let ikey = "identifierKey"
+    public var identifierKey: Int? {
         get {
             return keyGet(ikey)
         }
@@ -29,8 +32,8 @@ class UserDefaultsManager {
         }
     }
     
-    private static let akey = "accessKey"
-    public static var accessKey: Int? {
+    private let akey = "accessKey"
+    public var accessKey: Int? {
         get {
             return keyGet(akey)
         }
