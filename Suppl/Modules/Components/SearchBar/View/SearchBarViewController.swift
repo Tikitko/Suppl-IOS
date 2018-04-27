@@ -1,15 +1,20 @@
 import Foundation
 import UIKit
 
-class SearchBarViewController: UISearchController, SearchBarViewControllerProtocol {
+class SearchBarViewController: UISearchBar, SearchBarViewControllerProtocol {
     
     var presenter: SearchBarPresenterProtocol!
     
-    var searchCallback: ((String) -> Void)!
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        searchBarStyle = .minimal
+        isTranslucent = false
+        backgroundColor = UIColor.white
+        delegate = self
+    }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        searchBar.delegate = self
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
 }
@@ -17,13 +22,13 @@ class SearchBarViewController: UISearchController, SearchBarViewControllerProtoc
 extension SearchBarViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        view.endEditing(true)
+        endEditing(true)
         guard let query = searchBar.text else { return }
-        searchCallback(query)
+        presenter.searchButtonClicked(query: query)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        view.endEditing(true)
+        endEditing(true)
     }
     
 }

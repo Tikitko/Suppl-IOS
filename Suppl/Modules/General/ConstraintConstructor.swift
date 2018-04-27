@@ -10,8 +10,8 @@ class ConstraintConstructor {
         child.bottomAnchor.constraint(equalTo: parent.bottomAnchor).isActive = true
         child.leadingAnchor.constraint(equalTo: parent.leadingAnchor).isActive = true
         child.trailingAnchor.constraint(equalTo: parent.trailingAnchor).isActive = true
-        child.heightAnchor.constraint(equalTo: parent.heightAnchor, multiplier: 1, constant: 1).isActive = true
-        child.widthAnchor.constraint(equalTo: parent.widthAnchor, multiplier: 1, constant: 1).isActive = true
+        child.heightAnchor.constraint(equalTo: parent.heightAnchor, multiplier: 1, constant: 0).isActive = true
+        child.widthAnchor.constraint(equalTo: parent.widthAnchor, multiplier: 1, constant: 0).isActive = true
     }
     
 }

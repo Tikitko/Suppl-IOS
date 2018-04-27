@@ -14,10 +14,12 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     @IBOutlet weak var infoLabel: UILabel!
     
     var tracksTableTest: UITableViewController!
+    var searchTest: UISearchBar!
     
-    convenience init(table: UITableViewController) {
+    convenience init(table: UITableViewController, search: UISearchBar) {
         self.init()
         tracksTableTest = table
+        searchTest = search
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -31,12 +33,21 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name
+        
         ConstraintConstructor.includeView(child: tracksTableTest.tableView, parent: tracksTable)
+        ConstraintConstructor.includeView(child: searchTest, parent: tracksSearch)
+        searchTest.placeholder = tracksSearch.placeholder
+        
         presenter.load()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.setListener()
+    }
+    
     func setSearchQuery(_ query: String) {
-        tracksSearch.text = query
+        searchTest.text = query
     }
     
     func onLabel(text: String) {
@@ -53,16 +64,6 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     
     func setOffsetZero() {
         tracksTableTest.tableView.setContentOffset(CGPoint.zero, animated: false)
-    }
-
-}
-
-extension MainViewController: UISearchBarDelegate {
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        view.endEditing(true)
-        guard let query = tracksSearch.text else { return }
-        presenter.searchButtonClicked(searchText: query)
     }
 
 }

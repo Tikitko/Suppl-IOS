@@ -5,18 +5,21 @@ class TrackFilterRouter: TrackFilterRouterProtocol {
     
     weak var viewController: UIViewController!
 
-    static func setup(config: FilterConfig) -> UIViewController {
+    static func setup() -> UIViewController {
         let router = TrackFilterRouter()
+        let interactor = TrackFilterInteractor()
         let presenter = TrackFilterPresenter()
         let viewController = TrackFilterViewController()
-        viewController.config = config
         
+        presenter.interactor = interactor
         presenter.router = router
         presenter.view = viewController
         
         router.viewController = viewController
         
         viewController.presenter = presenter
+        
+        interactor.presenter = presenter
         
         return viewController
     }

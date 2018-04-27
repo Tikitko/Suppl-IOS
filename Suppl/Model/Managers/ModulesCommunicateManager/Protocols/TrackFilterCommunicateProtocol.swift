@@ -1,6 +1,10 @@
 import Foundation
 
-protocol TrackFilterDelegate {
+protocol TrackFilterCommunicateProtocol {
+    
+    func timeValue() -> Float
+    func titleValue() -> Bool
+    func performerValue() -> Bool
     
     func timeChange(_ value: inout Float)
     func titleChange(_ value: inout Bool)

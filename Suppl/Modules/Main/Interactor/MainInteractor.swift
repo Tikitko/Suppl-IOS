@@ -35,7 +35,11 @@ class MainInteractor: MainInteractorProtocol {
         }
     }
     
-    private func searchTracks(_ query: String, offset: Int = 0) {
+    func setListener() {
+        ModulesCommunicateManager.s.searchDelegate = self
+    }
+    
+    func searchTracks(_ query: String, offset: Int = 0) {
         guard let keys = AuthManager.s.getAuthKeys() else { return }
         inSearchWork = true
         APIManager.s.audioSearch(keys: keys, query: query, offset: offset) { [weak self] error, data in
@@ -47,7 +51,7 @@ class MainInteractor: MainInteractorProtocol {
         }
     }
     
-    private func addFoundTracks(_ data: AudioSearchData) {
+    func addFoundTracks(_ data: AudioSearchData) {
         if let _ = searchData {
             for track in data.list {
                 searchData?.list.append(track)
@@ -61,13 +65,17 @@ class MainInteractor: MainInteractorProtocol {
         presenter.setInfo(searchData?.list.count == 0 ? LocalesManager.s.get(.notFound) : nil)
     }
     
-    private func updateTable() {
+    func updateTable() {
         reloadData(searchData?.list ?? [], nil)
     }
     
-    func searchButtonClicked(searchText: String) {
+}
+
+extension MainInteractor: SearchCommunicateProtocol {
+    
+    func searchButtonClicked(query: String) {
         clearData()
-        searchTracks(searchText)
+        searchTracks(query)
         presenter.setOffsetZero()
     }
     

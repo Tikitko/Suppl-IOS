@@ -10,10 +10,6 @@ class MainPresenter: MainPresenterProtocol {
         view.setSearchQuery(query)
     }
     
-    func searchButtonClicked(searchText: String) {
-        interactor.searchButtonClicked(searchText: searchText)
-    }
-    
     func setInfo(_ text: String? = nil) {
         text != nil ? view.onLabel(text: text!) : view.offLabel()
     }
@@ -24,5 +20,9 @@ class MainPresenter: MainPresenterProtocol {
     
     func load() {
         interactor.loadBaseTracks()
+    }
+    
+    func setListener() {
+        interactor.setListener()
     }
 }

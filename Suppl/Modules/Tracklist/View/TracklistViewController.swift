@@ -15,17 +15,28 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     @IBOutlet weak var filterButton: UIButton!
     
     var tracksTableTest: UITableViewController!
+    var searchTest: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name
+        
         ConstraintConstructor.includeView(child: tracksTableTest.tableView, parent: tracksTable)
+        ConstraintConstructor.includeView(child: searchTest, parent: searchBar)
+        searchTest.placeholder = searchBar.placeholder
+        
         presenter.load()
     }
     
-    convenience init(table: UITableViewController) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.setSearchListener()
+    }
+    
+    convenience init(table: UITableViewController, search: UISearchBar) {
         self.init()
         tracksTableTest = table
+        searchTest = search
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -56,12 +67,22 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         updateButton.isEnabled = value
     }
     
+    func setFilterThenPopover(filterController: UIViewController){
+        controller.preferredContentSize = CGSize(width: 400, height: 180)
+        controller.modalPresentationStyle = .popover
+
+        let pop = controller.popoverPresentationController
+        pop?.delegate = self
+        pop?.sourceView = filterButton
+        pop?.sourceRect = filterButton.bounds
+    }
+    
     @IBAction func updateButtonClick(_ sender: Any) {
         presenter.updateButtonClick()
     }
     
     @IBAction func filterButtonClick(_ sender: Any) {
-        presenter.filterButtonClick(sender)
+        presenter.filterButtonClick()
     }
     
 }
@@ -73,31 +94,4 @@ extension TracklistViewController: UIPopoverPresentationControllerDelegate {
     }
     
 }
-
-extension TracklistViewController: UISearchBarDelegate {
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        view.endEditing(true)
-        guard let query = searchBar.text else { return }
-        presenter.searchBarSearchButtonClicked(searchText: query)
-    }
-    
-}
-
-extension TracklistViewController: TrackFilterDelegate {
-    
-    func timeChange(_ value: inout Float) {
-        presenter.timeChange(&value)
-    }
-    
-    func titleChange(_ value: inout Bool) {
-        presenter.titleChange(&value)
-    }
-    
-    func performerChange(_ value: inout Bool) {
-        presenter.performerChange(&value)
-    }
-    
-}
-
 

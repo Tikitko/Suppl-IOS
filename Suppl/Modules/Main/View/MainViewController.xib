@@ -27,9 +27,6 @@
                 <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Поиск музыки" translatesAutoresizingMaskIntoConstraints="NO" id="5uA-Ku-hgZ">
                     <rect key="frame" x="16" y="83" width="343" height="56"/>
                     <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <outlet property="delegate" destination="-1" id="Sze-OJ-g6t"/>
-                    </connections>
                 </searchBar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Музыка" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPR-f1-7Wh">
                     <rect key="frame" x="16" y="30" width="343" height="53"/>

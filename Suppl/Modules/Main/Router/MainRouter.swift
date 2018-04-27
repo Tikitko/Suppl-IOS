@@ -10,7 +10,8 @@ class MainRouter: MainRouterProtocol {
         let interactor = MainInteractor()
         let presenter = MainPresenter()
         let table = TrackTableRouter.setupForMusic(updateCallback: interactor.loadMoreCallback(_:), reloadData: &interactor.reloadData)
-        let viewController = MainViewController(table: table)
+        let search = SearchBarRouter.setup()
+        let viewController = MainViewController(table: table, search: search)
         
         presenter.interactor = interactor
         presenter.router = router

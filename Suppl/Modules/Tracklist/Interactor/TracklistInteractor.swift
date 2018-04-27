@@ -27,45 +27,12 @@ class TracklistInteractor: TracklistInteractorProtocol {
         presenter.clearSearch()
     }
     
-    func timeChange(_ value: inout Float) {
-        searchTimeRate = value
-        
-        let offset = 3
-        var minRate = 0
-        var maxRate = 0
-        for track in tracks {
-            if maxRate < track.duration + offset {
-                maxRate = track.duration + offset
-            }
-            if minRate == 0 || minRate > track.duration - offset {
-                minRate = track.duration - offset
-            }
-        }
-        foundTracks = []
-        for track in tracks {
-            if Float(track.duration - minRate) / Float(maxRate - minRate) < searchTimeRate {
-                foundTracks?.append(track)
-            }
-        }
-        updateTable()
-        presenter.setInfo(foundTracks?.count == 0 ? LocalesManager.s.get(.notFound) : nil)
+    func setSearchListener() {
+        ModulesCommunicateManager.s.searchDelegate = self
     }
     
-    func titleChange(_ value: inout Bool) {
-        if searchByTitle, !searchByPerformer {
-            value = searchByTitle
-            return
-        }
-        searchByTitle = !searchByTitle
-        
-    }
-    
-    func performerChange(_ value: inout Bool) {
-        if searchByPerformer, !searchByTitle {
-            value = searchByPerformer
-            return
-        }
-        searchByPerformer = !searchByPerformer
+    func setFilterListener() {
+        ModulesCommunicateManager.s.trackFilterDelegate = self
     }
     
     func updateTracks() {
@@ -111,8 +78,25 @@ class TracklistInteractor: TracklistInteractorProtocol {
         reloadData(tracks, foundTracks)
     }
     
-    func searchBarSearchButtonClicked(searchText: String) {
-        let lowerQuery = searchText.lowercased()
+    func updateButtonClick() {
+        clearSearch()
+        presenter.updateButtonIsEnabled(false)
+        TracklistManager.s.update() { [weak self] status in
+            guard let `self` = self else { return }
+            self.presenter.updateButtonIsEnabled(true)
+        }
+    }
+    
+    @objc private func updateTracksNotification(notification: NSNotification) {
+        updateTracks()
+    }
+    
+}
+
+extension TracklistInteractor: SearchCommunicateProtocol {
+    
+    func searchButtonClicked(query: String) {
+        let lowerQuery = query.lowercased()
         searchTimeRate = 1.0
         foundTracks = []
         for track in tracks {
@@ -127,17 +111,62 @@ class TracklistInteractor: TracklistInteractorProtocol {
         presenter.setInfo(foundTracks?.count == 0 ? LocalesManager.s.get(.notFound) : nil)
     }
     
-    func updateButtonClick() {
-        clearSearch()
-        presenter.updateButtonIsEnabled(false)
-        TracklistManager.s.update() { [weak self] status in
-            guard let `self` = self else { return }
-            self.presenter.updateButtonIsEnabled(true)
-        }
+}
+
+
+extension TracklistInteractor: TrackFilterCommunicateProtocol {
+    func timeValue() -> Float {
+        return searchTimeRate
     }
     
-    @objc private func updateTracksNotification(notification: NSNotification) {
-        updateTracks()
+    func titleValue() -> Bool {
+        return searchByTitle
+    }
+    
+    func performerValue() -> Bool {
+        return searchByPerformer
+    }
+    
+    
+    func timeChange(_ value: inout Float) {
+        searchTimeRate = value
+        
+        let offset = 3
+        var minRate = 0
+        var maxRate = 0
+        for track in tracks {
+            if maxRate < track.duration + offset {
+                maxRate = track.duration + offset
+            }
+            if minRate == 0 || minRate > track.duration - offset {
+                minRate = track.duration - offset
+            }
+        }
+        foundTracks = []
+        for track in tracks {
+            if Float(track.duration - minRate) / Float(maxRate - minRate) < searchTimeRate {
+                foundTracks?.append(track)
+            }
+        }
+        updateTable()
+        presenter.setInfo(foundTracks?.count == 0 ? LocalesManager.s.get(.notFound) : nil)
+    }
+    
+    func titleChange(_ value: inout Bool) {
+        if searchByTitle, !searchByPerformer {
+            value = searchByTitle
+            return
+        }
+        searchByTitle = !searchByTitle
+        
+    }
+    
+    func performerChange(_ value: inout Bool) {
+        if searchByPerformer, !searchByTitle {
+            value = searchByPerformer
+            return
+        }
+        searchByPerformer = !searchByPerformer
     }
     
 }
