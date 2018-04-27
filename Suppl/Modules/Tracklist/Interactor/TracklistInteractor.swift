@@ -35,11 +35,15 @@ class TracklistInteractor: TracklistInteractorProtocol {
         ModulesCommunicateManager.s.trackFilterDelegate = self
     }
     
+    func setTableListener() {
+        ModulesCommunicateManager.s.trackTableDelegate = self
+    }
+    
     func updateTracks() {
         guard let tracklist = TracklistManager.s.tracklist else { return }
         tracks = []
         if tracklist.count == 0 {
-            updateTable()
+            presenter.reloadData()
             presenter.setInfo(LocalesManager.s.get(.emptyTracklist))
             return
         }
@@ -50,7 +54,7 @@ class TracklistInteractor: TracklistInteractorProtocol {
         guard let tracklist = TracklistManager.s.tracklist else { return }
         let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
         if partCount * count < from {
-            updateTable()
+            presenter.reloadData()
             presenter.setInfo(nil)
             return
         }
@@ -72,10 +76,6 @@ class TracklistInteractor: TracklistInteractorProtocol {
             tracklistPart.append(tracklist[key])
         }
         return tracklistPart
-    }
-    
-    func updateTable() {
-        reloadData(tracks, foundTracks)
     }
     
     func updateButtonClick() {
@@ -107,7 +107,7 @@ extension TracklistInteractor: SearchCommunicateProtocol {
             guard title || performer else { continue }
             foundTracks?.append(track)
         }
-        updateTable()
+        presenter.reloadData()
         presenter.setInfo(foundTracks?.count == 0 ? LocalesManager.s.get(.notFound) : nil)
     }
     
@@ -148,7 +148,7 @@ extension TracklistInteractor: TrackFilterCommunicateProtocol {
                 foundTracks?.append(track)
             }
         }
-        updateTable()
+        presenter.reloadData()
         presenter.setInfo(foundTracks?.count == 0 ? LocalesManager.s.get(.notFound) : nil)
     }
     
@@ -169,4 +169,15 @@ extension TracklistInteractor: TrackFilterCommunicateProtocol {
         searchByPerformer = !searchByPerformer
     }
     
+}
+
+extension TracklistInteractor: TrackTableCommunicateProtocol {
+    
+    func cellShowAt(_ indexPath: IndexPath) {}
+    
+    
+    func needTracksForReload() -> (tracks: [AudioData], foundTracks: [AudioData]?) {
+        return (tracks, foundTracks)
+    }
+
 }

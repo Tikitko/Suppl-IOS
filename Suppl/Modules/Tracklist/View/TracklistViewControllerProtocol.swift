@@ -7,4 +7,5 @@ protocol TracklistViewControllerProtocol: class {
     func clearSearch()
     func onLabel(text: String)
     func offLabel()
+    func reloadData()
 }

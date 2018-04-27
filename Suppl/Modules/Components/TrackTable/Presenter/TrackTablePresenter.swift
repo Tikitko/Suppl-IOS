@@ -5,10 +5,8 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
     var interactor: TrackTableInteractorProtocol!
     weak var view: TrackTableViewControllerProtocol!
     
-    func updateTracks(tracks: [AudioData], foundTracks: [AudioData]?) {
-        interactor.tracks = tracks
-        interactor.foundTracks = foundTracks
-        view.reloadData()
+    func updateTracks() {
+        interactor.updateTracks()
     }
     
     func openPlayer(tracksIDs: [String], current: Int) {

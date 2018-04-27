@@ -31,6 +31,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.setSearchListener()
+        presenter.setTableListener()
     }
     
     convenience init(table: UITableViewController, search: UISearchBar) {
@@ -45,6 +46,10 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    func reloadData() {
+        tracksTableTest.tableView.reloadData()
     }
     
     func clearSearch() {
@@ -68,10 +73,10 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     }
     
     func setFilterThenPopover(filterController: UIViewController){
-        controller.preferredContentSize = CGSize(width: 400, height: 180)
-        controller.modalPresentationStyle = .popover
+        filterController.preferredContentSize = CGSize(width: 400, height: 180)
+        filterController.modalPresentationStyle = .popover
 
-        let pop = controller.popoverPresentationController
+        let pop = filterController.popoverPresentationController
         pop?.delegate = self
         pop?.sourceView = filterButton
         pop?.sourceRect = filterButton.bounds

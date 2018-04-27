@@ -5,15 +5,15 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
     
     var tracks: [AudioData] = []
     var foundTracks: [AudioData]?
-    
-    var updateCallback: (_ indexPath: IndexPath) -> Void
-    
-    init(updateCallback: @escaping (_ indexPath: IndexPath) -> Void) {
-        self.updateCallback = updateCallback
-    }
-    
+
     func numberOfRowsInSection(_ section: Int) -> Int {
         return tracks.count
+    }
+
+    func updateTracks() {
+        guard let tracksPair = ModulesCommunicateManager.s.trackTableDelegate?.needTracksForReload() else { return }
+        tracks = tracksPair.tracks
+        foundTracks = tracksPair.foundTracks
     }
     
     func cellForRowAt(_ indexPath: IndexPath, _ cell: TrackTableCell) -> TrackTableCell {
@@ -26,6 +26,7 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
         }
         return cell
     }
+
     
     func canEditRowAt(_ indexPath: IndexPath) -> Bool {
         return true
@@ -57,7 +58,7 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
     }
     
     func willDisplayCellForRowAt(_ indexPath: IndexPath) {
-        updateCallback(indexPath)
+        ModulesCommunicateManager.s.trackTableDelegate?.cellShowAt(indexPath)
     }
     
 }

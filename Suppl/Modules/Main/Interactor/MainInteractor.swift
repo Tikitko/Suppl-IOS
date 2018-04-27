@@ -4,8 +4,6 @@ class MainInteractor: MainInteractorProtocol {
     
     weak var presenter: MainPresenterProtocol!
     
-    var reloadData: ((_ tracks: [AudioData], _ foundTracks: [AudioData]?) -> Void)!
-    
     var searchData: AudioSearchData?
     var thisQuery = ""
     
@@ -31,12 +29,16 @@ class MainInteractor: MainInteractorProtocol {
         searchData = nil
         thisQuery = ""
         if withReload {
-            updateTable()
+            presenter.reloadData()
         }
     }
     
-    func setListener() {
+    func setSearchListener() {
         ModulesCommunicateManager.s.searchDelegate = self
+    }
+    
+    func setTableListener() {
+        ModulesCommunicateManager.s.trackTableDelegate = self
     }
     
     func searchTracks(_ query: String, offset: Int = 0) {
@@ -47,7 +49,7 @@ class MainInteractor: MainInteractorProtocol {
             guard let `self` = self, let data = data else { return }
             self.addFoundTracks(data)
             self.thisQuery = query
-            self.updateTable()
+            self.presenter.reloadData()
         }
     }
     
@@ -65,10 +67,6 @@ class MainInteractor: MainInteractorProtocol {
         presenter.setInfo(searchData?.list.count == 0 ? LocalesManager.s.get(.notFound) : nil)
     }
     
-    func updateTable() {
-        reloadData(searchData?.list ?? [], nil)
-    }
-    
 }
 
 extension MainInteractor: SearchCommunicateProtocol {
@@ -80,3 +78,16 @@ extension MainInteractor: SearchCommunicateProtocol {
     }
     
 }
+
+extension MainInteractor: TrackTableCommunicateProtocol {
+    
+    func needTracksForReload() -> (tracks: [AudioData], foundTracks: [AudioData]?) {
+        return (searchData?.list ?? [], nil)
+    }
+    
+    func cellShowAt(_ indexPath: IndexPath) {
+        loadMoreCallback(indexPath)
+    }
+    
+}
+

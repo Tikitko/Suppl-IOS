@@ -6,6 +6,12 @@ class TrackTableInteractorTracklist: TrackTableInteractorProtocol {
     var tracks: [AudioData] = []
     var foundTracks: [AudioData]?
     
+    func updateTracks() {
+        guard let tracksPair = ModulesCommunicateManager.s.trackTableDelegate?.needTracksForReload() else { return }
+        tracks = tracksPair.tracks
+        foundTracks = tracksPair.foundTracks
+    }
+    
     func numberOfRowsInSection(_ section: Int) -> Int {
         if let foundTracks = foundTracks {
             return foundTracks.count

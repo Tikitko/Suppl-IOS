@@ -7,5 +7,6 @@ final class ModulesCommunicateManager {
     
     public var searchDelegate: SearchCommunicateProtocol?
     public var trackFilterDelegate: TrackFilterCommunicateProtocol?
+    public var trackTableDelegate: TrackTableCommunicateProtocol?
     
 }

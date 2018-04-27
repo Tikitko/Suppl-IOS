@@ -8,6 +8,10 @@ class TracklistPresenter: TracklistPresenterProtocol {
     var interactor: TracklistInteractorProtocol!
     weak var view: TracklistViewControllerProtocol!
     
+    func reloadData() {
+        view.reloadData()
+    }
+    
     func clearSearch() {
         view.clearSearch()
     }
@@ -21,11 +25,15 @@ class TracklistPresenter: TracklistPresenterProtocol {
     }
     
     func setFilterThenPopover(filterController: UIViewController) {
-        view.setFilterThenPopover(controller: controller)
+        view.setFilterThenPopover(filterController: filterController)
     }
     
     func setSearchListener() {
         interactor.setSearchListener()
+    }
+    
+    func setTableListener() {
+        interactor.setTableListener()
     }
     
     func load() {

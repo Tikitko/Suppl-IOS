@@ -11,9 +11,9 @@ class TrackTableRouter: TrackTableRouterProtocol {
         UIApplication.topViewController()?.navigationController?.pushViewController(playerView, animated: true)
     }
     
-    static func setupForMusic(updateCallback: @escaping (_ indexPath: IndexPath) -> Void, reloadData: inout ((_ tracks: [AudioData], _ foundTracks: [AudioData]?) -> Void)?) -> UITableViewController {
+    static func setupForMusic() -> UITableViewController {
         let router = TrackTableRouter()
-        let interactor = TrackTableInteractorMusic(updateCallback: updateCallback)
+        let interactor = TrackTableInteractorMusic()
         let presenter = TrackTablePresenter()
         let viewController = TrackTableViewController()
         
@@ -27,13 +27,11 @@ class TrackTableRouter: TrackTableRouterProtocol {
         
         interactor.presenter = presenter
         
-        reloadData = presenter.updateTracks(tracks:foundTracks:)
-        
         return viewController
     }
     
     
-    static func setupForTracklist(reloadData: inout ((_ tracks: [AudioData], _ foundTracks: [AudioData]?) -> Void)?) -> UITableViewController {
+    static func setupForTracklist() -> UITableViewController {
         let router = TrackTableRouter()
         let interactor = TrackTableInteractorTracklist()
         let presenter = TrackTablePresenter()
@@ -48,8 +46,6 @@ class TrackTableRouter: TrackTableRouterProtocol {
         viewController.presenter = presenter
         
         interactor.presenter = presenter
-        
-        reloadData = presenter.updateTracks(tracks:foundTracks:)
         
         return viewController
     }

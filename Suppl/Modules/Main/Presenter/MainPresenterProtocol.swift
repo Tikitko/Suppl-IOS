@@ -5,5 +5,7 @@ protocol MainPresenterProtocol: class {
     func setInfo(_ text: String?)
     func setOffsetZero()
     func load()
-    func setListener()
+    func setSearchListener()
+    func setTableListener()
+    func reloadData()
 }

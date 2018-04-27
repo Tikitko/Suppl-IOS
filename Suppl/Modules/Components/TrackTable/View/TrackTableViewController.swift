@@ -4,14 +4,30 @@ import UIKit
 final class TrackTableViewController: UITableViewController, TrackTableViewControllerProtocol {
     var presenter: TrackTablePresenterProtocol!
     
+    private class UITableViewWithReload: UITableView {
+        
+        weak var myController: TrackTableViewController?
+        
+        override func reloadData() {
+            myController?.inReloadData()
+            super.reloadData()
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let costomTable = UITableViewWithReload()
+        costomTable.myController = self
+        tableView = costomTable
+        
         tableView.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     }
     
-    func reloadData() {
-        tableView.reloadData()
+    func inReloadData() {
+        presenter.updateTracks()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

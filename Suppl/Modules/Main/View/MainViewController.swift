@@ -43,7 +43,12 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.setListener()
+        presenter.setSearchListener()
+        presenter.setTableListener()
+    }
+    
+    func reloadData() {
+        tracksTableTest.tableView.reloadData()
     }
     
     func setSearchQuery(_ query: String) {

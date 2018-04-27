@@ -16,7 +16,7 @@ class TracklistRouter: TracklistRouterProtocol {
         let router = TracklistRouter()
         let interactor = TracklistInteractor()
         let presenter = TracklistPresenter()
-        let table = TrackTableRouter.setupForTracklist(reloadData: &interactor.reloadData)
+        let table = TrackTableRouter.setupForTracklist()
         let search = SearchBarRouter.setup()
         let viewController = TracklistViewController(table: table, search: search)
         
