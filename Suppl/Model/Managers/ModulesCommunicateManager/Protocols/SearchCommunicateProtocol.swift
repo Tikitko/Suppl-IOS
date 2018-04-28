@@ -1,5 +1,5 @@
 import Foundation
 
-protocol SearchCommunicateProtocol {
+protocol SearchCommunicateProtocol: class {
     func searchButtonClicked(query: String) -> Void
 }

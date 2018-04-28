@@ -19,8 +19,8 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
     func cellForRowAt(_ indexPath: IndexPath, _ cell: TrackTableCell) -> TrackTableCell {
         let track = tracks[indexPath.row]
         cell.configure(title: track.title, performer: track.performer, duration: track.duration)
-        guard let imageLink = track.images.last, imageLink != "" else { return cell }
-        ImagesManager.s.getImage(link: imageLink) { image in
+        guard SettingsManager.s.loadImages!, let imageLink = track.images.last, imageLink != "" else { return cell }
+        RemoteDataManager.s.getData(link: imageLink) { image in
             guard cell.baseImage else { return }
             cell.setImage(imageData: image)
         }

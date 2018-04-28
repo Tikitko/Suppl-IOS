@@ -154,10 +154,10 @@ class PlayerInteractor: NSObject, PlayerInteractorProtocol {
     
     func setTrackInfo(_ track: AudioData) {
         presenter.setTrackInfo(title: track.title, performer: track.performer)
-        ImagesManager.s.getImage(link: track.images.last ?? "") { [weak self] image in
+        guard SettingsManager.s.loadImages! else { return }
+        RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] image in
             guard let `self` = self else { return }
             self.presenter.setTrackImage(image)
-            
         }
     }
     

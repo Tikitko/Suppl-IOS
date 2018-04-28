@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E0641A020273A8900998D8A /* ImagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E06419F20273A8900998D8A /* ImagesManager.swift */; };
+		0E0641A020273A8900998D8A /* RemoteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E06419F20273A8900998D8A /* RemoteDataManager.swift */; };
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
 		0E0A98412033141600E91922 /* TrackFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A983F2033141500E91922 /* TrackFilterViewController.swift */; };
 		0E0A98422033141600E91922 /* TrackFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A98402033141500E91922 /* TrackFilterViewController.xib */; };
@@ -121,7 +121,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E06419F20273A8900998D8A /* ImagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesManager.swift; sourceTree = "<group>"; };
+		0E06419F20273A8900998D8A /* RemoteDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDataManager.swift; sourceTree = "<group>"; };
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
 		0E0A983F2033141500E91922 /* TrackFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackFilterViewController.swift; sourceTree = "<group>"; };
 		0E0A98402033141500E91922 /* TrackFilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackFilterViewController.xib; sourceTree = "<group>"; };
@@ -791,7 +791,7 @@
 				0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */,
 				8C67F5F3201B174200333EB2 /* APIManager.swift */,
 				8CBDFD632023001700BED743 /* AuthManager.swift */,
-				0E06419F20273A8900998D8A /* ImagesManager.swift */,
+				0E06419F20273A8900998D8A /* RemoteDataManager.swift */,
 				0E0641A1202756CD00998D8A /* TracklistManager.swift */,
 				0E12FABD2030604200EE3422 /* SettingsManager.swift */,
 				8C0E1B8F2091BCA100CE5C12 /* PListsManager.swift */,
@@ -1038,7 +1038,7 @@
 				8C0CB5FC208DA87100456A68 /* TrackFilterRouterProtocol.swift in Sources */,
 				8C0CB5FE208DA87E00456A68 /* TrackFilterRouter.swift in Sources */,
 				8C0CB628208DDB8300456A68 /* TracklistPresenter.swift in Sources */,
-				0E0641A020273A8900998D8A /* ImagesManager.swift in Sources */,
+				0E0641A020273A8900998D8A /* RemoteDataManager.swift in Sources */,
 				8C3B74EA2090776800D0AF3E /* SearchBarViewController.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
 				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,

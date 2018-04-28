@@ -5,8 +5,8 @@ final class ModulesCommunicateManager {
     static public let s = ModulesCommunicateManager()
     private init() {}
     
-    public var searchDelegate: SearchCommunicateProtocol?
-    public var trackFilterDelegate: TrackFilterCommunicateProtocol?
-    public var trackTableDelegate: TrackTableCommunicateProtocol?
+    public weak var searchDelegate: SearchCommunicateProtocol?
+    public weak var trackFilterDelegate: TrackFilterCommunicateProtocol?
+    public weak var trackTableDelegate: TrackTableCommunicateProtocol?
     
 }

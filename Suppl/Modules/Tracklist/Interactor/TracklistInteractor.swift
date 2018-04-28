@@ -4,8 +4,6 @@ class TracklistInteractor: TracklistInteractorProtocol {
     
     weak var presenter: TracklistPresenterProtocol!
     
-    var reloadData: ((_ tracks: [AudioData], _ foundTracks: [AudioData]?) -> Void)!
-    
     var tracks: [AudioData] = []
     
     var foundTracks: [AudioData]?
@@ -174,7 +172,6 @@ extension TracklistInteractor: TrackFilterCommunicateProtocol {
 extension TracklistInteractor: TrackTableCommunicateProtocol {
     
     func cellShowAt(_ indexPath: IndexPath) {}
-    
     
     func needTracksForReload() -> (tracks: [AudioData], foundTracks: [AudioData]?) {
         return (tracks, foundTracks)

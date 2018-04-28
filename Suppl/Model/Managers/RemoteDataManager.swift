@@ -1,32 +1,28 @@
 import Foundation
 
-final class ImagesManager {
+final class RemoteDataManager {
     
-    static public let s = ImagesManager()
+    static public let s = RemoteDataManager()
     private init() {}
     
     private var cache = NSCache<NSString, NSData>()
     private let session = CommonRequest()
     
-    public func getImage(link: String, noCache: Bool = false, callbackImage: @escaping (NSData) -> ()) {
-        guard SettingsManager.s.loadImages! else { return }
+    public func getData(link: String, noCache: Bool = false, callbackData: @escaping (NSData) -> ()) {
         let nsLink = link as NSString
         if let cachedVersion = cache.object(forKey: nsLink) {
             if noCache {
                 cache.removeObject(forKey: nsLink)
             } else {
-                callbackImage(cachedVersion)
+                callbackData(cachedVersion)
                 return
             }
         }
         session.request(url: link, inMain: true) { [weak self] error, response, data in
-            guard let `self` = self else { return }
-            guard let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data
-                else { return }
+            guard let `self` = self, let data = data else { return }
             let nsData = data as NSData
             self.cache.setObject(nsData, forKey: nsLink)
-            callbackImage(nsData)
+            callbackData(nsData)
         }
     }
     
