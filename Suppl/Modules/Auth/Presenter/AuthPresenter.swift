@@ -41,7 +41,7 @@ class AuthPresenter: AuthPresenterProtocol {
     
     func setAuthFormVisable() {
         if let keys = AuthManager.s.getAuthKeys(setFailAuth: false) {
-            view.setIdentifier(String("\(keys.i)\(keys.a)"))
+            view.setIdentifier(String("\(keys.identifierKey)\(keys.accessKey)"))
         } else {
             view.setLabel(LocalesManager.s.get(.inputIdentifier))
             view.setIdentifier("")

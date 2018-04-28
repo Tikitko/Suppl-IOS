@@ -66,7 +66,7 @@ class SettingsAccountViewController: UIViewController {
             self.emailField.placeholder = LocalesManager.s.get(.youEmail)
             self.emailField.text = data.email != nil ? data.email! : ""
             self.accountOutButton.isEnabled = true
-            self.identifierField.text = String(keys.i) + String(keys.a)
+            self.identifierField.text = String(keys.identifierKey) + String(keys.accessKey)
         }
     }
 }

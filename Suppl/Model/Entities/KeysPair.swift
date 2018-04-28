@@ -3,14 +3,7 @@ import Foundation
 struct KeysPair {
     
     let identifierKey: Int
-    var i: Int {
-        get { return identifierKey }
-    }
-    
     let accessKey: Int
-    var a: Int {
-        get { return accessKey }
-    }
     
     init(_ identifierKey: Int, _ accessKey: Int) {
         self.identifierKey = identifierKey

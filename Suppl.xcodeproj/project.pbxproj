@@ -455,7 +455,7 @@
 		8C0E1B972091E62500CE5C12 /* ModulesCommunicateManager */ = {
 			isa = PBXGroup;
 			children = (
-				8C3C6B342092F7B000272018 /* Protocols */,
+				8C3C6B342092F7B000272018 /* CommunicateProtocols */,
 				8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */,
 			);
 			path = ModulesCommunicateManager;
@@ -629,14 +629,14 @@
 			path = Interactor;
 			sourceTree = "<group>";
 		};
-		8C3C6B342092F7B000272018 /* Protocols */ = {
+		8C3C6B342092F7B000272018 /* CommunicateProtocols */ = {
 			isa = PBXGroup;
 			children = (
 				8C3B74E12090495300D0AF3E /* TrackFilterCommunicateProtocol.swift */,
 				8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */,
 				8C3C6B3A20931BAA00272018 /* TrackTableCommunicateProtocol.swift */,
 			);
-			path = Protocols;
+			path = CommunicateProtocols;
 			sourceTree = "<group>";
 		};
 		8C3C6B352093100800272018 /* Interactor */ = {
