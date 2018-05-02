@@ -1,6 +1,0 @@
-framework module Pods_Suppl {
-  umbrella header "Pods-Suppl-umbrella.h"
-
-  export *
-  module * { export * }
-}
