@@ -5,9 +5,9 @@ class TrackFilterRouter: TrackFilterRouterProtocol {
     
     weak var viewController: UIViewController!
 
-    static func setup() -> UIViewController {
+    static func setup(parentModuleNameId: String) -> UIViewController {
         let router = TrackFilterRouter()
-        let interactor = TrackFilterInteractor()
+        let interactor = TrackFilterInteractor(parentModuleNameId: parentModuleNameId)
         let presenter = TrackFilterPresenter()
         let viewController = TrackFilterViewController()
         

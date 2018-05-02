@@ -1,6 +1,6 @@
 import Foundation
 
-protocol TrackFilterCommunicateProtocol: class {
+protocol TrackFilterCommunicateProtocol: CommunicateManagerProtocol {
     
     func timeValue() -> Float
     func titleValue() -> Bool

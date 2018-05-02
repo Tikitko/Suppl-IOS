@@ -1,17 +1,27 @@
 import Foundation
 
 class TrackTableInteractorMusic: TrackTableInteractorProtocol {
+    
     weak var presenter: TrackTablePresenterProtocol!
     
     var tracks: [AudioData] = []
     var foundTracks: [AudioData]?
+    
+    let parentModuleNameId: String
+    init(parentModuleNameId: String) {
+        self.parentModuleNameId = parentModuleNameId
+    }
+    
+    func getDelegate() -> TrackTableCommunicateProtocol? {
+        return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackTableCommunicateProtocol
+    }
 
     func numberOfRowsInSection(_ section: Int) -> Int {
         return tracks.count
     }
 
     func updateTracks() {
-        guard let tracksPair = ModulesCommunicateManager.s.trackTableDelegate?.needTracksForReload() else { return }
+        guard let tracksPair = getDelegate()?.needTracksForReload() else { return }
         tracks = tracksPair.tracks
         foundTracks = tracksPair.foundTracks
     }
@@ -58,7 +68,7 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
     }
     
     func willDisplayCellForRowAt(_ indexPath: IndexPath) {
-        ModulesCommunicateManager.s.trackTableDelegate?.cellShowAt(indexPath)
+        getDelegate()?.cellShowAt(indexPath)
     }
     
 }

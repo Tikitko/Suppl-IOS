@@ -5,9 +5,9 @@ class SearchBarRouter: SearchBarRouterProtocol {
     
     weak var viewController: UISearchBar!
     
-    static func setup() -> UISearchBar {
+    static func setup(parentModuleNameId: String) -> UISearchBar {
         let router = SearchBarRouter()
-        let interactor = SearchBarInteractor()
+        let interactor = SearchBarInteractor(parentModuleNameId: parentModuleNameId)
         let presenter = SearchBarPresenter()
         let viewController = SearchBarViewController()
         

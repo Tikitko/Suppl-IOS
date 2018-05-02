@@ -112,6 +112,7 @@
 		8C71CE352080BFCB00AC4BDB /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE342080BFCB00AC4BDB /* AuthPresenter.swift */; };
 		8C71CE382080BFEC00AC4BDB /* AuthPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE372080BFEC00AC4BDB /* AuthPresenterProtocol.swift */; };
 		8C71CE3A2080C03A00AC4BDB /* AuthViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE392080C03A00AC4BDB /* AuthViewControllerProtocol.swift */; };
+		8C73006B20999AF900B2FA44 /* CommunicateManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C73006A20999AF900B2FA44 /* CommunicateManagerProtocol.swift */; };
 		8CBDFD642023001700BED743 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBDFD632023001700BED743 /* AuthManager.swift */; };
 		8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */; };
 		8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC59520205D5C00D91687 /* RootTabBarController.swift */; };
@@ -230,6 +231,7 @@
 		8C71CE342080BFCB00AC4BDB /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
 		8C71CE372080BFEC00AC4BDB /* AuthPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenterProtocol.swift; sourceTree = "<group>"; };
 		8C71CE392080C03A00AC4BDB /* AuthViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerProtocol.swift; sourceTree = "<group>"; };
+		8C73006A20999AF900B2FA44 /* CommunicateManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicateManagerProtocol.swift; sourceTree = "<group>"; };
 		8CBDFD632023001700BED743 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		8CCAC59520205D5C00D91687 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 			children = (
 				8C3C6B342092F7B000272018 /* CommunicateProtocols */,
 				8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */,
+				8C73006A20999AF900B2FA44 /* CommunicateManagerProtocol.swift */,
 			);
 			path = ModulesCommunicateManager;
 			sourceTree = "<group>";
@@ -1041,6 +1044,7 @@
 				0E0641A020273A8900998D8A /* RemoteDataManager.swift in Sources */,
 				8C3B74EA2090776800D0AF3E /* SearchBarViewController.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
+				8C73006B20999AF900B2FA44 /* CommunicateManagerProtocol.swift in Sources */,
 				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,
 				8C0CB600208DA8C800456A68 /* TrackFilterPresenterProtocol.swift in Sources */,
 				0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */,

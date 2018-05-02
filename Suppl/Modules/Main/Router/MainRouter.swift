@@ -3,14 +3,21 @@ import UIKit
 
 class MainRouter: MainRouterProtocol {
     
+    let moduleNameId: String
+    init(moduleNameId: String) {
+        self.moduleNameId = moduleNameId
+    }
+    
     weak var viewController: UIViewController!
     
     static func setup() -> UIViewController {
-        let router = MainRouter()
+        let moduleNameId = String(arc4random_uniform(1000001))
+        
+        let router = MainRouter(moduleNameId: moduleNameId)
         let interactor = MainInteractor()
         let presenter = MainPresenter()
-        let table = TrackTableRouter.setupForMusic()
-        let search = SearchBarRouter.setup()
+        let table = TrackTableRouter.setupForMusic(parentModuleNameId: moduleNameId)
+        let search = SearchBarRouter.setup(parentModuleNameId: moduleNameId)
         let viewController = MainViewController(table: table, search: search)
         
         presenter.interactor = interactor

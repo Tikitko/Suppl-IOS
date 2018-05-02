@@ -6,8 +6,17 @@ class TrackTableInteractorTracklist: TrackTableInteractorProtocol {
     var tracks: [AudioData] = []
     var foundTracks: [AudioData]?
     
+    let parentModuleNameId: String
+    init(parentModuleNameId: String) {
+        self.parentModuleNameId = parentModuleNameId
+    }
+    
+    func getDelegate() -> TrackTableCommunicateProtocol? {
+        return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackTableCommunicateProtocol
+    }
+    
     func updateTracks() {
-        guard let tracksPair = ModulesCommunicateManager.s.trackTableDelegate?.needTracksForReload() else { return }
+        guard let tracksPair = getDelegate()?.needTracksForReload() else { return }
         tracks = tracksPair.tracks
         foundTracks = tracksPair.foundTracks
     }

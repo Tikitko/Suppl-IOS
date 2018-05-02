@@ -3,10 +3,17 @@ import UIKit
 
 class TracklistPresenter: TracklistPresenterProtocol {
     
-    
     var router: TracklistRouterProtocol!
     var interactor: TracklistInteractorProtocol!
     weak var view: TracklistViewControllerProtocol!
+    
+    func getModuleNameId() -> String {
+        return router.moduleNameId
+    }
+    
+    func setListener() {
+        interactor.setListener()
+    }
     
     func reloadData() {
         view.reloadData()
@@ -28,14 +35,6 @@ class TracklistPresenter: TracklistPresenterProtocol {
         view.setFilterThenPopover(filterController: filterController)
     }
     
-    func setSearchListener() {
-        interactor.setSearchListener()
-    }
-    
-    func setTableListener() {
-        interactor.setTableListener()
-    }
-    
     func load() {
         interactor.load()
     }
@@ -45,7 +44,6 @@ class TracklistPresenter: TracklistPresenterProtocol {
     }
     
     func filterButtonClick() {
-        interactor.setFilterListener()
         router.showFilter()
     }
     

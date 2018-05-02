@@ -33,12 +33,8 @@ class MainInteractor: MainInteractorProtocol {
         }
     }
     
-    func setSearchListener() {
-        ModulesCommunicateManager.s.searchDelegate = self
-    }
-    
-    func setTableListener() {
-        ModulesCommunicateManager.s.trackTableDelegate = self
+    func setListener() {
+        ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: self)
     }
     
     func searchTracks(_ query: String, offset: Int = 0) {

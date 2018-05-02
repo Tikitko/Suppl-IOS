@@ -25,16 +25,8 @@ class TracklistInteractor: TracklistInteractorProtocol {
         presenter.clearSearch()
     }
     
-    func setSearchListener() {
-        ModulesCommunicateManager.s.searchDelegate = self
-    }
-    
-    func setFilterListener() {
-        ModulesCommunicateManager.s.trackFilterDelegate = self
-    }
-    
-    func setTableListener() {
-        ModulesCommunicateManager.s.trackTableDelegate = self
+    func setListener() {
+        ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: self)
     }
     
     func updateTracks() {

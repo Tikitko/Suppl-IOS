@@ -6,6 +6,10 @@ class MainPresenter: MainPresenterProtocol {
     var interactor: MainInteractorProtocol!
     weak var view: MainViewControllerProtocol!
     
+    func getModuleNameId() -> String {
+        return router.moduleNameId
+    }
+    
     func setSearchQuery(_ query: String) {
         view.setSearchQuery(query)
     }
@@ -26,11 +30,8 @@ class MainPresenter: MainPresenterProtocol {
         interactor.loadBaseTracks()
     }
     
-    func setSearchListener() {
-        interactor.setSearchListener()
-    }
-    func setTableListener() {
-        interactor.setTableListener()
+    func setListener() {
+        interactor.setListener()
     }
     
 }

@@ -11,9 +11,9 @@ class TrackTableRouter: TrackTableRouterProtocol {
         UIApplication.topViewController()?.navigationController?.pushViewController(playerView, animated: true)
     }
     
-    static func setupForMusic() -> UITableViewController {
+    static func setupForMusic(parentModuleNameId: String) -> UITableViewController {
         let router = TrackTableRouter()
-        let interactor = TrackTableInteractorMusic()
+        let interactor = TrackTableInteractorMusic(parentModuleNameId: parentModuleNameId)
         let presenter = TrackTablePresenter()
         let viewController = TrackTableViewController()
         
@@ -31,9 +31,9 @@ class TrackTableRouter: TrackTableRouterProtocol {
     }
     
     
-    static func setupForTracklist() -> UITableViewController {
+    static func setupForTracklist(parentModuleNameId: String) -> UITableViewController {
         let router = TrackTableRouter()
-        let interactor = TrackTableInteractorTracklist()
+        let interactor = TrackTableInteractorTracklist(parentModuleNameId: parentModuleNameId)
         let presenter = TrackTablePresenter()
         let viewController = TrackTableViewController()
         

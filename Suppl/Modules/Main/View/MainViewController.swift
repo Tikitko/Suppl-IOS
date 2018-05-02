@@ -38,13 +38,8 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         ConstraintConstructor.includeView(child: searchTest, parent: tracksSearch)
         searchTest.placeholder = tracksSearch.placeholder
         
+        presenter.setListener()
         presenter.load()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.setSearchListener()
-        presenter.setTableListener()
     }
     
     func reloadData() {

@@ -4,23 +4,32 @@ class TrackFilterInteractor: TrackFilterInteractorProtocol {
     
     weak var presenter: TrackFilterPresenterProtocol!
     
+    let parentModuleNameId: String
+    init(parentModuleNameId: String) {
+        self.parentModuleNameId = parentModuleNameId
+    }
+    
+    func getDelegate() -> TrackFilterCommunicateProtocol? {
+        return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackFilterCommunicateProtocol
+    }
+    
     func timeValue() -> Float? {
-        return ModulesCommunicateManager.s.trackFilterDelegate?.timeValue()
+        return getDelegate()?.timeValue()
     }
     func titleValue() -> Bool? {
-        return ModulesCommunicateManager.s.trackFilterDelegate?.titleValue()
+        return getDelegate()?.titleValue()
     }
     func performerValue() -> Bool? {
-        return ModulesCommunicateManager.s.trackFilterDelegate?.performerValue()
+        return getDelegate()?.performerValue()
     }
     
     func timeChange(_ value: inout Float) {
-        ModulesCommunicateManager.s.trackFilterDelegate?.timeChange(&value)
+        getDelegate()?.timeChange(&value)
     }
     func titleChange(_ value: inout Bool) {
-        ModulesCommunicateManager.s.trackFilterDelegate?.titleChange(&value)
+        getDelegate()?.titleChange(&value)
     }
     func performerChange(_ value: inout Bool) {
-        ModulesCommunicateManager.s.trackFilterDelegate?.performerChange(&value)
+        getDelegate()?.performerChange(&value)
     }
 }

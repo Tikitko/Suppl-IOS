@@ -25,13 +25,8 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         ConstraintConstructor.includeView(child: searchTest, parent: searchBar)
         searchTest.placeholder = searchBar.placeholder
         
+        presenter.setListener()
         presenter.load()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.setSearchListener()
-        presenter.setTableListener()
     }
     
     convenience init(table: UITableViewController, search: UISearchBar) {
