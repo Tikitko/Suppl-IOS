@@ -9,28 +9,37 @@ class AuthInteractor: AuthInteractorProtocol {
     init(noAuth noAuthOnShow: Bool = false) {
         self.noAuthOnShow = noAuthOnShow
     }
+
+    func show() {
+        presenter.setLabel(LocalesManager.s.get(.load))
+        if noAuthOnShow {
+            setAuthFormVisable()
+            return
+        }
+        startAuth(keys: nil)
+    }
+    
+    func continueAfter(_ continueAfter: Double, timeOutCallback: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + continueAfter, execute: timeOutCallback)
+    }
     
     func endAuth() {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) { [weak self] in
+        continueAfter(1) { [weak self] in
             guard let `self` = self else { return }
             self.presenter.goToRoot()
             TracklistManager.s.update() { status in }
         }
-        presenter.goToRoot()
-        TracklistManager.s.update() { status in }
         let _ = AuthManager.s.startAuthCheck()
     }
     
-    func auth(keys: KeysPair?) {
-        AuthManager.s.authorization(keys: keys, callback: setStatusCallback)
-    }
-    
-    func reg() {
-        AuthManager.s.registration(callback: setStatusCallback)
-    }
-    
     func setStatusCallback(_ status: String?) {
-        presenter.setAuthResult(error: status)
+        if let error = status {
+            presenter.setLabel(error)
+            setAuthFormVisable(nowInputInfo: false)
+        } else {
+            presenter.setLabel(LocalesManager.s.get(.hi))
+            endAuth()
+        }
     }
     
     func inputProcessing(input: String?) -> Bool {
@@ -41,5 +50,48 @@ class AuthInteractor: AuthInteractorProtocol {
             return true
         }
         return false
+    }
+    
+    func startAuth(keys: KeysPair?) {
+        presenter.setLabel(LocalesManager.s.get(.getInfo))
+        if let keys = keys ?? AuthManager.s.getAuthKeys(setFailAuth: false) {
+            presenter.setLabel(LocalesManager.s.get(.auth))
+            AuthManager.s.authorization(keys: keys, callback: setStatusCallback)
+        } else {
+            presenter.setLabel(LocalesManager.s.get(.reg))
+            AuthManager.s.registration(callback: setStatusCallback)
+        }
+    }
+    
+    func setLabelForInput() {
+        presenter.setLabel(LocalesManager.s.get(.inputIdentifier))
+    }
+    
+    func setLabelForInputAfter(_ after: Double) {
+        continueAfter(after, timeOutCallback: setLabelForInput)
+    }
+    
+    func setAuthFormVisable(nowInputInfo: Bool = true, setSavedKays: Bool = true) {
+        if nowInputInfo {
+            setLabelForInput()
+        } else {
+            setLabelForInputAfter(1.5)
+        }
+        if setSavedKays {
+            let keys = AuthManager.s.getAuthKeys(setFailAuth: false)
+            presenter.setIdentifier(keys != nil ? "\(keys!.identifierKey)\(keys!.accessKey)" : "")
+        }
+        presenter.enableButtons()
+    }
+    
+    func repeatButtonClick(identifierText: String?) {
+        presenter.setLabel(LocalesManager.s.get(.checkIdentifier))
+        presenter.disableButtons()
+        guard inputProcessing(input: identifierText), let keys = AuthManager.s.getAuthKeys(setFailAuth: false) else {
+            presenter.setLabel(LocalesManager.s.get(.badIdentifier))
+            setAuthFormVisable(nowInputInfo: false, setSavedKays: false)
+            return
+        }
+        startAuth(keys: keys)
     }
 }

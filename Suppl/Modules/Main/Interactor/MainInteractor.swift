@@ -40,12 +40,8 @@ class MainInteractor: MainInteractorProtocol {
     func searchTracks(_ query: String, offset: Int = 0) {
         guard let keys = AuthManager.s.getAuthKeys() else { return }
         inSearchWork = true
-        presenter.setInfo(LocalesManager.s.get(.load))
         APIManager.s.audioSearch(keys: keys, query: query, offset: offset) { [weak self] error, data in
-            defer {
-                self?.inSearchWork = false
-                self?.presenter.setInfo(nil)
-            }
+            defer { self?.inSearchWork = false }
             guard let `self` = self, let data = data else { return }
             self.addFoundTracks(data)
             self.thisQuery = query

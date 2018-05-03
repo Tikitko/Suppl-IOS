@@ -1,10 +1,11 @@
 import Foundation
 
 protocol AuthPresenterProtocol: class {
-    func load()
     func show()
-    func setAuthResult(error: String?)
-    func setAuthFormVisable()
     func goToRoot()
+    func enableButtons()
+    func disableButtons()
+    func setIdentifier(_ text: String)
+    func setLabel(_ text: String)
     func repeatButtonClick(identifierText: String?)
 }
