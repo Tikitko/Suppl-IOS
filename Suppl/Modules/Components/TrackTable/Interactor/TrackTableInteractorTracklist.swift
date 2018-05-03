@@ -28,15 +28,13 @@ class TrackTableInteractorTracklist: TrackTableInteractorProtocol {
         return tracks.count
     }
     
-    func cellForRowAt(_ indexPath: IndexPath, _ cell: TrackTableCell) -> TrackTableCell {
-        let track = foundTracks != nil ? foundTracks![indexPath.row] : tracks[indexPath.row]
-        cell.configure(title: track.title, performer: track.performer, duration: track.duration)
-        guard SettingsManager.s.loadImages!, let imageLink = track.images.last, imageLink != "" else { return cell }
-        RemoteDataManager.s.getData(link: imageLink) { image in
-            guard cell.baseImage else { return }
-            cell.setImage(imageData: image)
+    func getTrackDataById(_ id: Int, infoCallback: @escaping (_ data: AudioData) -> Void, imageCallback: @escaping (_ data: NSData) -> Void) {
+        let track = foundTracks != nil ? foundTracks![id] : tracks[id]
+        infoCallback(track)
+        guard SettingsManager.s.loadImages!, let imageLink = track.images.last, imageLink != "" else { return }
+        RemoteDataManager.s.getData(link: imageLink) { imageData in
+            imageCallback(imageData)
         }
-        return cell
     }
     
     func canEditRowAt(_ indexPath: IndexPath) -> Bool {

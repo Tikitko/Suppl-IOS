@@ -34,7 +34,7 @@ class TrackTableCell: UITableViewCell {
     }
     
     public func setImage(image: UIImage) {
-        loadImageType()
+        //loadImageType()
         baseImage = false
         trackImage.image = image
     }

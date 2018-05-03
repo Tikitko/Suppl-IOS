@@ -1,34 +1,11 @@
 import Foundation
 
-class LocalesManager {
+final class LocalesManager {
     
     public enum Expression: String {
-        case playerTitle
-        case del
-        case add
-        case load
-        case getInfo
-        case auth
-        case reg
-        case hi
-        case inputIdentifier
-        case checkIdentifier
-        case badIdentifier
-        case notFound
-        case musicTitle
-        case settingsTitle
-        case emptyTracklist
-        case tracklistTitle
-        case titleSMain
-        case titleSAccount
-        case titleSDesign
-        case setting0
-        case setting1
-        case setting2
-        case setting3
-        case install
-        case emailSet
-        case youEmail
+        case playerTitle, del, add, load, getInfo, auth, reg, hi, inputIdentifier, checkIdentifier, badIdentifier,
+        notFound, musicTitle, settingsTitle, emptyTracklist, tracklistTitle, titleSMain, titleSAccount, titleSDesign,
+        setting0, setting1, setting2, setting3, install, emailSet, youEmail
     }
     
     static public let s = LocalesManager()
@@ -37,7 +14,7 @@ class LocalesManager {
     public let locale = PListsManager.s.loadPList(AppStaticData.locales.first ?? "")! as! [String: String]
 
     public func get(_ expression: Expression) -> String {
-        return locale[expression.rawValue] != nil ? locale[expression.rawValue]! : "---"
+        return locale[expression.rawValue] ?? "---"
     }
     
     public func get(_ expression: Expression) -> String? {

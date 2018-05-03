@@ -2,17 +2,15 @@ import Foundation
 import UIKit
 
 final class TrackTableViewController: UITableViewController, TrackTableViewControllerProtocol {
+    
     var presenter: TrackTablePresenterProtocol!
     
     private class UITableViewWithReload: UITableView {
-        
         weak var myController: TrackTableViewController?
-        
         override func reloadData() {
             myController?.inReloadData()
             super.reloadData()
         }
-        
     }
     
     override func viewDidLoad() {
@@ -35,10 +33,16 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrackTableCell.identifier, for: indexPath) as? TrackTableCell else {
-            return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: TrackTableCell.identifier, for: indexPath) as! TrackTableCell
+        let infoCallback: (AudioData) -> Void = { track in
+            cell.configure(title: track.title, performer: track.performer, duration: track.duration)
         }
-        return presenter.cellForRowAt(indexPath, cell)
+        let imageCallback: (NSData) -> Void = { imageData in
+            guard cell.baseImage else { return }
+            cell.setImage(imageData: imageData)
+        }
+        presenter.getTrackDataById(indexPath.row, infoCallback: infoCallback, imageCallback: imageCallback)
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

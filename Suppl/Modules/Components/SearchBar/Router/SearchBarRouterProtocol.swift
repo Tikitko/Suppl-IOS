@@ -1,5 +1,3 @@
 import Foundation
 
-protocol SearchBarRouterProtocol: class {
-    
-}
+protocol SearchBarRouterProtocol: class {}

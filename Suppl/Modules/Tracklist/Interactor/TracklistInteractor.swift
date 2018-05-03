@@ -165,8 +165,8 @@ extension TracklistInteractor: TrackTableCommunicateProtocol {
     
     func cellShowAt(_ indexPath: IndexPath) {}
     
-    func needTracksForReload() -> (tracks: [AudioData], foundTracks: [AudioData]?) {
-        return (tracks, foundTracks)
+    func needTracksForReload() -> TracklistPair {
+        return TracklistPair(tracks: tracks, foundTracks: foundTracks)
     }
 
 }

@@ -19,8 +19,7 @@ class AuthPresenter: AuthPresenterProtocol {
     
     func startAuth(keys: KeysPair?) {
         view.setLabel(LocalesManager.s.get(.getInfo))
-        let keysFromDefaults = AuthManager.s.getAuthKeys(setFailAuth: false)
-        if let keys = keys ?? keysFromDefaults {
+        if let keys = keys ?? AuthManager.s.getAuthKeys(setFailAuth: false) {
             view.setLabel(LocalesManager.s.get(.auth))
             interactor.auth(keys: keys)
         } else {

@@ -1,5 +1,3 @@
 import Foundation
 
-protocol TrackFilterViewControllerProtocol: class {
-    
-}
+protocol TrackFilterViewControllerProtocol: class {}

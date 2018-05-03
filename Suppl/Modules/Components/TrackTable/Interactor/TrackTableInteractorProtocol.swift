@@ -1,10 +1,9 @@
 import Foundation
 
 protocol TrackTableInteractorProtocol: class {
-    
     func updateTracks()
     func numberOfRowsInSection(_ section: Int) -> Int
-    func cellForRowAt(_ indexPath: IndexPath, _ cell: TrackTableCell) -> TrackTableCell
+    func getTrackDataById(_ id: Int, infoCallback: @escaping (_ data: AudioData) -> Void, imageCallback: @escaping (_ data: NSData) -> Void)
     func canEditRowAt(_ indexPath: IndexPath) -> Bool
     func editActionsForRowAt(_ indexPath: IndexPath) -> [RowAction]
     func didSelectRowAt(_ indexPath: IndexPath)

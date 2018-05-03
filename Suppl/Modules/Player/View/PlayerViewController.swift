@@ -73,7 +73,7 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     
     
     func clearPlayerForm() {
-        imageView.image = nil
+        imageView.image = #imageLiteral(resourceName: "cd")
         performerLabel.text = nil
         titleLabel.text = nil
         progressSlider.minimumValue = 0

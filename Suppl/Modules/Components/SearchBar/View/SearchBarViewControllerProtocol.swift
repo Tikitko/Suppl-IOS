@@ -1,4 +1,3 @@
 import Foundation
 
-protocol SearchBarViewControllerProtocol: class {
-}
+protocol SearchBarViewControllerProtocol: class {}

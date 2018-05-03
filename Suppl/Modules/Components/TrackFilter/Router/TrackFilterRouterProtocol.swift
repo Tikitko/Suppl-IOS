@@ -1,5 +1,3 @@
 import Foundation
 
-protocol TrackFilterRouterProtocol: class {
-    
-}
+protocol TrackFilterRouterProtocol: class {}

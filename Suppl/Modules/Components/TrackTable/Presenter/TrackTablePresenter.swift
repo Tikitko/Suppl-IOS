@@ -17,8 +17,8 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
         return interactor.numberOfRowsInSection(section)
     }
     
-    func cellForRowAt(_ indexPath: IndexPath, _ cell: TrackTableCell) -> TrackTableCell {
-        return interactor.cellForRowAt(indexPath, cell)
+    func getTrackDataById(_ id: Int, infoCallback: @escaping (_ data: AudioData) -> Void, imageCallback: @escaping (_ data: NSData) -> Void) {
+        interactor.getTrackDataById(id, infoCallback: infoCallback, imageCallback: imageCallback)
     }
     
     func canEditRowAt(_ indexPath: IndexPath) -> Bool {

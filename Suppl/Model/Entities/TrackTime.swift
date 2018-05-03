@@ -5,15 +5,10 @@ struct TrackTime {
     let sec: Int
     var formatted: String {
         get {
-            let minSec = minAndSec
-            let min = String(minSec.min)
-            let sec = (minSec.sec < 10 ? "0" : "") + String("\(minSec.sec)")
+            let min = "\((self.sec % 3600) / 60)"
+            let secInt = (self.sec % 3600) % 60
+            let sec = (secInt < 10 ? "0" : "") + "\(secInt)"
             return String("\(min):\(sec)")
-        }
-    }
-    var minAndSec: (min: Int, sec: Int) {
-        get {
-            return ((sec % 3600) / 60, (sec % 3600) % 60)
         }
     }
 }

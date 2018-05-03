@@ -26,6 +26,15 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
         foundTracks = tracksPair.foundTracks
     }
     
+    func getTrackDataById(_ id: Int, infoCallback: @escaping (_ data: AudioData) -> Void, imageCallback: @escaping (_ data: NSData) -> Void) {
+        let track = tracks[id]
+        infoCallback(track)
+        guard SettingsManager.s.loadImages!, let imageLink = track.images.last, imageLink != "" else { return }
+        RemoteDataManager.s.getData(link: imageLink) { imageData in
+            imageCallback(imageData)
+        }
+    }
+    
     func cellForRowAt(_ indexPath: IndexPath, _ cell: TrackTableCell) -> TrackTableCell {
         let track = tracks[indexPath.row]
         cell.configure(title: track.title, performer: track.performer, duration: track.duration)

@@ -1,4 +1,3 @@
 import Foundation
 
-protocol TrackTableViewControllerProtocol: class {
-}
+protocol TrackTableViewControllerProtocol: class {}

@@ -40,8 +40,12 @@ class MainInteractor: MainInteractorProtocol {
     func searchTracks(_ query: String, offset: Int = 0) {
         guard let keys = AuthManager.s.getAuthKeys() else { return }
         inSearchWork = true
+        presenter.setInfo(LocalesManager.s.get(.load))
         APIManager.s.audioSearch(keys: keys, query: query, offset: offset) { [weak self] error, data in
-            defer { self?.inSearchWork = false }
+            defer {
+                self?.inSearchWork = false
+                self?.presenter.setInfo(nil)
+            }
             guard let `self` = self, let data = data else { return }
             self.addFoundTracks(data)
             self.thisQuery = query
@@ -77,8 +81,8 @@ extension MainInteractor: SearchCommunicateProtocol {
 
 extension MainInteractor: TrackTableCommunicateProtocol {
     
-    func needTracksForReload() -> (tracks: [AudioData], foundTracks: [AudioData]?) {
-        return (searchData?.list ?? [], nil)
+    func needTracksForReload() -> TracklistPair {
+        return TracklistPair(tracks: searchData?.list ?? [], foundTracks: nil)
     }
     
     func cellShowAt(_ indexPath: IndexPath) {
