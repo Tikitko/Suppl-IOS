@@ -5,7 +5,7 @@ final class ModulesCommunicateManager {
     static public let s = ModulesCommunicateManager()
     private init() {}
     
-    public let mapTableDelegates = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
+    private let mapTableDelegates = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
     
     public func setListener(name: String, delegate: CommunicateManagerProtocol) {
         mapTableDelegates.setObject(delegate, forKey: name as NSString)
