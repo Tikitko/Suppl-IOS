@@ -64,7 +64,6 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
                 TracklistManager.s.add(trackId: self.tracks[indexPath.row].id) { status in }
             })
         }
-    
         return actions
     }
     

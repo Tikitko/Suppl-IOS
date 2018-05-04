@@ -42,6 +42,11 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         presenter.load()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tracksTableTest.tableView.reloadData()
+    }
+    
     func reloadData() {
         tracksTableTest.tableView.reloadData()
     }

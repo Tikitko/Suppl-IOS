@@ -29,6 +29,11 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         presenter.load()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tracksTableTest.tableView.reloadData()
+    }
+    
     convenience init(table: UITableViewController, search: UISearchBar) {
         self.init()
         tracksTableTest = table
