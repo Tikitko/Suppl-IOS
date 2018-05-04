@@ -20,7 +20,8 @@ final class AuthManager {
     }
     
     public func setAuthWindow(noAuth: Bool = false) {
-        AuthRouter.setSelf()
+        let _ = stopAuthCheck()
+        AuthRouter.setSelf(noAuth: noAuth)
     }
     
     public func startAuthCheck(startNow: Bool = false) -> Bool {
