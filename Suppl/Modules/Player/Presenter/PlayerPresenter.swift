@@ -2,73 +2,63 @@ import Foundation
 import UIKit
 
 class PlayerPresenter: PlayerPresenterProtocol {
+    
     var router: PlayerRouterProtocol!
     var interactor: PlayerInteractorProtocol!
     weak var view: PlayerViewControllerProtocol!
     
     func load() {
-        view.setNavTitle(LocalesManager.s.get(.playerTitle))
-        clearPlayer()
-        guard let tracks = interactor.tracks else { return }
-        interactor.loadTrackByID(tracks.curr())
+        interactor.load()
     }
     
-    func show() {}
-    
+    func setNavTitle(_ title: String) {
+        view.setNavTitle(title)
+    }
+        
     func setTrackInfo(title: String, performer: String) {
         view.setTrackInfo(title: title, performer: performer)
     }
     
-    func setTrackImage(_ image: UIImage) {
-        view.setTrackImage(image)
-    }
-    
-    func setTrackImage(_ imageData: NSData) {
-        guard let image = UIImage(data: imageData as Data) else { return }
-        view.setTrackImage(image)
-    }
-    
-    func clearPlayer() {
-        interactor.needPlayingStatus = false
-        stopObservers()
-        interactor.clearPlayer()
-        view.clearPlayerForm()
-    }
-    
-    func startObservers() {
-        interactor.addPlayStatusObserver()
-        interactor.addPlayerRateObserver()
-    }
-    
-    func stopObservers() {
-        interactor.removePlayStatusObserver()
-        interactor.removePlayerRateObserver()
-    }
-    
-    func updatePlayerProgress(currentTime: Double) {
-        view.updatePlayerProgress(currentTime: currentTime)
-    }
-    
-    func addPlayerTimeObserver() {
-        interactor.addPlayerTimeObserver()
+    func setTrackImage(_ imageData: Data) {
+        view.setTrackImage(imageData)
     }
     
     func openPlayer(duration: Double) {
         view.openPlayer(duration: duration)
     }
     
-    func setPlayButtonImage(_ image: UIImage) {
-        view.setPlayButtonImage(image)
+    func clearPlayer() {
+        view.clearPlayer()
+    }
+    
+    func updatePlayerProgress(currentTime: Double) {
+        view.updatePlayerProgress(currentTime: currentTime)
     }
     
     func navButtonClick(next: Bool) {
-        guard let _ = interactor.tracks else { return }
-        interactor.loadTrackByID(next ? interactor.tracks!.next() : interactor.tracks!.prev())
+        interactor.navButtonClick(next: next)
     }
     
     func play() {
         interactor.play()
     }
+    
+    func rewindP() {
+        interactor.rewindP()
+    }
+    
+    func rewindM() {
+        interactor.rewindP()
+    }
+    
+    func setPlayImage() {
+        view.setPlayImage()
+    }
+    
+    func setPauseImage() {
+        view.setPauseImage()
+    }
+
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool = false) {
         interactor.setPlayerCurrentTime(sec, withCurrentTime: withCurrentTime)

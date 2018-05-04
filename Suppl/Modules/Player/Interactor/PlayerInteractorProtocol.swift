@@ -6,16 +6,11 @@ import UIKit
 
 protocol PlayerInteractorProtocol: class {
     
-    var needPlayingStatus: Bool { get set }
-    var tracks: TrackList? { get set }
-    
-    func loadTrackByID(_ trackID: String)
-    func clearPlayer()
-    func addPlayStatusObserver()
-    func removePlayStatusObserver()
-    func addPlayerRateObserver()
-    func removePlayerRateObserver()
-    func addPlayerTimeObserver()
+    func load()
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool)
     func play()
+    func navButtonClick(next: Bool)
+    func rewindP()
+    func rewindM()
+    
 }

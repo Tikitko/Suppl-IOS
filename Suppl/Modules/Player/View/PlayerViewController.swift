@@ -24,12 +24,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
+        clearPlayer()
         presenter.load()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.show()
     }
     
     func setTheme() {
@@ -45,7 +41,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         performerLabel.text = performer
     }
     
-    func setTrackImage(_ image: UIImage) {
+    func setTrackImage(_ imageData: Data) {
+        guard let image = UIImage(data: imageData) else { return }
         imageView.image = image
     }
     
@@ -56,8 +53,6 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         
         goneLabel.text = TrackTime(sec: Int(progressSlider.minimumValue)).formatted
         leftLabel.text = TrackTime(sec: Int(progressSlider.maximumValue)).formatted
-        
-        presenter.addPlayerTimeObserver()
         
         playButton.isEnabled = true
         rewindMButton.isEnabled = true
@@ -72,7 +67,7 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     }
     
     
-    func clearPlayerForm() {
+    func clearPlayer() {
         imageView.image = #imageLiteral(resourceName: "cd")
         performerLabel.text = nil
         titleLabel.text = nil
@@ -92,6 +87,14 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         playButton.setImage(image, for: .normal)
     }
     
+    func setPlayImage() {
+        setPlayButtonImage(#imageLiteral(resourceName: "icon_152"))
+    }
+    
+    func setPauseImage() {
+        setPlayButtonImage(#imageLiteral(resourceName: "icon_154"))
+    }
+    
     @IBAction func sliderChanged(_ sender: Any) {
         presenter.setPlayerCurrentTime(Double(progressSlider.value), withCurrentTime: false)
     }
@@ -101,11 +104,11 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     }
     
     @IBAction func rewindPClicked(_ sender: Any) {
-        presenter.setPlayerCurrentTime(15, withCurrentTime: true)
+        presenter.rewindP()
     }
     
     @IBAction func rewindMClicked(_ sender: Any) {
-        presenter.setPlayerCurrentTime(-15, withCurrentTime: true)
+        presenter.rewindM()
     }
     
     @IBAction func backButtonClick(_ sender: Any) {
@@ -114,10 +117,6 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     
     @IBAction func nextButtonClick(_ sender: Any) {
         presenter.navButtonClick(next: true)
-    }
-    
-    deinit {
-        presenter.stopObservers()
     }
     
 }

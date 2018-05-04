@@ -53,7 +53,7 @@
 		8C0E1B962091C74400CE5C12 /* LocalesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B952091C74400CE5C12 /* LocalesManager.swift */; };
 		8C0E1B9A2091E66000CE5C12 /* ModulesCommunicateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */; };
 		8C0E1B9C2091E6A300CE5C12 /* SearchCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */; };
-		8C20889C2089D7F0000505F9 /* TrackList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889B2089D7F0000505F9 /* TrackList.swift */; };
+		8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889B2089D7F0000505F9 /* Playlist.swift */; };
 		8C20889E2089D851000505F9 /* RowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889D2089D851000505F9 /* RowAction.swift */; };
 		8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889F2089DBEF000505F9 /* TrackTime.swift */; };
 		8C2467102099FCCC00C86621 /* TracklistPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C24670F2099FCCC00C86621 /* TracklistPair.swift */; };
@@ -89,6 +89,9 @@
 		8C3C6B392093104500272018 /* TrackFilterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3C6B382093104500272018 /* TrackFilterInteractor.swift */; };
 		8C3C6B3B20931BAA00272018 /* TrackTableCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3C6B3A20931BAA00272018 /* TrackTableCommunicateProtocol.swift */; };
 		8C44FFBF203432C3008C50D0 /* Black.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C44FFBE203432C3008C50D0 /* Black.plist */; };
+		8C479664209C51E1009F5623 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C479663209C51E1009F5623 /* PlayerManager.swift */; };
+		8C479666209C6888009F5623 /* CurrentTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C479665209C6888009F5623 /* CurrentTrack.swift */; };
+		8C479669209C760E009F5623 /* PlayerListenerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C479668209C760E009F5623 /* PlayerListenerDelegate.swift */; };
 		8C4B1339202463C0004A997E /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */; };
 		8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */; };
 		8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */; };
@@ -171,7 +174,7 @@
 		8C0E1B952091C74400CE5C12 /* LocalesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalesManager.swift; sourceTree = "<group>"; };
 		8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesCommunicateManager.swift; sourceTree = "<group>"; };
 		8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCommunicateProtocol.swift; sourceTree = "<group>"; };
-		8C20889B2089D7F0000505F9 /* TrackList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackList.swift; sourceTree = "<group>"; };
+		8C20889B2089D7F0000505F9 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		8C20889D2089D851000505F9 /* RowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowAction.swift; sourceTree = "<group>"; };
 		8C20889F2089DBEF000505F9 /* TrackTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTime.swift; sourceTree = "<group>"; };
 		8C24670F2099FCCC00C86621 /* TracklistPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistPair.swift; sourceTree = "<group>"; };
@@ -207,6 +210,9 @@
 		8C3C6B382093104500272018 /* TrackFilterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterInteractor.swift; sourceTree = "<group>"; };
 		8C3C6B3A20931BAA00272018 /* TrackTableCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCommunicateProtocol.swift; sourceTree = "<group>"; };
 		8C44FFBE203432C3008C50D0 /* Black.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Black.plist; sourceTree = "<group>"; };
+		8C479663209C51E1009F5623 /* PlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
+		8C479665209C6888009F5623 /* CurrentTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrack.swift; sourceTree = "<group>"; };
+		8C479668209C760E009F5623 /* PlayerListenerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListenerDelegate.swift; sourceTree = "<group>"; };
 		8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
 		8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralViewController.swift; sourceTree = "<group>"; };
 		8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAccountViewController.swift; sourceTree = "<group>"; };
@@ -469,11 +475,12 @@
 		8C20889A2089D412000505F9 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				8C20889B2089D7F0000505F9 /* TrackList.swift */,
+				8C20889B2089D7F0000505F9 /* Playlist.swift */,
 				8C20889D2089D851000505F9 /* RowAction.swift */,
 				8C20889F2089DBEF000505F9 /* TrackTime.swift */,
 				8C0E1B8D2091A76D00CE5C12 /* KeysPair.swift */,
 				8C24670F2099FCCC00C86621 /* TracklistPair.swift */,
+				8C479665209C6888009F5623 /* CurrentTrack.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -655,6 +662,15 @@
 			path = "New Group";
 			sourceTree = "<group>";
 		};
+		8C479667209C75D0009F5623 /* PlayerManager */ = {
+			isa = PBXGroup;
+			children = (
+				8C479663209C51E1009F5623 /* PlayerManager.swift */,
+				8C479668209C760E009F5623 /* PlayerListenerDelegate.swift */,
+			);
+			path = PlayerManager;
+			sourceTree = "<group>";
+		};
 		8C4B133A20248913004A997E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -793,6 +809,7 @@
 		8CBDFD622022FEEF00BED743 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				8C479667209C75D0009F5623 /* PlayerManager */,
 				8C0E1B972091E62500CE5C12 /* ModulesCommunicateManager */,
 				0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */,
 				8C67F5F3201B174200333EB2 /* APIManager.swift */,
@@ -991,6 +1008,7 @@
 				8C3C6B3B20931BAA00272018 /* TrackTableCommunicateProtocol.swift in Sources */,
 				8C71CE332080BF9C00AC4BDB /* AuthInteractorProtocol.swift in Sources */,
 				8C316CBB208710E800BD891B /* PlayerInteractorProtocol.swift in Sources */,
+				8C479664209C51E1009F5623 /* PlayerManager.swift in Sources */,
 				8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */,
 				8C285F6F20887E69007427E7 /* TrackTableViewControllerProtocol.swift in Sources */,
 				8C0CB613208DCD8F00456A68 /* MainPresenterProtocol.swift in Sources */,
@@ -1005,7 +1023,7 @@
 				0E466278201F88890037FD0E /* TracklistService.swift in Sources */,
 				8C316CC02087111B00BD891B /* PlayerRouterProtocol.swift in Sources */,
 				8C0CB611208DCD6500456A68 /* MainRouter.swift in Sources */,
-				8C20889C2089D7F0000505F9 /* TrackList.swift in Sources */,
+				8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */,
 				8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */,
 				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,
 				8C285F7520888173007427E7 /* TrackTableRouterProtocol.swift in Sources */,
@@ -1047,6 +1065,7 @@
 				8C0CB628208DDB8300456A68 /* TracklistPresenter.swift in Sources */,
 				0E0641A020273A8900998D8A /* RemoteDataManager.swift in Sources */,
 				8C3B74EA2090776800D0AF3E /* SearchBarViewController.swift in Sources */,
+				8C479666209C6888009F5623 /* CurrentTrack.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
 				8C73006B20999AF900B2FA44 /* CommunicateManagerProtocol.swift in Sources */,
 				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,
@@ -1079,6 +1098,7 @@
 				0E29CBD9202A025900BE5975 /* PlayerViewController.swift in Sources */,
 				8C0CB602208DA8D200456A68 /* TrackFilterPresenter.swift in Sources */,
 				8C316CC52087115200BD891B /* PlayerPresenterProtocol.swift in Sources */,
+				8C479669209C760E009F5623 /* PlayerListenerDelegate.swift in Sources */,
 				8C0CB60F208DCD5900456A68 /* MainRouterProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

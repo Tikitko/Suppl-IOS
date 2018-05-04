@@ -3,10 +3,11 @@ import UIKit
 
 protocol PlayerViewControllerProtocol: class {
     func setNavTitle(_ title: String)
-    func clearPlayerForm()
+    func clearPlayer()
     func setTrackInfo(title: String, performer: String)
-    func setTrackImage(_ image: UIImage)
+    func setTrackImage(_ imageData: Data)
     func updatePlayerProgress(currentTime: Double)
     func openPlayer(duration: Double)
-    func setPlayButtonImage(_ image: UIImage)
+    func setPlayImage()
+    func setPauseImage() 
 }

@@ -24,7 +24,7 @@ class AuthInteractor: AuthInteractorProtocol {
     }
     
     func endAuth() {
-        continueAfter(1) { [weak self] in
+        continueAfter(0.7) { [weak self] in
             guard let `self` = self else { return }
             self.presenter.goToRoot()
             TracklistManager.s.update() { status in }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct TrackList {
+struct Playlist {
     private var IDs: [String]
     private var current: Int
     public init?(IDs: [String], current: Int = 0) {

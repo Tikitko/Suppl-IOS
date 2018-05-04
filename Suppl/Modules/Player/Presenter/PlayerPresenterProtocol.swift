@@ -3,18 +3,18 @@ import UIKit
 
 protocol PlayerPresenterProtocol: class {
     func load()
-    func show()
+    func setNavTitle(_ title: String)
     func setTrackInfo(title: String, performer: String)
-    func setTrackImage(_ image: UIImage)
-    func setTrackImage(_ imageData: NSData)
+    func setTrackImage(_ imageData: Data)
     func clearPlayer()
-    func startObservers()
-    func stopObservers()
     func updatePlayerProgress(currentTime: Double)
-    func addPlayerTimeObserver()
     func openPlayer(duration: Double)
-    func setPlayButtonImage(_ image: UIImage)
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool)
     func navButtonClick(next: Bool)
     func play()
+    func rewindP()
+    func rewindM()
+    func setPlayImage()
+    func setPauseImage()
+
 }
