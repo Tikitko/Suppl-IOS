@@ -128,15 +128,6 @@ final class PlayerManager: NSObject {
         }
     }
     
-    private func clearPlayer() {
-        playerListener?.playlistRemoved()
-        removePlayStatusObserver()
-        removePlayerRateObserver()
-        player = nil
-        currentTrack = nil
-        playlist = nil
-    }
-    
     private  func setTrack(_ track: AudioData) {
         guard let trackLink = track.track, let trackURL = URL(string: trackLink) else { return }
         playerListener?.blockControl()
@@ -164,6 +155,14 @@ final class PlayerManager: NSObject {
     
     
     
+    public func clearPlayer() {
+        playerListener?.playlistRemoved()
+        removePlayStatusObserver()
+        removePlayerRateObserver()
+        player = nil
+        currentTrack = nil
+        playlist = nil
+    }
     
     public func setPlaylist(tracksIDs: [String], current: Int = 0) {
         playlist = Playlist(IDs: tracksIDs, current: current)

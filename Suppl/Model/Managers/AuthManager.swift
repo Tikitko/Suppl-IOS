@@ -20,6 +20,7 @@ final class AuthManager {
     }
     
     public func setAuthWindow(noAuth: Bool = false) {
+        PlayerManager.s.clearPlayer()
         let _ = stopAuthCheck()
         AuthRouter.setSelf(noAuth: noAuth)
     }
