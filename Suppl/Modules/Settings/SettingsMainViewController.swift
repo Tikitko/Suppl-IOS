@@ -11,6 +11,14 @@ class SettingsMainViewController: UIViewController, ControllerInfoProtocol {
         return storyboard.instantiateInitialViewController() as! SettingsMainViewController
     }
     
+    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name

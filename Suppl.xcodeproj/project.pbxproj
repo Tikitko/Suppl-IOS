@@ -73,10 +73,19 @@
 		8C316CC22087112500BD891B /* PlayerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CC12087112500BD891B /* PlayerRouter.swift */; };
 		8C316CC52087115200BD891B /* PlayerPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CC42087115200BD891B /* PlayerPresenterProtocol.swift */; };
 		8C316CC72087116900BD891B /* PlayerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CC62087116900BD891B /* PlayerPresenter.swift */; };
+		8C32F88520A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88420A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift */; };
+		8C32F88720A03A820059C1F4 /* SmallPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88620A03A820059C1F4 /* SmallPlayerViewController.swift */; };
+		8C32F88920A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88820A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift */; };
+		8C32F88B20A03AA80059C1F4 /* SmallPlayerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88A20A03AA80059C1F4 /* SmallPlayerInteractor.swift */; };
+		8C32F88D20A03AB80059C1F4 /* SmallPlayerRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88C20A03AB80059C1F4 /* SmallPlayerRouterProtocol.swift */; };
+		8C32F88F20A03AC80059C1F4 /* SmallPlayerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88E20A03AC80059C1F4 /* SmallPlayerRouter.swift */; };
+		8C32F89120A03ADA0059C1F4 /* SmallPlayerPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F89020A03ADA0059C1F4 /* SmallPlayerPresenterProtocol.swift */; };
+		8C32F89320A03AE60059C1F4 /* SmallPlayerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F89220A03AE60059C1F4 /* SmallPlayerPresenter.swift */; };
+		8C32F89620A03B830059C1F4 /* SmallPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C32F89520A03B830059C1F4 /* SmallPlayerViewController.xib */; };
 		8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3301F22021BB7500446945 /* AuthViewController.swift */; };
 		8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C3301F42021BB8500446945 /* AuthViewController.xib */; };
 		8C3B74E22090495400D0AF3E /* TrackFilterCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E12090495300D0AF3E /* TrackFilterCommunicateProtocol.swift */; };
-		8C3B74E42090725700D0AF3E /* ConstraintConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E32090725700D0AF3E /* ConstraintConstructor.swift */; };
+		8C3B74E42090725700D0AF3E /* ViewIncluder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E32090725700D0AF3E /* ViewIncluder.swift */; };
 		8C3B74EA2090776800D0AF3E /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E92090776800D0AF3E /* SearchBarViewController.swift */; };
 		8C3B74EC209077B300D0AF3E /* SearchBarViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74EB209077B300D0AF3E /* SearchBarViewControllerProtocol.swift */; };
 		8C3B74EE2090780600D0AF3E /* SearchBarRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74ED2090780600D0AF3E /* SearchBarRouterProtocol.swift */; };
@@ -194,10 +203,19 @@
 		8C316CC12087112500BD891B /* PlayerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRouter.swift; sourceTree = "<group>"; };
 		8C316CC42087115200BD891B /* PlayerPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPresenterProtocol.swift; sourceTree = "<group>"; };
 		8C316CC62087116900BD891B /* PlayerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPresenter.swift; sourceTree = "<group>"; };
+		8C32F88420A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerViewControllerProtocol.swift; sourceTree = "<group>"; };
+		8C32F88620A03A820059C1F4 /* SmallPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerViewController.swift; sourceTree = "<group>"; };
+		8C32F88820A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerInteractorProtocol.swift; sourceTree = "<group>"; };
+		8C32F88A20A03AA80059C1F4 /* SmallPlayerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerInteractor.swift; sourceTree = "<group>"; };
+		8C32F88C20A03AB80059C1F4 /* SmallPlayerRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerRouterProtocol.swift; sourceTree = "<group>"; };
+		8C32F88E20A03AC80059C1F4 /* SmallPlayerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerRouter.swift; sourceTree = "<group>"; };
+		8C32F89020A03ADA0059C1F4 /* SmallPlayerPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerPresenterProtocol.swift; sourceTree = "<group>"; };
+		8C32F89220A03AE60059C1F4 /* SmallPlayerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerPresenter.swift; sourceTree = "<group>"; };
+		8C32F89520A03B830059C1F4 /* SmallPlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SmallPlayerViewController.xib; sourceTree = "<group>"; };
 		8C3301F22021BB7500446945 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		8C3301F42021BB8500446945 /* AuthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
 		8C3B74E12090495300D0AF3E /* TrackFilterCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterCommunicateProtocol.swift; sourceTree = "<group>"; };
-		8C3B74E32090725700D0AF3E /* ConstraintConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintConstructor.swift; sourceTree = "<group>"; };
+		8C3B74E32090725700D0AF3E /* ViewIncluder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIncluder.swift; sourceTree = "<group>"; };
 		8C3B74E92090776800D0AF3E /* SearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
 		8C3B74EB209077B300D0AF3E /* SearchBarViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewControllerProtocol.swift; sourceTree = "<group>"; };
 		8C3B74ED2090780600D0AF3E /* SearchBarRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarRouterProtocol.swift; sourceTree = "<group>"; };
@@ -284,6 +302,7 @@
 		0E0F520B2025F374000C6DD3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8C32F87F20A039740059C1F4 /* SmallPlayer */,
 				8C3B74E52090753600D0AF3E /* SearchBar */,
 				8C285F6720887B68007427E7 /* TrackTable */,
 				0E0A983E2033141500E91922 /* TrackFilter */,
@@ -328,7 +347,7 @@
 				8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */,
 				8CCAC59520205D5C00D91687 /* RootTabBarController.swift */,
 				0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */,
-				8C3B74E32090725700D0AF3E /* ConstraintConstructor.swift */,
+				8C3B74E32090725700D0AF3E /* ViewIncluder.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -568,6 +587,54 @@
 				8C316CC62087116900BD891B /* PlayerPresenter.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8C32F87F20A039740059C1F4 /* SmallPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				8C32F88320A039D90059C1F4 /* View */,
+				8C32F88220A039CF0059C1F4 /* Interactor */,
+				8C32F88120A039C90059C1F4 /* Router */,
+				8C32F88020A039C20059C1F4 /* Presenter */,
+			);
+			path = SmallPlayer;
+			sourceTree = "<group>";
+		};
+		8C32F88020A039C20059C1F4 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8C32F89020A03ADA0059C1F4 /* SmallPlayerPresenterProtocol.swift */,
+				8C32F89220A03AE60059C1F4 /* SmallPlayerPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8C32F88120A039C90059C1F4 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				8C32F88C20A03AB80059C1F4 /* SmallPlayerRouterProtocol.swift */,
+				8C32F88E20A03AC80059C1F4 /* SmallPlayerRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		8C32F88220A039CF0059C1F4 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8C32F88820A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift */,
+				8C32F88A20A03AA80059C1F4 /* SmallPlayerInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8C32F88320A039D90059C1F4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8C32F88420A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift */,
+				8C32F88620A03A820059C1F4 /* SmallPlayerViewController.swift */,
+				8C32F89520A03B830059C1F4 /* SmallPlayerViewController.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		8C3301F02021A9AD00446945 /* Modules */ = {
@@ -932,6 +999,7 @@
 				8CCAC5A0202065B300D91687 /* MainViewController.xib in Resources */,
 				0E29CBDB202A2C0D00BE5975 /* PlayerViewController.xib in Resources */,
 				8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */,
+				8C32F89620A03B830059C1F4 /* SmallPlayerViewController.xib in Resources */,
 				0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */,
 				0E12FAC520308B3C00EE3422 /* Purple.plist in Resources */,
 			);
@@ -1004,6 +1072,7 @@
 				8C285F772088818A007427E7 /* TrackTableRouter.swift in Sources */,
 				8C71CE2B2080BE9100AC4BDB /* AuthInteractor.swift in Sources */,
 				8C285F7320888126007427E7 /* TrackTableInteractorTracklist.swift in Sources */,
+				8C32F88D20A03AB80059C1F4 /* SmallPlayerRouterProtocol.swift in Sources */,
 				8C0CB620208DDB0F00456A68 /* TracklistInteractor.swift in Sources */,
 				8C3C6B3B20931BAA00272018 /* TrackTableCommunicateProtocol.swift in Sources */,
 				8C71CE332080BF9C00AC4BDB /* AuthInteractorProtocol.swift in Sources */,
@@ -1032,6 +1101,7 @@
 				0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */,
 				8C20889E2089D851000505F9 /* RowAction.swift in Sources */,
 				8C0CB61E208DDB0400456A68 /* TracklistInteractorProtocol.swift in Sources */,
+				8C32F89320A03AE60059C1F4 /* SmallPlayerPresenter.swift in Sources */,
 				8C0E1B8E2091A76D00CE5C12 /* KeysPair.swift in Sources */,
 				8C0CB626208DDB7800456A68 /* TracklistPresenterProtocol.swift in Sources */,
 				0E0A98412033141600E91922 /* TrackFilterViewController.swift in Sources */,
@@ -1054,6 +1124,7 @@
 				8C3B74F02090781200D0AF3E /* SearchBarRouter.swift in Sources */,
 				8C0E1B9A2091E66000CE5C12 /* ModulesCommunicateManager.swift in Sources */,
 				8C0CB5F6208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift in Sources */,
+				8C32F88520A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift in Sources */,
 				8C71CE382080BFEC00AC4BDB /* AuthPresenterProtocol.swift in Sources */,
 				8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */,
 				8C0E1B962091C74400CE5C12 /* LocalesManager.swift in Sources */,
@@ -1070,23 +1141,27 @@
 				8C73006B20999AF900B2FA44 /* CommunicateManagerProtocol.swift in Sources */,
 				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,
 				8C0CB600208DA8C800456A68 /* TrackFilterPresenterProtocol.swift in Sources */,
+				8C32F88B20A03AA80059C1F4 /* SmallPlayerInteractor.swift in Sources */,
 				0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */,
 				8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */,
 				8C316CC22087112500BD891B /* PlayerRouter.swift in Sources */,
 				8C316CB8208710BF00BD891B /* PlayerViewControllerProtocol.swift in Sources */,
 				8C67F602201B174200333EB2 /* AudioService.swift in Sources */,
+				8C32F89120A03ADA0059C1F4 /* SmallPlayerPresenterProtocol.swift in Sources */,
 				0E12FACA2030A3D400EE3422 /* SettingTableCell.swift in Sources */,
+				8C32F88720A03A820059C1F4 /* SmallPlayerViewController.swift in Sources */,
 				8C3C6B372093103C00272018 /* TrackFilterInteractorProtocol.swift in Sources */,
 				8C67F608201B174200333EB2 /* AudioListData.swift in Sources */,
 				8C0CB609208DCCAC00456A68 /* MainViewControllerProtocol.swift in Sources */,
 				8CCAC5992020600E00D91687 /* SettingsMainViewController.swift in Sources */,
 				8C71CE2D2080BECD00AC4BDB /* AuthRouter.swift in Sources */,
 				8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */,
-				8C3B74E42090725700D0AF3E /* ConstraintConstructor.swift in Sources */,
+				8C3B74E42090725700D0AF3E /* ViewIncluder.swift in Sources */,
 				8C0CB624208DDB4200456A68 /* TracklistRouter.swift in Sources */,
 				8C3B74F22090785400D0AF3E /* SearchBarPresenterProtocol.swift in Sources */,
 				8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */,
 				8C0CB615208DCD9A00456A68 /* MainPresenter.swift in Sources */,
+				8C32F88920A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift in Sources */,
 				8C67F607201B174200333EB2 /* UserData.swift in Sources */,
 				0E466276201F87A30037FD0E /* TracklistData.swift in Sources */,
 				8C3B74F42090786500D0AF3E /* SearchBarPresenter.swift in Sources */,
@@ -1098,6 +1173,7 @@
 				0E29CBD9202A025900BE5975 /* PlayerViewController.swift in Sources */,
 				8C0CB602208DA8D200456A68 /* TrackFilterPresenter.swift in Sources */,
 				8C316CC52087115200BD891B /* PlayerPresenterProtocol.swift in Sources */,
+				8C32F88F20A03AC80059C1F4 /* SmallPlayerRouter.swift in Sources */,
 				8C479669209C760E009F5623 /* PlayerListenerDelegate.swift in Sources */,
 				8C0CB60F208DCD5900456A68 /* MainRouterProtocol.swift in Sources */,
 			);

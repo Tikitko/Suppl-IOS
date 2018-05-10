@@ -8,4 +8,5 @@ protocol TrackTableInteractorProtocol: class {
     func editActionsForRowAt(_ indexPath: IndexPath) -> [RowAction]
     func didSelectRowAt(_ indexPath: IndexPath)
     func willDisplayCellForRowAt(_ indexPath: IndexPath)
+    func openPlayer(tracksIDs: [String], current: Int) 
 }

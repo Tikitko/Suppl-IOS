@@ -21,6 +21,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
+    @IBOutlet weak var closeButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
@@ -36,9 +38,22 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         navigationItem.title = title
     }
     
+    func loadNowTrack(track: CurrentTrack, playerRate: Float) {
+        clearPlayer()
+        setTrackInfo(title: track.title, performer: track.performer)
+        setTrackImage(track.image)
+        openPlayer(duration: Double(track.duration))
+        updatePlayerProgress(currentTime: presenter.getCurrentTime() ?? 0)
+        playerRate == 1 ? setPauseImage() : setPlayImage()
+    }
+    
     func setTrackInfo(title: String, performer: String) {
         titleLabel.text = title
         performerLabel.text = performer
+    }
+    
+    func setTrackImage(_ image: UIImage?) {
+        imageView.image = image
     }
     
     func setTrackImage(_ imageData: Data) {
@@ -118,5 +133,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     @IBAction func nextButtonClick(_ sender: Any) {
         presenter.navButtonClick(next: true)
     }
-    
+
+    @IBAction func closeButtonClick(_ sender: Any) {
+        presenter.closePlayer()
+    }
 }

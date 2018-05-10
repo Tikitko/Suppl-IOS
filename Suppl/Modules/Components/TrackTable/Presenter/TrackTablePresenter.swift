@@ -10,7 +10,7 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
     }
     
     func openPlayer(tracksIDs: [String], current: Int) {
-        router.openPlayer(tracksIDs: tracksIDs, current: current)
+        interactor.openPlayer(tracksIDs: tracksIDs, current: current)
     }
     
     func numberOfRowsInSection(_ section: Int) -> Int {

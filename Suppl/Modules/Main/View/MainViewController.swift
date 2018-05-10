@@ -34,8 +34,8 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         super.viewDidLoad()
         navigationItem.title = name
         
-        ConstraintConstructor.includeView(child: tracksTableTest.tableView, parent: tracksTable)
-        ConstraintConstructor.includeView(child: searchTest, parent: tracksSearch)
+        ViewIncluder.inside(child: tracksTableTest.tableView, parent: tracksTable)
+        ViewIncluder.inside(child: searchTest, parent: tracksSearch)
         searchTest.placeholder = tracksSearch.placeholder
         
         presenter.setListener()

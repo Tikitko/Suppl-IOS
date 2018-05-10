@@ -1,28 +1,20 @@
 import Foundation
-import UIKit
 
-class PlayerPresenter: PlayerPresenterProtocol {
+class SmallPlayerPresenter: SmallPlayerPresenterProtocol {
     
-    var router: PlayerRouterProtocol!
-    var interactor: PlayerInteractorProtocol!
-    weak var view: PlayerViewControllerProtocol!
+    var router: SmallPlayerRouterProtocol!
+    var interactor: SmallPlayerInteractorProtocol!
+    weak var view: SmallPlayerViewControllerProtocol!
+
     
-    func load() {
-        interactor.load()
+    func showPlayer() {
+        view.showPlayer()
     }
     
-    func getCurrentTime() -> Double? {
-        return interactor.getCurrentTime()
+    func closePlayer() {
+        view.closePlayer()
     }
     
-    func loadNowTrack(track: CurrentTrack, playerRate: Float) {
-        view.loadNowTrack(track: track, playerRate: playerRate)
-    }
-    
-    func setNavTitle(_ title: String) {
-        view.setNavTitle(title)
-    }
-        
     func setTrackInfo(title: String, performer: String) {
         view.setTrackInfo(title: title, performer: performer)
     }
@@ -31,16 +23,16 @@ class PlayerPresenter: PlayerPresenterProtocol {
         view.setTrackImage(imageData)
     }
     
-    func openPlayer(duration: Double) {
-        view.openPlayer(duration: duration)
+    func openPlayer() {
+        view.openPlayer()
     }
     
     func clearPlayer() {
         view.clearPlayer()
     }
     
-    func updatePlayerProgress(currentTime: Double) {
-        view.updatePlayerProgress(currentTime: currentTime)
+    func updatePlayerProgress(percentages: Float) {
+        view.updatePlayerProgress(percentages: percentages)
     }
     
     func navButtonClick(next: Bool) {
@@ -66,13 +58,17 @@ class PlayerPresenter: PlayerPresenterProtocol {
     func setPauseImage() {
         view.setPauseImage()
     }
-
+    
+    func openBigPlayer() {
+        router.openBigPlayer()
+    }
+    
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool = false) {
         interactor.setPlayerCurrentTime(sec, withCurrentTime: withCurrentTime)
     }
     
-    func closePlayer() {
-        router.closePlayer()
+    func removePlayer() {
+        interactor.clearPlayer()
     }
     
 }

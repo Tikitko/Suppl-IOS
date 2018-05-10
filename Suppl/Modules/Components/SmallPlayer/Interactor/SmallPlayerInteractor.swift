@@ -1,21 +1,11 @@
 import Foundation
 
-class PlayerInteractor: PlayerInteractorProtocol {
+class SmallPlayerInteractor: SmallPlayerInteractorProtocol {
     
-    weak var presenter: PlayerPresenterProtocol!
-
+    weak var presenter: SmallPlayerPresenterProtocol!
+    
     init() {
-        PlayerManager.s.playerListenerOne = self
-    }
-    
-    func load() {
-        presenter.setNavTitle(LocalesManager.s.get(.playerTitle))
-        guard let nowTrack = PlayerManager.s.currentTrack else { return }
-        presenter.loadNowTrack(track: nowTrack, playerRate: PlayerManager.s.playerRate() ?? 0)
-    }
-    
-    func getCurrentTime() -> Double? {
-        return PlayerManager.s.getRealCurrentTime()
+        PlayerManager.s.playerListenerTwo = self
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {
@@ -38,27 +28,34 @@ class PlayerInteractor: PlayerInteractorProtocol {
     func rewindM() {
         setPlayerCurrentTime(-15, withCurrentTime: true)
     }
-
+    
+    func clearPlayer() {
+        PlayerManager.s.clearPlayer()
+    }
     
 }
 
-extension PlayerInteractor: PlayerListenerDelegate {
+extension SmallPlayerInteractor: PlayerListenerDelegate {
     
-    func playlistAdded(_ playlist: Playlist) {}
+    func playlistAdded(_ playlist: Playlist) {
+        presenter.showPlayer()
+    }
     
-    func playlistRemoved() {}
+    func playlistRemoved() {
+        presenter.closePlayer()
+    }
     
     func blockControl() {
         presenter.clearPlayer()
     }
     
     func openControl() {
-        guard let sec = PlayerManager.s.getRealDuration() else { return }
-        presenter.openPlayer(duration: sec)
+        presenter.openPlayer()
     }
     
     func curentTrackTime(sec: Double) {
-        presenter.updatePlayerProgress(currentTime: sec)
+        guard let duration = PlayerManager.s.getRealDuration(), let currentTime = PlayerManager.s.getRealCurrentTime() else { return }
+        presenter.updatePlayerProgress(percentages: Float(currentTime / duration))
     }
     
     func playerStop() {

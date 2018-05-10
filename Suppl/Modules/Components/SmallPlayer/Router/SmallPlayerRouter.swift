@@ -1,15 +1,15 @@
 import Foundation
 import UIKit
 
-class PlayerRouter: PlayerRouterProtocol {
+class SmallPlayerRouter: SmallPlayerRouterProtocol {
     
     weak var viewController: UIViewController!
     
     static func setup() -> UIViewController {
-        let router = PlayerRouter()
-        let interactor = PlayerInteractor()
-        let presenter = PlayerPresenter()
-        let viewController = PlayerViewController()
+        let router = SmallPlayerRouter()
+        let interactor = SmallPlayerInteractor()
+        let presenter = SmallPlayerPresenter()
+        let viewController = SmallPlayerViewController()
         
         presenter.interactor = interactor
         presenter.router = router
@@ -24,7 +24,8 @@ class PlayerRouter: PlayerRouterProtocol {
         return viewController
     }
     
-    func closePlayer() {
-        viewController.dismiss(animated: true, completion: nil)
+    func openBigPlayer() {
+        UIApplication.topViewController()?.present(PlayerRouter.setup(), animated: true, completion: nil)
     }
+    
 }

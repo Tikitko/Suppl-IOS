@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SmallPlayerViewController" customModule="Suppl" customModuleProvider="target">
+            <connections>
+                <outlet property="backButton" destination="zFL-XI-LQH" id="ZzK-zR-Tpf"/>
+                <outlet property="closeButton" destination="s5b-1u-4FR" id="rlm-9r-BYp"/>
+                <outlet property="imageView" destination="L6L-zv-U6E" id="Vft-rh-djB"/>
+                <outlet property="nextButton" destination="gBV-SR-Eof" id="KFc-Mv-wRV"/>
+                <outlet property="openPlayerButton" destination="RfK-2E-pqr" id="DiM-sq-r2s"/>
+                <outlet property="playButton" destination="zte-CO-okf" id="dpR-53-8VO"/>
+                <outlet property="progressBar" destination="QXS-0l-BJF" id="ec7-Wh-SKN"/>
+                <outlet property="titleLabel" destination="wAu-23-duS" id="klK-XR-Zjd"/>
+                <outlet property="view" destination="xCS-TD-JG0" id="XV8-SQ-Cgt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="xCS-TD-JG0">
+            <rect key="frame" x="0.0" y="0.0" width="820" height="72"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BfF-Iw-B1H">
+                    <rect key="frame" x="210" y="9" width="600" height="58"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cd" translatesAutoresizingMaskIntoConstraints="NO" id="L6L-zv-U6E">
+                            <rect key="frame" x="0.0" y="0.0" width="170" height="58"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="track" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wAu-23-duS">
+                            <rect key="frame" x="175" y="0.0" width="425" height="58"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="wAu-23-duS" firstAttribute="width" secondItem="L6L-zv-U6E" secondAttribute="width" multiplier="2.5" id="gpa-L4-DRQ"/>
+                    </constraints>
+                </stackView>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="QXS-0l-BJF">
+                    <rect key="frame" x="-1" y="0.0" width="822" height="4"/>
+                    <color key="tintColor" red="0.58039215690000001" green="0.12941176469999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="4" id="IEc-5Z-9u3"/>
+                    </constraints>
+                </progressView>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="eRm-vJ-DBe">
+                    <rect key="frame" x="10" y="9" width="190" height="58"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFL-XI-LQH">
+                            <rect key="frame" x="0.0" y="0.0" width="30" height="58"/>
+                            <state key="normal" image="icon_256"/>
+                            <connections>
+                                <action selector="backButtonClick:" destination="-1" eventType="touchUpInside" id="aVX-0J-VzU"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zte-CO-okf">
+                            <rect key="frame" x="40" y="0.0" width="30" height="58"/>
+                            <state key="normal" image="icon_152"/>
+                            <connections>
+                                <action selector="playButtonClicked:" destination="-1" eventType="touchUpInside" id="zx8-49-s7D"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBV-SR-Eof">
+                            <rect key="frame" x="80" y="0.0" width="30" height="58"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" image="icon_257"/>
+                            <connections>
+                                <action selector="nextButtonClick:" destination="-1" eventType="touchUpInside" id="TnE-cp-GLR"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RfK-2E-pqr">
+                            <rect key="frame" x="120" y="0.0" width="30" height="58"/>
+                            <state key="normal" image="icon_055"/>
+                            <connections>
+                                <action selector="openPlayerButtonClicked:" destination="-1" eventType="touchUpInside" id="ZR7-kE-Crr"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s5b-1u-4FR">
+                            <rect key="frame" x="160" y="0.0" width="30" height="58"/>
+                            <state key="normal" image="icon_076"/>
+                            <connections>
+                                <action selector="closeButtonClicked:" destination="-1" eventType="touchUpInside" id="SkD-is-AhL"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="190" id="rdx-iS-gdE"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="0.58039215686274503" green="0.12941176470588234" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="BfF-Iw-B1H" secondAttribute="bottom" constant="5" id="7nH-8Y-5Vo"/>
+                <constraint firstItem="BfF-Iw-B1H" firstAttribute="leading" secondItem="eRm-vJ-DBe" secondAttribute="trailing" constant="10" id="AeV-OT-sHj"/>
+                <constraint firstItem="WfK-8L-hzf" firstAttribute="bottom" secondItem="eRm-vJ-DBe" secondAttribute="bottom" constant="5" id="Gmp-5M-1wi"/>
+                <constraint firstItem="QXS-0l-BJF" firstAttribute="leading" secondItem="xCS-TD-JG0" secondAttribute="leading" constant="-1" id="IOg-Bu-CLV"/>
+                <constraint firstItem="eRm-vJ-DBe" firstAttribute="leading" secondItem="WfK-8L-hzf" secondAttribute="leading" constant="10" id="JUL-yK-vbz"/>
+                <constraint firstItem="eRm-vJ-DBe" firstAttribute="top" secondItem="QXS-0l-BJF" secondAttribute="bottom" constant="5" id="P33-ex-uUR"/>
+                <constraint firstItem="QXS-0l-BJF" firstAttribute="top" secondItem="WfK-8L-hzf" secondAttribute="top" id="VKd-U5-Ql9"/>
+                <constraint firstItem="BfF-Iw-B1H" firstAttribute="top" secondItem="QXS-0l-BJF" secondAttribute="bottom" constant="5" id="j1Y-E0-stf"/>
+                <constraint firstItem="WfK-8L-hzf" firstAttribute="trailing" secondItem="BfF-Iw-B1H" secondAttribute="trailing" constant="10" id="mdY-2I-t42"/>
+                <constraint firstAttribute="trailing" secondItem="QXS-0l-BJF" secondAttribute="trailing" constant="-1" id="pzX-KR-Xgk"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="WfK-8L-hzf"/>
+            <point key="canvasLocation" x="-371" y="-213"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cd" width="90" height="90"/>
+        <image name="icon_055" width="30" height="30"/>
+        <image name="icon_076" width="30" height="30"/>
+        <image name="icon_152" width="30" height="30"/>
+        <image name="icon_256" width="30" height="30"/>
+        <image name="icon_257" width="30" height="30"/>
+    </resources>
+</document>

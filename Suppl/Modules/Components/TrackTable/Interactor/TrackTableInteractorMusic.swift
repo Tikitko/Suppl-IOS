@@ -79,4 +79,8 @@ class TrackTableInteractorMusic: TrackTableInteractorProtocol {
         getDelegate()?.cellShowAt(indexPath)
     }
     
+    func openPlayer(tracksIDs: [String], current: Int) {
+        PlayerManager.s.setPlaylist(tracksIDs: tracksIDs, current: current)
+    }
+    
 }

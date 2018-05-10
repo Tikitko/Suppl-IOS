@@ -5,12 +5,6 @@ class TrackTableRouter: TrackTableRouterProtocol {
     
     weak var viewController: UITableViewController!
     
-    func openPlayer(tracksIDs: [String], current: Int) {
-        let playerView = PlayerRouter.setup(tracksIDs: tracksIDs, current: current)
-        playerView.hidesBottomBarWhenPushed = true
-        UIApplication.topViewController()?.navigationController?.pushViewController(playerView, animated: true)
-    }
-    
     static func setupForMusic(parentModuleNameId: String) -> UITableViewController {
         let router = TrackTableRouter()
         let interactor = TrackTableInteractorMusic(parentModuleNameId: parentModuleNameId)

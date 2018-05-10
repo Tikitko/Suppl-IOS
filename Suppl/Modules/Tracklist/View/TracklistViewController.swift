@@ -21,8 +21,8 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         super.viewDidLoad()
         navigationItem.title = name
         
-        ConstraintConstructor.includeView(child: tracksTableTest.tableView, parent: tracksTable)
-        ConstraintConstructor.includeView(child: searchTest, parent: searchBar)
+        ViewIncluder.inside(child: tracksTableTest.tableView, parent: tracksTable)
+        ViewIncluder.inside(child: searchTest, parent: searchBar)
         searchTest.placeholder = searchBar.placeholder
         
         presenter.setListener()

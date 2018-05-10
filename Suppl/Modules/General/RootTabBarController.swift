@@ -6,15 +6,42 @@ final class RootTabBarController: UITabBarController {
     
     var tapGestureRecognizer: UITapGestureRecognizer?
     
+    private let smallPlayer = SmallPlayerRouter.setup()
+    private var smallPlayerConstraints: [NSLayoutConstraint] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
         
         setupControllers([MainRouter.setup(), TracklistRouter.setup(), SettingsMainViewController.initial()])
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+        view.addSubview(smallPlayer.view)
+        smallPlayer.view.translatesAutoresizingMaskIntoConstraints = false
+        updateSmallPlayerConstraints()
+    }
+
+    
+    private func updateSmallPlayerConstraints() {
+        view.removeConstraints(smallPlayerConstraints)
+        smallPlayerConstraints.removeAll(keepingCapacity: false)
+        
+        smallPlayerConstraints.append(smallPlayer.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: !tabBar.isHidden ? -1 * tabBar.frame.height : 0))
+        smallPlayerConstraints.append(smallPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor))
+        smallPlayerConstraints.append(smallPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor))
+        smallPlayerConstraints.append(smallPlayer.view.heightAnchor.constraint(equalToConstant: 50))
+        
+        view.addConstraints(smallPlayerConstraints)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if(previousTraitCollection != nil) {
+            updateSmallPlayerConstraints()
+        }
     }
     
     func setTheme() {

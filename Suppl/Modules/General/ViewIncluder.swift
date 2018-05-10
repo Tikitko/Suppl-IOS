@@ -1,9 +1,9 @@
 import Foundation
 import UIKit
 
-class ConstraintConstructor {
+class ViewIncluder {
     
-    public static func includeView(child: UIView, parent: UIView) {
+    public static func inside(child: UIView, parent: UIView) {
         parent.addSubview(child)
         child.translatesAutoresizingMaskIntoConstraints = false
         child.topAnchor.constraint(equalTo: parent.topAnchor).isActive = true

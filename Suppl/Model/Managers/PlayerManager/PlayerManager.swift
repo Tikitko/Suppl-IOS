@@ -16,9 +16,10 @@ final class PlayerManager: NSObject {
     private var observerPlayerRateWorking = false
     
     private var playlist: Playlist?
-    private var currentTrack: CurrentTrack?
+    private(set) var currentTrack: CurrentTrack?
     
-    public weak var playerListener: PlayerListenerDelegate?
+    public weak var playerListenerOne: PlayerListenerDelegate?
+    public weak var playerListenerTwo: PlayerListenerDelegate?
     
     private func addPlayStatusObserver() {
         if observerPlayStatusWorking { return }
@@ -62,9 +63,11 @@ final class PlayerManager: NSObject {
         case .readyToPlay:
             player?.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
                 guard let `self` = self, let player = self.player, player.currentItem?.status == .readyToPlay else { return }
-                self.playerListener?.curentTrackTime(sec: player.currentTime().seconds)
+                self.playerListenerOne?.curentTrackTime(sec: player.currentTime().seconds)
+                self.playerListenerTwo?.curentTrackTime(sec: player.currentTime().seconds)
             }
-            playerListener?.openControl()
+            playerListenerOne?.openControl()
+            playerListenerTwo?.openControl()
             play()
         case .failed: break
         case .unknown: break
@@ -74,9 +77,11 @@ final class PlayerManager: NSObject {
     private func observePlayerRate(_ statusNumber: NSNumber?) {
         let rate: Float = statusNumber?.floatValue ?? -1.0
         if rate == 1.0 {
-            playerListener?.playerPlay()
+            playerListenerOne?.playerPlay()
+            playerListenerTwo?.playerPlay()
         } else if rate == 0.0 {
-            playerListener?.playerStop()
+            playerListenerOne?.playerStop()
+            playerListenerTwo?.playerStop()
             guard let currentItem = player?.currentItem else { return }
             if SettingsManager.s.autoNextTrack!, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0, let _ = playlist {
                 loadTrackByID(playlist!.next())
@@ -130,7 +135,8 @@ final class PlayerManager: NSObject {
     
     private  func setTrack(_ track: AudioData) {
         guard let trackLink = track.track, let trackURL = URL(string: trackLink) else { return }
-        playerListener?.blockControl()
+        playerListenerOne?.blockControl()
+        playerListenerTwo?.blockControl()
         removePlayStatusObserver()
         removePlayerRateObserver()
         player = nil
@@ -138,13 +144,15 @@ final class PlayerManager: NSObject {
         
         let tempTrackId = track.id
         currentTrack = CurrentTrack(id: track.id, title: track.title, performer: track.performer, duration: track.duration, image: nil)
-        playerListener?.trackInfoChanged(currentTrack!)
+        playerListenerOne?.trackInfoChanged(currentTrack!)
+        playerListenerTwo?.trackInfoChanged(currentTrack!)
         //addNowPlayingInfoCenter(title: track.title, performer: track.performer)
         if SettingsManager.s.loadImages! {
             RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] imageData in
                 guard let `self` = self, tempTrackId == self.currentTrack?.id else { return }
                 self.currentTrack?.image = UIImage(data: imageData as Data)
-                self.playerListener?.trackImageChanged(imageData as Data)
+                self.playerListenerOne?.trackImageChanged(imageData as Data)
+                self.playerListenerTwo?.trackImageChanged(imageData as Data)
             }
         }
         player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
@@ -156,7 +164,8 @@ final class PlayerManager: NSObject {
     
     
     public func clearPlayer() {
-        playerListener?.playlistRemoved()
+        playerListenerOne?.playlistRemoved()
+        playerListenerTwo?.playlistRemoved()
         removePlayStatusObserver()
         removePlayerRateObserver()
         player = nil
@@ -167,7 +176,8 @@ final class PlayerManager: NSObject {
     public func setPlaylist(tracksIDs: [String], current: Int = 0) {
         playlist = Playlist(IDs: tracksIDs, current: current)
         loadTrackByID(playlist!.curr())
-        playerListener?.playlistAdded(playlist!)
+        playerListenerOne?.playlistAdded(playlist!)
+        playerListenerTwo?.playlistAdded(playlist!)
         //addRemoteCommandCenter()
     }
    
@@ -211,6 +221,10 @@ final class PlayerManager: NSObject {
     public func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool = false) {
         guard let player = player, let currentItem = player.currentItem else { return }
         player.seek(to: CMTimeMake(Int64(withCurrentTime ? currentItem.currentTime().seconds + sec : sec), 1))
+    }
+    
+    public func playerRate() -> Float? {
+        return player?.rate
     }
     
 }
