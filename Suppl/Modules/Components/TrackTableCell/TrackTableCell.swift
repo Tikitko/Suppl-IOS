@@ -48,10 +48,11 @@ class TrackTableCell: UITableViewCell {
         if SettingsManager.s.roundIcons! {
             trackImage.layer.cornerRadius = trackImage.frame.size.width / 2
             trackImage.clipsToBounds = true
-            return
+        } else {
+            trackImage.layer.cornerRadius = 0
+            trackImage.clipsToBounds = false
+
         }
-        trackImage.layer.cornerRadius = 0
-        trackImage.clipsToBounds = false
     }
 
 }

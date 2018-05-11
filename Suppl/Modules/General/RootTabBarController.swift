@@ -29,7 +29,8 @@ final class RootTabBarController: UITabBarController {
         view.removeConstraints(smallPlayerConstraints)
         smallPlayerConstraints.removeAll(keepingCapacity: false)
         
-        smallPlayerConstraints.append(smallPlayer.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: !tabBar.isHidden ? -1 * tabBar.frame.height : 0))
+        smallPlayerConstraints.append(smallPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor, constant: 0))
+        //smallPlayerConstraints.append(smallPlayer.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: !tabBar.isHidden ? -1 * tabBar.frame.height : 0))
         smallPlayerConstraints.append(smallPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor))
         smallPlayerConstraints.append(smallPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor))
         smallPlayerConstraints.append(smallPlayer.view.heightAnchor.constraint(equalToConstant: 50))
@@ -39,7 +40,7 @@ final class RootTabBarController: UITabBarController {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if(previousTraitCollection != nil) {
+        if previousTraitCollection != nil {
             updateSmallPlayerConstraints()
         }
     }

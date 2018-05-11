@@ -12,11 +12,7 @@ class AuthInteractor: AuthInteractorProtocol {
 
     func show() {
         presenter.setLabel(LocalesManager.s.get(.load))
-        if noAuthOnShow {
-            setAuthFormVisable()
-            return
-        }
-        startAuth(keys: nil)
+        noAuthOnShow ? setAuthFormVisable() : startAuth(keys: nil)
     }
     
     func continueAfter(_ continueAfter: Double, timeOutCallback: @escaping () -> Void) {
@@ -72,11 +68,7 @@ class AuthInteractor: AuthInteractorProtocol {
     }
     
     func setAuthFormVisable(nowInputInfo: Bool = true, setSavedKays: Bool = true) {
-        if nowInputInfo {
-            setLabelForInput()
-        } else {
-            setLabelForInputAfter(1.5)
-        }
+        nowInputInfo ? setLabelForInput() : setLabelForInputAfter(1.5)
         if setSavedKays {
             let keys = AuthManager.s.getAuthKeys(setFailAuth: false)
             presenter.setIdentifier(keys != nil ? "\(keys!.identifierKey)\(keys!.accessKey)" : "")
