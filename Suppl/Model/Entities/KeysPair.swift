@@ -10,6 +10,10 @@ struct KeysPair {
         self.accessKey = accessKey
     }
     
+    func toString() -> String {
+        return "\(identifierKey)\(accessKey)"
+    }
+    
     func addToQuery(_ query: inout Dictionary<String, String>) {
         query["identifier_key"] = String(identifierKey)
         query["access_key"] = String(accessKey)

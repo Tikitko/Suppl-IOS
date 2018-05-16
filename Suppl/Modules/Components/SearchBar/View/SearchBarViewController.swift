@@ -23,8 +23,7 @@ extension SearchBarViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         endEditing(true)
-        guard let query = searchBar.text else { return }
-        presenter.searchButtonClicked(query: query)
+        presenter.searchButtonClicked(query: searchBar.text)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

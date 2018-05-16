@@ -3,17 +3,17 @@ import UIKit
 
 class TracklistRouter: TracklistRouterProtocol {
     
+    weak var viewController: UIViewController!
+    
     let moduleNameId: String
     init(moduleNameId: String) {
         self.moduleNameId = moduleNameId
     }
     
-    weak var viewController: UIViewController!
-    weak var presenter: TracklistPresenter!
-    
     func showFilter() {
+        guard let viewController = viewController as? TracklistViewController else { return }
         let filterView = TrackFilterRouter.setup(parentModuleNameId: moduleNameId)
-        presenter.setFilterThenPopover(filterController: filterView)
+        viewController.setFilterThenPopover(filterController: filterView)
         viewController.present(filterView, animated: true, completion: nil)
     }
     
@@ -32,7 +32,6 @@ class TracklistRouter: TracklistRouterProtocol {
         presenter.view = viewController
         
         router.viewController = viewController
-        router.presenter = presenter
         
         viewController.presenter = presenter
         

@@ -100,25 +100,25 @@
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="P3s-LW-vEU">
                     <rect key="frame" x="16" y="558" width="343" height="40"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iWJ-mz-e0E">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7n-WR-qYK">
                             <rect key="frame" x="0.0" y="0.0" width="107.5" height="40"/>
+                            <state key="normal" image="icon_056"/>
+                            <connections>
+                                <action selector="closeButtonClick:" destination="-1" eventType="touchUpInside" id="Th7-UQ-ysC"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iWJ-mz-e0E">
+                            <rect key="frame" x="117.5" y="0.0" width="108" height="40"/>
                             <state key="normal" image="icon_256"/>
                             <connections>
                                 <action selector="backButtonClick:" destination="-1" eventType="touchUpInside" id="pzU-XN-kfY"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G4b-Rh-yn3">
-                            <rect key="frame" x="117.5" y="0.0" width="108" height="40"/>
+                            <rect key="frame" x="235.5" y="0.0" width="107.5" height="40"/>
                             <state key="normal" image="icon_257"/>
                             <connections>
                                 <action selector="nextButtonClick:" destination="-1" eventType="touchUpInside" id="gbc-RL-jGO"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7n-WR-qYK">
-                            <rect key="frame" x="235.5" y="0.0" width="107.5" height="40"/>
-                            <state key="normal" image="icon_056"/>
-                            <connections>
-                                <action selector="closeButtonClick:" destination="-1" eventType="touchUpInside" id="Th7-UQ-ysC"/>
                             </connections>
                         </button>
                     </subviews>

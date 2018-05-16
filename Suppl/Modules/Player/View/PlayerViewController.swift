@@ -25,9 +25,10 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.setListener()
         setTheme()
         clearPlayer()
-        presenter.load()
+        presenter.firstLoad()
     }
     
     func setTheme() {
@@ -57,8 +58,7 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     }
     
     func setTrackImage(_ imageData: Data) {
-        guard let image = UIImage(data: imageData) else { return }
-        imageView.image = image
+        imageView.image = UIImage(data: imageData)
     }
     
     func openPlayer(duration: Double) {
@@ -81,7 +81,6 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         leftLabel.text = TrackTime(sec: Int(progressSlider.maximumValue - progressSlider.value)).formatted
     }
     
-    
     func clearPlayer() {
         imageView.image = #imageLiteral(resourceName: "cd")
         performerLabel.text = nil
@@ -89,8 +88,8 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         progressSlider.minimumValue = 0
         progressSlider.maximumValue = 1
         progressSlider.value = 0
-        goneLabel.text = TrackTime.zeroTime
-        leftLabel.text = TrackTime.zeroTime
+        goneLabel.text = TrackTime(sec: 0).formatted
+        leftLabel.text = TrackTime(sec: 0).formatted
         
         playButton.isEnabled = false
         rewindMButton.isEnabled = false

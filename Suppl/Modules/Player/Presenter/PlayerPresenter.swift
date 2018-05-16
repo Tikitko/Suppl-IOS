@@ -7,36 +7,17 @@ class PlayerPresenter: PlayerPresenterProtocol {
     var interactor: PlayerInteractorProtocol!
     weak var view: PlayerViewControllerProtocol!
     
-    func load() {
-        interactor.load()
+    func setListener() {
+        interactor.setListener(self)
+    }
+    
+    func firstLoad() {
+        guard let nowTrack = interactor.getCurrentTrack() else { return }
+        view.loadNowTrack(track: nowTrack, playerRate: interactor.getPlayerRate() ?? 0)
     }
     
     func getCurrentTime() -> Double? {
         return interactor.getCurrentTime()
-    }
-    
-    func loadNowTrack(track: CurrentTrack, playerRate: Float) {
-        view.loadNowTrack(track: track, playerRate: playerRate)
-    }
-    
-    func setNavTitle(_ title: String) {
-        view.setNavTitle(title)
-    }
-        
-    func setTrackInfo(title: String, performer: String) {
-        view.setTrackInfo(title: title, performer: performer)
-    }
-    
-    func setTrackImage(_ imageData: Data) {
-        view.setTrackImage(imageData)
-    }
-    
-    func openPlayer(duration: Double) {
-        view.openPlayer(duration: duration)
-    }
-    
-    func clearPlayer() {
-        view.clearPlayer()
     }
     
     func updatePlayerProgress(currentTime: Double) {
@@ -44,7 +25,7 @@ class PlayerPresenter: PlayerPresenterProtocol {
     }
     
     func navButtonClick(next: Bool) {
-        interactor.navButtonClick(next: next)
+        next ? interactor.callNextTrack() : interactor.callPrevTrack()
     }
     
     func play() {
@@ -52,19 +33,11 @@ class PlayerPresenter: PlayerPresenterProtocol {
     }
     
     func rewindP() {
-        interactor.rewindP()
+        interactor.setPlayerCurrentTime(15, withCurrentTime: true)
     }
     
     func rewindM() {
-        interactor.rewindP()
-    }
-    
-    func setPlayImage() {
-        view.setPlayImage()
-    }
-    
-    func setPauseImage() {
-        view.setPauseImage()
+        interactor.setPlayerCurrentTime(-15, withCurrentTime: true)
     }
 
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool = false) {
@@ -73,6 +46,43 @@ class PlayerPresenter: PlayerPresenterProtocol {
     
     func closePlayer() {
         router.closePlayer()
+    }
+    
+}
+
+extension PlayerPresenter: PlayerListenerDelegate {
+    
+    func playlistAdded(_ playlist: Playlist) {}
+    
+    func playlistRemoved() {}
+    
+    func blockControl() {
+        view.clearPlayer()
+    }
+    
+    func openControl() {
+        guard let sec = interactor.getRealDuration() else { return }
+        view.openPlayer(duration: sec)
+    }
+    
+    func curentTrackTime(sec: Double) {
+        view.updatePlayerProgress(currentTime: sec)
+    }
+    
+    func playerStop() {
+        view.setPlayImage()
+    }
+    
+    func playerPlay() {
+        view.setPauseImage()
+    }
+    
+    func trackInfoChanged(_ track: CurrentTrack) {
+        view.setTrackInfo(title: track.title, performer: track.performer)
+    }
+    
+    func trackImageChanged(_ imageData: Data) {
+        view.setTrackImage(imageData)
     }
     
 }

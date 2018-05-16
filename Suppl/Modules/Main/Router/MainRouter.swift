@@ -3,12 +3,12 @@ import UIKit
 
 class MainRouter: MainRouterProtocol {
     
+    weak var viewController: UIViewController!
+    
     let moduleNameId: String
     init(moduleNameId: String) {
         self.moduleNameId = moduleNameId
     }
-    
-    weak var viewController: UIViewController!
     
     static func setup() -> UIViewController {
         let moduleNameId = String(arc4random_uniform(1000001))

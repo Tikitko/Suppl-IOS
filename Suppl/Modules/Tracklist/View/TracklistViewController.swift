@@ -6,7 +6,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     var presenter: TracklistPresenterProtocol!
     
     public let name: String = LocalesManager.s.get(.tracklistTitle)
-    public let imageName = "list-simple-star-7.png"
+    public let imageName: String = "list-simple-star-7.png"
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var updateButton: UIButton!
@@ -21,8 +21,8 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         super.viewDidLoad()
         navigationItem.title = name
         
-        ViewIncluder.inside(child: tracksTableTest.tableView, parent: tracksTable)
-        ViewIncluder.inside(child: searchTest, parent: searchBar)
+        ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable)
+        ViewIncludeTemplate.inside(child: searchTest, parent: searchBar)
         searchTest.placeholder = searchBar.placeholder
         
         presenter.setListener()
@@ -40,7 +40,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         searchTest = search
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -88,6 +88,10 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     
     @IBAction func filterButtonClick(_ sender: Any) {
         presenter.filterButtonClick()
+    }
+    
+    deinit {
+        presenter.unload()
     }
     
 }

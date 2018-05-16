@@ -1,7 +1,6 @@
 import Foundation
 
 struct TrackTime {
-    static let zeroTime = "0:00"
     let sec: Int
     var formatted: String {
         get {

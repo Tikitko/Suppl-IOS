@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class ViewIncluder {
+final class ViewIncludeTemplate {
     
     public static func inside(child: UIView, parent: UIView) {
         parent.addSubview(child)

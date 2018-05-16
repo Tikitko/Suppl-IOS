@@ -17,6 +17,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.setListener()
         setTheme()
         clearPlayer()
         view.isOpaque = true

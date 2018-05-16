@@ -10,12 +10,14 @@ class APIRequest {
     
     public func method<T>(_ method: String, query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), externalMethod: @escaping (_ data: ResponseData<T>) -> T?) {
         let finalQuery = query.merging(["method": method], uniquingKeysWith: { (_, last) in last })
-        session.request(url: APIRequest.API_URL, query: finalQuery, inMain: false) { error, response, data in
+        session.request(url: APIRequest.API_URL, query: finalQuery, inMainQueue: false) { error, response, data in
+            var dataShell: ResponseData<T>? = nil
             var returnError: NSError? = nil
             var returnData: T? = nil
             if let error = error {
                 returnError = NSError(domain: error.localizedDescription, code: -2)
             } else if let data = data, let dataObj = try? JSONDecoder().decode(ResponseData<T>.self, from: data) {
+                dataShell = dataObj
                 if let errorID = dataObj.errorID, let errorDesc = dataObj.errorDesc {
                     returnError = NSError(domain: errorDesc, code: errorID)
                 } else {
@@ -24,9 +26,10 @@ class APIRequest {
             } else {
                 returnError = NSError(domain: "get_data_error", code: -3)
             }
-            DispatchQueue.main.async {
-                dataReport(returnError, returnData)
+            if AppStaticData.debugOn {
+                print("APIRequest (method: \(method); Status: \(String(describing: dataShell?.status)); Error: \(String(describing: returnError)))")
             }
+            DispatchQueue.main.async { dataReport(returnError, returnData) }
         }
     }
     

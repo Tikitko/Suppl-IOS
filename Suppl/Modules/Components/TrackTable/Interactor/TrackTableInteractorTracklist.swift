@@ -1,6 +1,7 @@
 import Foundation
 
 class TrackTableInteractorTracklist: TrackTableInteractorProtocol {
+    
     weak var presenter: TrackTablePresenterProtocol!
     
     var tracks: [AudioData] = []

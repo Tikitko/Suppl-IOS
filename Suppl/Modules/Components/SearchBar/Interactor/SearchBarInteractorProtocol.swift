@@ -1,5 +1,5 @@
 import Foundation
 
 protocol SearchBarInteractorProtocol: class {
-    func searchButtonClicked(query: String) -> Void
+    var listenerDelegate: SearchCommunicateProtocol? { get }
 }

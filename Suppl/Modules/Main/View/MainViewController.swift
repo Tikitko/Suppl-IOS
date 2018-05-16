@@ -34,12 +34,12 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         super.viewDidLoad()
         navigationItem.title = name
         
-        ViewIncluder.inside(child: tracksTableTest.tableView, parent: tracksTable)
-        ViewIncluder.inside(child: searchTest, parent: tracksSearch)
+        ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable)
+        ViewIncludeTemplate.inside(child: searchTest, parent: tracksSearch)
         searchTest.placeholder = tracksSearch.placeholder
         
         presenter.setListener()
-        presenter.load()
+        presenter.loadRandomTracks()
     }
     
     override func viewWillAppear(_ animated: Bool) {

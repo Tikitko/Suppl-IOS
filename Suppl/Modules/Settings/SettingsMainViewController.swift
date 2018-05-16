@@ -4,7 +4,7 @@ import UIKit
 class SettingsMainViewController: UIViewController, ControllerInfoProtocol {
     
     public let name: String = LocalesManager.s.get(.settingsTitle)
-    public let imageName = "gear-7.png"
+    public let imageName: String = "gear-7.png"
     
     static func initial() -> SettingsMainViewController {
         let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)

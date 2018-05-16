@@ -30,7 +30,6 @@ final class RootTabBarController: UITabBarController {
         smallPlayerConstraints.removeAll(keepingCapacity: false)
         
         smallPlayerConstraints.append(smallPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor, constant: 0))
-        //smallPlayerConstraints.append(smallPlayer.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: !tabBar.isHidden ? -1 * tabBar.frame.height : 0))
         smallPlayerConstraints.append(smallPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor))
         smallPlayerConstraints.append(smallPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor))
         smallPlayerConstraints.append(smallPlayer.view.heightAnchor.constraint(equalToConstant: 50))

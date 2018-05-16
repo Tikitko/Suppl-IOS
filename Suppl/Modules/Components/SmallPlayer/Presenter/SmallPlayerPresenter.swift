@@ -5,38 +5,13 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocol {
     var router: SmallPlayerRouterProtocol!
     var interactor: SmallPlayerInteractorProtocol!
     weak var view: SmallPlayerViewControllerProtocol!
-
     
-    func showPlayer() {
-        view.showPlayer()
-    }
-    
-    func closePlayer() {
-        view.closePlayer()
-    }
-    
-    func setTrackInfo(title: String, performer: String) {
-        view.setTrackInfo(title: title, performer: performer)
-    }
-    
-    func setTrackImage(_ imageData: Data) {
-        view.setTrackImage(imageData)
-    }
-    
-    func openPlayer() {
-        view.openPlayer()
-    }
-    
-    func clearPlayer() {
-        view.clearPlayer()
-    }
-    
-    func updatePlayerProgress(percentages: Float) {
-        view.updatePlayerProgress(percentages: percentages)
+    func setListener() {
+        PlayerManager.s.playerListenerTwo = self
     }
     
     func navButtonClick(next: Bool) {
-        interactor.navButtonClick(next: next)
+        next ? interactor.callNextTrack() : interactor.callPrevTrack()
     }
     
     func play() {
@@ -44,19 +19,11 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocol {
     }
     
     func rewindP() {
-        interactor.rewindP()
+        interactor.setPlayerCurrentTime(15, withCurrentTime: true)
     }
     
     func rewindM() {
-        interactor.rewindP()
-    }
-    
-    func setPlayImage() {
-        view.setPlayImage()
-    }
-    
-    func setPauseImage() {
-        view.setPauseImage()
+        interactor.setPlayerCurrentTime(-15, withCurrentTime: true)
     }
     
     func openBigPlayer() {
@@ -69,6 +36,47 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocol {
     
     func removePlayer() {
         interactor.clearPlayer()
+    }
+    
+}
+
+extension SmallPlayerPresenter: PlayerListenerDelegate {
+    
+    func playlistAdded(_ playlist: Playlist) {
+        view.showPlayer()
+    }
+    
+    func playlistRemoved() {
+        view.closePlayer()
+    }
+    
+    func blockControl() {
+        view.clearPlayer()
+    }
+    
+    func openControl() {
+        view.openPlayer()
+    }
+    
+    func curentTrackTime(sec: Double) {
+        guard let duration = interactor.getRealDuration(), let currentTime = interactor.getCurrentTime() else { return }
+        view.updatePlayerProgress(percentages: Float(currentTime / duration))
+    }
+    
+    func playerStop() {
+        view.setPlayImage()
+    }
+    
+    func playerPlay() {
+        view.setPauseImage()
+    }
+    
+    func trackInfoChanged(_ track: CurrentTrack) {
+        view.setTrackInfo(title: track.title, performer: track.performer)
+    }
+    
+    func trackImageChanged(_ imageData: Data) {
+        view.setTrackImage(imageData)
     }
     
 }

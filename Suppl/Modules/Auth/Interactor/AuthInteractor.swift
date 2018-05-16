@@ -1,44 +1,39 @@
 import Foundation
 
-class AuthInteractor: AuthInteractorProtocol {
+class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
 
     weak var presenter: AuthPresenterProtocol!
     
-    let noAuthOnShow: Bool
-    
-    init(noAuth noAuthOnShow: Bool = false) {
-        self.noAuthOnShow = noAuthOnShow
-    }
-
-    func show() {
-        presenter.setLabel(LocalesManager.s.get(.load))
-        noAuthOnShow ? setAuthFormVisable() : startAuth(keys: nil)
+    func tracklistUpdate() {
+        TracklistManager.s.update() { status in }
     }
     
-    func continueAfter(_ continueAfter: Double, timeOutCallback: @escaping () -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + continueAfter, execute: timeOutCallback)
-    }
-    
-    func endAuth() {
-        continueAfter(0.7) { [weak self] in
-            guard let `self` = self else { return }
-            self.presenter.goToRoot()
-            TracklistManager.s.update() { status in }
-        }
+    func startAuthCheck() {
         let _ = AuthManager.s.startAuthCheck()
     }
     
-    func setStatusCallback(_ status: String?) {
-        if let error = status {
-            presenter.setLabel(error)
-            setAuthFormVisable(nowInputInfo: false)
-        } else {
-            presenter.setLabel(LocalesManager.s.get(.hi))
-            endAuth()
+    func auth(keys: KeysPair?) {
+        AuthManager.s.authorization(keys: keys) { [weak self] error in
+            self?.presenter.setAuthResult(error)
         }
     }
     
-    func inputProcessing(input: String?) -> Bool {
+    func reg() {
+        AuthManager.s.registration() { [weak self] error in
+            self?.presenter.setAuthResult(error)
+        }
+    }
+    
+    func startAuth(keys: KeysPair? = nil) -> Bool {
+        if let keys = keys ?? getKeys() {
+            auth(keys: keys)
+            return true
+        }
+        reg()
+        return false
+    }
+    
+    func setKeysByString(input: String?) -> Bool {
         if let text = input, let _ = Int(text), text.count % 2 == 0 {
             let half: Int = text.count / 2
             UserDefaultsManager.s.identifierKey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
@@ -47,43 +42,9 @@ class AuthInteractor: AuthInteractorProtocol {
         }
         return false
     }
-    
-    func startAuth(keys: KeysPair?) {
-        presenter.setLabel(LocalesManager.s.get(.getInfo))
-        if let keys = keys ?? AuthManager.s.getAuthKeys(setFailAuth: false) {
-            presenter.setLabel(LocalesManager.s.get(.auth))
-            AuthManager.s.authorization(keys: keys, callback: setStatusCallback)
-        } else {
-            presenter.setLabel(LocalesManager.s.get(.reg))
-            AuthManager.s.registration(callback: setStatusCallback)
-        }
+
+    override func getKeys() -> KeysPair? {
+        return AuthManager.s.getAuthKeys(setFailAuth: false)
     }
     
-    func setLabelForInput() {
-        presenter.setLabel(LocalesManager.s.get(.inputIdentifier))
-    }
-    
-    func setLabelForInputAfter(_ after: Double) {
-        continueAfter(after, timeOutCallback: setLabelForInput)
-    }
-    
-    func setAuthFormVisable(nowInputInfo: Bool = true, setSavedKays: Bool = true) {
-        nowInputInfo ? setLabelForInput() : setLabelForInputAfter(1.5)
-        if setSavedKays {
-            let keys = AuthManager.s.getAuthKeys(setFailAuth: false)
-            presenter.setIdentifier(keys != nil ? "\(keys!.identifierKey)\(keys!.accessKey)" : "")
-        }
-        presenter.enableButtons()
-    }
-    
-    func repeatButtonClick(identifierText: String?) {
-        presenter.setLabel(LocalesManager.s.get(.checkIdentifier))
-        presenter.disableButtons()
-        guard inputProcessing(input: identifierText), let keys = AuthManager.s.getAuthKeys(setFailAuth: false) else {
-            presenter.setLabel(LocalesManager.s.get(.badIdentifier))
-            setAuthFormVisable(nowInputInfo: false, setSavedKays: false)
-            return
-        }
-        startAuth(keys: keys)
-    }
 }

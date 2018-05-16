@@ -18,7 +18,7 @@ final class RemoteDataManager {
                 return
             }
         }
-        session.request(url: link, inMain: true) { [weak self] error, response, data in
+        session.request(url: link) { [weak self] error, response, data in
             guard let `self` = self, let data = data else { return }
             let nsData = data as NSData
             self.cache.setObject(nsData, forKey: nsLink)

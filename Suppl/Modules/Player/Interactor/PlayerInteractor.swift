@@ -4,77 +4,40 @@ class PlayerInteractor: PlayerInteractorProtocol {
     
     weak var presenter: PlayerPresenterProtocol!
 
-    init() {
-        PlayerManager.s.playerListenerOne = self
+    func setListener(_ delegate: PlayerListenerDelegate) {
+        PlayerManager.s.playerListenerOne = delegate
     }
     
-    func load() {
-        presenter.setNavTitle(LocalesManager.s.get(.playerTitle))
-        guard let nowTrack = PlayerManager.s.currentTrack else { return }
-        presenter.loadNowTrack(track: nowTrack, playerRate: PlayerManager.s.playerRate() ?? 0)
+    func getPlayerRate() -> Float? {
+        return PlayerManager.s.playerRate()
+    }
+    
+    func getCurrentTrack() -> CurrentTrack? {
+        return PlayerManager.s.currentTrack
     }
     
     func getCurrentTime() -> Double? {
         return PlayerManager.s.getRealCurrentTime()
     }
     
+    func getRealDuration() -> Double? {
+        return PlayerManager.s.getRealDuration()
+    }
+    
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {
-        guard let nowSec = PlayerManager.s.getRealCurrentTime() else { return }
-        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? nowSec + sec : sec)
+        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? (getCurrentTime() ?? 0) + sec : sec)
     }
     
     func play() {
         PlayerManager.s.playOrPause()
     }
     
-    func navButtonClick(next: Bool) {
-        next ? PlayerManager.s.nextTrack(): PlayerManager.s.prevTrack()
+    func callNextTrack() {
+        PlayerManager.s.nextTrack()
     }
     
-    func rewindP() {
-        setPlayerCurrentTime(15, withCurrentTime: true)
-    }
-    
-    func rewindM() {
-        setPlayerCurrentTime(-15, withCurrentTime: true)
-    }
-
-    
-}
-
-extension PlayerInteractor: PlayerListenerDelegate {
-    
-    func playlistAdded(_ playlist: Playlist) {}
-    
-    func playlistRemoved() {}
-    
-    func blockControl() {
-        presenter.clearPlayer()
-    }
-    
-    func openControl() {
-        guard let sec = PlayerManager.s.getRealDuration() else { return }
-        presenter.openPlayer(duration: sec)
-    }
-    
-    func curentTrackTime(sec: Double) {
-        presenter.updatePlayerProgress(currentTime: sec)
-    }
-    
-    func playerStop() {
-        presenter.setPlayImage()
-    }
-    
-    func playerPlay() {
-        presenter.setPauseImage()
-    }
-    
-    func trackInfoChanged(_ track: CurrentTrack) {
-        presenter.setTrackInfo(title: track.title, performer: track.performer)
-    }
-    
-    func trackImageChanged(_ imageData: Data) {
-        presenter.setTrackImage(imageData)
+    func callPrevTrack() {
+        PlayerManager.s.prevTrack()
     }
     
 }

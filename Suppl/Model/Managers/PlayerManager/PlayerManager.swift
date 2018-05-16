@@ -48,10 +48,8 @@ final class PlayerManager: NSObject {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let statusNumber = change?[.newKey] as? NSNumber else { return }
         switch keyPath {
-        case #keyPath(AVPlayerItem.status):
-            observePlayerItemStatus(statusNumber)
-        case #keyPath(AVPlayer.rate):
-            observePlayerRate(statusNumber)
+        case #keyPath(AVPlayerItem.status): observePlayerItemStatus(statusNumber)
+        case #keyPath(AVPlayer.rate): observePlayerRate(statusNumber)
         default: break
         }
     }
@@ -68,6 +66,7 @@ final class PlayerManager: NSObject {
             }
             playerListenerOne?.openControl()
             playerListenerTwo?.openControl()
+            remoteCommands(isEnabled: true)
             play()
         case .failed: break
         case .unknown: break
@@ -90,40 +89,35 @@ final class PlayerManager: NSObject {
             }
         }
     }
-
-    /*
-    private func addNowPlayingInfoCenter(title:String?, performer: String?) {
-        let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
-        var nowPlayingInfo = nowPlayingInfoCenter.nowPlayingInfo ?? [String: Any]()
-        nowPlayingInfo[MPMediaItemPropertyTitle] = title ?? ""
-        nowPlayingInfo[MPMediaItemPropertyArtist] = performer ?? ""
-        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
+    
+    private func addRemoteCommands() {
+        commandCenter().playCommand.addTarget(self, action: #selector(play))
+        commandCenter().pauseCommand.addTarget(self, action: #selector(pause))
+        commandCenter().nextTrackCommand.addTarget(self, action: #selector(nextTrack))
+        commandCenter().previousTrackCommand.addTarget(self, action: #selector(prevTrack))
     }
     
-    private func addRemoteCommandCenter() {
-        let commandCenter = MPRemoteCommandCenter.shared()
-        commandCenter.playCommand.addTarget() { [weak self] event in
-            guard let `self` = self else { return MPRemoteCommandHandlerStatus.commandFailed }
-            self.play()
-            return MPRemoteCommandHandlerStatus.success
-        }
-        commandCenter.pauseCommand.addTarget() { [weak self] event in
-            guard let `self` = self else { return MPRemoteCommandHandlerStatus.commandFailed }
-            self.pause()
-            return MPRemoteCommandHandlerStatus.success
-        }
-        commandCenter.nextTrackCommand.addTarget() { [weak self] event in
-            guard let `self` = self else { return MPRemoteCommandHandlerStatus.commandFailed }
-            self.nextTrack()
-            return MPRemoteCommandHandlerStatus.success
-        }
-        commandCenter.previousTrackCommand.addTarget() { [weak self] event in
-            guard let `self` = self else { return MPRemoteCommandHandlerStatus.commandFailed }
-            self.prevTrack()
-            return MPRemoteCommandHandlerStatus.success
-        }
+    private func removeRemoteCommands() {
+        commandCenter().playCommand.removeTarget(self)
+        commandCenter().pauseCommand.removeTarget(self)
+        commandCenter().nextTrackCommand.removeTarget(self)
+        commandCenter().previousTrackCommand.removeTarget(self)
     }
-    */
+    
+    private func remoteCommands(isEnabled: Bool) {
+        commandCenter().playCommand.isEnabled = isEnabled
+        commandCenter().pauseCommand.isEnabled = isEnabled
+        commandCenter().nextTrackCommand.isEnabled = isEnabled
+        commandCenter().previousTrackCommand.isEnabled = isEnabled
+    }
+    
+    private func nowPlayingCenter() -> MPNowPlayingInfoCenter {
+        return MPNowPlayingInfoCenter.default()
+    }
+    
+    private func commandCenter() -> MPRemoteCommandCenter {
+        return MPRemoteCommandCenter.shared()
+    }
     
     private func loadTrackByID(_ trackID: String) {
         guard let keys = AuthManager.s.getAuthKeys() else { return }
@@ -137,31 +131,33 @@ final class PlayerManager: NSObject {
         guard let trackLink = track.track, let trackURL = URL(string: trackLink) else { return }
         playerListenerOne?.blockControl()
         playerListenerTwo?.blockControl()
+        remoteCommands(isEnabled: false)
         removePlayStatusObserver()
         removePlayerRateObserver()
         player = nil
         currentTrack = nil
         
-        let tempTrackId = track.id
         currentTrack = CurrentTrack(id: track.id, title: track.title, performer: track.performer, duration: track.duration, image: nil)
         playerListenerOne?.trackInfoChanged(currentTrack!)
         playerListenerTwo?.trackInfoChanged(currentTrack!)
-        //addNowPlayingInfoCenter(title: track.title, performer: track.performer)
+        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = track.title
+        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = track.performer
         if SettingsManager.s.loadImages! {
             RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] imageData in
-                guard let `self` = self, tempTrackId == self.currentTrack?.id else { return }
-                self.currentTrack?.image = UIImage(data: imageData as Data)
+                guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
+                self.currentTrack?.image = image
                 self.playerListenerOne?.trackImageChanged(imageData as Data)
                 self.playerListenerTwo?.trackImageChanged(imageData as Data)
+                self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
             }
         }
-        player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
+        // https://andreygordeev.com/2018/03/31/cache-avplayeritem/
+        // https://github.com/neekeetab/CachingPlayerItem
+        player = AVPlayer(playerItem: AVPlayerItem(url: trackURL) /* CachingPlayerItem(url: trackURL) */)
         player?.automaticallyWaitsToMinimizeStalling = false
         addPlayStatusObserver()
         addPlayerRateObserver()
     }
-    
-    
     
     public func clearPlayer() {
         playerListenerOne?.playlistRemoved()
@@ -171,6 +167,10 @@ final class PlayerManager: NSObject {
         player = nil
         currentTrack = nil
         playlist = nil
+        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = nil
+        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = nil
+        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = nil
+        removeRemoteCommands()
     }
     
     public func setPlaylist(tracksIDs: [String], current: Int = 0) {
@@ -178,7 +178,7 @@ final class PlayerManager: NSObject {
         loadTrackByID(playlist!.curr())
         playerListenerOne?.playlistAdded(playlist!)
         playerListenerTwo?.playlistAdded(playlist!)
-        //addRemoteCommandCenter()
+        addRemoteCommands()
     }
    
     public func getRealCurrentTime() -> Double? {
@@ -189,26 +189,26 @@ final class PlayerManager: NSObject {
         return player?.currentItem?.duration.seconds
     }
     
-    public func nextTrack() {
+    @objc public func nextTrack() {
         guard let _ = self.playlist else { return }
         loadTrackByID(self.playlist!.next())
     }
     
-    public func prevTrack() {
+    @objc public func prevTrack() {
         guard let _ = self.playlist else { return }
         loadTrackByID(self.playlist!.prev())
     }
     
-    public func play() {
+    @objc public func play() {
         guard let player = player, let currentItem = player.currentItem else { return }
-        if Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0 {
+        if !currentItem.duration.seconds.isNaN, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0 {
             setPlayerCurrentTime(0)
         }
         needPlayingStatus = true
         player.play()
     }
     
-    public func pause() {
+    @objc public func pause() {
         guard let player = player, let _ = player.currentItem else { return }
         needPlayingStatus = false
         player.pause()

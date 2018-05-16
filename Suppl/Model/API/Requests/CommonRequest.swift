@@ -4,21 +4,15 @@ class CommonRequest {
     
     private let defaultSession: URLSession = URLSession(configuration: .default)
     
-    public func request(url: String, query: Dictionary<String, String> = [:], inMain: Bool = false, taskCallback: @escaping (Error?, URLResponse?, Data?) -> ()) {
+    public func request(url: String, query: Dictionary<String, String> = [:], inMainQueue: Bool = true, taskCallback: @escaping (Error?, URLResponse?, Data?) -> ()) {
         guard var urlComponents = URLComponents(string: url) else { return }
-        let queryItems = query.map {
-            return URLQueryItem(name: "\($0)", value: "\($1)")
-        }
-        urlComponents.queryItems = queryItems
+        urlComponents.queryItems =  query.map { return URLQueryItem(name: "\($0)", value: "\($1)") }
         guard let url = urlComponents.url else { return }
         defaultSession.dataTask(with: url) { data, response, error in
-            if !inMain {
-                taskCallback(error, response, data)
-                return
+            if AppStaticData.debugOn {
+                print("CommonRequest (URL: \(url); InMainQueue: \(inMainQueue); Error: \(String(describing: error)))")
             }
-            DispatchQueue.main.async() {
-                taskCallback(error, response, data)
-            }
+            !inMainQueue ? taskCallback(error, response, data) : DispatchQueue.main.async() { taskCallback(error, response, data) }
         }.resume()
     }
     
