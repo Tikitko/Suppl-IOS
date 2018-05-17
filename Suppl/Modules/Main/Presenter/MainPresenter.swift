@@ -72,9 +72,13 @@ extension MainPresenter: SearchCommunicateProtocol {
 
 extension MainPresenter: TrackTableCommunicateProtocol {
     
-    func needTracksForReload() -> TracklistPair {
-        return TracklistPair(tracks: searchData?.list ?? [], foundTracks: nil)
+    func needTracksForReload() -> [AudioData] {
+        return searchData?.list ?? []
     }
+    
+    func removedTrack(fromIndex: Int) {}
+    
+    func addedTrack(withId: String) {}
     
     func cellShowAt(_ indexPath: IndexPath) {
         guard let data = self.searchData else { return }
@@ -82,5 +86,6 @@ extension MainPresenter: TrackTableCommunicateProtocol {
             interactor.searchTracks(thisQuery, offset: data.nextOffset)
         }
     }
+
     
 }

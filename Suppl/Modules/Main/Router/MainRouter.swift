@@ -16,7 +16,7 @@ class MainRouter: MainRouterProtocol {
         let router = MainRouter(moduleNameId: moduleNameId)
         let interactor = MainInteractor()
         let presenter = MainPresenter()
-        let table = TrackTableRouter.setupForMusic(parentModuleNameId: moduleNameId)
+        let table = TrackTableRouter.setup(parentModuleNameId: moduleNameId)
         let search = SearchBarRouter.setup(parentModuleNameId: moduleNameId)
         let viewController = MainViewController(table: table, search: search)
         

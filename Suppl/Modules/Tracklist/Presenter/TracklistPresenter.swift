@@ -9,6 +9,7 @@ class TracklistPresenter: TracklistPresenterProtocol {
     
     var tracks: [AudioData] = []
     
+    var nowQuery: String? = nil
     var foundTracks: [AudioData]?
     var searchByTitle = true
     var searchByPerformer = true
@@ -44,6 +45,7 @@ class TracklistPresenter: TracklistPresenterProtocol {
     }
     
     func clearSearch() {
+        nowQuery = nil
         searchTimeRate = 1.0
         searchByTitle = true
         searchByPerformer = true
@@ -60,8 +62,12 @@ class TracklistPresenter: TracklistPresenterProtocol {
     }
     
     func setUpdateResult(_ status: LocalesManager.Expression?) {
-        view.reloadData()
-        setInfo(status != nil ? interactor.getLocaleString(status!) : nil)
+        if let _ = nowQuery {
+            searchNowQuery()
+        } else {
+            view.reloadData()
+            setInfo(status != nil ? interactor.getLocaleString(status!) : nil)
+        }
     }
     
     func updateButtonClick() {
@@ -70,11 +76,8 @@ class TracklistPresenter: TracklistPresenterProtocol {
         interactor.tracklistUpdate()
     }
     
-}
-
-extension TracklistPresenter: SearchCommunicateProtocol {
-    
-    func searchButtonClicked(query: String) {
+    func searchNowQuery() {
+        guard let query = nowQuery else { return }
         let lowerQuery = query.lowercased()
         searchTimeRate = 1.0
         foundTracks = []
@@ -88,6 +91,15 @@ extension TracklistPresenter: SearchCommunicateProtocol {
         }
         view.reloadData()
         setInfo(foundTracks?.count == 0 ? interactor.getLocaleString(.notFound) : nil)
+    }
+    
+}
+
+extension TracklistPresenter: SearchCommunicateProtocol {
+    
+    func searchButtonClicked(query: String) {
+        nowQuery = query
+        searchNowQuery()
     }
     
 }
@@ -151,10 +163,14 @@ extension TracklistPresenter: TrackFilterCommunicateProtocol {
 
 extension TracklistPresenter: TrackTableCommunicateProtocol {
     
-    func cellShowAt(_ indexPath: IndexPath) {}
-    
-    func needTracksForReload() -> TracklistPair {
-        return TracklistPair(tracks: tracks, foundTracks: foundTracks)
+    func needTracksForReload() -> [AudioData] {
+        return foundTracks ?? tracks
     }
     
+    func removedTrack(fromIndex: Int) {}
+    
+    func addedTrack(withId: String) {}
+    
+    func cellShowAt(_ indexPath: IndexPath) {}
+
 }

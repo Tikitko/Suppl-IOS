@@ -2,5 +2,7 @@ import Foundation
 
 protocol TrackTableCommunicateProtocol: CommunicateManagerProtocol {
     func cellShowAt(_ indexPath: IndexPath) -> Void
-    func needTracksForReload() -> TracklistPair
+    func needTracksForReload() -> [AudioData]
+    func removedTrack(fromIndex: Int)
+    func addedTrack(withId: String)
 }

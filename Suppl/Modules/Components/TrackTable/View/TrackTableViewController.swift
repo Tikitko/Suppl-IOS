@@ -41,12 +41,12 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             guard cell.baseImage else { return }
             cell.setImage(imageData: imageData)
         }
-        presenter.getTrackDataById(indexPath.row, infoCallback: infoCallback, imageCallback: imageCallback)
+        presenter.getTrackDataByIndex(indexPath.row, infoCallback: infoCallback, imageCallback: imageCallback)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return presenter.canEditRowAt(indexPath)
+        return presenter.rowEditStatus(indexPath: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -55,11 +55,11 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
         var actions: [UITableViewRowAction] = []
-        let actionsCreated = presenter.editActionsForRowAt(editActionsForRowAt)
+        var actionsCreated: [RowAction] = []
+        presenter.createRowActions(indexPath: editActionsForRowAt, actions: &actionsCreated)
         for action in actionsCreated {
             let finalAction = UITableViewRowAction(style: .normal, title: action.title) { [weak self] a, i in
-                guard let `self` = self else { return }
-                self.setEditing(false, animated: true)
+                self?.setEditing(false, animated: true)
                 action.action(i)
             }
             finalAction.backgroundColor = UIColor(rgba: action.color)
@@ -70,7 +70,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        presenter.didSelectRowAt(indexPath)
+        presenter.openPlayer(trackIndex: indexPath.row)
     }
     
 }

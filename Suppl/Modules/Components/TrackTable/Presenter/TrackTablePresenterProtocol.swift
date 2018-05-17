@@ -2,11 +2,10 @@ import Foundation
 
 protocol TrackTablePresenterProtocol: class {
     func updateTracks()
-    func openPlayer(tracksIDs: [String], current: Int)
-    func numberOfRowsInSection(_ section: Int) -> Int
-    func getTrackDataById(_ id: Int, infoCallback: @escaping (_ data: AudioData) -> Void, imageCallback: @escaping (_ data: NSData) -> Void)
-    func canEditRowAt(_ indexPath: IndexPath) -> Bool
-    func editActionsForRowAt(_ indexPath: IndexPath) -> [RowAction]
-    func didSelectRowAt(_ indexPath: IndexPath)
+    func getTrackDataByIndex(_ index: Int, infoCallback: @escaping (_ data: AudioData) -> Void, imageCallback: @escaping (_ data: NSData) -> Void)
+    func createRowActions(indexPath: IndexPath, actions: inout [RowAction])
+    func rowEditStatus(indexPath: IndexPath) -> Bool
+    func openPlayer(trackIndex: Int)
     func willDisplayCellForRowAt(_ indexPath: IndexPath)
+    func numberOfRowsInSection(_ section: Int) -> Int
 }

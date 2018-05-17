@@ -53,7 +53,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     }
     
     func clearSearch() {
-        searchBar.text = ""
+        searchTest.text = ""
     }
     
     func onLabel(text: String) {
