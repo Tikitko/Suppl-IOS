@@ -5,7 +5,7 @@ class PlayerInteractor: PlayerInteractorProtocol {
     weak var presenter: PlayerPresenterProtocol!
 
     func setListener(_ delegate: PlayerListenerDelegate) {
-        PlayerManager.s.playerListenerOne = delegate
+        PlayerManager.s.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
     }
     
     func getPlayerRate() -> Float? {

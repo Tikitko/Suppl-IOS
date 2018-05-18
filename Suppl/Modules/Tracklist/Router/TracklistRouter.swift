@@ -1,14 +1,9 @@
 import Foundation
 import UIKit
 
-class TracklistRouter: TracklistRouterProtocol {
+class TracklistRouter: BaseRouter, TracklistRouterProtocol {
     
     weak var viewController: UIViewController!
-    
-    let moduleNameId: String
-    init(moduleNameId: String) {
-        self.moduleNameId = moduleNameId
-    }
     
     func showFilter() {
         guard let viewController = viewController as? TracklistViewController else { return }
@@ -18,13 +13,11 @@ class TracklistRouter: TracklistRouterProtocol {
     }
     
     static func setup() -> UIViewController {
-        let moduleNameId = String(arc4random_uniform(1000001))
-        
-        let router = TracklistRouter(moduleNameId: moduleNameId)
+        let router = TracklistRouter()
         let interactor = TracklistInteractor()
         let presenter = TracklistPresenter()
-        let table = TrackTableRouter.setup(parentModuleNameId: moduleNameId)
-        let search = SearchBarRouter.setup(parentModuleNameId: moduleNameId)
+        let table = TrackTableRouter.setup(parentModuleNameId: router.moduleNameId)
+        let search = SearchBarRouter.setup(parentModuleNameId: router.moduleNameId)
         let viewController = TracklistViewController(table: table, search: search)
         
         presenter.interactor = interactor

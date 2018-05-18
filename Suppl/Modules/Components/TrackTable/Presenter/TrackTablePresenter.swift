@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class TrackTablePresenter: TrackTablePresenterProtocol {
     
@@ -12,11 +13,14 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
         tracks = interactor.getDelegate()?.needTracksForReload() ?? tracks
     }
     
-    func getTrackDataByIndex(_ index: Int, infoCallback: @escaping (_ data: AudioData) -> Void, imageCallback: @escaping (_ data: NSData) -> Void) {
-        guard tracks.count > index else { return }
-        infoCallback(tracks[index])
-        guard let imageLink = tracks[index].images.last else { return }
-        interactor.loadImageData(link: imageLink, callback: imageCallback)
+    func updateCellInfo(trackIndex: Int, name: String) {
+        guard tracks.count > trackIndex else { return }
+        let track = tracks[trackIndex]
+        interactor.getCellDelegate(name: name)?.setNewData(id: track.id, title: track.title, performer: track.performer, duration: track.duration)
+        guard let imageLink = tracks[trackIndex].images.last else { return }
+        interactor.loadImageData(link: imageLink) { [weak self] imageData in
+            self?.interactor.getCellDelegate(name: name)?.setNewImage(imageData: imageData)
+        }
     }
     
     func createRowActions(indexPath: IndexPath, actions: inout [RowAction]) {

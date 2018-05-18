@@ -6,26 +6,44 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     var presenter: TrackTablePresenterProtocol!
     
     private class UITableViewWithReload: UITableView {
-        weak var myController: TrackTableViewController?
+        weak var myController: TrackTableViewController!
         override func reloadData() {
-            myController?.inReloadData()
+            myController.presenter.updateTracks()
             super.reloadData()
+        }
+    }
+    
+    private class TrackTablePlaceholderCell: UITableViewCell {
+        static let identifier = String(describing: TrackTablePlaceholderCell.self)
+        private(set) var cellModuleNameId: String!
+        private var cell: UITableViewCell!
+        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            baseSetting()
+        }
+        required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+            baseSetting()
+        }
+        private func baseSetting() {
+            var cellModuleNameId = String(arc4random_uniform(1000000001))
+            cell = TrackTableCell.init(cellModuleNameId: &cellModuleNameId)
+            self.cellModuleNameId = cellModuleNameId
+            ViewIncludeTemplate.inside(child: cell!, parent: self)
+        }
+        override func prepareForReuse() {
+            super.prepareForReuse()
+            cell.prepareForReuse()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let costomTable = UITableViewWithReload()
         costomTable.myController = self
         tableView = costomTable
-        
-        tableView.register(UINib(nibName: TrackTableCell.identifier, bundle: nil), forCellReuseIdentifier: TrackTableCell.identifier)
+        tableView.register(TrackTablePlaceholderCell.self, forCellReuseIdentifier: TrackTablePlaceholderCell.identifier)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-    }
-    
-    func inReloadData() {
-        presenter.updateTracks()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -33,15 +51,8 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TrackTableCell.identifier, for: indexPath) as! TrackTableCell
-        let infoCallback: (AudioData) -> Void = { track in
-            cell.configure(title: track.title, performer: track.performer, duration: track.duration)
-        }
-        let imageCallback: (NSData) -> Void = { imageData in
-            guard cell.baseImage else { return }
-            cell.setImage(imageData: imageData)
-        }
-        presenter.getTrackDataByIndex(indexPath.row, infoCallback: infoCallback, imageCallback: imageCallback)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TrackTablePlaceholderCell.identifier, for: indexPath) as! TrackTablePlaceholderCell
+        presenter.updateCellInfo(trackIndex: indexPath.row, name: cell.cellModuleNameId)
         return cell
     }
     
@@ -71,6 +82,11 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         presenter.openPlayer(trackIndex: indexPath.row)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 90.5;
     }
     
 }

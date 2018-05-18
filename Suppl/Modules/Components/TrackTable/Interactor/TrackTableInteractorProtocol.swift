@@ -2,6 +2,7 @@ import Foundation
 
 protocol TrackTableInteractorProtocol: class {
     func getDelegate() -> TrackTableCommunicateProtocol?
+    func getCellDelegate(name: String) -> TrackTableCellCommunicateProtocol?
     func openPlayer(tracksIDs: [String], trackIndex: Int)
     func getTracklist() -> [String]?
     func addTrack(trackId: String)

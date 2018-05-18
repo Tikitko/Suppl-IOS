@@ -52,10 +52,6 @@ class PlayerPresenter: PlayerPresenterProtocol {
 
 extension PlayerPresenter: PlayerListenerDelegate {
     
-    func playlistAdded(_ playlist: Playlist) {}
-    
-    func playlistRemoved() {}
-    
     func blockControl() {
         view.clearPlayer()
     }

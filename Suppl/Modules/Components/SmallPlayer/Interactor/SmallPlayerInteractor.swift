@@ -5,7 +5,7 @@ class SmallPlayerInteractor: SmallPlayerInteractorProtocol {
     weak var presenter: SmallPlayerPresenterProtocol!
 
     func setListener(_ delegate: PlayerListenerDelegate) {
-        PlayerManager.s.playerListenerTwo = delegate
+        PlayerManager.s.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {

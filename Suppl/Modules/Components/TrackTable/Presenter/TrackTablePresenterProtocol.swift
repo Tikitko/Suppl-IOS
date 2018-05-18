@@ -1,8 +1,9 @@
 import Foundation
+import UIKit
 
 protocol TrackTablePresenterProtocol: class {
     func updateTracks()
-    func getTrackDataByIndex(_ index: Int, infoCallback: @escaping (_ data: AudioData) -> Void, imageCallback: @escaping (_ data: NSData) -> Void)
+    func updateCellInfo(trackIndex: Int, name: String)
     func createRowActions(indexPath: IndexPath, actions: inout [RowAction])
     func rowEditStatus(indexPath: IndexPath) -> Bool
     func openPlayer(trackIndex: Int)

@@ -18,8 +18,22 @@ final class PlayerManager: NSObject {
     private var playlist: Playlist?
     private(set) var currentTrack: CurrentTrack?
     
-    public weak var playerListenerOne: PlayerListenerDelegate?
-    public weak var playerListenerTwo: PlayerListenerDelegate?
+    private let mapTableDelegates = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
+    
+    public func setListener(name: String, delegate: PlayerListenerDelegate) {
+        mapTableDelegates.setObject(delegate, forKey: name as NSString)
+    }
+    
+    private  func getListener(name: String) -> PlayerListenerDelegate? {
+        return mapTableDelegates.object(forKey: name as NSString) as? PlayerListenerDelegate
+    }
+    
+    private func sayToListeners(_ callback: (PlayerListenerDelegate) -> Void) {
+        for obj in mapTableDelegates.objectEnumerator() ?? NSEnumerator() {
+            guard let delegate = obj as? PlayerListenerDelegate else { continue }
+            callback(delegate)
+        }
+    }
     
     private func addPlayStatusObserver() {
         if observerPlayStatusWorking { return }
@@ -61,11 +75,13 @@ final class PlayerManager: NSObject {
         case .readyToPlay:
             player?.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
                 guard let `self` = self, let player = self.player, player.currentItem?.status == .readyToPlay else { return }
-                self.playerListenerOne?.curentTrackTime(sec: player.currentTime().seconds)
-                self.playerListenerTwo?.curentTrackTime(sec: player.currentTime().seconds)
+                self.sayToListeners() { delegate in
+                    delegate.curentTrackTime(sec: player.currentTime().seconds)
+                }
             }
-            playerListenerOne?.openControl()
-            playerListenerTwo?.openControl()
+            sayToListeners() { delegate in
+                delegate.openControl()
+            }
             remoteCommands(isEnabled: true)
             play()
         case .failed: break
@@ -76,11 +92,13 @@ final class PlayerManager: NSObject {
     private func observePlayerRate(_ statusNumber: NSNumber?) {
         let rate: Float = statusNumber?.floatValue ?? -1.0
         if rate == 1.0 {
-            playerListenerOne?.playerPlay()
-            playerListenerTwo?.playerPlay()
+            sayToListeners() { delegate in
+                delegate.playerPlay()
+            }
         } else if rate == 0.0 {
-            playerListenerOne?.playerStop()
-            playerListenerTwo?.playerStop()
+            sayToListeners() { delegate in
+                delegate.playerStop()
+            }
             guard let currentItem = player?.currentItem else { return }
             if SettingsManager.s.autoNextTrack!, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0, let _ = playlist {
                 loadTrackByID(playlist!.next())
@@ -129,8 +147,9 @@ final class PlayerManager: NSObject {
     
     private  func setTrack(_ track: AudioData) {
         guard let trackLink = track.track, let trackURL = URL(string: trackLink) else { return }
-        playerListenerOne?.blockControl()
-        playerListenerTwo?.blockControl()
+        sayToListeners() { delegate in
+            delegate.blockControl()
+        }
         remoteCommands(isEnabled: false)
         removePlayStatusObserver()
         removePlayerRateObserver()
@@ -138,16 +157,18 @@ final class PlayerManager: NSObject {
         currentTrack = nil
         
         currentTrack = CurrentTrack(id: track.id, title: track.title, performer: track.performer, duration: track.duration, image: nil)
-        playerListenerOne?.trackInfoChanged(currentTrack!)
-        playerListenerTwo?.trackInfoChanged(currentTrack!)
+        sayToListeners() { delegate in
+            delegate.trackInfoChanged(currentTrack!)
+        }
         nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = track.title
         nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = track.performer
         if SettingsManager.s.loadImages! {
             RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] imageData in
                 guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
                 self.currentTrack?.image = image
-                self.playerListenerOne?.trackImageChanged(imageData as Data)
-                self.playerListenerTwo?.trackImageChanged(imageData as Data)
+                self.sayToListeners() { delegate in
+                    delegate.trackImageChanged(imageData as Data)
+                }
                 self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
             }
         }
@@ -160,8 +181,9 @@ final class PlayerManager: NSObject {
     }
     
     public func clearPlayer() {
-        playerListenerOne?.playlistRemoved()
-        playerListenerTwo?.playlistRemoved()
+        sayToListeners() { delegate in
+            delegate.playlistRemoved()
+        }
         removePlayStatusObserver()
         removePlayerRateObserver()
         player = nil
@@ -176,8 +198,9 @@ final class PlayerManager: NSObject {
     public func setPlaylist(tracksIDs: [String], current: Int = 0) {
         playlist = Playlist(IDs: tracksIDs, current: current)
         loadTrackByID(playlist!.curr())
-        playerListenerOne?.playlistAdded(playlist!)
-        playerListenerTwo?.playlistAdded(playlist!)
+        sayToListeners() { delegate in
+            delegate.playlistAdded(playlist!)
+        }
         addRemoteCommands()
     }
    
