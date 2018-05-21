@@ -31,6 +31,9 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             super.prepareForReuse()
             cell.prepareForReuse()
         }
+        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+            return cell.hitTest(point, with: event) == nil ? super.hitTest(point, with: event) : self
+        }
     }
     
     override func viewDidLoad() {
