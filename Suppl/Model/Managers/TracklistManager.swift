@@ -97,7 +97,7 @@ final class TracklistManager {
         }
     }
     
-    private func sendCallbackStatus(_ status: Bool ,callback: @escaping (Bool) -> ()) {
+    private func sendCallbackStatus(_ status: Bool, callback: @escaping (Bool) -> ()) {
         inUpdate = false
         callback(status)
     }

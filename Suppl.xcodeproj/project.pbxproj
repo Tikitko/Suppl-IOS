@@ -57,7 +57,6 @@
 		8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889B2089D7F0000505F9 /* Playlist.swift */; };
 		8C20889E2089D851000505F9 /* RowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889D2089D851000505F9 /* RowAction.swift */; };
 		8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889F2089DBEF000505F9 /* TrackTime.swift */; };
-		8C2467102099FCCC00C86621 /* TracklistPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C24670F2099FCCC00C86621 /* TracklistPair.swift */; };
 		8C285F6D20887C16007427E7 /* TrackTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F6C20887C16007427E7 /* TrackTableViewController.swift */; };
 		8C285F6F20887E69007427E7 /* TrackTableViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F6E20887E69007427E7 /* TrackTableViewControllerProtocol.swift */; };
 		8C285F712088811C007427E7 /* TrackTableInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F702088811C007427E7 /* TrackTableInteractorProtocol.swift */; };
@@ -197,7 +196,6 @@
 		8C20889B2089D7F0000505F9 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		8C20889D2089D851000505F9 /* RowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowAction.swift; sourceTree = "<group>"; };
 		8C20889F2089DBEF000505F9 /* TrackTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTime.swift; sourceTree = "<group>"; };
-		8C24670F2099FCCC00C86621 /* TracklistPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistPair.swift; sourceTree = "<group>"; };
 		8C285F6C20887C16007427E7 /* TrackTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewController.swift; sourceTree = "<group>"; };
 		8C285F6E20887E69007427E7 /* TrackTableViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewControllerProtocol.swift; sourceTree = "<group>"; };
 		8C285F702088811C007427E7 /* TrackTableInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableInteractorProtocol.swift; sourceTree = "<group>"; };
@@ -520,7 +518,6 @@
 				8C20889D2089D851000505F9 /* RowAction.swift */,
 				8C20889F2089DBEF000505F9 /* TrackTime.swift */,
 				8C0E1B8D2091A76D00CE5C12 /* KeysPair.swift */,
-				8C24670F2099FCCC00C86621 /* TracklistPair.swift */,
 				8C479665209C6888009F5623 /* CurrentTrack.swift */,
 			);
 			path = Entities;
@@ -1199,7 +1196,6 @@
 				8C67F600201B174200333EB2 /* APIManager.swift in Sources */,
 				8C3C6B392093104500272018 /* TrackFilterInteractor.swift in Sources */,
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
-				8C2467102099FCCC00C86621 /* TracklistPair.swift in Sources */,
 				8C0CB60D208DCD3400456A68 /* MainInteractor.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
 				8C316CC72087116900BD891B /* PlayerPresenter.swift in Sources */,
