@@ -43,7 +43,7 @@ extension TrackTableCellPresenter: PlayerListenerDelegate {
 extension TrackTableCellPresenter: TrackTableCellCommunicateProtocol {
     
     func setNewData(id: String, title: String, performer: String, duration: Int) {
-        view.setRoundImage(interactor.getLoadImageSetting())
+        view.setRoundImage(interactor.getRoundImageSetting())
         cellTrackId = id
         view.setInfo(title: title, performer: performer, durationString: TrackTime(sec: duration).formatted)
         setSelectedIfCurrent(id: interactor.getCurrentTrackId(), instantly: true)

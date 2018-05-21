@@ -15,7 +15,9 @@ final class RootTabBarController: UITabBarController {
         
         setupControllers([MainRouter.setup(), TracklistRouter.setup(), SettingsMainViewController.initial()])
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        if #available(iOS 11.0, *) {
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
@@ -86,6 +88,7 @@ final class RootTabBarController: UITabBarController {
         self.tapGestureRecognizer = nil
     }
     
+    @available(iOS 11.0, *)
     @objc private func keyboardFrameWillChange(_ notification: Notification) {
         guard let userInfo = notification.userInfo, let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         

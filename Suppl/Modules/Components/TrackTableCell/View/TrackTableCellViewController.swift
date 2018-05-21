@@ -19,6 +19,7 @@ class TrackTableCellViewController: UITableViewCell, TrackTableCellViewControlle
         xibSetup()
         layer.cornerRadius = 5
         clipsToBounds = true
+        trackImage.clipsToBounds = true
     }
     
     private override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -45,7 +46,9 @@ class TrackTableCellViewController: UITableViewCell, TrackTableCellViewControlle
     func setImage(image: UIImage) {
         guard baseImage else { return }
         baseImage = false
-        trackImage.image = image
+        UIView.transition(with: trackImage, duration: 0.2, options: .transitionCrossDissolve, animations: { [weak self] in
+            self?.trackImage.image = image
+        }, completion: nil)
     }
     
     func setRoundImage(_ value: Bool) {

@@ -12,8 +12,8 @@ class TrackTableCellInteractor: BaseInteractor, TrackTableCellInteractorProtocol
         PlayerManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
-    func getLoadImageSetting() -> Bool {
-        return SettingsManager.s.loadImages!
+    func getRoundImageSetting() -> Bool {
+        return SettingsManager.s.roundIcons!
     }
     
     func getCurrentTrackId() -> String? {
