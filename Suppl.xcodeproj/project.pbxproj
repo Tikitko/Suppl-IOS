@@ -11,8 +11,8 @@
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
 		0E0A98412033141600E91922 /* TrackFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A983F2033141500E91922 /* TrackFilterViewController.swift */; };
 		0E0A98422033141600E91922 /* TrackFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A98402033141500E91922 /* TrackFilterViewController.xib */; };
-		0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */; };
-		0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */; };
+		0E0F520D2025F3E1000C6DD3 /* TrackTableCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F520C2025F3E1000C6DD3 /* TrackTableCellViewController.swift */; };
+		0E0F520F2025F414000C6DD3 /* TrackTableCellViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0F520E2025F414000C6DD3 /* TrackTableCellViewController.xib */; };
 		0E12FABE2030604200EE3422 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E12FABD2030604200EE3422 /* SettingsManager.swift */; };
 		0E12FAC520308B3C00EE3422 /* Purple.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E12FAC420308B3C00EE3422 /* Purple.plist */; };
 		0E12FAC72030973500EE3422 /* Blue.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E12FAC62030973500EE3422 /* Blue.plist */; };
@@ -92,6 +92,13 @@
 		8C3B74F02090781200D0AF3E /* SearchBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74EF2090781200D0AF3E /* SearchBarRouter.swift */; };
 		8C3B74F22090785400D0AF3E /* SearchBarPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74F12090785400D0AF3E /* SearchBarPresenterProtocol.swift */; };
 		8C3B74F42090786500D0AF3E /* SearchBarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74F32090786500D0AF3E /* SearchBarPresenter.swift */; };
+		8C3BB33420B29DD40012E1D7 /* TrackTableCellViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BB33320B29DD40012E1D7 /* TrackTableCellViewControllerProtocol.swift */; };
+		8C3BB33620B2A18F0012E1D7 /* TrackTableCellRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BB33520B2A18F0012E1D7 /* TrackTableCellRouterProtocol.swift */; };
+		8C3BB33820B2A1980012E1D7 /* TrackTableCellRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BB33720B2A1980012E1D7 /* TrackTableCellRouter.swift */; };
+		8C3BB33A20B2A1AA0012E1D7 /* TrackTableCellPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BB33920B2A1AA0012E1D7 /* TrackTableCellPresenterProtocol.swift */; };
+		8C3BB33C20B2A1B60012E1D7 /* TrackTableCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BB33B20B2A1B60012E1D7 /* TrackTableCellPresenter.swift */; };
+		8C3BB33E20B2A1D70012E1D7 /* TrackTableCellInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BB33D20B2A1D70012E1D7 /* TrackTableCellInteractorProtocol.swift */; };
+		8C3BB34020B2A1E20012E1D7 /* TrackTableCellInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3BB33F20B2A1E20012E1D7 /* TrackTableCellInteractor.swift */; };
 		8C3C6B312092F5EA00272018 /* SearchBarInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3C6B302092F5EA00272018 /* SearchBarInteractorProtocol.swift */; };
 		8C3C6B332092F5F700272018 /* SearchBarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3C6B322092F5F700272018 /* SearchBarInteractor.swift */; };
 		8C3C6B372093103C00272018 /* TrackFilterInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3C6B362093103C00272018 /* TrackFilterInteractorProtocol.swift */; };
@@ -142,8 +149,8 @@
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
 		0E0A983F2033141500E91922 /* TrackFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackFilterViewController.swift; sourceTree = "<group>"; };
 		0E0A98402033141500E91922 /* TrackFilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackFilterViewController.xib; sourceTree = "<group>"; };
-		0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCell.swift; sourceTree = "<group>"; };
-		0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackTableCell.xib; sourceTree = "<group>"; };
+		0E0F520C2025F3E1000C6DD3 /* TrackTableCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCellViewController.swift; sourceTree = "<group>"; };
+		0E0F520E2025F414000C6DD3 /* TrackTableCellViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackTableCellViewController.xib; sourceTree = "<group>"; };
 		0E12FABD2030604200EE3422 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		0E12FAC420308B3C00EE3422 /* Purple.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Purple.plist; sourceTree = "<group>"; };
 		0E12FAC62030973500EE3422 /* Blue.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Blue.plist; sourceTree = "<group>"; };
@@ -225,6 +232,13 @@
 		8C3B74EF2090781200D0AF3E /* SearchBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarRouter.swift; sourceTree = "<group>"; };
 		8C3B74F12090785400D0AF3E /* SearchBarPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarPresenterProtocol.swift; sourceTree = "<group>"; };
 		8C3B74F32090786500D0AF3E /* SearchBarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarPresenter.swift; sourceTree = "<group>"; };
+		8C3BB33320B29DD40012E1D7 /* TrackTableCellViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCellViewControllerProtocol.swift; sourceTree = "<group>"; };
+		8C3BB33520B2A18F0012E1D7 /* TrackTableCellRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCellRouterProtocol.swift; sourceTree = "<group>"; };
+		8C3BB33720B2A1980012E1D7 /* TrackTableCellRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCellRouter.swift; sourceTree = "<group>"; };
+		8C3BB33920B2A1AA0012E1D7 /* TrackTableCellPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCellPresenterProtocol.swift; sourceTree = "<group>"; };
+		8C3BB33B20B2A1B60012E1D7 /* TrackTableCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCellPresenter.swift; sourceTree = "<group>"; };
+		8C3BB33D20B2A1D70012E1D7 /* TrackTableCellInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCellInteractorProtocol.swift; sourceTree = "<group>"; };
+		8C3BB33F20B2A1E20012E1D7 /* TrackTableCellInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCellInteractor.swift; sourceTree = "<group>"; };
 		8C3C6B302092F5EA00272018 /* SearchBarInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarInteractorProtocol.swift; sourceTree = "<group>"; };
 		8C3C6B322092F5F700272018 /* SearchBarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarInteractor.swift; sourceTree = "<group>"; };
 		8C3C6B362093103C00272018 /* TrackFilterInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterInteractorProtocol.swift; sourceTree = "<group>"; };
@@ -299,8 +313,10 @@
 		0E0F520A2025F346000C6DD3 /* TrackTableCell */ = {
 			isa = PBXGroup;
 			children = (
-				0E0F520C2025F3E1000C6DD3 /* TrackTableCell.swift */,
-				0E0F520E2025F414000C6DD3 /* TrackTableCell.xib */,
+				8C3BB33220B29D7E0012E1D7 /* View */,
+				8C3BB33120B29D780012E1D7 /* Router */,
+				8C3BB33020B29D6F0012E1D7 /* Presenter */,
+				8C3BB32F20B29D650012E1D7 /* Interactor */,
 			);
 			path = TrackTableCell;
 			sourceTree = "<group>";
@@ -705,6 +721,43 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		8C3BB32F20B29D650012E1D7 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				8C3BB33D20B2A1D70012E1D7 /* TrackTableCellInteractorProtocol.swift */,
+				8C3BB33F20B2A1E20012E1D7 /* TrackTableCellInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		8C3BB33020B29D6F0012E1D7 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8C3BB33920B2A1AA0012E1D7 /* TrackTableCellPresenterProtocol.swift */,
+				8C3BB33B20B2A1B60012E1D7 /* TrackTableCellPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8C3BB33120B29D780012E1D7 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				8C3BB33520B2A18F0012E1D7 /* TrackTableCellRouterProtocol.swift */,
+				8C3BB33720B2A1980012E1D7 /* TrackTableCellRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		8C3BB33220B29D7E0012E1D7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0E0F520C2025F3E1000C6DD3 /* TrackTableCellViewController.swift */,
+				0E0F520E2025F414000C6DD3 /* TrackTableCellViewController.xib */,
+				8C3BB33320B29DD40012E1D7 /* TrackTableCellViewControllerProtocol.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		8C3C6B2F2092F5CC00272018 /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1025,7 +1078,7 @@
 				0E29CBDB202A2C0D00BE5975 /* PlayerViewController.xib in Resources */,
 				8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */,
 				8C32F89620A03B830059C1F4 /* SmallPlayerViewController.xib in Resources */,
-				0E0F520F2025F414000C6DD3 /* TrackTableCell.xib in Resources */,
+				0E0F520F2025F414000C6DD3 /* TrackTableCellViewController.xib in Resources */,
 				0E12FAC520308B3C00EE3422 /* Purple.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1100,14 +1153,16 @@
 				8C32F88D20A03AB80059C1F4 /* SmallPlayerRouterProtocol.swift in Sources */,
 				8C0CB620208DDB0F00456A68 /* TracklistInteractor.swift in Sources */,
 				8C3C6B3B20931BAA00272018 /* TrackTableCommunicateProtocol.swift in Sources */,
+				8C3BB34020B2A1E20012E1D7 /* TrackTableCellInteractor.swift in Sources */,
 				8C71CE332080BF9C00AC4BDB /* AuthInteractorProtocol.swift in Sources */,
 				8C316CBB208710E800BD891B /* PlayerInteractorProtocol.swift in Sources */,
+				8C3BB33820B2A1980012E1D7 /* TrackTableCellRouter.swift in Sources */,
 				8C479664209C51E1009F5623 /* PlayerManager.swift in Sources */,
 				8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */,
 				8C285F6F20887E69007427E7 /* TrackTableViewControllerProtocol.swift in Sources */,
 				8C0CB613208DCD8F00456A68 /* MainPresenterProtocol.swift in Sources */,
 				8CBDFD642023001700BED743 /* AuthManager.swift in Sources */,
-				0E0F520D2025F3E1000C6DD3 /* TrackTableCell.swift in Sources */,
+				0E0F520D2025F3E1000C6DD3 /* TrackTableCellViewController.swift in Sources */,
 				8C67F601201B174200333EB2 /* UserService.swift in Sources */,
 				0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */,
 				8C285F7B208881CC007427E7 /* TrackTablePresenter.swift in Sources */,
@@ -1127,6 +1182,7 @@
 				8C0E1B9C2091E6A300CE5C12 /* SearchCommunicateProtocol.swift in Sources */,
 				0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */,
 				8C20889E2089D851000505F9 /* RowAction.swift in Sources */,
+				8C3BB33620B2A18F0012E1D7 /* TrackTableCellRouterProtocol.swift in Sources */,
 				8C0CB61E208DDB0400456A68 /* TracklistInteractorProtocol.swift in Sources */,
 				8C32F89320A03AE60059C1F4 /* SmallPlayerPresenter.swift in Sources */,
 				8C0E1B8E2091A76D00CE5C12 /* KeysPair.swift in Sources */,
@@ -1134,6 +1190,7 @@
 				0E0A98412033141600E91922 /* TrackFilterViewController.swift in Sources */,
 				8C285F6D20887C16007427E7 /* TrackTableViewController.swift in Sources */,
 				8C3C6B312092F5EA00272018 /* SearchBarInteractorProtocol.swift in Sources */,
+				8C3BB33420B29DD40012E1D7 /* TrackTableCellViewControllerProtocol.swift in Sources */,
 				8C0CB60B208DCD2B00456A68 /* MainInteractorProtocol.swift in Sources */,
 				8C316CBD208710F600BD891B /* PlayerInteractor.swift in Sources */,
 				8C3B74E22090495400D0AF3E /* TrackFilterCommunicateProtocol.swift in Sources */,
@@ -1153,6 +1210,7 @@
 				8C32F88520A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift in Sources */,
 				8C71CE382080BFEC00AC4BDB /* AuthPresenterProtocol.swift in Sources */,
 				8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */,
+				8C3BB33E20B2A1D70012E1D7 /* TrackTableCellInteractorProtocol.swift in Sources */,
 				8C0E1B962091C74400CE5C12 /* LocalesManager.swift in Sources */,
 				8C71CE352080BFCB00AC4BDB /* AuthPresenter.swift in Sources */,
 				8C1BE68020AF129000E2425A /* TrackTableCellCommunicateProtocol.swift in Sources */,
@@ -1203,6 +1261,8 @@
 				8C316CC52087115200BD891B /* PlayerPresenterProtocol.swift in Sources */,
 				8C32F88F20A03AC80059C1F4 /* SmallPlayerRouter.swift in Sources */,
 				8C479669209C760E009F5623 /* PlayerListenerDelegate.swift in Sources */,
+				8C3BB33C20B2A1B60012E1D7 /* TrackTableCellPresenter.swift in Sources */,
+				8C3BB33A20B2A1AA0012E1D7 /* TrackTableCellPresenterProtocol.swift in Sources */,
 				8C0CB60F208DCD5900456A68 /* MainRouterProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

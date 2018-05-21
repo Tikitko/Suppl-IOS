@@ -58,9 +58,7 @@ class SettingTableCell: UITableViewCell {
             allViews["element"] = settingButton
         } else if let settingSwitch = settingSwitch {
             allViews["element"] = settingSwitch
-        } else {
-            return
-        }
+        } else { return }
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-[label]-|", options:[], metrics: nil, views: allViews)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-[element]-|", options:[], metrics: nil, views: allViews)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "|-[label]-[element(50)]-|", options: .alignAllCenterY, metrics: nil, views: allViews)
@@ -69,14 +67,12 @@ class SettingTableCell: UITableViewCell {
 
     }
     
-    @objc private func settingButtonClick(_ sender:UIButton)
-    {
+    @objc private func settingButtonClick(_ sender:UIButton) {
         guard let settingButtonCallback = settingButtonCallback, let settingButton = settingButton else { return }
         settingButtonCallback(settingButton)
     }
     
-    @objc private func settingSwitchValueChange(_ sender:UISwitch)
-    {
+    @objc private func settingSwitchValueChange(_ sender:UISwitch) {
         guard let settingSwitchCallback = settingSwitchCallback, let settingSwitch = settingSwitch else { return }
         settingSwitchCallback(settingSwitch)
     }

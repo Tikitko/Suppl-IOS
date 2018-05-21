@@ -19,17 +19,13 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         private var cell: UITableViewCell!
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-            baseSetting()
+            let (cellModuleNameId, cell) = TrackTableCellRouter.setup()
+            self.cellModuleNameId = cellModuleNameId
+            self.cell = cell
+            ViewIncludeTemplate.inside(child: cell, parent: self)
         }
         required init?(coder aDecoder: NSCoder) {
-            super.init(coder: aDecoder)
-            baseSetting()
-        }
-        private func baseSetting() {
-            var cellModuleNameId = String(arc4random_uniform(1000000001))
-            cell = TrackTableCell.init(cellModuleNameId: &cellModuleNameId)
-            self.cellModuleNameId = cellModuleNameId
-            ViewIncludeTemplate.inside(child: cell!, parent: self)
+            fatalError("init(coder:) has not been implemented")
         }
         override func prepareForReuse() {
             super.prepareForReuse()
