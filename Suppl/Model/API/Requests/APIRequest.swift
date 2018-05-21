@@ -27,7 +27,7 @@ class APIRequest {
                 returnError = NSError(domain: "get_data_error", code: -3)
             }
             if AppStaticData.debugOn {
-                print("APIRequest (method: \(method); Status: \(String(describing: dataShell?.status)); Error: \(String(describing: returnError)))")
+                print("APIRequest (method: \(method); Status: \(dataShell?.status ?? 0); Error: \(String(describing: returnError)))")
             }
             DispatchQueue.main.async { dataReport(returnError, returnData) }
         }
