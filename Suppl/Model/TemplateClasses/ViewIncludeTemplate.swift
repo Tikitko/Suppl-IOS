@@ -3,8 +3,8 @@ import UIKit
 
 final class ViewIncludeTemplate {
     
-    public static func inside(child: UIView, parent: UIView) {
-        parent.addSubview(child)
+    public static func inside(child: UIView, parent: UIView, includeParent: UIView? = nil) {
+        (includeParent ?? parent).addSubview(child)
         child.translatesAutoresizingMaskIntoConstraints = false
         child.topAnchor.constraint(equalTo: parent.topAnchor).isActive = true
         child.bottomAnchor.constraint(equalTo: parent.bottomAnchor).isActive = true

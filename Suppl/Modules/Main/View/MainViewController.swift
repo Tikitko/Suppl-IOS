@@ -34,9 +34,11 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         super.viewDidLoad()
         navigationItem.title = name
         
-        ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable)
-        ViewIncludeTemplate.inside(child: searchTest, parent: tracksSearch)
+        ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
+        ViewIncludeTemplate.inside(child: searchTest, parent: tracksSearch, includeParent: view)
         searchTest.placeholder = tracksSearch.placeholder
+        tracksSearch.isHidden = true
+        tracksTable.isHidden = true
         
         presenter.setListener()
         presenter.loadRandomTracks()

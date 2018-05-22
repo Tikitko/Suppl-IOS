@@ -73,7 +73,7 @@ final class RootTabBarController: UITabBarController {
     
     @objc func tapAndHideKeyboard(_ gesture: UITapGestureRecognizer) {
         if gesture.state == UIGestureRecognizerState.ended {
-            view.endEditing(false)
+            view.endEditing(true)
         }
     }
     
