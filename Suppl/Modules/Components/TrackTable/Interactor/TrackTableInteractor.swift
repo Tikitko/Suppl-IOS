@@ -33,8 +33,8 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         }
     }
     
-    func openPlayer(tracksIDs: [String], trackIndex: Int) {
-        PlayerManager.s.setPlaylist(tracksIDs: tracksIDs, current: trackIndex)
+    func openPlayer(tracksIDs: [String], trackIndex: Int, cachedTracksInfo: [AudioData]? = nil) {
+        PlayerManager.s.setPlaylist(tracksIDs: tracksIDs, current: trackIndex, cachedTracksInfo: cachedTracksInfo)
     }
     
     func loadImageData(link: String, callback: @escaping (_ data: NSData) -> Void) {

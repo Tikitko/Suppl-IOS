@@ -52,11 +52,7 @@ class PlayerPresenter: PlayerPresenterProtocol {
 
 extension PlayerPresenter: PlayerListenerDelegate {
     
-    func blockControl() {
-        view.clearPlayer()
-    }
-    
-    func openControl() {
+    func readyToPlay() {
         guard let sec = interactor.getRealDuration() else { return }
         view.openPlayer(duration: sec)
     }
@@ -74,6 +70,7 @@ extension PlayerPresenter: PlayerListenerDelegate {
     }
     
     func trackInfoChanged(_ track: CurrentTrack) {
+        view.clearPlayer()
         view.setTrackInfo(title: track.title, performer: track.performer)
     }
     

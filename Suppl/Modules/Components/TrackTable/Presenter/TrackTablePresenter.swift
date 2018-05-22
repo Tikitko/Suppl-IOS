@@ -46,7 +46,7 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
         for val in tracks {
             tracksIDs.append(val.id)
         }
-        interactor.openPlayer(tracksIDs: tracksIDs, trackIndex: trackIndex)
+        interactor.openPlayer(tracksIDs: tracksIDs, trackIndex: trackIndex, cachedTracksInfo: tracks)
     }
     
     func willDisplayCellForRowAt(_ indexPath: IndexPath) {

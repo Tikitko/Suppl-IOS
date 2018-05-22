@@ -64,6 +64,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     
     func clearPlayer() {
+        setPlayImage()
         imageView.image = #imageLiteral(resourceName: "cd")
         titleLabel.text = nil
         progressBar.progress = 0

@@ -50,11 +50,7 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
         view.closePlayer()
     }
     
-    func blockControl() {
-        view.clearPlayer()
-    }
-    
-    func openControl() {
+    func readyToPlay() {
         view.openPlayer()
     }
     
@@ -72,6 +68,7 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
     }
     
     func trackInfoChanged(_ track: CurrentTrack) {
+        view.clearPlayer()
         view.setTrackInfo(title: track.title, performer: track.performer)
     }
     

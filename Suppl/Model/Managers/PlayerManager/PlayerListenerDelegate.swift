@@ -6,8 +6,7 @@ protocol PlayerListenerDelegate: class {
     func playlistAdded(_ playlist: Playlist)
     func playlistRemoved()
     
-    func blockControl()
-    func openControl()
+    func readyToPlay()
     
     func curentTrackTime(sec: Double)
     
@@ -24,8 +23,7 @@ extension PlayerListenerDelegate {
     func playlistAdded(_ playlist: Playlist) {}
     func playlistRemoved() {}
     
-    func blockControl() {}
-    func openControl() {}
+    func readyToPlay() {}
     
     func curentTrackTime(sec: Double) {}
     

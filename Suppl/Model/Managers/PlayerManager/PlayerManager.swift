@@ -18,6 +18,8 @@ final class PlayerManager: NSObject {
     private var playlist: Playlist?
     private(set) var currentTrack: CurrentTrack?
     
+    private var cachedTracksInfo: [AudioData]?
+    
     private let mapTableDelegates = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
     
     public func setListener(name: String, delegate: PlayerListenerDelegate) {
@@ -80,7 +82,7 @@ final class PlayerManager: NSObject {
                 }
             }
             sayToListeners() { delegate in
-                delegate.openControl()
+                delegate.readyToPlay()
             }
             remoteCommands(isEnabled: true)
             play()
@@ -139,45 +141,56 @@ final class PlayerManager: NSObject {
     
     private func loadTrackByID(_ trackID: String) {
         guard let keys = AuthManager.s.getAuthKeys() else { return }
+        removeTrack()
+        currentTrack = nil
+        var loadedFromCache = false
+        for track in cachedTracksInfo ?? [] {
+            if track.id != trackID { continue }
+            setTrackInfo(track)
+            loadedFromCache = true
+            break
+        }
         APIManager.s.audioGet(keys: keys, ids: trackID) { [weak self] error, data in
-            guard let `self` = self, let data = data, data.list.count > 0 else { return }
-            self.setTrack(data.list[0])
+            guard let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? ""), self?.currentTrack?.id == list[0].id else { return }
+            if !loadedFromCache {
+                self?.setTrackInfo(list[0])
+            }
+            self?.setTrack(url: trackURL)
         }
     }
     
-    private  func setTrack(_ track: AudioData) {
-        guard let trackLink = track.track, let trackURL = URL(string: trackLink) else { return }
-        sayToListeners() { delegate in
-            delegate.blockControl()
-        }
+    private func removeTrack() {
         remoteCommands(isEnabled: false)
         removePlayStatusObserver()
         removePlayerRateObserver()
         player = nil
-        currentTrack = nil
-        
-        currentTrack = CurrentTrack(id: track.id, title: track.title, performer: track.performer, duration: track.duration, image: nil)
-        sayToListeners() { delegate in
-            delegate.trackInfoChanged(currentTrack!)
-        }
-        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = track.title
-        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = track.performer
-        if SettingsManager.s.loadImages! {
-            RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] imageData in
-                guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
-                self.currentTrack?.image = image
-                self.sayToListeners() { delegate in
-                    delegate.trackImageChanged(imageData as Data)
-                }
-                self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
-            }
-        }
+    }
+    
+    private func setTrack(url trackURL: URL) {
         // https://andreygordeev.com/2018/03/31/cache-avplayeritem/
         // https://github.com/neekeetab/CachingPlayerItem
         player = AVPlayer(playerItem: AVPlayerItem(url: trackURL) /* CachingPlayerItem(url: trackURL) */)
         player?.automaticallyWaitsToMinimizeStalling = false
         addPlayStatusObserver()
         addPlayerRateObserver()
+    }
+    
+    private func setTrackInfo(_ track: AudioData) {
+        currentTrack = CurrentTrack(id: track.id, title: track.title, performer: track.performer, duration: track.duration, image: nil)
+        sayToListeners() { delegate in
+            delegate.trackInfoChanged(currentTrack!)
+        }
+        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = track.title
+        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = track.performer
+        guard SettingsManager.s.loadImages! else { return }
+        RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] imageData in
+            guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
+            self.currentTrack?.image = image
+            self.sayToListeners() { delegate in
+                delegate.trackImageChanged(imageData as Data)
+            }
+            self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
+        }
     }
     
     public func clearPlayer() {
@@ -189,19 +202,22 @@ final class PlayerManager: NSObject {
         player = nil
         currentTrack = nil
         playlist = nil
+        cachedTracksInfo = nil
         nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = nil
         nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = nil
         nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = nil
         removeRemoteCommands()
     }
     
-    public func setPlaylist(tracksIDs: [String], current: Int = 0) {
+    public func setPlaylist(tracksIDs: [String], current: Int = 0, cachedTracksInfo: [AudioData]? = nil) {
         playlist = Playlist(IDs: tracksIDs, current: current)
+        self.cachedTracksInfo = cachedTracksInfo
         loadTrackByID(playlist!.curr())
         sayToListeners() { delegate in
             delegate.playlistAdded(playlist!)
         }
         addRemoteCommands()
+        remoteCommands(isEnabled: false)
     }
    
     public func getRealCurrentTime() -> Double? {
@@ -238,7 +254,7 @@ final class PlayerManager: NSObject {
     }
     
     public func playOrPause() {
-        if player?.rate == 0 { play() } else { pause() }
+        player?.rate == 0 ? play() : pause()
     }
     
     public func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool = false) {
