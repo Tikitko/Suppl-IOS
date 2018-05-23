@@ -15,15 +15,15 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     @IBOutlet weak var filterButton: UIButton!
     
     var tracksTableTest: UITableViewController!
-    var searchTest: UISearchBar!
+    var searchTest: SearchBarViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name
         
         ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
-        ViewIncludeTemplate.inside(child: searchTest, parent: searchBar, includeParent: view)
-        searchTest.placeholder = searchBar.placeholder
+        ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: searchBar, includeParent: view)
+        searchTest.searchBar.placeholder = searchBar.placeholder
         searchBar.isHidden = true
         tracksTable.isHidden = true
         
@@ -36,7 +36,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         tracksTableTest.tableView.reloadData()
     }
     
-    convenience init(table: UITableViewController, search: UISearchBar) {
+    convenience init(table: UITableViewController, search: SearchBarViewController) {
         self.init()
         tracksTableTest = table
         searchTest = search
@@ -55,7 +55,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     }
     
     func clearSearch() {
-        searchTest.text = ""
+        searchTest.searchBar.text = ""
     }
     
     func onLabel(text: String) {

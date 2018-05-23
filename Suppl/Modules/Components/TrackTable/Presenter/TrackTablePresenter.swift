@@ -13,6 +13,10 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
         tracks = interactor.getDelegate()?.needTracksForReload() ?? tracks
     }
     
+    func resetCell(name: String) {
+        interactor.getCellDelegate(name: name)?.needReset()
+    }
+    
     func updateCellInfo(trackIndex: Int, name: String) {
         guard tracks.count > trackIndex else { return }
         let track = tracks[trackIndex]

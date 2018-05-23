@@ -13,8 +13,8 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackTableCommunicateProtocol
     }
     
-    func getCellDelegate(name: String) -> TrackTableCellCommunicateProtocol? {
-        return ModulesCommunicateManager.s.getListener(name: name) as? TrackTableCellCommunicateProtocol
+    func getCellDelegate(name: String) -> TrackInfoCommunicateProtocol? {
+        return ModulesCommunicateManager.s.getListener(name: name) as? TrackInfoCommunicateProtocol
     }
     
     func getTracklist() -> [String]? {

@@ -3,9 +3,9 @@ import UIKit
 
 class SearchBarRouter: SearchBarRouterProtocol {
     
-    weak var viewController: UISearchBar!
+    weak var viewController: SearchBarViewController!
     
-    static func setup(parentModuleNameId: String) -> UISearchBar {
+    static func setup(parentModuleNameId: String) -> SearchBarViewController {
         let router = SearchBarRouter()
         let interactor = SearchBarInteractor(parentModuleNameId: parentModuleNameId)
         let presenter = SearchBarPresenter()

@@ -1,13 +1,13 @@
 import Foundation
 import UIKit
 
-class TrackTableCellPresenter: TrackTableCellPresenterProtocol {
+class TrackInfoPresenter: TrackInfoPresenterProtocol {
     
-    var router: TrackTableCellRouterProtocol!
-    var interactor: TrackTableCellInteractorProtocol!
-    weak var view: TrackTableCellViewControllerProtocol!
+    var router: TrackInfoRouterProtocol!
+    var interactor: TrackInfoInteractorProtocol!
+    weak var view: TrackInfoViewControllerProtocol!
     
-    var cellTrackId: String?
+    var trackId: String?
     
     func getModuleNameId() -> String {
         return router.moduleNameId
@@ -19,16 +19,16 @@ class TrackTableCellPresenter: TrackTableCellPresenterProtocol {
     }
     
     func setSelectedIfCurrent(id: String? = nil, instantly: Bool = false) {
-        view.setSelected(id != nil && id == cellTrackId, instantly: instantly)
+        view.setSelected(id != nil && id == trackId, instantly: instantly)
     }
     
     func clearTrack() {
-        cellTrackId = nil
+        trackId = nil
     }
     
 }
 
-extension TrackTableCellPresenter: PlayerListenerDelegate {
+extension TrackInfoPresenter: PlayerListenerDelegate {
     
     func trackInfoChanged(_ track: CurrentTrack) {
         setSelectedIfCurrent(id: track.id)
@@ -40,11 +40,11 @@ extension TrackTableCellPresenter: PlayerListenerDelegate {
     
 }
 
-extension TrackTableCellPresenter: TrackTableCellCommunicateProtocol {
+extension TrackInfoPresenter: TrackInfoCommunicateProtocol {
     
     func setNewData(id: String, title: String, performer: String, duration: Int) {
         view.setRoundImage(interactor.getRoundImageSetting())
-        cellTrackId = id
+        trackId = id
         view.setInfo(title: title, performer: performer, durationString: TrackTime(sec: duration).formatted)
         setSelectedIfCurrent(id: interactor.getCurrentTrackId(), instantly: true)
     }
@@ -52,6 +52,10 @@ extension TrackTableCellPresenter: TrackTableCellCommunicateProtocol {
     func setNewImage(imageData: NSData) {
         guard let image = UIImage(data: imageData as Data) else { return }
         view.setImage(image: image)
+    }
+    
+    func needReset() {
+        view.resetInfo()
     }
     
 }

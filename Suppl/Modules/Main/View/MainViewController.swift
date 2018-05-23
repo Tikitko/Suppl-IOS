@@ -14,9 +14,9 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     @IBOutlet weak var infoLabel: UILabel!
     
     var tracksTableTest: UITableViewController!
-    var searchTest: UISearchBar!
+    var searchTest: SearchBarViewController!
     
-    convenience init(table: UITableViewController, search: UISearchBar) {
+    convenience init(table: UITableViewController, search: SearchBarViewController) {
         self.init()
         tracksTableTest = table
         searchTest = search
@@ -35,8 +35,8 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         navigationItem.title = name
         
         ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
-        ViewIncludeTemplate.inside(child: searchTest, parent: tracksSearch, includeParent: view)
-        searchTest.placeholder = tracksSearch.placeholder
+        ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: tracksSearch, includeParent: view)
+        searchTest.searchBar.placeholder = tracksSearch.placeholder
         tracksSearch.isHidden = true
         tracksTable.isHidden = true
         
@@ -54,7 +54,7 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     }
     
     func setSearchQuery(_ query: String) {
-        searchTest.text = query
+        searchTest.searchBar.text = query
     }
     
     func onLabel(text: String) {

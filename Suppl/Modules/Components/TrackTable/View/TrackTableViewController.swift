@@ -15,24 +15,23 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     private class TrackTablePlaceholderCell: UITableViewCell {
         static let identifier = String(describing: TrackTablePlaceholderCell.self)
-        private(set) var cellModuleNameId: String!
-        private var cell: UITableViewCell!
+        weak var myController: TrackTableViewController!
+        let cellModuleNameId: String
+        private let trackInfoController: UIViewController
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            (cellModuleNameId, trackInfoController) = TrackInfoRouter.setup()
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-            let (cellModuleNameId, cell) = TrackTableCellRouter.setup()
-            self.cellModuleNameId = cellModuleNameId
-            self.cell = cell
-            ViewIncludeTemplate.inside(child: cell, parent: self)
+            ViewIncludeTemplate.inside(child: trackInfoController.view, parent: contentView)
+            layer.cornerRadius = 5
+            clipsToBounds = true
+            selectionStyle = .none
         }
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
         override func prepareForReuse() {
             super.prepareForReuse()
-            cell.prepareForReuse()
-        }
-        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-            return cell.hitTest(point, with: event) == nil ? super.hitTest(point, with: event) : self
+            myController.presenter.resetCell(name: cellModuleNameId)
         }
     }
     
@@ -51,6 +50,9 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TrackTablePlaceholderCell.identifier, for: indexPath) as! TrackTablePlaceholderCell
+        if cell.myController == nil {
+            cell.myController = self
+        }
         presenter.updateCellInfo(trackIndex: indexPath.row, name: cell.cellModuleNameId)
         return cell
     }
@@ -83,8 +85,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         presenter.openPlayer(trackIndex: indexPath.row)
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90.5;
     }
     

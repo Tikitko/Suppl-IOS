@@ -1,8 +1,8 @@
 import Foundation
 
-class TrackTableCellInteractor: BaseInteractor, TrackTableCellInteractorProtocol {
+class TrackInfoInteractor: BaseInteractor, TrackInfoInteractorProtocol {
     
-    weak var presenter: TrackTableCellPresenterProtocol!
+    weak var presenter: TrackInfoPresenterProtocol!
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
         ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)

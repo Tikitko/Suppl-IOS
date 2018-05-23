@@ -1,15 +1,15 @@
 import Foundation
 import UIKit
 
-class TrackTableCellRouter: BaseRouter, TrackTableCellRouterProtocol {
+class TrackInfoRouter: BaseRouter, TrackInfoRouterProtocol {
     
-    weak var viewController: UITableViewCell!
+    weak var viewController: UIViewController!
     
-    static func setup() -> (moduleNameId: String, cell: UITableViewCell) {
-        let router = TrackTableCellRouter()
-        let interactor = TrackTableCellInteractor()
-        let presenter = TrackTableCellPresenter()
-        let viewController = TrackTableCellViewController()
+    static func setup() -> (moduleNameId: String, controller: UIViewController) {
+        let router = TrackInfoRouter()
+        let interactor = TrackInfoInteractor()
+        let presenter = TrackInfoPresenter()
+        let viewController = TrackInfoViewController()
         
         presenter.interactor = interactor
         presenter.router = router

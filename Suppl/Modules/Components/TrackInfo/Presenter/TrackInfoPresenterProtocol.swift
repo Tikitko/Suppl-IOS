@@ -1,6 +1,7 @@
 import Foundation
+import UIKit
 
-protocol TrackTableCellPresenterProtocol: class {
+protocol TrackInfoPresenterProtocol: class {
     func setListeners()
     func getModuleNameId() -> String
     func clearTrack()

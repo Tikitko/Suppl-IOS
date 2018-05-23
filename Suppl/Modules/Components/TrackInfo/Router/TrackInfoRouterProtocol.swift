@@ -1,5 +1,5 @@
 import Foundation
 
-protocol TrackTableCellRouterProtocol: class {
+protocol TrackInfoRouterProtocol: class {
     var moduleNameId: String { get }
 }
