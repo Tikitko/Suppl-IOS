@@ -35,6 +35,10 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         }
     }
     
+    func relaodData() {
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let costomTable = UITableViewWithReload()
@@ -43,6 +47,22 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         tableView.register(TrackTablePlaceholderCell.self, forCellReuseIdentifier: TrackTablePlaceholderCell.identifier)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         presenter.load()
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        presenter.moveTrack(fromPath: sourceIndexPath, toPath: destinationIndexPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return presenter.canMoveTrack(fromPath: indexPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

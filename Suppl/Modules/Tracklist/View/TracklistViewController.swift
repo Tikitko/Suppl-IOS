@@ -13,6 +13,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     @IBOutlet weak var tracksTable: UITableView!
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     
     var tracksTableTest: UITableViewController!
     var searchTest: SearchBarViewController!
@@ -91,6 +92,10 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     
     @IBAction func filterButtonClick(_ sender: Any) {
         presenter.filterButtonClick()
+    }
+    
+    @IBAction func editButtonClick(_ sender: Any) {
+        tracksTableTest.isEditing = !tracksTableTest.isEditing
     }
     
 }

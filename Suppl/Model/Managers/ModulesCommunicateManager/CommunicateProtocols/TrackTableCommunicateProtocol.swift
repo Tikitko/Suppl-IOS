@@ -5,4 +5,5 @@ protocol TrackTableCommunicateProtocol: CommunicateManagerProtocol {
     func needTracksForReload() -> [AudioData]
     func removedTrack(fromIndex: Int)
     func addedTrack(withId: String)
+    func moveTrack(from: Int, to: Int)
 }

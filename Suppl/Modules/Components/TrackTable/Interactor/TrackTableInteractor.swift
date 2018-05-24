@@ -47,6 +47,17 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         }
     }
     
+    func moveTrack(from: Int, to: Int, track: AudioData) {
+        TracklistManager.s.move(from: from, to: to) { [weak self] status in
+            guard status else {
+                self?.presenter.sendEditInfoToToast(expressionForTitle: .moveError, track: track)
+                return
+            }
+            self?.presenter.sendEditInfoToToast(expressionForTitle: .moveOk, track: track)
+            self?.getDelegate()?.moveTrack(from: from, to: to)
+        }
+    }
+    
     func openPlayer(tracksIDs: [String], trackIndex: Int, cachedTracksInfo: [AudioData]? = nil) {
         PlayerManager.s.setPlaylist(tracksIDs: tracksIDs, current: trackIndex, cachedTracksInfo: cachedTracksInfo)
     }

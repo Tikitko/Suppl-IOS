@@ -18,6 +18,10 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
         tracks = interactor.getDelegate()?.needTracksForReload() ?? tracks
     }
     
+    func relaodData() {
+        view.relaodData()
+    }
+    
     func resetCell(name: String) {
         interactor.getCellDelegate(name: name)?.needReset()
     }
@@ -55,6 +59,15 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
             })
         }
         return actions
+    }
+    
+    func moveTrack(fromPath: IndexPath, toPath: IndexPath) {
+        interactor.moveTrack(from: fromPath.row, to: toPath.row, track: tracks[fromPath.row])
+        tracks.swapAt(fromPath.row, toPath.row)
+    }
+    
+    func canMoveTrack(fromPath: IndexPath) -> Bool {
+        return tracks.count > fromPath.row
     }
     
     func rowEditStatus(indexPath: IndexPath) -> Bool {

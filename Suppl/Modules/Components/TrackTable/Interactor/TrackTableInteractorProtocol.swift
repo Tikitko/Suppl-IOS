@@ -8,5 +8,6 @@ protocol TrackTableInteractorProtocol: class, BaseInteractorProtocol {
     func openPlayer(tracksIDs: [String], trackIndex: Int, cachedTracksInfo: [AudioData]?)
     func addTrack(trackId: String, track: AudioData)
     func removeTrack(indexTrack: Int, track: AudioData)
+    func moveTrack(from: Int, to: Int, track: AudioData)
     func loadImageData(link: String, callback: @escaping (_ data: NSData) -> Void)
 }

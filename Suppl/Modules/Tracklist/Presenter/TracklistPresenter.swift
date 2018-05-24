@@ -164,6 +164,8 @@ extension TracklistPresenter: TrackTableCommunicateProtocol {
     
     func addedTrack(withId: String) {}
     
+    func moveTrack(from: Int, to: Int) {}
+    
     func cellShowAt(_ indexPath: IndexPath) {}
 
 }

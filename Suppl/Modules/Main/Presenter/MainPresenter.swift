@@ -80,6 +80,8 @@ extension MainPresenter: TrackTableCommunicateProtocol {
     
     func addedTrack(withId: String) {}
     
+    func moveTrack(from: Int, to: Int) {}
+    
     func cellShowAt(_ indexPath: IndexPath) {
         guard let data = self.searchData else { return }
         if data.list.count - 10 == indexPath.row, data.hasMore {
