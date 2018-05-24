@@ -2,7 +2,13 @@ import Foundation
 
 class CommonRequest {
     
-    private let defaultSession: URLSession = URLSession(configuration: .default)
+    private let defaultSession: URLSession
+    
+    init() {
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = 5
+        defaultSession = URLSession(configuration: sessionConfig)
+    }
     
     public func request(url: String, query: Dictionary<String, String> = [:], inMainQueue: Bool = true, taskCallback: @escaping (Error?, URLResponse?, Data?) -> ()) {
         guard var urlComponents = URLComponents(string: url) else { return }
