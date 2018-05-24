@@ -40,7 +40,7 @@ final class TracklistManager {
             if let error = error, error.domain == "music_tracklist_empty" {
                 self.tracklist = []
                 self.inUpdate = false
-                callback(false)
+                callback(true)
                 return
             }
             guard let data = data else {

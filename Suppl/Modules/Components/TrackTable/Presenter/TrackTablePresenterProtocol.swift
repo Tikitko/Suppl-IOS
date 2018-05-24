@@ -13,4 +13,5 @@ protocol TrackTablePresenterProtocol: class {
     func openPlayer(trackIndex: Int)
     func willDisplayCellForRowAt(_ indexPath: IndexPath)
     func numberOfRowsInSection(_ section: Int) -> Int
+    func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData)
 }

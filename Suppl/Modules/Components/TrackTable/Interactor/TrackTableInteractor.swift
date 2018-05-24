@@ -25,14 +25,24 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         presenter.setTracklist(TracklistManager.s.tracklist)
     }
 
-    func addTrack(trackId: String)  {
+    func addTrack(trackId: String, track: AudioData)  {
         TracklistManager.s.add(trackId: trackId) { [weak self] status in
+            guard status else {
+                self?.presenter.sendEditInfoToToast(expressionForTitle: .addError, track: track)
+                return
+            }
+            self?.presenter.sendEditInfoToToast(expressionForTitle: .addOk, track: track)
             self?.getDelegate()?.addedTrack(withId: trackId)
         }
     }
     
-    func removeTrack(indexTrack: Int) {
+    func removeTrack(indexTrack: Int, track: AudioData) {
         TracklistManager.s.remove(from: indexTrack) { [weak self] status in
+            guard status else {
+                self?.presenter.sendEditInfoToToast(expressionForTitle: .removeError, track: track)
+                return
+            }
+            self?.presenter.sendEditInfoToToast(expressionForTitle: .removeOk, track: track)
             self?.getDelegate()?.removedTrack(fromIndex: indexTrack)
         }
     }

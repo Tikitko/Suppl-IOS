@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Toast_Swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        ToastManager.shared.isQueueEnabled = true
         let _ = SettingsManager.s
         
         window = UIWindow(frame: UIScreen.main.bounds)

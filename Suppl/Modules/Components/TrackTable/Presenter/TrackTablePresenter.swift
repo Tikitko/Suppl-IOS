@@ -47,11 +47,11 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
         let thisTrack = tracks[indexPath.row].id
         if let indexTrack = tracklist.index(of: thisTrack) {
             actions.append(RowAction(color: "#FF0000", title: interactor.getLocaleString(.del)) { [weak self] index in
-                self?.interactor.removeTrack(indexTrack: indexTrack)
+                self?.interactor.removeTrack(indexTrack: indexTrack, track: self!.tracks[indexPath.row])
             })
         } else {
             actions.append(RowAction(color: "#4FAB5B", title: interactor.getLocaleString(.add)) { [weak self] index in
-                self?.interactor.addTrack(trackId: thisTrack)
+                self?.interactor.addTrack(trackId: thisTrack, track: self!.tracks[indexPath.row])
             })
         }
         return actions
@@ -75,6 +75,10 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
     
     func numberOfRowsInSection(_ section: Int) -> Int {
         return tracks.count
+    }
+    
+    func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData) {
+        ToastTemplate.baseTop(title: interactor.getLocaleString(expressionForTitle), body: "\(track.performer) - \(track.title)")
     }
     
 }

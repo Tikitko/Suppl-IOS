@@ -72,5 +72,14 @@
 	<string>EMail установлен!</string>
 	<key>youEmail</key>
 	<string>Ваш EMail</string>
+    
+    <key>addOk</key>
+    <string>Добавлен в плейлист!</string>
+    <key>addError</key>
+    <string>Ошибка добавления в плейлист!</string>
+    <key>removeOk</key>
+    <string>Удален из плейлиста!</string>
+    <key>removeError</key>
+    <string>Ошибка удаления из плейлиста!</string>
 </dict>
 </plist>
