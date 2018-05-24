@@ -75,14 +75,15 @@ final class PlayerManager: NSObject {
         let status: AVPlayerItemStatus = AVPlayerItemStatus(rawValue: statusNumber?.intValue ?? AVPlayerItemStatus.unknown.rawValue)!
         switch status {
         case .readyToPlay:
-            player?.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
-                guard let `self` = self, let player = self.player, player.currentItem?.status == .readyToPlay else { return }
+            guard let player = self.player, let item = player.currentItem else { return }
+            player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
+                guard let `self` = self, item.status == .readyToPlay else { return }
                 self.sayToListeners() { delegate in
-                    delegate.curentTrackTime(sec: player.currentTime().seconds)
+                    delegate.itamTimeChanged(item, item.currentTime().seconds)
                 }
             }
             sayToListeners() { delegate in
-                delegate.readyToPlay()
+                delegate.itemReadyToPlay(item)
             }
             remoteCommands(isEnabled: true)
             play()
@@ -178,7 +179,7 @@ final class PlayerManager: NSObject {
     private func setTrackInfo(_ track: AudioData) {
         currentTrack = CurrentTrack(id: track.id, title: track.title, performer: track.performer, duration: track.duration, image: nil)
         sayToListeners() { delegate in
-            delegate.trackInfoChanged(currentTrack!)
+            delegate.trackInfoChanged(currentTrack!, nil)
         }
         nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = track.title
         nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = track.performer
@@ -187,7 +188,7 @@ final class PlayerManager: NSObject {
             guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
             self.currentTrack?.image = image
             self.sayToListeners() { delegate in
-                delegate.trackImageChanged(imageData as Data)
+                delegate.trackInfoChanged(self.currentTrack!, imageData as Data)
             }
             self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
         }

@@ -16,12 +16,9 @@ class TracklistPresenter: TracklistPresenterProtocol {
     var searchTimeRate: Float = 1.0
     
     func load() {
-        interactor.tracklistObserver(isOn: true)
+        interactor.setListener(self)
+        interactor.setTracklistListener(self)
         interactor.updateTracks()
-    }
-    
-    func unload() {
-        interactor.tracklistObserver(isOn: false)
     }
     
     func getModuleNameId() -> String {
@@ -31,11 +28,7 @@ class TracklistPresenter: TracklistPresenterProtocol {
     func setInfo(_ text: String? = nil) {
         text != nil ? view.onLabel(text: text!) : view.offLabel()
     }
-    
-    func setListener() {
-        interactor.setListener(self)
-    }
-    
+
     func tracklistUpdateResult(status: Bool) {
         view.updateButtonIsEnabled(true)
     }
@@ -173,4 +166,12 @@ extension TracklistPresenter: TrackTableCommunicateProtocol {
     
     func cellShowAt(_ indexPath: IndexPath) {}
 
+}
+
+extension TracklistPresenter: TracklistListenerDelegate {
+    
+    func tracklistUpdated(_ tracklist: [String]?) {
+        interactor.updateTracks()
+    }
+    
 }

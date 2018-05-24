@@ -9,8 +9,8 @@ class SearchBarInteractor: SearchBarInteractorProtocol {
         self.parentModuleNameId = parentModuleNameId
     }
     
-    var listenerDelegate: SearchCommunicateProtocol? {
-        get { return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? SearchCommunicateProtocol }
+    func getDelegate() -> SearchCommunicateProtocol? {
+        return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? SearchCommunicateProtocol
     }
     
 }

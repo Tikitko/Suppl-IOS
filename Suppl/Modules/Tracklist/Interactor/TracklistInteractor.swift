@@ -10,12 +10,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
-    func tracklistObserver(isOn: Bool) {
-        if isOn {
-            NotificationCenter.default.addObserver(self, selector: #selector(updateTracksNotification(notification:)), name: .TracklistUpdated, object: nil)
-        } else {
-            NotificationCenter.default.removeObserver(self, name: .TracklistUpdated, object: nil)
-        }
+    func setTracklistListener(_ delegate: TracklistListenerDelegate) {
+        TracklistManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
     func updateTracks() {
@@ -61,10 +57,6 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         TracklistManager.s.update() { [weak self] status in
             self?.presenter.tracklistUpdateResult(status: status)
         }
-    }
-    
-    @objc private func updateTracksNotification(notification: NSNotification) {
-        updateTracks()
     }
     
 }

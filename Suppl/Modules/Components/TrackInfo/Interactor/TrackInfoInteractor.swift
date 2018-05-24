@@ -12,12 +12,9 @@ class TrackInfoInteractor: BaseInteractor, TrackInfoInteractorProtocol {
         PlayerManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
-    func getRoundImageSetting() -> Bool {
-        return SettingsManager.s.roundIcons!
-    }
-    
-    func getCurrentTrackId() -> String? {
-        return PlayerManager.s.currentTrack?.id
+    func requestAdditionalInfo() {
+        guard let currentPlayingId = PlayerManager.s.currentTrack?.id else { return }
+        presenter.additionalInfo(currentPlayingId: currentPlayingId, roundImage: SettingsManager.s.roundIcons!)
     }
     
 }

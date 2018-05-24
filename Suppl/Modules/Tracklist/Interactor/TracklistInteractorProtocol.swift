@@ -1,10 +1,8 @@
 import Foundation
 
-protocol TracklistInteractorProtocol: class {
+protocol TracklistInteractorProtocol: class, BaseInteractorProtocol {
     func setListener(_ delegate: CommunicateManagerProtocol)
-    func tracklistObserver(isOn: Bool)
+    func setTracklistListener(_ delegate: TracklistListenerDelegate)
     func tracklistUpdate()
     func updateTracks()
-    func getKeys() -> KeysPair?
-    func getLocaleString(_ forKey: LocalesManager.Expression) -> String
 }

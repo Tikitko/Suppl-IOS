@@ -1,7 +1,7 @@
 import Foundation
 
 class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
-    
+
     weak var presenter: TrackTablePresenterProtocol!
     
     let parentModuleNameId: String
@@ -17,10 +17,14 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         return ModulesCommunicateManager.s.getListener(name: name) as? TrackInfoCommunicateProtocol
     }
     
-    func getTracklist() -> [String]? {
-        return TracklistManager.s.tracklist
+    func setTracklistListener(_ delegate: TracklistListenerDelegate) {
+        TracklistManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
+    func laodTracklist() {
+        presenter.setTracklist(TracklistManager.s.tracklist)
+    }
+
     func addTrack(trackId: String)  {
         TracklistManager.s.add(trackId: trackId) { [weak self] status in
             self?.getDelegate()?.addedTrack(withId: trackId)

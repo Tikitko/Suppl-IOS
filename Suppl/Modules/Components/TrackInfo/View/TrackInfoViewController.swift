@@ -25,12 +25,15 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         trackDuration.text = durationString
     }
     
-    func setImage(image: UIImage) {
+    func setImage(_ image: UIImage) {
         guard baseImage else { return }
         baseImage = false
+        trackImage.image = image
+        /*
         UIView.transition(with: trackImage, duration: 0.2, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.trackImage.image = image
         }, completion: nil)
+         */
     }
     
     func setRoundImage(_ value: Bool) {

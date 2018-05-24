@@ -4,43 +4,37 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
 
     weak var presenter: AuthPresenterProtocol!
     
-    func tracklistUpdate() {
-        TracklistManager.s.update() { status in }
-    }
-    
     func startAuthCheck() {
         let _ = AuthManager.s.startAuthCheck()
     }
-    
-    func auth(keys: KeysPair?) {
-        AuthManager.s.authorization(keys: keys) { [weak self] error in
-            self?.presenter.setAuthResult(error)
+
+    func startAuth(fromString input: String? = nil, onlyInfo: Bool = false) {
+        if onlyInfo {
+            presenter.setAuthResult(.inputIdentifier)
+            return
         }
-    }
-    
-    func reg() {
-        AuthManager.s.registration() { [weak self] error in
-            self?.presenter.setAuthResult(error)
+        if let text = input {
+            if let _ = Int(text), text.count % 2 == 0 {
+                let half: Int = text.count / 2
+                UserDefaultsManager.s.identifierKey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
+                UserDefaultsManager.s.accessKey = Int(text[text.index(text.startIndex, offsetBy: half)..<text.endIndex])
+            } else {
+                presenter.setAuthResult(.badIdentifier)
+                return
+            }
         }
-    }
-    
-    func startAuth(keys: KeysPair? = nil) -> Bool {
-        if let keys = keys ?? getKeys() {
-            auth(keys: keys)
-            return true
+        
+        if let keys = getKeys() {
+            presenter.setAuthStarted(isReg: false)
+            AuthManager.s.authorization(keys: keys) { [weak self] error in
+                self?.presenter.setAuthResult(error)
+            }
+        } else {
+            presenter.setAuthStarted(isReg: true)
+            AuthManager.s.registration() { [weak self] error in
+                self?.presenter.setAuthResult(error)
+            }
         }
-        reg()
-        return false
-    }
-    
-    func setKeysByString(input: String?) -> Bool {
-        if let text = input, let _ = Int(text), text.count % 2 == 0 {
-            let half: Int = text.count / 2
-            UserDefaultsManager.s.identifierKey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
-            UserDefaultsManager.s.accessKey = Int(text[text.index(text.startIndex, offsetBy: half)..<text.endIndex])
-            return true
-        }
-        return false
     }
 
     override func getKeys() -> KeysPair? {

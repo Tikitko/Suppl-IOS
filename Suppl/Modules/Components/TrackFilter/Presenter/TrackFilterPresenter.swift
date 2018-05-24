@@ -7,23 +7,23 @@ class TrackFilterPresenter: TrackFilterPresenterProtocol {
     weak var view: TrackFilterViewControllerProtocol!
     
     func timeValue() -> Float? {
-        return interactor.listenerDelegate?.timeValue()
+        return interactor.getDelegate()?.timeValue()
     }
     func titleValue() -> Bool? {
-        return interactor.listenerDelegate?.titleValue()
+        return interactor.getDelegate()?.titleValue()
     }
     func performerValue() -> Bool? {
-        return interactor.listenerDelegate?.performerValue()
+        return interactor.getDelegate()?.performerValue()
     }
     
     func timeChange(_ value: inout Float) {
-        interactor.listenerDelegate?.timeChange(&value)
+        interactor.getDelegate()?.timeChange(&value)
     }
     func titleChange(_ value: inout Bool) {
-        interactor.listenerDelegate?.titleChange(&value)
+        interactor.getDelegate()?.titleChange(&value)
     }
     func performerChange(_ value: inout Bool) {
-        interactor.listenerDelegate?.performerChange(&value)
+        interactor.getDelegate()?.performerChange(&value)
     }
     
 }

@@ -13,10 +13,6 @@ class MainPresenter: MainPresenterProtocol {
         return router.moduleNameId
     }
     
-    func settingsTitle() -> String {
-        return interactor.getLocaleString(.musicTitle)
-    }
-    
     func setListener() {
         interactor.setListener(self)
     }
@@ -25,8 +21,12 @@ class MainPresenter: MainPresenterProtocol {
         text != nil ? view.onLabel(text: text!) : view.offLabel()
     }
     
+    func searchQuery(_ query: String) {
+        view.setSearchQuery(query)
+    }
+    
     func loadRandomTracks() {
-        view.setSearchQuery(interactor.loadRandomTracks())
+        interactor.loadRandomTracks()
     }
     
     func clearData(withReload: Bool = true) {

@@ -1,8 +1,7 @@
 import Foundation
 
-protocol TrackInfoInteractorProtocol: class {
+protocol TrackInfoInteractorProtocol: class, BaseInteractorProtocol {
     func setListener(_ delegate: CommunicateManagerProtocol)
     func setPlayerListener(_ delegate: PlayerListenerDelegate)
-    func getRoundImageSetting() -> Bool
-    func getCurrentTrackId() -> String?
+    func requestAdditionalInfo()
 }

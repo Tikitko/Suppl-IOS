@@ -8,24 +8,13 @@ class PlayerInteractor: PlayerInteractorProtocol {
         PlayerManager.s.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
     }
     
-    func getPlayerRate() -> Float? {
-        return PlayerManager.s.playerRate()
-    }
-    
-    func getCurrentTrack() -> CurrentTrack? {
-        return PlayerManager.s.currentTrack
-    }
-    
-    func getCurrentTime() -> Double? {
-        return PlayerManager.s.getRealCurrentTime()
-    }
-    
-    func getRealDuration() -> Double? {
-        return PlayerManager.s.getRealDuration()
+    func loadNowTrack() {
+        guard let currentTrack = PlayerManager.s.currentTrack, let status = PlayerManager.s.playerRate(), let time = PlayerManager.s.getRealCurrentTime() else { return }
+        presenter.setNowTrack(track: currentTrack, status: status, currentTime: time)
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {
-        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? (getCurrentTime() ?? 0) + sec : sec)
+        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? (PlayerManager.s.getRealCurrentTime() ?? 0) + sec : sec)
     }
     
     func play() {

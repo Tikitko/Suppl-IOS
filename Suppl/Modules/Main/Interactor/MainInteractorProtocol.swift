@@ -1,9 +1,7 @@
 import Foundation
 
-protocol MainInteractorProtocol: class {
+protocol MainInteractorProtocol: class, BaseInteractorProtocol {
     func setListener(_ delegate: CommunicateManagerProtocol)
-    func loadRandomTracks() -> String
+    func loadRandomTracks()
     func searchTracks(_ query: String, offset: Int)
-    func getKeys() -> KeysPair?
-    func getLocaleString(_ forKey: LocalesManager.Expression) -> String
 }

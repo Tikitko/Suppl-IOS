@@ -40,6 +40,8 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         tracksSearch.isHidden = true
         tracksTable.isHidden = true
         
+        onLabel(text: infoLabel.text ?? "")
+        
         presenter.setListener()
         presenter.loadRandomTracks()
     }

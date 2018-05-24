@@ -9,7 +9,7 @@ class SmallPlayerInteractor: SmallPlayerInteractorProtocol {
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {
-        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? getCurrentTime() ?? 0 + sec : sec)
+        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? PlayerManager.s.getRealCurrentTime() ?? 0 + sec : sec)
     }
     
     func play() {
@@ -26,14 +26,6 @@ class SmallPlayerInteractor: SmallPlayerInteractorProtocol {
     
     func clearPlayer() {
         PlayerManager.s.clearPlayer()
-    }
-    
-    func getCurrentTime() -> Double? {
-        return PlayerManager.s.getRealCurrentTime()
-    }
-
-    func getRealDuration() -> Double? {
-        return PlayerManager.s.getRealDuration()
     }
     
 }

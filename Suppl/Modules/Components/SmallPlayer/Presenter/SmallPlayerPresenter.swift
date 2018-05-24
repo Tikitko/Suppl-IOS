@@ -1,4 +1,6 @@
 import Foundation
+import UIKit
+import AVFoundation
 
 class SmallPlayerPresenter: SmallPlayerPresenterProtocol {
     
@@ -50,13 +52,12 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
         view.closePlayer()
     }
     
-    func readyToPlay() {
+    func itemReadyToPlay(_ item: AVPlayerItem) {
         view.openPlayer()
     }
-    
-    func curentTrackTime(sec: Double) {
-        guard let duration = interactor.getRealDuration(), let currentTime = interactor.getCurrentTime() else { return }
-        view.updatePlayerProgress(percentages: Float(currentTime / duration))
+
+    func itamTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
+        view.updatePlayerProgress(percentages: Float(sec / item.duration.seconds))
     }
     
     func playerStop() {
@@ -67,13 +68,13 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
         view.setPauseImage()
     }
     
-    func trackInfoChanged(_ track: CurrentTrack) {
-        view.clearPlayer()
-        view.setTrackInfo(title: track.title, performer: track.performer)
+    func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
+        if let imageData = imageData {
+            view.setTrackImage(imageData)
+        } else {
+            view.clearPlayer()
+            view.setTrackInfo(title: track.title, performer: track.performer)
+        }
     }
-    
-    func trackImageChanged(_ imageData: Data) {
-        view.setTrackImage(imageData)
-    }
-    
+
 }

@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import AVFoundation
 
 class PlayerPresenter: PlayerPresenterProtocol {
     
@@ -12,12 +13,17 @@ class PlayerPresenter: PlayerPresenterProtocol {
     }
     
     func firstLoad() {
-        guard let nowTrack = interactor.getCurrentTrack() else { return }
-        view.loadNowTrack(track: nowTrack, playerRate: interactor.getPlayerRate() ?? 0)
+        interactor.loadNowTrack()
+        //loadNowTrack(track: nowTrack, playerRate: interactor.getPlayerRate() ?? 0)
     }
     
-    func getCurrentTime() -> Double? {
-        return interactor.getCurrentTime()
+    func setNowTrack(track: CurrentTrack, status: Float, currentTime: Double) {
+        view.clearPlayer()
+        view.setTrackInfo(title: track.title, performer: track.performer)
+        view.setTrackImage(track.image)
+        view.openPlayer(duration: Double(track.duration))
+        view.updatePlayerProgress(currentTime: currentTime)
+        status == 1 ? view.setPauseImage() : view.setPlayImage()
     }
     
     func updatePlayerProgress(currentTime: Double) {
@@ -52,12 +58,11 @@ class PlayerPresenter: PlayerPresenterProtocol {
 
 extension PlayerPresenter: PlayerListenerDelegate {
     
-    func readyToPlay() {
-        guard let sec = interactor.getRealDuration() else { return }
-        view.openPlayer(duration: sec)
+    func itemReadyToPlay(_ item: AVPlayerItem) {
+        view.openPlayer(duration: item.duration.seconds)
     }
     
-    func curentTrackTime(sec: Double) {
+    func itamTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
         view.updatePlayerProgress(currentTime: sec)
     }
     
@@ -69,13 +74,13 @@ extension PlayerPresenter: PlayerListenerDelegate {
         view.setPauseImage()
     }
     
-    func trackInfoChanged(_ track: CurrentTrack) {
-        view.clearPlayer()
-        view.setTrackInfo(title: track.title, performer: track.performer)
-    }
-    
-    func trackImageChanged(_ imageData: Data) {
-        view.setTrackImage(imageData)
+    func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
+        if let imageData = imageData {
+            view.setTrackImage(imageData)
+        } else {
+            view.clearPlayer()
+            view.setTrackInfo(title: track.title, performer: track.performer)
+        }
     }
     
 }

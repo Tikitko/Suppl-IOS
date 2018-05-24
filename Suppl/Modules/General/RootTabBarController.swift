@@ -24,6 +24,8 @@ final class RootTabBarController: UITabBarController {
         view.addSubview(smallPlayer.view)
         smallPlayer.view.translatesAutoresizingMaskIntoConstraints = false
         updateSmallPlayerConstraints()
+        
+        TracklistManager.s.update() { status in }
     }
 
     

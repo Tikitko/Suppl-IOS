@@ -8,13 +8,27 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
     weak var view: TrackTableViewControllerProtocol!
 
     var tracks: [AudioData] = []
-
+    var frashTracklist: [String]?
+    
+    func getModuleNameId() -> String {
+        return router.moduleNameId
+    }
+    
     func updateTracks() {
         tracks = interactor.getDelegate()?.needTracksForReload() ?? tracks
     }
     
     func resetCell(name: String) {
         interactor.getCellDelegate(name: name)?.needReset()
+    }
+
+    func setTracklist(_ tracklist: [String]?) {
+        frashTracklist = tracklist
+    }
+    
+    func load() {
+        interactor.laodTracklist()
+        interactor.setTracklistListener(self)
     }
     
     func updateCellInfo(trackIndex: Int, name: String) {
@@ -27,8 +41,9 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
         }
     }
     
-    func createRowActions(indexPath: IndexPath, actions: inout [RowAction]) {
-        guard tracks.count > indexPath.row, let tracklist = interactor.getTracklist() else { return }
+    func createRowActions(indexPath: IndexPath) -> [RowAction]? {
+        guard tracks.count > indexPath.row, let tracklist = frashTracklist else { return nil }
+        var actions: [RowAction] = []
         let thisTrack = tracks[indexPath.row].id
         if let indexTrack = tracklist.index(of: thisTrack) {
             actions.append(RowAction(color: "#FF0000", title: interactor.getLocaleString(.del)) { [weak self] index in
@@ -39,6 +54,7 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
                 self?.interactor.addTrack(trackId: thisTrack)
             })
         }
+        return actions
     }
     
     func rowEditStatus(indexPath: IndexPath) -> Bool {
@@ -59,6 +75,14 @@ class TrackTablePresenter: TrackTablePresenterProtocol {
     
     func numberOfRowsInSection(_ section: Int) -> Int {
         return tracks.count
+    }
+    
+}
+
+extension TrackTablePresenter: TracklistListenerDelegate {
+    
+    func tracklistUpdated(_ tracklist: [String]?) {
+        setTracklist(tracklist)
     }
     
 }

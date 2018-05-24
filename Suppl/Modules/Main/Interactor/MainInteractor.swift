@@ -10,11 +10,11 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
         ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
-    func loadRandomTracks() -> String {
+    func loadRandomTracks() {
         let baseQueries = AppStaticData.baseSearchQueriesList
         let query = baseQueries[Int(arc4random_uniform(UInt32(baseQueries.count)))]
         searchTracks(query)
-        return query
+        presenter.searchQuery(query)
     }
     
     func searchTracks(_ query: String, offset: Int = 0) {

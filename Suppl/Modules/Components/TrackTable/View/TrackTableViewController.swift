@@ -42,6 +42,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         tableView = costomTable
         tableView.register(TrackTablePlaceholderCell.self, forCellReuseIdentifier: TrackTablePlaceholderCell.identifier)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        presenter.load()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,9 +67,8 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+        guard let actionsCreated = presenter.createRowActions(indexPath: editActionsForRowAt) else { return nil }
         var actions: [UITableViewRowAction] = []
-        var actionsCreated: [RowAction] = []
-        presenter.createRowActions(indexPath: editActionsForRowAt, actions: &actionsCreated)
         for action in actionsCreated {
             let finalAction = UITableViewRowAction(style: .normal, title: action.title) { [weak self] a, i in
                 self?.setEditing(false, animated: true)

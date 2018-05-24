@@ -26,46 +26,42 @@ class AuthPresenter: AuthPresenterProtocol {
     
     func firstStartAuth() {
         view.setIdentifier(interactor.getKeys()?.toString() ?? "")
-        if !noAuthOnShow {
-            startAuth()
-        } else {
-            setAuthResult(interactor.getLocaleString(.inputIdentifier))
-        }
+        startAuth(onlyInfo: noAuthOnShow)
     }
     
-    func startAuth(keys: KeysPair? = nil) {
-        setLabel(expression: interactor.startAuth(keys: keys) ? .auth : .reg)
+    func startAuth(fromString input: String? = nil, onlyInfo: Bool = false) {
+        interactor.startAuth(fromString: input, onlyInfo: onlyInfo)
+    }
+    
+    func setAuthStarted(isReg: Bool) {
+        setLabel(expression: isReg ? .reg : .auth)
     }
     
     func setAuthResult(_ error: String?) {
         if let error = error {
             setLabel(error)
-            QueueTemplate.continueAfter(1.7, timeOutCallback: enableForm)
+            QueueTemplate.continueAfter(1.7) { [weak self] in
+                self?.setLabel(expression: .inputIdentifier)
+                self?.view.enableButtons()
+            }
         } else {
             setLabel(expression: .hi)
-            QueueTemplate.continueAfter(0.7, timeOutCallback: endAuth)
+            QueueTemplate.continueAfter(0.7) { [weak self] in
+                self?.interactor.startAuthCheck()
+                self?.router.goToRootTabBar()
+            }
         }
     }
-
-    func enableForm() {
-        setLabel(expression: .inputIdentifier)
-        view.enableButtons()
-    }
     
-    func endAuth() {
-        router.goToRootTabBar()
-        interactor.tracklistUpdate()
-        interactor.startAuthCheck()
+    func setAuthResult(_ expression: LocalesManager.Expression) {
+        setAuthResult(interactor.getLocaleString(expression))
     }
     
     func repeatButtonClick(identifierText: String?) {
-        setLabel(expression: .checkIdentifier)
+        guard let identifierText = identifierText else { return }
         view.disableButtons()
-        if interactor.setKeysByString(input: identifierText) {
-            startAuth(keys: interactor.getKeys())
-        } else {
-            setAuthResult(interactor.getLocaleString(.badIdentifier))
-        }
+        setLabel(expression: .checkIdentifier)
+        startAuth(fromString: identifierText)
     }
 
 }

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackTableRouter: TrackTableRouterProtocol {
+class TrackTableRouter: BaseRouter, TrackTableRouterProtocol {
     
     weak var viewController: UITableViewController!
     

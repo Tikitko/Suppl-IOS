@@ -27,7 +27,8 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         searchBar.isHidden = true
         tracksTable.isHidden = true
         
-        presenter.setListener()
+        onLabel(text: infoLabel.text ?? "")
+        
         presenter.load()
     }
     
@@ -90,10 +91,6 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     
     @IBAction func filterButtonClick(_ sender: Any) {
         presenter.filterButtonClick()
-    }
-    
-    deinit {
-        presenter.unload()
     }
     
 }

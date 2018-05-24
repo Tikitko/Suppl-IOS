@@ -39,15 +39,6 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
         navigationItem.title = title
     }
     
-    func loadNowTrack(track: CurrentTrack, playerRate: Float) {
-        clearPlayer()
-        setTrackInfo(title: track.title, performer: track.performer)
-        setTrackImage(track.image)
-        openPlayer(duration: Double(track.duration))
-        updatePlayerProgress(currentTime: presenter.getCurrentTime() ?? 0)
-        playerRate == 1 ? setPauseImage() : setPlayImage()
-    }
-    
     func setTrackInfo(title: String, performer: String) {
         titleLabel.text = title
         performerLabel.text = performer

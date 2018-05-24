@@ -22,6 +22,11 @@ class TrackInfoPresenter: TrackInfoPresenterProtocol {
         view.setSelected(id != nil && id == trackId, instantly: instantly)
     }
     
+    func additionalInfo(currentPlayingId: String, roundImage: Bool) {
+        view.setRoundImage(roundImage)
+        setSelectedIfCurrent(id: currentPlayingId, instantly: true)
+    }
+    
     func clearTrack() {
         trackId = nil
     }
@@ -29,8 +34,8 @@ class TrackInfoPresenter: TrackInfoPresenterProtocol {
 }
 
 extension TrackInfoPresenter: PlayerListenerDelegate {
-    
-    func trackInfoChanged(_ track: CurrentTrack) {
+
+    func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
         setSelectedIfCurrent(id: track.id)
     }
     
@@ -43,15 +48,14 @@ extension TrackInfoPresenter: PlayerListenerDelegate {
 extension TrackInfoPresenter: TrackInfoCommunicateProtocol {
     
     func setNewData(id: String, title: String, performer: String, duration: Int) {
-        view.setRoundImage(interactor.getRoundImageSetting())
         trackId = id
+        interactor.requestAdditionalInfo()
         view.setInfo(title: title, performer: performer, durationString: TrackTime(sec: duration).formatted)
-        setSelectedIfCurrent(id: interactor.getCurrentTrackId(), instantly: true)
     }
     
     func setNewImage(imageData: NSData) {
         guard let image = UIImage(data: imageData as Data) else { return }
-        view.setImage(image: image)
+        view.setImage(image)
     }
     
     func needReset() {
