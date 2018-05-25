@@ -851,7 +851,6 @@
 		8C67F5DE201B153100333EB2 /* Suppl */ = {
 			isa = PBXGroup;
 			children = (
-				8CA4F90A20B802E200C1A81B /* Toast.swift */,
 				8C0E1B932091C0D900CE5C12 /* Locales */,
 				8C3301F02021A9AD00446945 /* Modules */,
 				0E12FAC320308B0800EE3422 /* Themes */,
@@ -987,6 +986,7 @@
 		8CBDFD622022FEEF00BED743 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				8CA4F90A20B802E200C1A81B /* Toast.swift */,
 				8C29C4CF20B68C9C00AC7F6C /* TracklistManager */,
 				8C479667209C75D0009F5623 /* PlayerManager */,
 				8C0E1B972091E62500CE5C12 /* ModulesCommunicateManager */,
