@@ -62,8 +62,9 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func moveTrack(fromPath: IndexPath, toPath: IndexPath) {
-        interactor.moveTrack(from: fromPath.row, to: toPath.row, track: tracks[fromPath.row])
+        let trackInfo = tracks[fromPath.row]
         tracks.swapAt(fromPath.row, toPath.row)
+        interactor.moveTrack(from: fromPath.row, to: toPath.row, track: trackInfo)
     }
     
     func canMoveTrack(fromPath: IndexPath) -> Bool {
