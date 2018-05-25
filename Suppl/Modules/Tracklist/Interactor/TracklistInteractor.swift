@@ -36,11 +36,14 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         guard let keys = getKeys() else { return }
         let tracklistPart = getTracklistPart(from: from, count: count)
         APIManager.s.audioGet(keys: keys, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
-            guard let `self` = self, let data = data else { return }
-            for track in data.list {
-                self.presenter.setNewTrack(track: track)
+            guard let data = data else {
+                self?.inSearchWork = false
+                return
             }
-            self.recursiveTracksLoad(from: from + count)
+            for track in data.list {
+                self?.presenter.setNewTrack(track: track)
+            }
+            self?.recursiveTracksLoad(from: from + count)
         }
     }
     

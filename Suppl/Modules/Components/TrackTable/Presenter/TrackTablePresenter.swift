@@ -91,7 +91,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData) {
-        ToastTemplate.baseTop(title: interactor.getLocaleString(expressionForTitle), body: "\(track.performer) - \(track.title)")
+        router.showToastOnTop(title: interactor.getLocaleString(expressionForTitle), body: "\(track.performer) - \(track.title)", duration: 2.0)
     }
     
 }

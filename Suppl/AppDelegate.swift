@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-import Toast_Swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

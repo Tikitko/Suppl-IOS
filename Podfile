@@ -7,5 +7,4 @@ target 'Suppl' do
 
   # Pods for Suppl
   pod 'SwiftTheme'
-  pod 'Toast-Swift'
 end
