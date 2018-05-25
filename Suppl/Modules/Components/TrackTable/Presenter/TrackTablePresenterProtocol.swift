@@ -17,6 +17,7 @@ protocol TrackTablePresenterProtocolView: TrackTablePresenterProtocol {
     func load()
     func createRowActions(indexPath: IndexPath) -> [RowAction]?
     func rowEditStatus(indexPath: IndexPath) -> Bool
+    func rowEditType(indexPath: IndexPath) -> UITableViewCellEditingStyle
     func openPlayer(trackIndex: Int)
     func willDisplayCellForRowAt(_ indexPath: IndexPath)
     func numberOfRowsInSection(_ section: Int) -> Int

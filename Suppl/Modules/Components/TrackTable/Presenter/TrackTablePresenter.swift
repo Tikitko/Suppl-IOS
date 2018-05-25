@@ -74,6 +74,11 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         return true
     }
     
+    func rowEditType(indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        guard tracks.count > indexPath.row, let tracklist = frashTracklist else { return .none }
+        return tracklist.index(of: tracks[indexPath.row].id) != nil ? .delete : .insert
+    }
+    
     func openPlayer(trackIndex: Int) {
         var tracksIDs: [String] = []
         for val in tracks {
