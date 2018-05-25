@@ -1,6 +1,6 @@
 import Foundation
 
-class AuthPresenter: AuthPresenterProtocol {
+class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView {
     
     var router: AuthRouterProtocol!
     var interactor: AuthInteractorProtocol!

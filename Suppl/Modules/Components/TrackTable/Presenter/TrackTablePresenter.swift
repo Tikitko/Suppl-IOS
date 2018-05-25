@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackTablePresenter: TrackTablePresenterProtocol {
+class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePresenterProtocolView {
     
     var router: TrackTableRouterProtocol!
     var interactor: TrackTableInteractorProtocol!

@@ -2,7 +2,7 @@ import Foundation
 
 class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
 
-    weak var presenter: TrackTablePresenterProtocol!
+    weak var presenter: TrackTablePresenterProtocolInteractor!
     
     let parentModuleNameId: String
     init(parentModuleNameId: String) {

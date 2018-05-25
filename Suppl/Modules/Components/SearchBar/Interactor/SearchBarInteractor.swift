@@ -2,7 +2,7 @@ import Foundation
 
 class SearchBarInteractor: SearchBarInteractorProtocol {
     
-    weak var presenter: SearchBarPresenterProtocol!
+    weak var presenter: SearchBarPresenterProtocolInteractor!
     
     let parentModuleNameId: String
     init(parentModuleNameId: String) {

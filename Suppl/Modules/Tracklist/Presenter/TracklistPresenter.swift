@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TracklistPresenter: TracklistPresenterProtocol {
+class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresenterProtocolView {
     
     var router: TracklistRouterProtocol!
     var interactor: TracklistInteractorProtocol!

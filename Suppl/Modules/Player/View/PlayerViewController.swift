@@ -4,7 +4,7 @@ import SwiftTheme
 
 class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     
-    var presenter: PlayerPresenterProtocol!
+    var presenter: PlayerPresenterProtocolView!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var performerLabel: UILabel!

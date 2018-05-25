@@ -4,7 +4,7 @@ import SwiftTheme
 
 class TrackFilterViewController: UIViewController, TrackFilterViewControllerProtocol {
     
-    var presenter: TrackFilterPresenterProtocol!
+    var presenter: TrackFilterPresenterProtocolView!
     
     @IBOutlet weak var timeSlider: UISlider!
     @IBOutlet weak var searchTitleSwitch: UISwitch!

@@ -1,6 +1,6 @@
 import Foundation
 
-class MainPresenter: MainPresenterProtocol {
+class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView {
     
     var router: MainRouterProtocol!
     var interactor: MainInteractorProtocol!

@@ -1,6 +1,6 @@
 import Foundation
 
-class SearchBarPresenter: SearchBarPresenterProtocol {
+class SearchBarPresenter: SearchBarPresenterProtocolInteractor, SearchBarPresenterProtocolView {
     
     var router: SearchBarRouterProtocol!
     var interactor: SearchBarInteractorProtocol!

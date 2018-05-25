@@ -3,7 +3,7 @@ import UIKit
 
 class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProtocol {
     
-    var presenter: SmallPlayerPresenterProtocol!
+    var presenter: SmallPlayerPresenterProtocolView!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!

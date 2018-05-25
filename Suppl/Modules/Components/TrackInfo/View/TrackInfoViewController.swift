@@ -2,7 +2,7 @@ import UIKit
 
 class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol {
 
-    var presenter: TrackInfoPresenterProtocol!
+    var presenter: TrackInfoPresenterProtocolView!
 
     @IBOutlet weak var trackTitle: UILabel!
     @IBOutlet weak var trackPerformer: UILabel!

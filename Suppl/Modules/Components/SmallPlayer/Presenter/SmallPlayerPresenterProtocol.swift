@@ -1,6 +1,12 @@
 import Foundation
 
-protocol SmallPlayerPresenterProtocol: class {
+protocol SmallPlayerPresenterProtocol: class {}
+
+protocol SmallPlayerPresenterProtocolInteractor: SmallPlayerPresenterProtocol {
+    
+}
+
+protocol SmallPlayerPresenterProtocolView: SmallPlayerPresenterProtocol {
     func setListener()
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool)
     func navButtonClick(next: Bool)

@@ -3,7 +3,7 @@ import UIKit
 
 class TracklistViewController: UIViewController, TracklistViewControllerProtocol, ControllerInfoProtocol {
     
-    var presenter: TracklistPresenterProtocol!
+    var presenter: TracklistPresenterProtocolView!
     
     public let name: String = LocalesManager.s.get(.tracklistTitle)
     public let imageName: String = "list-simple-star-7.png"

@@ -2,7 +2,7 @@ import Foundation
 
 class TrackFilterInteractor: TrackFilterInteractorProtocol {
     
-    weak var presenter: TrackFilterPresenterProtocol!
+    weak var presenter: TrackFilterPresenterProtocolInteractor!
     
     let parentModuleNameId: String
     init(parentModuleNameId: String) {

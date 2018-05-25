@@ -2,7 +2,7 @@ import Foundation
 
 class TrackInfoInteractor: BaseInteractor, TrackInfoInteractorProtocol {
     
-    weak var presenter: TrackInfoPresenterProtocol!
+    weak var presenter: TrackInfoPresenterProtocolInteractor!
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
         ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)

@@ -2,7 +2,7 @@ import Foundation
 
 class MainInteractor: BaseInteractor, MainInteractorProtocol {
     
-    weak var presenter: MainPresenterProtocol!
+    weak var presenter: MainPresenterProtocolInteractor!
     
     var inSearchWork = false
     

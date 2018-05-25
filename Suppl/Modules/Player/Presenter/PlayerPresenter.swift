@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class PlayerPresenter: PlayerPresenterProtocol {
+class PlayerPresenter: PlayerPresenterProtocolInteractor, PlayerPresenterProtocolView {
     
     var router: PlayerRouterProtocol!
     var interactor: PlayerInteractorProtocol!
@@ -14,20 +14,6 @@ class PlayerPresenter: PlayerPresenterProtocol {
     
     func firstLoad() {
         interactor.loadNowTrack()
-        //loadNowTrack(track: nowTrack, playerRate: interactor.getPlayerRate() ?? 0)
-    }
-    
-    func setNowTrack(track: CurrentTrack, status: Float, currentTime: Double) {
-        view.clearPlayer()
-        view.setTrackInfo(title: track.title, performer: track.performer)
-        view.setTrackImage(track.image)
-        view.openPlayer(duration: Double(track.duration))
-        view.updatePlayerProgress(currentTime: currentTime)
-        status == 1 ? view.setPauseImage() : view.setPlayImage()
-    }
-    
-    func updatePlayerProgress(currentTime: Double) {
-        view.updatePlayerProgress(currentTime: currentTime)
     }
     
     func navButtonClick(next: Bool) {
@@ -52,6 +38,19 @@ class PlayerPresenter: PlayerPresenterProtocol {
     
     func closePlayer() {
         router.closePlayer()
+    }
+    
+    func setNowTrack(track: CurrentTrack, status: Float, currentTime: Double) {
+        view.clearPlayer()
+        view.setTrackInfo(title: track.title, performer: track.performer)
+        view.setTrackImage(track.image)
+        view.openPlayer(duration: Double(track.duration))
+        view.updatePlayerProgress(currentTime: currentTime)
+        status == 1 ? view.setPauseImage() : view.setPlayImage()
+    }
+    
+    func updatePlayerProgress(currentTime: Double) {
+        view.updatePlayerProgress(currentTime: currentTime)
     }
     
 }

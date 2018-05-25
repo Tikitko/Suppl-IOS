@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class SmallPlayerPresenter: SmallPlayerPresenterProtocol {
+class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerPresenterProtocolView {
     
     var router: SmallPlayerRouterProtocol!
     var interactor: SmallPlayerInteractorProtocol!

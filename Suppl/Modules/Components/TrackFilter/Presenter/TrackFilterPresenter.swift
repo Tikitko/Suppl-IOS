@@ -1,6 +1,6 @@
 import Foundation
 
-class TrackFilterPresenter: TrackFilterPresenterProtocol {
+class TrackFilterPresenter: TrackFilterPresenterProtocolInteractor, TrackFilterPresenterProtocolView {
     
     var router: TrackFilterRouterProtocol!
     var interactor: TrackFilterInteractorProtocol!

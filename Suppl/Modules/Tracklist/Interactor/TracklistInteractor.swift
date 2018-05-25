@@ -2,7 +2,7 @@ import Foundation
 
 class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
-    weak var presenter: TracklistPresenterProtocol!
+    weak var presenter: TracklistPresenterProtocolInteractor!
     
     var inSearchWork = false
     

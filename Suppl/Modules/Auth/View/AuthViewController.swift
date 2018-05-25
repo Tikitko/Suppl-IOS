@@ -4,7 +4,7 @@ import SwiftTheme
 
 class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
-    var presenter: AuthPresenterProtocol!
+    var presenter: AuthPresenterProtocolView!
     
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!

@@ -2,7 +2,7 @@ import Foundation
 
 class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
 
-    weak var presenter: AuthPresenterProtocol!
+    weak var presenter: AuthPresenterProtocolInteractor!
     
     func startAuthCheck() {
         let _ = AuthManager.s.startAuthCheck()

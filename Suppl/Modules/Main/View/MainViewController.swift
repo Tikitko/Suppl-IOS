@@ -4,7 +4,7 @@ import SwiftTheme
 
 class MainViewController: UIViewController, MainViewControllerProtocol, ControllerInfoProtocol {
     
-    var presenter: MainPresenterProtocol!
+    var presenter: MainPresenterProtocolView!
     
     public let name: String = LocalesManager.s.get(.musicTitle)
     public let imageName = "music-7.png"

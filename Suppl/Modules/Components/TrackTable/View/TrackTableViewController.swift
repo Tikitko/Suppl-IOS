@@ -3,7 +3,7 @@ import UIKit
 
 final class TrackTableViewController: UITableViewController, TrackTableViewControllerProtocol {
     
-    var presenter: TrackTablePresenterProtocol!
+    var presenter: TrackTablePresenterProtocolView!
     
     private class UITableViewWithReload: UITableView {
         weak var myController: TrackTableViewController!

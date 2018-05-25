@@ -1,9 +1,14 @@
 import Foundation
 import UIKit
 
-protocol TrackInfoPresenterProtocol: class {
-    func setListeners()
+protocol TrackInfoPresenterProtocol: class {}
+
+protocol TrackInfoPresenterProtocolInteractor: TrackInfoPresenterProtocol {
     func getModuleNameId() -> String
-    func clearTrack()
     func additionalInfo(currentPlayingId: String, roundImage: Bool)
+}
+
+protocol TrackInfoPresenterProtocolView: TrackInfoPresenterProtocol {
+    func setListeners()
+    func clearTrack()
 }

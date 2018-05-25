@@ -3,7 +3,7 @@ import UIKit
 
 class SearchBarViewController: UIViewController, SearchBarViewControllerProtocol {
     
-    var presenter: SearchBarPresenterProtocol!
+    var presenter: SearchBarPresenterProtocolView!
     
     let searchBar = UISearchBar()
 
