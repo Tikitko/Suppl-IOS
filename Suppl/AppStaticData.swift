@@ -1,7 +1,5 @@
 final class AppStaticData {
     
-    public static let debugOn = true
-    
     public static let baseSearchQueriesList = [
         "Pink Floyd",
         "Led Zeppelin",
