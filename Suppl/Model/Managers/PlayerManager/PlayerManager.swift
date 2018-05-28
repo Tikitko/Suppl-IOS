@@ -8,12 +8,16 @@ final class PlayerManager: NSObject {
     static public let s = PlayerManager()
     private override init() {
         super.init()
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        try? AVAudioSession.sharedInstance().setActive(true)
+        UIApplication.shared.beginReceivingRemoteControlEvents()
     }
     
     private var player: AVPlayer?
     private var needPlayingStatus = false
     private var observerPlayStatusWorking = false
     private var observerPlayerRateWorking = false
+    private var timeObserver: Any?
     
     private var playlist: Playlist?
     private(set) var currentTrack: CurrentTrack?
@@ -75,11 +79,11 @@ final class PlayerManager: NSObject {
         let status: AVPlayerItemStatus = AVPlayerItemStatus(rawValue: statusNumber?.intValue ?? AVPlayerItemStatus.unknown.rawValue)!
         switch status {
         case .readyToPlay:
-            guard let player = self.player, let item = player.currentItem else { return }
-            player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
+            guard let player = player, let item = player.currentItem else { return }
+            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (time) -> Void in
                 guard let `self` = self, item.status == .readyToPlay else { return }
                 self.sayToListeners() { delegate in
-                    delegate.itamTimeChanged(item, item.currentTime().seconds)
+                    delegate.itamTimeChanged(item, time.seconds)
                 }
             }
             sayToListeners() { delegate in
@@ -103,7 +107,7 @@ final class PlayerManager: NSObject {
                 delegate.playerStop()
             }
             guard let currentItem = player?.currentItem else { return }
-            if SettingsManager.s.autoNextTrack!, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0, let _ = playlist {
+            if SettingsManager.s.autoNextTrack!, Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) == 0, let _ = playlist {
                 loadTrackByID(playlist!.next())
             } else if needPlayingStatus {
                 player?.play()
@@ -112,6 +116,7 @@ final class PlayerManager: NSObject {
     }
     
     private func addRemoteCommands() {
+        print(1)
         commandCenter().playCommand.addTarget(self, action: #selector(play))
         commandCenter().pauseCommand.addTarget(self, action: #selector(pause))
         commandCenter().nextTrackCommand.addTarget(self, action: #selector(nextTrack))
@@ -119,6 +124,7 @@ final class PlayerManager: NSObject {
     }
     
     private func removeRemoteCommands() {
+        print(2)
         commandCenter().playCommand.removeTarget(self)
         commandCenter().pauseCommand.removeTarget(self)
         commandCenter().nextTrackCommand.removeTarget(self)
@@ -128,8 +134,8 @@ final class PlayerManager: NSObject {
     private func remoteCommands(isEnabled: Bool) {
         commandCenter().playCommand.isEnabled = isEnabled
         commandCenter().pauseCommand.isEnabled = isEnabled
-        commandCenter().nextTrackCommand.isEnabled = isEnabled
-        commandCenter().previousTrackCommand.isEnabled = isEnabled
+        //commandCenter().nextTrackCommand.isEnabled = isEnabled
+        //commandCenter().previousTrackCommand.isEnabled = isEnabled
     }
     
     private func nowPlayingCenter() -> MPNowPlayingInfoCenter {
@@ -164,6 +170,10 @@ final class PlayerManager: NSObject {
         remoteCommands(isEnabled: false)
         removePlayStatusObserver()
         removePlayerRateObserver()
+        if let timeObserver = timeObserver {
+            player?.removeTimeObserver(timeObserver)
+        }
+        timeObserver = nil
         player = nil
     }
     
@@ -200,6 +210,10 @@ final class PlayerManager: NSObject {
         }
         removePlayStatusObserver()
         removePlayerRateObserver()
+        if let timeObserver = timeObserver {
+            player?.removeTimeObserver(timeObserver)
+        }
+        timeObserver = nil
         player = nil
         currentTrack = nil
         playlist = nil
