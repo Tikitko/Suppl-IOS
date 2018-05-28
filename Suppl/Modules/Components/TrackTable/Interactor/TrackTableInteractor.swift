@@ -21,7 +21,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         TracklistManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
-    func laodTracklist() {
+    func loadTracklist() {
         presenter.setTracklist(TracklistManager.s.tracklist)
     }
 

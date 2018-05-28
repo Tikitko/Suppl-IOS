@@ -31,7 +31,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func load() {
-        interactor.laodTracklist()
+        interactor.loadTracklist()
         interactor.setTracklistListener(self)
     }
     
