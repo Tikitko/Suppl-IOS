@@ -26,14 +26,22 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
         
         if let keys = getKeys() {
             presenter.setAuthStarted(isReg: false)
-            AuthManager.s.authorization(keys: keys) { [weak self] error in
-                self?.presenter.setAuthResult(error)
+            AuthManager.s.authorization(keys: keys) { [weak self] data, error in
+                self?.sendAuthResult(error)
             }
         } else {
             presenter.setAuthStarted(isReg: true)
-            AuthManager.s.registration() { [weak self] error in
-                self?.presenter.setAuthResult(error)
+            AuthManager.s.registration() { [weak self] data, error in
+                self?.sendAuthResult(error)
             }
+        }
+    }
+    
+    private func sendAuthResult(_ error: NSError?) {
+        if let error = error {
+            presenter.setAuthResult(apiErrorCode: error.code)
+        } else {
+            presenter.setAuthResult(nil)
         }
     }
 

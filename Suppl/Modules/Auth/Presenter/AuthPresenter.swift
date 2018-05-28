@@ -57,6 +57,10 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
         setAuthResult(interactor.getLocaleString(expression))
     }
     
+    func setAuthResult(apiErrorCode code: Int) {
+        setAuthResult(interactor.getLocaleString(apiErrorCode: code))
+    }
+    
     func repeatButtonClick(identifierText: String?) {
         guard let identifierText = identifierText else { return }
         view.disableButtons()

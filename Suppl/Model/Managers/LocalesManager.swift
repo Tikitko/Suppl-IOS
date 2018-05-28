@@ -13,13 +13,14 @@ final class LocalesManager {
     private init() {}
     
     public let locale = PListsManager.s.loadPList(AppStaticData.locales.first ?? "")! as! [String: String]
+    private let empty = "---"
 
     public func get(_ expression: Expression) -> String {
-        return locale[expression.rawValue] ?? "---"
+        return locale[expression.rawValue] ?? empty
     }
     
-    public func get(_ expression: Expression) -> String? {
-        return locale[expression.rawValue]
+    public func get(apiErrorCode code: Int) -> String {
+        return locale["APIError_\(code)"] ?? empty
     }
     
 }

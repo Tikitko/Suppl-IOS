@@ -36,7 +36,7 @@ class SettingsAccountViewController: UIViewController {
         self.emailField.placeholder = LocalesManager.s.get(.install)
         APIManager.s.userUpdateEmail(keys: keys, email: email) { [weak self] error, data in
             guard let `self` = self else { return }
-            self.emailField.placeholder = error != nil ? error!.getAPIErrorString() : LocalesManager.s.get(.emailSet)
+            self.emailField.placeholder = error != nil ? LocalesManager.s.get(apiErrorCode: error!.code) : LocalesManager.s.get(.emailSet)
             let when = DispatchTime.now() + 2
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                 guard let `self` = self else { return }

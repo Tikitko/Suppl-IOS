@@ -53,9 +53,3 @@ final class APIManager {
         tracklistService.move(keys: keys, from: from, to: to, dataReport: dataReport)
     }
 }
-
-extension NSError {
-    public func getAPIErrorString() -> String {
-        return LocalesManager.s.locale["APIError_\(code)"] ?? domain
-    }
-}

@@ -55,27 +55,23 @@ final class AuthManager {
         return KeysPair(ikey, akey)
     }
     
-    public func authorization(keys: KeysPair?, callback: @escaping (String?) -> Void) {
+    public func authorization(keys: KeysPair? = nil, callback: @escaping (UserData?, NSError?) -> Void) {
         let keysFromDefaults = getAuthKeys()
         guard let keys = keys ?? keysFromDefaults else { return }
         APIManager.s.userGet(keys: keys) { error, data in
-            if let error = error {
-                callback(error.getAPIErrorString())
-                return
-            }
-            callback(nil)
+            callback(data, error)
         }
     }
     
-    public func registration(callback: @escaping (String?) -> Void) {
+    public func registration(callback: @escaping (UserSecretData?, NSError?) -> Void) {
         APIManager.s.userRegister() { error, data in
             if let error = error {
-                callback(error.getAPIErrorString())
+                callback(nil, error)
                 return
             }
             UserDefaultsManager.s.identifierKey = data!.identifierKey
             UserDefaultsManager.s.accessKey = data!.accessKey
-            callback(nil)
+            callback(data, nil)
         }
     }
     
