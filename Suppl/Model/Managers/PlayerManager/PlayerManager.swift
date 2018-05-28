@@ -85,6 +85,7 @@ final class PlayerManager: NSObject {
                 self.sayToListeners() { delegate in
                     delegate.itamTimeChanged(item, time.seconds)
                 }
+                self.nowPlayingCenter().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
             }
             sayToListeners() { delegate in
                 delegate.itemReadyToPlay(item)
@@ -189,8 +190,15 @@ final class PlayerManager: NSObject {
         sayToListeners() { delegate in
             delegate.trackInfoChanged(currentTrack!, nil)
         }
-        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = track.title
-        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = track.performer
+        print(track.duration)
+        let nowPlayingInfo = [
+            MPMediaItemPropertyTitle: track.title,
+            MPMediaItemPropertyArtist: track.performer,
+            MPMediaItemPropertyPlaybackDuration: track.duration,
+            MPNowPlayingInfoPropertyPlaybackRate: NSNumber(value: 1.0 as Float)
+        ] as [String: Any]
+        nowPlayingCenter().nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
+        print(nowPlayingCenter().nowPlayingInfo)
         guard SettingsManager.s.loadImages! else { return }
         RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] imageData in
             guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
