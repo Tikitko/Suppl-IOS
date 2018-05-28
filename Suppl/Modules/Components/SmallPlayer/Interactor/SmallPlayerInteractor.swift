@@ -4,7 +4,7 @@ class SmallPlayerInteractor: SmallPlayerInteractorProtocol {
     
     weak var presenter: SmallPlayerPresenterProtocolInteractor!
 
-    func setListener(_ delegate: PlayerListenerDelegate) {
+    func setPlayerListener(_ delegate: PlayerListenerDelegate) {
         PlayerManager.s.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
     }
     

@@ -9,7 +9,7 @@ class PlayerPresenter: PlayerPresenterProtocolInteractor, PlayerPresenterProtoco
     weak var view: PlayerViewControllerProtocol!
     
     func setListener() {
-        interactor.setListener(self)
+        interactor.setPlayerListener(self)
     }
     
     func firstLoad() {

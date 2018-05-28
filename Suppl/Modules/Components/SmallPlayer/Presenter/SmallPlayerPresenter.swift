@@ -9,7 +9,7 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     weak var view: SmallPlayerViewControllerProtocol!
     
     func setListener() {
-        interactor.setListener(self)
+        interactor.setPlayerListener(self)
     }
     
     func navButtonClick(next: Bool) {
