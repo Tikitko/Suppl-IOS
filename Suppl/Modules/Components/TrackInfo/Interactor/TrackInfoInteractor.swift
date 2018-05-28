@@ -13,8 +13,7 @@ class TrackInfoInteractor: BaseInteractor, TrackInfoInteractorProtocol {
     }
     
     func requestAdditionalInfo() {
-        guard let currentPlayingId = PlayerManager.s.currentTrack?.id else { return }
-        presenter.additionalInfo(currentPlayingId: currentPlayingId, roundImage: SettingsManager.s.roundIcons!)
+        presenter.additionalInfo(currentPlayingId: PlayerManager.s.currentTrack?.id, roundImage: SettingsManager.s.roundIcons!)
     }
     
 }

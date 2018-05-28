@@ -22,7 +22,7 @@ class TrackInfoPresenter: TrackInfoPresenterProtocolInteractor, TrackInfoPresent
         view.setSelected(id != nil && id == trackId, instantly: instantly)
     }
     
-    func additionalInfo(currentPlayingId: String, roundImage: Bool) {
+    func additionalInfo(currentPlayingId: String?, roundImage: Bool) {
         view.setRoundImage(roundImage)
         setSelectedIfCurrent(id: currentPlayingId, instantly: true)
     }

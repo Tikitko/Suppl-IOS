@@ -5,7 +5,7 @@ protocol TrackInfoPresenterProtocol: class {}
 
 protocol TrackInfoPresenterProtocolInteractor: TrackInfoPresenterProtocol {
     func getModuleNameId() -> String
-    func additionalInfo(currentPlayingId: String, roundImage: Bool)
+    func additionalInfo(currentPlayingId: String?, roundImage: Bool)
 }
 
 protocol TrackInfoPresenterProtocolView: TrackInfoPresenterProtocol {
