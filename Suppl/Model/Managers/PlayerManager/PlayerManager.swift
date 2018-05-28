@@ -116,7 +116,6 @@ final class PlayerManager: NSObject {
     }
     
     private func addRemoteCommands() {
-        print(1)
         commandCenter().playCommand.addTarget(self, action: #selector(play))
         commandCenter().pauseCommand.addTarget(self, action: #selector(pause))
         commandCenter().nextTrackCommand.addTarget(self, action: #selector(nextTrack))
@@ -124,7 +123,6 @@ final class PlayerManager: NSObject {
     }
     
     private func removeRemoteCommands() {
-        print(2)
         commandCenter().playCommand.removeTarget(self)
         commandCenter().pauseCommand.removeTarget(self)
         commandCenter().nextTrackCommand.removeTarget(self)
