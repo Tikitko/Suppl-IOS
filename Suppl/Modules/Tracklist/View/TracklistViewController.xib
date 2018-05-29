@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -23,11 +23,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Плейлист" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AU-sj-sVD">
-                    <rect key="frame" x="5" y="25" width="365" height="46"/>
+                    <rect key="frame" x="5" y="5" width="129" height="56"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="129" id="Ohq-3T-J6N"/>
                         <constraint firstAttribute="height" constant="46" id="zee-vd-w8k">
@@ -49,13 +49,13 @@
                     </variation>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3pJ-XD-qtM">
-                    <rect key="frame" x="5" y="127" width="365" height="486"/>
+                    <rect key="frame" x="5" y="61" width="657" height="277"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPl-IA-S6M">
-                    <rect key="frame" x="333" y="71" width="37" height="56"/>
+                    <rect key="frame" x="572" y="5" width="45" height="56"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="37" id="zam-ml-Ge1"/>
+                        <constraint firstAttribute="width" constant="45" id="zam-ml-Ge1"/>
                     </constraints>
                     <state key="normal" image="update-7"/>
                     <connections>
@@ -63,9 +63,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vi3-4X-fZI">
-                    <rect key="frame" x="296" y="71" width="37" height="56"/>
+                    <rect key="frame" x="527" y="5" width="45" height="56"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="37" id="4Ln-YZ-M2C"/>
+                        <constraint firstAttribute="width" constant="45" id="4Ln-YZ-M2C"/>
                     </constraints>
                     <state key="normal" image="character-e-7"/>
                     <connections>
@@ -73,9 +73,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWp-41-h10">
-                    <rect key="frame" x="296" y="25" width="74" height="46"/>
+                    <rect key="frame" x="617" y="5" width="45" height="56"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="37" id="3wB-wT-Uvn"/>
+                        <constraint firstAttribute="width" constant="45" id="3wB-wT-Uvn"/>
                     </constraints>
                     <state key="normal" image="dot-more-7"/>
                     <variation key="default">
@@ -93,11 +93,11 @@
                     </connections>
                 </button>
                 <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Поиск по плейлисту" translatesAutoresizingMaskIntoConstraints="NO" id="yBe-8n-PaE">
-                    <rect key="frame" x="5" y="71" width="291" height="56"/>
+                    <rect key="frame" x="134" y="5" width="393" height="56"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загрузка..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPK-Ye-23v">
-                    <rect key="frame" x="5" y="127" width="365" height="50"/>
+                    <rect key="frame" x="5" y="61" width="657" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="WiR-Wy-TQC"/>
                     </constraints>
@@ -180,6 +180,10 @@
                     <exclude reference="hXZ-yu-bRF"/>
                     <exclude reference="k4G-Ic-Y2C"/>
                     <exclude reference="pM1-Gb-SMa"/>
+                    <exclude reference="PH2-wD-hST"/>
+                    <exclude reference="Sns-xC-5wP"/>
+                    <exclude reference="deu-NJ-8fD"/>
+                    <exclude reference="heD-gc-iFc"/>
                     <exclude reference="1UT-B3-Jhn"/>
                     <exclude reference="2Mq-es-B8p"/>
                     <exclude reference="8Ex-yp-ulZ"/>
@@ -197,10 +201,10 @@
                     <exclude reference="MuB-Ql-67b"/>
                     <exclude reference="xt6-2m-Axf"/>
                     <exclude reference="zty-Fa-hU3"/>
-                    <exclude reference="PH2-wD-hST"/>
-                    <exclude reference="Sns-xC-5wP"/>
-                    <exclude reference="deu-NJ-8fD"/>
-                    <exclude reference="heD-gc-iFc"/>
+                    <exclude reference="33P-vx-bDk"/>
+                    <exclude reference="8dp-16-bFn"/>
+                    <exclude reference="LXz-5P-afY"/>
+                    <exclude reference="odl-Co-XLa"/>
                     <exclude reference="MEG-OB-ue0"/>
                     <exclude reference="e0A-tR-0ul"/>
                     <exclude reference="iXV-oC-d83"/>
@@ -211,10 +215,6 @@
                     <exclude reference="JFm-zw-GZ8"/>
                     <exclude reference="a7u-Jo-bKp"/>
                     <exclude reference="veB-VO-1iY"/>
-                    <exclude reference="33P-vx-bDk"/>
-                    <exclude reference="8dp-16-bFn"/>
-                    <exclude reference="LXz-5P-afY"/>
-                    <exclude reference="odl-Co-XLa"/>
                 </mask>
             </variation>
             <variation key="heightClass=compact">
@@ -224,6 +224,8 @@
                     <include reference="Ntq-OR-b9D"/>
                     <include reference="7J8-mg-tVT"/>
                     <include reference="k4G-Ic-Y2C"/>
+                    <include reference="PH2-wD-hST"/>
+                    <include reference="Sns-xC-5wP"/>
                     <include reference="1UT-B3-Jhn"/>
                     <include reference="9xn-bq-EcV"/>
                     <include reference="DUp-8m-yyE"/>
@@ -234,14 +236,12 @@
                     <include reference="BoZ-cy-4ps"/>
                     <include reference="MuB-Ql-67b"/>
                     <include reference="zty-Fa-hU3"/>
-                    <include reference="PH2-wD-hST"/>
-                    <include reference="Sns-xC-5wP"/>
+                    <include reference="33P-vx-bDk"/>
+                    <include reference="8dp-16-bFn"/>
                     <include reference="MEG-OB-ue0"/>
                     <include reference="oPW-v8-na8"/>
                     <include reference="JFm-zw-GZ8"/>
                     <include reference="a7u-Jo-bKp"/>
-                    <include reference="33P-vx-bDk"/>
-                    <include reference="8dp-16-bFn"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular">
@@ -253,6 +253,8 @@
                     <include reference="bP7-46-wjz"/>
                     <include reference="hXZ-yu-bRF"/>
                     <include reference="pM1-Gb-SMa"/>
+                    <include reference="deu-NJ-8fD"/>
+                    <include reference="heD-gc-iFc"/>
                     <include reference="2Mq-es-B8p"/>
                     <include reference="8Ex-yp-ulZ"/>
                     <include reference="aJf-lK-JKR"/>
@@ -260,16 +262,14 @@
                     <include reference="0Lp-gS-PrW"/>
                     <include reference="7wx-Kk-Kr5"/>
                     <include reference="xt6-2m-Axf"/>
-                    <include reference="deu-NJ-8fD"/>
-                    <include reference="heD-gc-iFc"/>
+                    <include reference="LXz-5P-afY"/>
+                    <include reference="odl-Co-XLa"/>
                     <include reference="e0A-tR-0ul"/>
                     <include reference="iXV-oC-d83"/>
                     <include reference="6Kq-aX-ebi"/>
                     <include reference="9u2-zv-g38"/>
                     <include reference="DcG-hE-DOd"/>
                     <include reference="veB-VO-1iY"/>
-                    <include reference="LXz-5P-afY"/>
-                    <include reference="odl-Co-XLa"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="26.5" y="51.5"/>
