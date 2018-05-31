@@ -24,6 +24,7 @@ class SettingTableCell: UITableViewCell {
         settingButton?.setTitle(buttonText, for: .normal)
         settingButton?.theme_tintColor = "secondColor"
         settingButton?.translatesAutoresizingMaskIntoConstraints = false
+        settingButton?.titleLabel?.lineBreakMode = .byTruncatingTail
         addSubview(settingButton!)
         
         setConstraints()

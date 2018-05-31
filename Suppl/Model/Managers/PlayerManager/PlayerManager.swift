@@ -198,6 +198,15 @@ final class PlayerManager: NSObject {
         ] as [String: Any]
         nowPlayingCenter().nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
         guard SettingsManager.s.loadImages! else { return }
+        RemoteDataManager.s.getCachedImageAsData(link: track.images.last ?? "") { [weak self] imageData in
+            guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
+            self.currentTrack?.image = image
+            self.sayToListeners() { delegate in
+                delegate.trackInfoChanged(self.currentTrack!, imageData as Data)
+            }
+            self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
+        }
+        /*
         RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] imageData in
             guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
             self.currentTrack?.image = image
@@ -206,6 +215,7 @@ final class PlayerManager: NSObject {
             }
             self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
         }
+         */
     }
     
     public func clearPlayer() {
@@ -233,7 +243,8 @@ final class PlayerManager: NSObject {
         self.cachedTracksInfo = cachedTracksInfo
         loadTrackByID(playlist!.curr())
         sayToListeners() { delegate in
-            delegate.playlistAdded(playlist!)
+            guard let playlist = playlist else { return }
+            delegate.playlistAdded(playlist)
         }
         addRemoteCommands()
         remoteCommands(isEnabled: false)

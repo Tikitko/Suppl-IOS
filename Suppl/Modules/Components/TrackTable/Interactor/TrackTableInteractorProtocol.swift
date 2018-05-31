@@ -4,6 +4,7 @@ protocol TrackTableInteractorProtocol: class, BaseInteractorProtocol {
     func getDelegate() -> TrackTableCommunicateProtocol?
     func getCellDelegate(name: String) -> TrackInfoCommunicateProtocol?
     func setTracklistListener(_ delegate: TracklistListenerDelegate)
+    func requestOfflineStatus()
     func loadTracklist()
     func openPlayer(tracksIDs: [String], trackIndex: Int, cachedTracksInfo: [AudioData]?)
     func addTrack(trackId: String, track: AudioData)

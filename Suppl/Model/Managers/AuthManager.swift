@@ -26,6 +26,7 @@ final class AuthManager {
     }
     
     public func startAuthCheck(startNow: Bool = false) -> Bool {
+        if OfflineModeManager.s.offlineMode { return false }
         if startNow {
             authCheckRequest()
         }

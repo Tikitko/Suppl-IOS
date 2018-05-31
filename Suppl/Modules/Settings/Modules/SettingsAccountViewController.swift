@@ -29,6 +29,7 @@ class SettingsAccountViewController: UIViewController {
 
     @IBAction func emailButtonClick(_ sender: Any) {
         view.endEditing(true)
+        if OfflineModeManager.s.offlineMode { return }
         guard let keys = AuthManager.s.getAuthKeys() else { return }
         guard let email = self.emailField.text else { return }
         let lastPlacehilderText = emailField.placeholder
@@ -52,10 +53,19 @@ class SettingsAccountViewController: UIViewController {
     }
     
     private func getAccount() {
+        guard let keys = AuthManager.s.getAuthKeys() else { return }
+        if OfflineModeManager.s.offlineMode {
+            emailField.text = LocalesManager.s.get(.noInOffline)
+            identifierField.text = String(keys.identifierKey) + String(keys.accessKey)
+            emailButton.isHidden = true
+            self.accountOutButton.isEnabled = true
+            emailField.isEnabled = false
+            identifierField.isEnabled = false
+            return
+        }
         let loadText: String = LocalesManager.s.get(.getInfo)
         emailField.text = loadText
         identifierField.text = loadText
-        guard let keys = AuthManager.s.getAuthKeys() else { return }
         APIManager.s.userGet(keys: keys) { [weak self] error, data in
             guard let `self` = self else { return }
             guard let data = data else {

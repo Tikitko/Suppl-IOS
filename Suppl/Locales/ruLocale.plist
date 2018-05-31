@@ -2,6 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>clear</key>
+	<string>Очистить</string>
+	<key>setting5</key>
+	<string>Очистить кэш картинок</string>
+	<key>off</key>
+	<string>Выкл.</string>
+	<key>on</key>
+	<string>Вкл.</string>
+	<key>setting4</key>
+	<string>Оффлайн режим</string>
+	<key>noInOffline</key>
+	<string>Недоступно в оффлайн режиме</string>
+	<key>noOffline</key>
+	<string>Оффлайн режим недоступен</string>
 	<key>APIError_1</key>
 	<string>Ошибка сервера</string>
 	<key>APIError_5</key>
@@ -72,17 +86,17 @@
 	<string>EMail установлен!</string>
 	<key>youEmail</key>
 	<string>Ваш EMail</string>
-    <key>addOk</key>
-    <string>Добавлен в плейлист!</string>
-    <key>addError</key>
-    <string>Ошибка добавления в плейлист!</string>
-    <key>removeOk</key>
-    <string>Удален из плейлиста!</string>
-    <key>removeError</key>
-    <string>Ошибка удаления из плейлиста!</string>
-    <key>moveOk</key>
-    <string>Успешно перемещен!</string>
-    <key>moveError</key>
-    <string>Ошибка перемещения!</string>
+	<key>addOk</key>
+	<string>Добавлен в плейлист!</string>
+	<key>addError</key>
+	<string>Ошибка добавления в плейлист!</string>
+	<key>removeOk</key>
+	<string>Удален из плейлиста!</string>
+	<key>removeError</key>
+	<string>Ошибка удаления из плейлиста!</string>
+	<key>moveOk</key>
+	<string>Успешно перемещен!</string>
+	<key>moveError</key>
+	<string>Ошибка перемещения!</string>
 </dict>
 </plist>

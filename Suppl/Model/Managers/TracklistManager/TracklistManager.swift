@@ -8,6 +8,7 @@ final class TracklistManager {
     private(set) var inUpdate: Bool = false
     private(set) var tracklist: [String]? {
         didSet {
+            setDBTracklist(tracklist)
             sayToListeners() { delegate in delegate.tracklistUpdated(tracklist) }
         }
     }
@@ -18,7 +19,7 @@ final class TracklistManager {
         mapTableDelegates.setObject(delegate, forKey: name as NSString)
     }
     
-    private  func getListener(name: String) -> TracklistListenerDelegate? {
+    private func getListener(name: String) -> TracklistListenerDelegate? {
         return mapTableDelegates.object(forKey: name as NSString) as? TracklistListenerDelegate
     }
     
@@ -29,7 +30,41 @@ final class TracklistManager {
         }
     }
     
+    private func getDBTracklist() -> [String]? {
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
+        guard let keys = AuthManager.s.getAuthKeys(), let tracks = try? CoreDataManager.s.fetche(UserTrack.self, predicate: NSPredicate(format: "userIdentifier = \(keys.identifierKey)"), sortDescriptors: [sortDescriptor]) else { return nil }
+        var tracklist: [String] = []
+        for track in tracks {
+            tracklist.append(track.trackId as String)
+        }
+        return tracklist
+    }
+    
+    private func setDBTracklist(_ tracklist: [String]?) {
+        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = tracklist, let tracks = try? CoreDataManager.s.fetche(UserTrack.self, predicate: NSPredicate(format: "userIdentifier = \(keys.identifierKey)")) else { return }
+        for track in tracks {
+            guard !tracklist.contains(track.trackId as String) else { continue }
+            CoreDataManager.s.persistentContainer.viewContext.delete(track)
+        }
+        for (key, trackId) in tracklist.enumerated() {
+            if let readyTrackIndex = tracks.index(where: { $0.trackId == trackId as NSString }) {
+                tracks[readyTrackIndex].position = NSNumber(value: key)
+            } else {
+                let newTrack = CoreDataManager.s.create(UserTrack.self)
+                newTrack.userIdentifier = NSNumber(value: keys.identifierKey)
+                newTrack.trackId = trackId as NSString
+                newTrack.position = NSNumber(value: key)
+            }
+        }
+        CoreDataManager.s.saveContext()
+    }
+    
     public func update(callback: @escaping (Bool) -> ()) {
+        if OfflineModeManager.s.offlineMode {
+            tracklist = getDBTracklist()
+            callback(true)
+            return
+        }
         guard !inUpdate, let keys = AuthManager.s.getAuthKeys() else {
             callback(false)
             return
@@ -55,8 +90,7 @@ final class TracklistManager {
     }
     
     public func add(trackId: String, to: Int = 0, callback: @escaping (Bool) -> ()) {
-        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = self.tracklist else
-        {
+        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = self.tracklist else {
             callback(false)
             return
         }

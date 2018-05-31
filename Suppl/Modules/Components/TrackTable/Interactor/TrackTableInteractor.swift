@@ -21,6 +21,10 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         TracklistManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
+    func requestOfflineStatus() {
+        presenter.canEdit = !getOfflineStatus()
+    }
+    
     func loadTracklist() {
         presenter.setTracklist(TracklistManager.s.tracklist)
     }
@@ -64,7 +68,8 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     
     func loadImageData(link: String, callback: @escaping (_ data: NSData) -> Void) {
         guard SettingsManager.s.loadImages!, link != "" else { return }
-        RemoteDataManager.s.getData(link: link, callbackData: callback)
+        RemoteDataManager.s.getCachedImageAsData(link: link, callbackImageData: { callback( $0 as NSData ) })
+        //RemoteDataManager.s.getData(link: link, callbackData: callback)
     }
   
 }

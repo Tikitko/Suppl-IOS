@@ -9,8 +9,16 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
     }
 
     func startAuth(fromString input: String? = nil, onlyInfo: Bool = false) {
+        if getOfflineStatus() {
+            if let _ = getKeys() {
+                presenter.setAuthResult(nil, blockOnError: false)
+            } else {
+                presenter.setAuthResult(.noOffline, blockOnError: true)
+            }
+            return
+        }
         if onlyInfo {
-            presenter.setAuthResult(.inputIdentifier)
+            presenter.setAuthResult(.inputIdentifier, blockOnError: false)
             return
         }
         if let text = input {
@@ -19,7 +27,7 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
                 UserDefaultsManager.s.identifierKey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
                 UserDefaultsManager.s.accessKey = Int(text[text.index(text.startIndex, offsetBy: half)..<text.endIndex])
             } else {
-                presenter.setAuthResult(.badIdentifier)
+                presenter.setAuthResult(.badIdentifier, blockOnError: false)
                 return
             }
         }
@@ -41,7 +49,7 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
         if let error = error {
             presenter.setAuthResult(apiErrorCode: error.code)
         } else {
-            presenter.setAuthResult(nil)
+            presenter.setAuthResult(nil, blockOnError: false)
         }
     }
 

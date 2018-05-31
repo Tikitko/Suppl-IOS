@@ -6,6 +6,7 @@
 //  Copyright © 2018 Mikita Bykau. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 @UIApplicationMain
@@ -14,14 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        let _ = OfflineModeManager.s
         let _ = SettingsManager.s
         ToastManager.shared.isQueueEnabled = true
+        RemoteDataManager.s.resetOldCachedImages()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
         AuthManager.s.setAuthWindow()
-
+        
         return true
     }
 
@@ -37,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         let _ = AuthManager.s.stopAuthCheck()
     }
+
 }
 
 extension UIApplication {

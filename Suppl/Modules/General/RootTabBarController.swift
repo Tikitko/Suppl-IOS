@@ -13,7 +13,11 @@ final class RootTabBarController: UITabBarController {
         super.viewDidLoad()
         setTheme()
         
-        setupControllers([MainRouter.setup(), TracklistRouter.setup(), SettingsMainViewController.initial()])
+        var controllers = [TracklistRouter.setup(), SettingsMainViewController.initial()]
+        if !OfflineModeManager.s.offlineMode {
+            controllers.insert(MainRouter.setup(), at: 0)
+        }
+        setupControllers(controllers)
         
         if #available(iOS 11.0, *) {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)

@@ -15,7 +15,7 @@ class SettingsGeneralViewController: UIViewController {
 extension SettingsGeneralViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -33,7 +33,7 @@ extension SettingsGeneralViewController: UITableViewDataSource {
             cell = SettingTableCell(labelText: LocalesManager.s.get(.setting0), switchValue: SettingsManager.s.autoNextTrack!) { switchElement in
                 SettingsManager.s.autoNextTrack = switchElement.isOn
             }
-        case 3:
+        case 4:
             let themes = AppStaticData.themesList
             var themeId = themes.count > SettingsManager.s.theme! ? SettingsManager.s.theme! : 0
             let labelText: String = LocalesManager.s.get(.setting3)
@@ -41,6 +41,18 @@ extension SettingsGeneralViewController: UITableViewDataSource {
                 themeId = themes.count > themeId + 1 ? themeId + 1 : 0
                 button.setTitle(themes[themeId], for: .normal)
                 SettingsManager.s.theme = themeId
+            }
+        case 3:
+            cell = SettingTableCell(labelText: LocalesManager.s.get(.setting4), switchValue: OfflineModeManager.s.offlineMode) { switchElement in
+                if switchElement.isOn {
+                    OfflineModeManager.s.on()
+                } else {
+                    OfflineModeManager.s.off()
+                }
+            }
+        case 5:
+            cell = SettingTableCell(labelText: LocalesManager.s.get(.setting5), buttonText: LocalesManager.s.get(.clear)) { button in
+                RemoteDataManager.s.resetAllCachedImages()
             }
         default:
             cell = UITableViewCell()

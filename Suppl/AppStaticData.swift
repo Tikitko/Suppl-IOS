@@ -1,5 +1,7 @@
 final class AppStaticData {
     
+    public static let cacheDir = "SupplCache"
+    
     public static let baseSearchQueriesList = [
         "Pink Floyd",
         "Led Zeppelin",

@@ -16,6 +16,7 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
     var searchTimeRate: Float = 1.0
     
     func load() {
+        interactor.requestOfflineStatus()
         interactor.setListener(self)
         interactor.setTracklistListener(self)
         interactor.updateTracks()
@@ -31,6 +32,11 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
 
     func tracklistUpdateResult(status: Bool) {
         view.updateButtonIsEnabled(true)
+    }
+    
+    func offlineStatus(_ isOn: Bool) {
+        guard isOn else { return }
+        view.offButtons()
     }
     
     func filterButtonClick() {
@@ -50,7 +56,7 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         tracks = []
     }
     
-    func setNewTrack(track: AudioData) {
+    func setNewTrack(_ track: AudioData) {
         tracks.append(track)
     }
     
@@ -59,6 +65,7 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
             searchNowQuery()
         } else {
             view.reloadData()
+            interactor.setDBTracks(tracks)
             setInfo(status != nil ? interactor.getLocaleString(status!) : nil)
         }
     }

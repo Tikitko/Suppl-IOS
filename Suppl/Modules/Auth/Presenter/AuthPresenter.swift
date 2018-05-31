@@ -37,9 +37,10 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
         setLabel(expression: isReg ? .reg : .auth)
     }
     
-    func setAuthResult(_ error: String?) {
+    func setAuthResult(_ error: String?, blockOnError: Bool = false) {
         if let error = error {
             setLabel(error)
+            if blockOnError { return }
             QueueTemplate.continueAfter(1.7) { [weak self] in
                 self?.setLabel(expression: .inputIdentifier)
                 self?.view.enableButtons()
@@ -53,8 +54,8 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
         }
     }
     
-    func setAuthResult(_ expression: LocalesManager.Expression) {
-        setAuthResult(interactor.getLocaleString(expression))
+    func setAuthResult(_ expression: LocalesManager.Expression, blockOnError: Bool = false) {
+        setAuthResult(interactor.getLocaleString(expression), blockOnError: blockOnError)
     }
     
     func setAuthResult(apiErrorCode code: Int) {

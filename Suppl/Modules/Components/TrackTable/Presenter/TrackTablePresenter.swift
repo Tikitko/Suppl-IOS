@@ -10,6 +10,8 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     var tracks: [AudioData] = []
     var frashTracklist: [String]?
     
+    var canEdit = false
+    
     func getModuleNameId() -> String {
         return router.moduleNameId
     }
@@ -31,6 +33,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func load() {
+        interactor.requestOfflineStatus()
         interactor.loadTracklist()
         interactor.setTracklistListener(self)
     }
@@ -72,7 +75,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func rowEditStatus(indexPath: IndexPath) -> Bool {
-        return true
+        return canEdit
     }
     
     func rowEditType(indexPath: IndexPath) -> UITableViewCellEditingStyle {

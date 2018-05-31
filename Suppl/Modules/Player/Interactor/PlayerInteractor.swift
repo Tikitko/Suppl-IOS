@@ -9,8 +9,8 @@ class PlayerInteractor: PlayerInteractorProtocol {
     }
     
     func loadNowTrack() {
-        guard let currentTrack = PlayerManager.s.currentTrack, let status = PlayerManager.s.playerRate(), let time = PlayerManager.s.getRealCurrentTime() else { return }
-        presenter.setNowTrack(track: currentTrack, status: status, currentTime: time)
+        guard let currentTrack = PlayerManager.s.currentTrack else { return }
+        presenter.setNowTrack(track: currentTrack, status: PlayerManager.s.playerRate(), currentTime: PlayerManager.s.getRealCurrentTime())
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {

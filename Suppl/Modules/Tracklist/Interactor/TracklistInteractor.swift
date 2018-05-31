@@ -14,6 +14,10 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         TracklistManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
     }
     
+    func requestOfflineStatus() {
+        presenter.offlineStatus(getOfflineStatus())
+    }
+    
     func updateTracks() {
         guard !inSearchWork, let tracklist = TracklistManager.s.tracklist else { return }
         presenter.clearTracks()
@@ -21,8 +25,45 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             presenter.setUpdateResult(.emptyTracklist)
             return
         }
-        inSearchWork = true
-        recursiveTracksLoad()
+        if getOfflineStatus() {
+            guard let tracksDB = getDBTracks(), tracksDB.count > 0 else {
+                presenter.setUpdateResult(.emptyTracklist)
+                return
+            }
+            for track in tracksDB {
+                presenter.setNewTrack(track)
+            }
+            presenter.setUpdateResult(nil)
+        } else {
+            inSearchWork = true
+            recursiveTracksLoad()
+        }
+    }
+    
+    func setDBTracks(_ tracks: [AudioData]) {
+        guard let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self) else { return }
+        for trackDB in tracksDB {
+            guard !tracks.contains(where: { $0.id == trackDB.id as String }), !userTracksDB.contains(where: { $0.trackId == trackDB }) else { continue }
+            CoreDataManager.s.persistentContainer.viewContext.delete(trackDB)
+        }
+        for track in tracks {
+            if let readyTrackIndex = tracksDB.index(where: { $0.id as String == track.id }) {
+                tracksDB[readyTrackIndex].fromAudioData(track)
+            } else {
+                CoreDataManager.s.create(Track.self).fromAudioData(track)
+            }
+        }
+    }
+    
+    func getDBTracks() -> [AudioData]? {
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
+        guard let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, sortDescriptors: [sortDescriptor]) else { return nil }
+        var tracks = [AudioData]()
+        for userTrack in userTracksDB {
+            guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
+            tracks.append(AudioData(track: tracksDB[trackIndex]))
+        }
+        return tracks
     }
     
     func recursiveTracksLoad(from: Int = 0, packCount count: Int = 10) {
@@ -41,7 +82,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
                 return
             }
             for track in data.list {
-                self?.presenter.setNewTrack(track: track)
+                self?.presenter.setNewTrack(track)
             }
             self?.recursiveTracksLoad(from: from + count)
         }

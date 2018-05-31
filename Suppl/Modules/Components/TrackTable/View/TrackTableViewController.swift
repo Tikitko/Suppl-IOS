@@ -5,6 +5,16 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     var presenter: TrackTablePresenterProtocolView!
     
+    override var isEditing: Bool {
+        set(value) {
+            if !presenter.canEdit { return }
+            super.isEditing = value
+        }
+        get {
+            return super.isEditing
+        }
+    }
+    
     private class UITableViewWithReload: UITableView {
         weak var myController: TrackTableViewController!
         override func reloadData() {

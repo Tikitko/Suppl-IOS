@@ -5,7 +5,7 @@ protocol PlayerPresenterProtocol: class {}
 
 protocol PlayerPresenterProtocolInteractor: PlayerPresenterProtocol  {
     func updatePlayerProgress(currentTime: Double)
-    func setNowTrack(track: CurrentTrack, status: Float, currentTime: Double)
+    func setNowTrack(track: CurrentTrack, status: Float?, currentTime: Double?)
 }
 
 protocol PlayerPresenterProtocolView: PlayerPresenterProtocol {

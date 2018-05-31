@@ -40,13 +40,15 @@ class PlayerPresenter: PlayerPresenterProtocolInteractor, PlayerPresenterProtoco
         router.closePlayer()
     }
     
-    func setNowTrack(track: CurrentTrack, status: Float, currentTime: Double) {
+    func setNowTrack(track: CurrentTrack, status: Float?, currentTime: Double?) {
         view.clearPlayer()
         view.setTrackInfo(title: track.title, performer: track.performer)
         view.setTrackImage(track.image)
-        view.openPlayer(duration: Double(track.duration))
-        view.updatePlayerProgress(currentTime: currentTime)
-        status == 1 ? view.setPauseImage() : view.setPlayImage()
+        if let status = status, let currentTime = currentTime {
+            view.openPlayer(duration: Double(track.duration))
+            view.updatePlayerProgress(currentTime: currentTime)
+            status == 1 ? view.setPauseImage() : view.setPlayImage()
+        }
     }
     
     func updatePlayerProgress(currentTime: Double) {

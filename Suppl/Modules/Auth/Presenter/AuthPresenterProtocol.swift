@@ -4,8 +4,8 @@ protocol AuthPresenterProtocol: class {}
 
 protocol AuthPresenterProtocolInteractor: AuthPresenterProtocol {
     func setAuthStarted(isReg: Bool)
-    func setAuthResult(_ error: String?)
-    func setAuthResult(_ expression: LocalesManager.Expression)
+    func setAuthResult(_ error: String?, blockOnError: Bool)
+    func setAuthResult(_ expression: LocalesManager.Expression, blockOnError: Bool)
     func setAuthResult(apiErrorCode code: Int)
 }
 

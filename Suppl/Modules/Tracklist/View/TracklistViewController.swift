@@ -60,6 +60,10 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
         searchTest.searchBar.text = ""
     }
     
+    func offButtons() {
+        editButton.isEnabled = false
+    }
+    
     func onLabel(text: String) {
         tracksTableTest.tableView.isHidden = true
         infoLabel.text = text
