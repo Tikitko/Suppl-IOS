@@ -12,8 +12,8 @@ class SearchBarViewController: UIViewController, SearchBarViewControllerProtocol
         searchBar.frame = view.bounds
         searchBar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(searchBar);
-
     }
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         searchBar.searchBarStyle = .minimal

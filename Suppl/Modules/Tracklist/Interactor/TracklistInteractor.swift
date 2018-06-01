@@ -47,9 +47,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             CoreDataManager.s.persistentContainer.viewContext.delete(trackDB)
         }
         for track in tracks {
-            if let readyTrackIndex = tracksDB.index(where: { $0.id as String == track.id }) {
-                tracksDB[readyTrackIndex].fromAudioData(track)
-            } else {
+            if tracksDB.index(where: { $0.id as String == track.id }) == nil {
                 CoreDataManager.s.create(Track.self).fromAudioData(track)
             }
         }
@@ -57,7 +55,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     func getDBTracks() -> [AudioData]? {
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        guard let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, sortDescriptors: [sortDescriptor]) else { return nil }
+        guard let keys = getKeys(), let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, predicate: NSPredicate(format: "userIdentifier = \(keys.identifierKey)"), sortDescriptors: [sortDescriptor]) else { return nil }
         var tracks = [AudioData]()
         for userTrack in userTracksDB {
             guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }

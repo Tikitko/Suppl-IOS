@@ -31,7 +31,11 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             (cellModuleNameId, trackInfoController) = TrackInfoRouter.setup()
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-            ViewIncludeTemplate.inside(child: trackInfoController.view, parent: contentView)
+
+            trackInfoController.view.frame = contentView.bounds
+            trackInfoController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            contentView.addSubview(trackInfoController.view);
+
             layer.cornerRadius = 5
             clipsToBounds = true
             selectionStyle = .none

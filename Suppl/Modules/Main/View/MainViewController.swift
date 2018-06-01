@@ -36,6 +36,7 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         
         ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
         ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: tracksSearch, includeParent: view)
+        
         searchTest.searchBar.placeholder = tracksSearch.placeholder
         tracksSearch.isHidden = true
         tracksTable.isHidden = true
