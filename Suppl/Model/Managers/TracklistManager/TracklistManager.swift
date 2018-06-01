@@ -72,7 +72,7 @@ final class TracklistManager {
         inUpdate = true
         APIManager.s.tracklistGet(keys: keys) { [weak self] error, data in
             guard let `self` = self else { return }
-            if let error = error, error.domain == "music_tracklist_empty" {
+            if let error = error, error.code == 40 {
                 self.tracklist = []
                 self.inUpdate = false
                 callback(true)
