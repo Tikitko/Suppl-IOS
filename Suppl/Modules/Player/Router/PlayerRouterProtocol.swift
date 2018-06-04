@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
 
-protocol PlayerRouterProtocol: class {
+protocol PlayerRouterProtocol: class, BaseRouterProtocol {
     func closePlayer()
 }

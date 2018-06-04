@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class AuthRouter: AuthRouterProtocol {
+class AuthRouter: BaseRouter, AuthRouterProtocol {
     
     weak var viewController: UIViewController!
     

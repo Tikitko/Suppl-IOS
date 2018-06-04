@@ -1,5 +1,5 @@
 import Foundation
 
-protocol SmallPlayerRouterProtocol: class {
+protocol SmallPlayerRouterProtocol: class, BaseRouterProtocol {
     func openBigPlayer()
 }

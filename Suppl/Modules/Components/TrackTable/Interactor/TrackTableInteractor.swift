@@ -22,7 +22,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     }
     
     func requestOfflineStatus() {
-        presenter.canEdit = !getOfflineStatus()
+        presenter.canEdit = !OfflineModeManager.s.offlineMode
     }
     
     func loadTracklist() {

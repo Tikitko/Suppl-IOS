@@ -25,8 +25,12 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     }
     
     func firstStartAuth() {
-        view.setIdentifier(interactor.getKeys()?.toString() ?? "")
+        interactor.requestIdentifierString()
         startAuth(onlyInfo: noAuthOnShow)
+    }
+    
+    func setIdentifier(_ string: String) {
+        view.setIdentifier(string)
     }
     
     func startAuth(fromString input: String? = nil, onlyInfo: Bool = false) {

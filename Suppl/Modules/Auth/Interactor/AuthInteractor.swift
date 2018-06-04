@@ -7,10 +7,14 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
     func startAuthCheck() {
         let _ = AuthManager.s.startAuthCheck()
     }
+    
+    func requestIdentifierString() {
+        presenter.setIdentifier(AuthManager.s.getAuthKeys(setFailAuth: false)?.toString() ?? "")
+    }
 
     func startAuth(fromString input: String? = nil, onlyInfo: Bool = false) {
-        if getOfflineStatus() {
-            if let _ = getKeys() {
+        if OfflineModeManager.s.offlineMode {
+            if let _ = AuthManager.s.getAuthKeys(setFailAuth: false) {
                 presenter.setAuthResult(nil, blockOnError: false)
             } else {
                 presenter.setAuthResult(.noOffline, blockOnError: true)
@@ -32,7 +36,7 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
             }
         }
         
-        if let keys = getKeys() {
+        if let keys = AuthManager.s.getAuthKeys(setFailAuth: false) {
             presenter.setAuthStarted(isReg: false)
             AuthManager.s.authorization(keys: keys) { [weak self] data, error in
                 self?.sendAuthResult(error)
@@ -51,10 +55,6 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
         } else {
             presenter.setAuthResult(nil, blockOnError: false)
         }
-    }
-
-    override func getKeys() -> KeysPair? {
-        return AuthManager.s.getAuthKeys(setFailAuth: false)
     }
     
 }
