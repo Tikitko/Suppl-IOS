@@ -388,6 +388,7 @@
 		0EEC5A95202119690028694E /* General */ = {
 			isa = PBXGroup;
 			children = (
+				8C75D09E20A96A0600DB0F0D /* TemplateClasses */,
 				8C3F087A20AD8FF900129A75 /* ModulesComponents */,
 				8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */,
 				8CCAC59520205D5C00D91687 /* RootTabBarController.swift */,
@@ -914,7 +915,6 @@
 			isa = PBXGroup;
 			children = (
 				8C2D6F7320C1192B00F49D6D /* External */,
-				8C75D09E20A96A0600DB0F0D /* TemplateClasses */,
 				8C20889A2089D412000505F9 /* Entities */,
 				8CBDFD622022FEEF00BED743 /* Managers */,
 				8C67F5F2201B174200333EB2 /* API */,
