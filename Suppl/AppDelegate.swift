@@ -15,14 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+        
         let _ = OfflineModeManager.s
         let _ = SettingsManager.s
         ToastManager.shared.isQueueEnabled = true
         RemoteDataManager.s.resetOldCachedImages()
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.makeKeyAndVisible()
-        
         AuthManager.s.setAuthWindow()
         
         return true
