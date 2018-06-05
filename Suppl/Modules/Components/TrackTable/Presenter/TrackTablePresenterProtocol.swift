@@ -5,7 +5,7 @@ protocol TrackTablePresenterProtocol: class {}
 
 protocol TrackTablePresenterProtocolInteractor: TrackTablePresenterProtocol {
     var canEdit: Bool { get set }
-    func getModuleNameId() -> String
+    var moduleNameId: String { get }
     func setTracklist(_ tracklist: [String]?)
     func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData)
 }

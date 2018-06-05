@@ -22,8 +22,8 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         interactor.updateTracks()
     }
     
-    func getModuleNameId() -> String {
-        return router.moduleNameId
+    var moduleNameId: String {
+        get { return router.moduleNameId }
     }
     
     func setInfo(_ text: String? = nil) {

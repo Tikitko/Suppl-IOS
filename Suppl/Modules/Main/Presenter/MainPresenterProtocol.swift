@@ -3,7 +3,7 @@ import Foundation
 protocol MainPresenterProtocol: class {}
 
 protocol MainPresenterProtocolInteractor: MainPresenterProtocol {
-    func getModuleNameId() -> String
+    var moduleNameId: String { get }
     func searchQuery(_ query: String)
     func searchResult(query byQuery: String, data: AudioSearchData)
 }

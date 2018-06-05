@@ -7,7 +7,7 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     var inSearchWork = false
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
-        ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
+        ModulesCommunicateManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func loadRandomTracks() {

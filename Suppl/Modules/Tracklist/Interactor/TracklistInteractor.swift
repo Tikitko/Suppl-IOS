@@ -7,11 +7,11 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     var inSearchWork = false
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
-        ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
+        ModulesCommunicateManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func setTracklistListener(_ delegate: TracklistListenerDelegate) {
-        TracklistManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
+        TracklistManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func requestOfflineStatus() {

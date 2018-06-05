@@ -8,17 +8,17 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     init(parentModuleNameId: String) {
         self.parentModuleNameId = parentModuleNameId
     }
-    
-    func getDelegate() -> TrackTableCommunicateProtocol? {
-        return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackTableCommunicateProtocol
+
+    var communicateDelegate: TrackTableCommunicateProtocol? {
+        get { return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackTableCommunicateProtocol }
     }
-    
+
     func getCellDelegate(name: String) -> TrackInfoCommunicateProtocol? {
         return ModulesCommunicateManager.s.getListener(name: name) as? TrackInfoCommunicateProtocol
     }
     
     func setTracklistListener(_ delegate: TracklistListenerDelegate) {
-        TracklistManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
+        TracklistManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func requestOfflineStatus() {
@@ -36,7 +36,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
                 return
             }
             self?.presenter.sendEditInfoToToast(expressionForTitle: .addOk, track: track)
-            self?.getDelegate()?.addedTrack(withId: trackId)
+            self?.communicateDelegate?.addedTrack(withId: trackId)
         }
     }
     
@@ -47,7 +47,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
                 return
             }
             self?.presenter.sendEditInfoToToast(expressionForTitle: .removeOk, track: track)
-            self?.getDelegate()?.removedTrack(fromIndex: indexTrack)
+            self?.communicateDelegate?.removedTrack(fromIndex: indexTrack)
         }
     }
     
@@ -58,7 +58,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
                 return
             }
             self?.presenter.sendEditInfoToToast(expressionForTitle: .moveOk, track: track)
-            self?.getDelegate()?.moveTrack(from: from, to: to)
+            self?.communicateDelegate?.moveTrack(from: from, to: to)
         }
     }
     

@@ -9,8 +9,8 @@ class TrackFilterInteractor: TrackFilterInteractorProtocol {
         self.parentModuleNameId = parentModuleNameId
     }
     
-    func getDelegate() -> TrackFilterCommunicateProtocol? {
-        return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackFilterCommunicateProtocol
+    var communicateDelegate: TrackFilterCommunicateProtocol? {
+        get { return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackFilterCommunicateProtocol }
     }
 
 }

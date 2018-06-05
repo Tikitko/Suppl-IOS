@@ -4,7 +4,7 @@ import UIKit
 protocol TrackInfoPresenterProtocol: class {}
 
 protocol TrackInfoPresenterProtocolInteractor: TrackInfoPresenterProtocol {
-    func getModuleNameId() -> String
+    var moduleNameId: String { get }
     func additionalInfo(currentPlayingId: String?, roundImage: Bool)
 }
 

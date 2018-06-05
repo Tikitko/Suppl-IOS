@@ -5,11 +5,11 @@ class TrackInfoInteractor: BaseInteractor, TrackInfoInteractorProtocol {
     weak var presenter: TrackInfoPresenterProtocolInteractor!
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
-        ModulesCommunicateManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
+        ModulesCommunicateManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func setPlayerListener(_ delegate: PlayerListenerDelegate) {
-        PlayerManager.s.setListener(name: presenter.getModuleNameId(), delegate: delegate)
+        PlayerManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func requestAdditionalInfo() {

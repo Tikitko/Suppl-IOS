@@ -4,7 +4,7 @@ import UIKit
 protocol TracklistPresenterProtocol: class {}
 
 protocol TracklistPresenterProtocolInteractor: TracklistPresenterProtocol {
-    func getModuleNameId() -> String
+    var moduleNameId: String { get }
     func tracklistUpdateResult(status: Bool)
     func clearTracks()
     func setNewTrack(_ track: AudioData)

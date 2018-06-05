@@ -8,6 +8,6 @@ class SearchBarPresenter: SearchBarPresenterProtocolInteractor, SearchBarPresent
     
     func searchButtonClicked(query: String?) {
         guard let query = query else { return }
-        interactor.getDelegate()?.searchButtonClicked(query: query)
+        interactor.communicateDelegate?.searchButtonClicked(query: query)
     }
 }

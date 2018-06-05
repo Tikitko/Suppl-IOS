@@ -1,7 +1,7 @@
 import Foundation
 
 protocol TrackTableInteractorProtocol: class, BaseInteractorProtocol {
-    func getDelegate() -> TrackTableCommunicateProtocol?
+    var communicateDelegate: TrackTableCommunicateProtocol? { get }
     func getCellDelegate(name: String) -> TrackInfoCommunicateProtocol?
     func setTracklistListener(_ delegate: TracklistListenerDelegate)
     func requestOfflineStatus()

@@ -9,8 +9,8 @@ class TrackInfoPresenter: TrackInfoPresenterProtocolInteractor, TrackInfoPresent
     
     var trackId: String?
     
-    func getModuleNameId() -> String {
-        return router.moduleNameId
+    var moduleNameId: String {
+        get { return router.moduleNameId }
     }
     
     func setListeners() {

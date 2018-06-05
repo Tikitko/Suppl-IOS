@@ -9,8 +9,8 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     var searchData: AudioSearchData?
     var thisQuery = ""
     
-    func getModuleNameId() -> String {
-        return router.moduleNameId
+    var moduleNameId: String {
+        get { return router.moduleNameId }
     }
     
     func setListener() {

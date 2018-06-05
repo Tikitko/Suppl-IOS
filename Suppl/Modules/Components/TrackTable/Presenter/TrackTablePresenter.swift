@@ -12,12 +12,12 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     
     var canEdit = false
     
-    func getModuleNameId() -> String {
-        return router.moduleNameId
+    var moduleNameId: String {
+        get { return router.moduleNameId }
     }
     
     func updateTracks() {
-        tracks = interactor.getDelegate()?.needTracksForReload() ?? tracks
+        tracks = interactor.communicateDelegate?.needTracksForReload() ?? tracks
     }
     
     func relaodData() {
@@ -92,7 +92,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func willDisplayCellForRowAt(_ indexPath: IndexPath) {
-        interactor.getDelegate()?.cellShowAt(indexPath)
+        interactor.communicateDelegate?.cellShowAt(indexPath)
     }
     
     func numberOfRowsInSection(_ section: Int) -> Int {
