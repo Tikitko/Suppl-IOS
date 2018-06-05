@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let _ = OfflineModeManager.s
         let _ = SettingsManager.s
+        let _ = CoreDataManager.s
         ToastManager.shared.isQueueEnabled = true
         RemoteDataManager.s.resetOldCachedImages()
         AuthManager.s.setAuthWindow()
@@ -38,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         let _ = AuthManager.s.stopAuthCheck()
-    }
+    }    
 
 }
 
