@@ -4,11 +4,15 @@ import UIKit
 final class RemoteDataManager {
     
     static public let s = RemoteDataManager()
-    private init() {}
+    private init() {
+        thumbsCacheDirPath = baseCacheDirPath.appendingPathComponent("thumbs")
+    }
     
     private var cache = NSCache<NSString, NSData>()
     private let session = CommonRequest()
-    private let cacheDirPath = RemoteDataManager.getDocumentsDirectory().appendingPathComponent(AppStaticData.cacheDir).appendingPathComponent("thumbs")
+    public let baseCacheDirPath = RemoteDataManager.getDocumentsDirectory().appendingPathComponent(AppStaticData.cacheDir)
+    private let thumbsCacheDirPath: URL
+    
     
     public func getData(link: String, noCache: Bool = false, callbackData: @escaping (NSData) -> ()) {
         let nsLink = link as NSString
@@ -26,7 +30,7 @@ final class RemoteDataManager {
     
     public func getCachedImage(link: String, imagesLifetime: Int = 6, callbackImage: @escaping (UIImage) -> ()) {
         guard let imageName = URL(string: link)?.path else { return }
-        let filename = cacheDirPath.appendingPathComponent(imageName)
+        let filename = thumbsCacheDirPath.appendingPathComponent(imageName)
         if FileManager.default.fileExists(atPath: filename.path), let image = UIImage(contentsOfFile: filename.path) {
             var imageAlive = false
             if let dateAny = try? FileManager.default.attributesOfItem(atPath: filename.path)[FileAttributeKey.modificationDate],
@@ -62,13 +66,12 @@ final class RemoteDataManager {
     }
     
     public func resetAllCachedImages() {
-        if OfflineModeManager.s.offlineMode { return }
-        try? FileManager.default.removeItem(atPath: cacheDirPath.path)
+        try? FileManager.default.removeItem(atPath: thumbsCacheDirPath.path)
     }
     
     public func resetOldCachedImages(imagesLifetime: Int = 6) {
         if OfflineModeManager.s.offlineMode { return }
-        let imagesPaths = searchJPGImages(pathURL: cacheDirPath)
+        let imagesPaths = searchJPGImages(pathURL: thumbsCacheDirPath)
         for imagePath in imagesPaths {
             if FileManager.default.fileExists(atPath: imagePath),
                 let dateAny = try? FileManager.default.attributesOfItem(atPath: imagePath)[FileAttributeKey.modificationDate],
@@ -106,12 +109,6 @@ final class RemoteDataManager {
         
         return imageURLs
     }
-    
-    public static func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
  
     public func clearCache() {
         cache.removeAllObjects()
@@ -120,4 +117,29 @@ final class RemoteDataManager {
     public func removeFromCache(link: String) {
         cache.removeObject(forKey: link as NSString)
     }
+    
+    public static func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
+    
+    public static func directoryExistsAtPath(_ path: URL) -> Bool {
+        var isDirectory = ObjCBool(true)
+        let exists = FileManager.default.fileExists(atPath: path.path, isDirectory: &isDirectory)
+        return exists && isDirectory.boolValue
+    }
+    
+    public static func saveFile(data: Data, name: String, path: URL) -> Bool {
+        do {
+            if !RemoteDataManager.directoryExistsAtPath(path) {
+                try FileManager.default.createDirectory(at: path, withIntermediateDirectories: true)
+            }
+            try data.write(to: path.appendingPathComponent(name), options: [.atomic])
+            return true
+        } catch {
+            return false
+        }
+    }
+    
 }

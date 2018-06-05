@@ -47,9 +47,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             CoreDataManager.s.persistentContainer.viewContext.delete(trackDB)
         }
         for track in tracks {
-            if tracksDB.index(where: { $0.id as String == track.id }) == nil {
-                CoreDataManager.s.create(Track.self).fromAudioData(track)
-            }
+            if tracksDB.index(where: { $0.id as String == track.id }) != nil { continue }
+            CoreDataManager.s.create(Track.self).fromAudioData(track)
         }
     }
     

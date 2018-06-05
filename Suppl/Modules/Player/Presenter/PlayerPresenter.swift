@@ -59,11 +59,11 @@ class PlayerPresenter: PlayerPresenterProtocolInteractor, PlayerPresenterProtoco
 
 extension PlayerPresenter: PlayerListenerDelegate {
     
-    func itemReadyToPlay(_ item: AVPlayerItem) {
-        view.openPlayer(duration: item.duration.seconds)
+    func itemReadyToPlay(_ item: AVPlayerItem, _ duration: Int?) {
+        view.openPlayer(duration: !item.duration.seconds.isNaN ? item.duration.seconds : Double(duration ?? 0))
     }
     
-    func itamTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
+    func itemTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
         view.updatePlayerProgress(currentTime: sec)
     }
     

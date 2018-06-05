@@ -52,11 +52,11 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
         view.closePlayer()
     }
     
-    func itemReadyToPlay(_ item: AVPlayerItem) {
+    func itemReadyToPlay(_ item: AVPlayerItem, _ duration: Int?) {
         view.openPlayer()
     }
 
-    func itamTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
+    func itemTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
         view.updatePlayerProgress(percentages: Float(sec / item.duration.seconds))
     }
     

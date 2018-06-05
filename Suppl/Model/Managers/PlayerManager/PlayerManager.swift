@@ -83,12 +83,12 @@ final class PlayerManager: NSObject {
             timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (time) -> Void in
                 guard let `self` = self, item.status == .readyToPlay else { return }
                 self.sayToListeners() { delegate in
-                    delegate.itamTimeChanged(item, time.seconds)
+                    delegate.itemTimeChanged(item, time.seconds)
                 }
                 self.nowPlayingCenter().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
             }
             sayToListeners() { delegate in
-                delegate.itemReadyToPlay(item)
+                delegate.itemReadyToPlay(item, currentTrack?.duration)
             }
             remoteCommands(isEnabled: true)
             play()
@@ -108,7 +108,7 @@ final class PlayerManager: NSObject {
                 delegate.playerStop()
             }
             guard let currentItem = player?.currentItem else { return }
-            if SettingsManager.s.autoNextTrack!, Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) == 0, let _ = playlist {
+            if SettingsManager.s.autoNextTrack!, Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) < 1, let _ = playlist {
                 loadTrackByID(playlist!.next())
             } else if needPlayingStatus {
                 player?.play()
@@ -156,12 +156,28 @@ final class PlayerManager: NSObject {
             loadedFromCache = true
             break
         }
+        if let item = PlayerItemsManager.s.getItem(trackID) {
+            setTrack(item: item)
+            return
+        }
+        if OfflineModeManager.s.offlineMode, TracklistManager.s.tracklist?.last != trackID {
+            nextTrack()
+        }
         APIManager.s.audioGet(keys: keys, ids: trackID) { [weak self] error, data in
             guard let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? ""), self?.currentTrack?.id == list[0].id else { return }
+            let track = list[0]
             if !loadedFromCache {
-                self?.setTrackInfo(list[0])
+                self?.setTrackInfo(track)
             }
-            self?.setTrack(url: trackURL)
+            if /*TracklistManager.s.tracklist?.contains(track.id) ?? false,*/
+                let urlString = track.track, let url = URL(string: urlString),
+                PlayerItemsManager.s.addItem(track.id, url),
+                let item = PlayerItemsManager.s.getItem(track.id)
+            {
+                self?.setTrack(item: item)
+            } else {
+                self?.setTrack(url: trackURL)
+            }
         }
     }
     
@@ -177,9 +193,14 @@ final class PlayerManager: NSObject {
     }
     
     private func setTrack(url trackURL: URL) {
-        // https://andreygordeev.com/2018/03/31/cache-avplayeritem/
-        // https://github.com/neekeetab/CachingPlayerItem
-        player = AVPlayer(playerItem: AVPlayerItem(url: trackURL) /* CachingPlayerItem(url: trackURL) */)
+        player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
+        player?.automaticallyWaitsToMinimizeStalling = false
+        addPlayStatusObserver()
+        addPlayerRateObserver()
+    }
+    
+    private func setTrack(item: AVPlayerItem) {
+        player = AVPlayer(playerItem: item)
         player?.automaticallyWaitsToMinimizeStalling = false
         addPlayStatusObserver()
         addPlayerRateObserver()

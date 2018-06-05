@@ -15,7 +15,7 @@ class SettingsGeneralViewController: UIViewController {
 extension SettingsGeneralViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,6 +53,10 @@ extension SettingsGeneralViewController: UITableViewDataSource {
         case 5:
             cell = SettingTableCell(labelText: LocalesManager.s.get(.setting5), buttonText: LocalesManager.s.get(.clear)) { button in
                 RemoteDataManager.s.resetAllCachedImages()
+            }
+        case 6:
+            cell = SettingTableCell(labelText: LocalesManager.s.get(.setting6), buttonText: LocalesManager.s.get(.clear)) { button in
+                PlayerItemsManager.s.resetAllCachedTracks()
             }
         default:
             cell = UITableViewCell()
