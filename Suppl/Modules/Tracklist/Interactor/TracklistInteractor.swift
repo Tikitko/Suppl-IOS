@@ -25,42 +25,94 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             presenter.setUpdateResult(.emptyTracklist)
             return
         }
-        if OfflineModeManager.s.offlineMode {
-            guard let tracksDB = getDBTracks(), tracksDB.count > 0 else {
-                presenter.setUpdateResult(.emptyTracklist)
-                return
-            }
-            for track in tracksDB {
-                presenter.setNewTrack(track)
-            }
-            presenter.setUpdateResult(nil)
-        } else {
-            inSearchWork = true
-            recursiveTracksLoadNew(cachedTracks: getDBTracks() ?? [], tracklist: tracklist)
+        inSearchWork = true
+        getDBTracksBackground() { [weak self] tracks in
+            self?.loadTracks(tracklist: tracklist, cachedTracks: tracks)
         }
     }
     
+    func loadTracks(tracklist: [String], cachedTracks: [AudioData]? = nil) {
+        if OfflineModeManager.s.offlineMode {
+            guard let cachedTracks = cachedTracks, cachedTracks.count > 0 else {
+                inSearchWork = false
+                presenter.setUpdateResult(.emptyTracklist)
+                return
+            }
+            for track in cachedTracks {
+                presenter.setNewTrack(track)
+            }
+            inSearchWork = false
+            presenter.setUpdateResult(nil)
+        } else {
+            recursiveTracksLoadNew(cachedTracks: cachedTracks ?? [], tracklist: tracklist)
+        }
+    }
+    
+    @available(*, deprecated)
     func setDBTracks(_ tracks: [AudioData]) {
         guard let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self) else { return }
         for trackDB in tracksDB {
             guard !tracks.contains(where: { $0.id == trackDB.id as String }), !userTracksDB.contains(where: { $0.trackId == trackDB }) else { continue }
-            CoreDataManager.s.persistentContainer.viewContext.delete(trackDB)
+            CoreDataManager.s.delete(trackDB)
         }
         for track in tracks {
             if tracksDB.index(where: { $0.id as String == track.id }) != nil { continue }
             CoreDataManager.s.create(Track.self).fromAudioData(track)
         }
+        CoreDataManager.s.saveContext()
     }
     
+    func setDBTracksBackground(_ tracks: [AudioData]) {
+        CoreDataManager.s.fetche(Track.self) { tracksDB, error, context in
+            guard let tracksDB = tracksDB, let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, context: context) else { return }
+            for trackDB in tracksDB {
+                guard !tracks.contains(where: { $0.id == trackDB.id as String }), !userTracksDB.contains(where: { $0.trackId == trackDB }) else { continue }
+                CoreDataManager.s.delete(trackDB, context: context)
+            }
+            for track in tracks {
+                if tracksDB.index(where: { $0.id as String == track.id }) != nil { continue }
+                CoreDataManager.s.create(Track.self, context: context).fromAudioData(track)
+            }
+            CoreDataManager.s.saveContext(context: context)
+        }
+    }
+    
+    func saveTracks(_ tracks: [AudioData]) {
+        setDBTracksBackground(tracks)
+    }
+    
+    @available(*, deprecated)
     func getDBTracks() -> [AudioData]? {
+        guard let keys = AuthManager.s.getAuthKeys() else { return nil }
+        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        guard let keys = AuthManager.s.getAuthKeys(), let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, predicate: NSPredicate(format: "userIdentifier = \(keys.identifierKey)"), sortDescriptors: [sortDescriptor]) else { return nil }
+        guard let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) else { return nil }
         var tracks = [AudioData]()
         for userTrack in userTracksDB {
             guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
             tracks.append(AudioData(track: tracksDB[trackIndex]))
         }
         return tracks
+    }
+ 
+    func getDBTracksBackground(completion: @escaping ([AudioData]?) -> Void) {
+        guard let keys = AuthManager.s.getAuthKeys() else {
+            completion(nil)
+            return
+        }
+        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
+        CoreDataManager.s.fetche(Track.self) { tracksDB, error, context in
+            var tracks: [AudioData]? = nil
+            if let tracksDB = tracksDB, let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor], context: context) {
+                tracks = []
+                for userTrack in userTracksDB {
+                    guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
+                    tracks?.append(AudioData(track: tracksDB[trackIndex]))
+                }
+            }
+            DispatchQueue.main.async { completion(tracks) }
+        }
     }
     
     @available(*, deprecated)

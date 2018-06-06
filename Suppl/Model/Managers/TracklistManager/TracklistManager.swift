@@ -8,7 +8,7 @@ final class TracklistManager {
     private(set) var inUpdate: Bool = false
     private(set) var tracklist: [String]? {
         didSet {
-            setDBTracklist(tracklist)
+            setDBTracklistBackground(tracklist)
             sayToListeners() { delegate in delegate.tracklistUpdated(tracklist) }
         }
     }
@@ -30,6 +30,7 @@ final class TracklistManager {
         }
     }
     
+    @available(*, deprecated)
     private func getDBTracklist() -> [String]? {
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         guard let keys = AuthManager.s.getAuthKeys(), let tracks = try? CoreDataManager.s.fetche(UserTrack.self, predicate: NSPredicate(format: "userIdentifier = \(keys.identifierKey)"), sortDescriptors: [sortDescriptor]) else { return nil }
@@ -40,11 +41,31 @@ final class TracklistManager {
         return tracklist
     }
     
+    private func getDBTracklistBackground(completion: @escaping ([String]?) -> Void) {
+        guard let keys = AuthManager.s.getAuthKeys() else {
+            completion(nil)
+            return
+        }
+        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
+        CoreDataManager.s.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) { tracks, error, _ in
+            var tracklist: [String]? = nil
+            if let tracks = tracks {
+                tracklist = []
+                for track in tracks {
+                    tracklist?.append(track.trackId as String)
+                }
+            }
+            DispatchQueue.main.async { completion(tracklist) }
+        }
+    }
+    
+    @available(*, deprecated)
     private func setDBTracklist(_ tracklist: [String]?) {
         guard let keys = AuthManager.s.getAuthKeys(), let tracklist = tracklist, let tracks = try? CoreDataManager.s.fetche(UserTrack.self, predicate: NSPredicate(format: "userIdentifier = \(keys.identifierKey)")) else { return }
         for track in tracks {
             guard !tracklist.contains(track.trackId as String) else { continue }
-            CoreDataManager.s.persistentContainer.viewContext.delete(track)
+            CoreDataManager.s.delete(track)
         }
         for (key, trackId) in tracklist.enumerated() {
             if let readyTrackIndex = tracks.index(where: { $0.trackId == trackId as NSString }) {
@@ -59,10 +80,36 @@ final class TracklistManager {
         CoreDataManager.s.saveContext()
     }
     
+    private func setDBTracklistBackground(_ tracklist: [String]?) {
+        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = tracklist else { return }
+        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        CoreDataManager.s.fetche(UserTrack.self, predicate: predicate) { userTracks, _, context in
+            guard let tracks = userTracks else { return }
+            for track in tracks {
+                guard !tracklist.contains(track.trackId as String) else { continue }
+                CoreDataManager.s.delete(track, context: context)
+            }
+            for (key, trackId) in tracklist.enumerated() {
+                if let readyTrackIndex = tracks.index(where: { $0.trackId == trackId as NSString }) {
+                    tracks[readyTrackIndex].position = NSNumber(value: key)
+                } else {
+                    let newTrack = CoreDataManager.s.create(UserTrack.self, context: context)
+                    newTrack.userIdentifier = NSNumber(value: keys.identifierKey)
+                    newTrack.trackId = trackId as NSString
+                    newTrack.position = NSNumber(value: key)
+                }
+            }
+            CoreDataManager.s.saveContext(context: context)
+        }
+    }
+    
     public func update(callback: @escaping (Bool) -> ()) {
         if OfflineModeManager.s.offlineMode {
-            tracklist = getDBTracklist()
-            callback(true)
+            getDBTracklistBackground() { [weak self] tracklist in
+                guard let `self` = self else { return }
+                self.tracklist = tracklist
+                callback(true)
+            }
             return
         }
         guard !inUpdate, let keys = AuthManager.s.getAuthKeys() else {

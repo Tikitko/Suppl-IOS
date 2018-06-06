@@ -15,15 +15,15 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
     var searchByPerformer = true
     var searchTimeRate: Float = 1.0
     
+    var moduleNameId: String {
+        get { return router.moduleNameId }
+    }
+    
     func load() {
         interactor.requestOfflineStatus()
         interactor.setListener(self)
         interactor.setTracklistListener(self)
         interactor.updateTracks()
-    }
-    
-    var moduleNameId: String {
-        get { return router.moduleNameId }
     }
     
     func setInfo(_ text: String? = nil) {
@@ -65,7 +65,7 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
             searchNowQuery()
         } else {
             view.reloadData()
-            interactor.setDBTracks(tracks)
+            interactor.saveTracks(tracks)
             setInfo(status != nil ? interactor.getLocaleString(status!) : nil)
         }
     }

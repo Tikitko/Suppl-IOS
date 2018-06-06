@@ -160,9 +160,6 @@ final class PlayerManager: NSObject {
             setTrack(item: item)
             return
         }
-        if OfflineModeManager.s.offlineMode, TracklistManager.s.tracklist?.last != trackID {
-            nextTrack()
-        }
         APIManager.s.audioGet(keys: keys, ids: trackID) { [weak self] error, data in
             guard let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? ""), self?.currentTrack?.id == list[0].id else { return }
             let track = list[0]
