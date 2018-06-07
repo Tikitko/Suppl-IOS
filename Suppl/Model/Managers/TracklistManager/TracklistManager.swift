@@ -32,8 +32,10 @@ final class TracklistManager {
     
     @available(*, deprecated)
     private func getDBTracklist() -> [String]? {
+        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getForegroundWorker() else { return nil }
+        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        guard let keys = AuthManager.s.getAuthKeys(), let tracks = try? CoreDataManager.s.fetche(UserTrack.self, predicate: NSPredicate(format: "userIdentifier = \(keys.identifierKey)"), sortDescriptors: [sortDescriptor]) else { return nil }
+        guard let tracks = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) else { return nil }
         var tracklist: [String] = []
         for track in tracks {
             tracklist.append(track.trackId as String)
@@ -42,13 +44,13 @@ final class TracklistManager {
     }
     
     private func getDBTracklistBackground(completion: @escaping ([String]?) -> Void) {
-        guard let keys = AuthManager.s.getAuthKeys() else {
+        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getBackgroundWorker() else {
             completion(nil)
             return
         }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        CoreDataManager.s.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) { tracks, error, _ in
+        coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) { tracks, error, _ in
             var tracklist: [String]? = nil
             if let tracks = tracks {
                 tracklist = []
@@ -62,44 +64,46 @@ final class TracklistManager {
     
     @available(*, deprecated)
     private func setDBTracklist(_ tracklist: [String]?) {
-        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = tracklist, let tracks = try? CoreDataManager.s.fetche(UserTrack.self, predicate: NSPredicate(format: "userIdentifier = \(keys.identifierKey)")) else { return }
+        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getForegroundWorker() else { return }
+        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        guard let tracklist = tracklist, let tracks = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate) else { return }
         for track in tracks {
             guard !tracklist.contains(track.trackId as String) else { continue }
-            CoreDataManager.s.delete(track)
+            coreDataWorker.delete(track)
         }
         for (key, trackId) in tracklist.enumerated() {
             if let readyTrackIndex = tracks.index(where: { $0.trackId == trackId as NSString }) {
                 tracks[readyTrackIndex].position = NSNumber(value: key)
             } else {
-                let newTrack = CoreDataManager.s.create(UserTrack.self)
+                let newTrack = coreDataWorker.create(UserTrack.self)
                 newTrack.userIdentifier = NSNumber(value: keys.identifierKey)
                 newTrack.trackId = trackId as NSString
                 newTrack.position = NSNumber(value: key)
             }
         }
-        CoreDataManager.s.saveContext()
+        coreDataWorker.saveContext()
     }
     
     private func setDBTracklistBackground(_ tracklist: [String]?) {
-        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = tracklist else { return }
+        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getBackgroundWorker(), let tracklist = tracklist else { return }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
-        CoreDataManager.s.fetche(UserTrack.self, predicate: predicate) { userTracks, _, context in
+        coreDataWorker.fetche(UserTrack.self, predicate: predicate) { userTracks, _, inWorker in
             guard let tracks = userTracks else { return }
             for track in tracks {
                 guard !tracklist.contains(track.trackId as String) else { continue }
-                CoreDataManager.s.delete(track, context: context)
+                inWorker.delete(track)
             }
             for (key, trackId) in tracklist.enumerated() {
                 if let readyTrackIndex = tracks.index(where: { $0.trackId == trackId as NSString }) {
                     tracks[readyTrackIndex].position = NSNumber(value: key)
                 } else {
-                    let newTrack = CoreDataManager.s.create(UserTrack.self, context: context)
+                    let newTrack = inWorker.create(UserTrack.self)
                     newTrack.userIdentifier = NSNumber(value: keys.identifierKey)
                     newTrack.trackId = trackId as NSString
                     newTrack.position = NSNumber(value: key)
                 }
             }
-            CoreDataManager.s.saveContext(context: context)
+            inWorker.saveContext()
         }
     }
     

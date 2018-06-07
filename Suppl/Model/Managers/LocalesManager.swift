@@ -6,7 +6,8 @@ final class LocalesManager {
         case playerTitle, del, add, load, getInfo, auth, reg, hi, inputIdentifier, checkIdentifier, badIdentifier,
         notFound, musicTitle, settingsTitle, emptyTracklist, tracklistTitle, titleSMain, titleSAccount, titleSDesign,
         setting0, setting1, setting2, setting3, install, emailSet, youEmail, addOk, addError, removeOk, removeError,
-        moveOk, moveError, noOffline, noInOffline, setting4, on, off, setting5, clear, serverError, setting6
+        moveOk, moveError, noOffline, noInOffline, setting4, on, off, setting5, clear, serverError, setting6,
+        coreDataLoadError, coreDataLoading
     }
     
     static public let s = LocalesManager()

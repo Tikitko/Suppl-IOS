@@ -4,9 +4,7 @@ import SwiftTheme
 final class SettingsManager {
     
     static public let s = SettingsManager()
-    private init() {
-        setTheme()
-    }
+    private init() {}
     
     private let roundIconsName = "roundIcons"
     private let roundIconsDefault = false
@@ -69,7 +67,7 @@ final class SettingsManager {
         }
     }
     
-    private func setTheme() {
+    public func setTheme() {
         ThemeManager.setTheme(plistName: AppStaticData.themesList[theme!], path: .mainBundle)
     }
 }

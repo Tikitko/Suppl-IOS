@@ -8,6 +8,7 @@ protocol AuthPresenterProtocolInteractor: AuthPresenterProtocol {
     func setAuthResult(_ error: String?, blockOnError: Bool)
     func setAuthResult(_ expression: LocalesManager.Expression, blockOnError: Bool)
     func setAuthResult(apiErrorCode code: Int)
+    func coreDataLoaded()
 }
 
 protocol AuthPresenterProtocolView: AuthPresenterProtocol {

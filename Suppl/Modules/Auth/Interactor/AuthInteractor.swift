@@ -49,7 +49,17 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
         }
     }
     
-    private func sendAuthResult(_ error: NSError?) {
+    func loadCoreData() {
+        CoreDataManager.s.initStack() { [weak self] error in
+            if let _ = error {
+                self?.presenter.setAuthResult(.coreDataLoadError, blockOnError: true)
+            } else {
+                self?.presenter.coreDataLoaded()
+            }
+        }
+    }
+    
+    func sendAuthResult(_ error: NSError?) {
         if let error = error {
             presenter.setAuthResult(apiErrorCode: error.code)
         } else {

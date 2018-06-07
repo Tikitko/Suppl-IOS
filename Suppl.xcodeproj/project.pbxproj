@@ -90,7 +90,6 @@
 		8C3594CE20BD81E500E5E0DB /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8C3594CC20BD81E500E5E0DB /* DataModel.xcdatamodeld */; };
 		8C3594D520BD904800E5E0DB /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3594D420BD904800E5E0DB /* CoreDataManager.swift */; };
 		8C3594D820BD90CE00E5E0DB /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3594D720BD90CE00E5E0DB /* Track.swift */; };
-		8C3594DA20BD97F100E5E0DB /* CoreDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3594D920BD97F100E5E0DB /* CoreDataEntity.swift */; };
 		8C3B74E22090495400D0AF3E /* TrackFilterCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E12090495300D0AF3E /* TrackFilterCommunicateProtocol.swift */; };
 		8C3B74E42090725700D0AF3E /* ViewIncludeTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E32090725700D0AF3E /* ViewIncludeTemplate.swift */; };
 		8C3B74EA2090776800D0AF3E /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E92090776800D0AF3E /* SearchBarViewController.swift */; };
@@ -241,7 +240,6 @@
 		8C3594CD20BD81E500E5E0DB /* DB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DB.xcdatamodel; sourceTree = "<group>"; };
 		8C3594D420BD904800E5E0DB /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		8C3594D720BD90CE00E5E0DB /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
-		8C3594D920BD97F100E5E0DB /* CoreDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataEntity.swift; sourceTree = "<group>"; };
 		8C3B74E12090495300D0AF3E /* TrackFilterCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterCommunicateProtocol.swift; sourceTree = "<group>"; };
 		8C3B74E32090725700D0AF3E /* ViewIncludeTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIncludeTemplate.swift; sourceTree = "<group>"; };
 		8C3B74E92090776800D0AF3E /* SearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
@@ -729,7 +727,6 @@
 				8C3594D620BD905A00E5E0DB /* Entities */,
 				8C3594CC20BD81E500E5E0DB /* DataModel.xcdatamodeld */,
 				8C3594D420BD904800E5E0DB /* CoreDataManager.swift */,
-				8C3594D920BD97F100E5E0DB /* CoreDataEntity.swift */,
 			);
 			path = CoreDataManager;
 			sourceTree = "<group>";
@@ -1298,7 +1295,6 @@
 				8C479666209C6888009F5623 /* CurrentTrack.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
 				8C73006B20999AF900B2FA44 /* CommunicateManagerProtocol.swift in Sources */,
-				8C3594DA20BD97F100E5E0DB /* CoreDataEntity.swift in Sources */,
 				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,
 				8C0CB600208DA8C800456A68 /* TrackFilterPresenterProtocol.swift in Sources */,
 				8C32F88B20A03AA80059C1F4 /* SmallPlayerInteractor.swift in Sources */,

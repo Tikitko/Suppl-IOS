@@ -50,30 +50,31 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func setDBTracks(_ tracks: [AudioData]) {
-        guard let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self) else { return }
+        guard let coreDataWorker = CoreDataManager.s.getForegroundWorker(), let tracksDB = try? coreDataWorker.fetche(Track.self), let userTracksDB = try? coreDataWorker.fetche(UserTrack.self) else { return }
         for trackDB in tracksDB {
             guard !tracks.contains(where: { $0.id == trackDB.id as String }), !userTracksDB.contains(where: { $0.trackId == trackDB }) else { continue }
-            CoreDataManager.s.delete(trackDB)
+            coreDataWorker.delete(trackDB)
         }
         for track in tracks {
             if tracksDB.index(where: { $0.id as String == track.id }) != nil { continue }
-            CoreDataManager.s.create(Track.self).fromAudioData(track)
+            coreDataWorker.create(Track.self).fromAudioData(track)
         }
-        CoreDataManager.s.saveContext()
+        coreDataWorker.saveContext()
     }
     
     func setDBTracksBackground(_ tracks: [AudioData]) {
-        CoreDataManager.s.fetche(Track.self) { tracksDB, error, context in
-            guard let tracksDB = tracksDB, let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, context: context) else { return }
+        guard let coreDataWorker = CoreDataManager.s.getBackgroundWorker() else { return }
+        coreDataWorker.fetche(Track.self) { tracksDB, error, inWorker in
+            guard let tracksDB = tracksDB, let userTracksDB = try? inWorker.fetche(UserTrack.self) else { return }
             for trackDB in tracksDB {
                 guard !tracks.contains(where: { $0.id == trackDB.id as String }), !userTracksDB.contains(where: { $0.trackId == trackDB }) else { continue }
-                CoreDataManager.s.delete(trackDB, context: context)
+                inWorker.delete(trackDB)
             }
             for track in tracks {
                 if tracksDB.index(where: { $0.id as String == track.id }) != nil { continue }
-                CoreDataManager.s.create(Track.self, context: context).fromAudioData(track)
+                inWorker.create(Track.self).fromAudioData(track)
             }
-            CoreDataManager.s.saveContext(context: context)
+            inWorker.saveContext()
         }
     }
     
@@ -83,10 +84,10 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func getDBTracks() -> [AudioData]? {
-        guard let keys = AuthManager.s.getAuthKeys() else { return nil }
+        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getForegroundWorker() else { return nil }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        guard let tracksDB = try? CoreDataManager.s.fetche(Track.self), let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) else { return nil }
+        guard let tracksDB = try? coreDataWorker.fetche(Track.self), let userTracksDB = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) else { return nil }
         var tracks = [AudioData]()
         for userTrack in userTracksDB {
             guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
@@ -96,15 +97,15 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
  
     func getDBTracksBackground(completion: @escaping ([AudioData]?) -> Void) {
-        guard let keys = AuthManager.s.getAuthKeys() else {
+        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getBackgroundWorker() else {
             completion(nil)
             return
         }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        CoreDataManager.s.fetche(Track.self) { tracksDB, error, context in
+        coreDataWorker.fetche(Track.self) { tracksDB, error, inWorker in
             var tracks: [AudioData]? = nil
-            if let tracksDB = tracksDB, let userTracksDB = try? CoreDataManager.s.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor], context: context) {
+            if let tracksDB = tracksDB, let userTracksDB = try? inWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) {
                 tracks = []
                 for userTrack in userTracksDB {
                     guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }

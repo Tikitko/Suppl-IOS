@@ -18,11 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let _ = OfflineModeManager.s
-        let _ = SettingsManager.s
-        let _ = CoreDataManager.s
         ToastManager.shared.isQueueEnabled = true
-        RemoteDataManager.s.resetOldCachedImages()
+        SettingsManager.s.setTheme()
         AuthManager.s.setAuthWindow()
         
         return true

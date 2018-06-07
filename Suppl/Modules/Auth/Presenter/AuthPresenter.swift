@@ -50,11 +50,16 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
                 self?.view.enableButtons()
             }
         } else {
-            setLabel(expression: .hi)
-            QueueTemplate.continueAfter(0.7) { [weak self] in
-                self?.interactor.startAuthCheck()
-                self?.router.goToRootTabBar()
-            }
+            setLabel(expression: .coreDataLoading)
+            interactor.loadCoreData()
+        }
+    }
+    
+    func coreDataLoaded() {
+        setLabel(expression: .hi)
+        QueueTemplate.continueAfter(0.7) { [weak self] in
+            self?.interactor.startAuthCheck()
+            self?.router.goToRootTabBar()
         }
     }
     

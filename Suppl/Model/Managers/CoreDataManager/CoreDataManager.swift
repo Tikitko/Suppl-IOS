@@ -6,69 +6,159 @@ final class CoreDataManager {
     static public let s = CoreDataManager()
     private init() {}
     
-    private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DataModel")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            /*
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-            */
-        })
-        return container
-    }()
+    public class CoreDataEntity: NSManagedObject {}
     
-    private lazy var mainContext: NSManagedObjectContext = {
-        return persistentContainer.viewContext
-    }()
-    
-    
-    public func saveContext(context: NSManagedObjectContext? = nil) {
-        let workContext = context ?? mainContext
-        if workContext.hasChanges {
-            do {
-                try workContext.save()
-            } catch {
-                /*
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                */
-            }
+    public class CoreDataBaseContextWorker {
+        
+        fileprivate let context: NSManagedObjectContext
+        
+        fileprivate init(context: NSManagedObjectContext) {
+            self.context = context
         }
+        
+        public func saveContext() {
+            if context.hasChanges { try? context.save() }
+        }
+        
+        public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil) throws -> [ENTITY] {
+            let objectsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: type))
+            objectsFetch.predicate = predicate
+            objectsFetch.sortDescriptors = sortDescriptors
+            if let fetchLimit = fetchLimit {
+                objectsFetch.fetchLimit = fetchLimit
+            }
+            let fetchedObjects = try context.fetch(objectsFetch)
+            return fetchedObjects as! [ENTITY]
+        }
+        
+        public func create<ENTITY: CoreDataEntity>(_ type: ENTITY.Type) -> ENTITY {
+            let entity = NSEntityDescription.entity(forEntityName: String(describing: type), in: context)!
+            return NSManagedObject(entity: entity, insertInto: context) as! ENTITY
+        }
+        
+        public func delete<ENTITY: CoreDataEntity>(_ entity: ENTITY) {
+            context.delete(entity)
+        }
+        
     }
     
-    public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil, context: NSManagedObjectContext? = nil) throws -> [ENTITY] {
-        let objectsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: type))
-        objectsFetch.predicate = predicate
-        objectsFetch.sortDescriptors = sortDescriptors
-        if let fetchLimit = fetchLimit {
-            objectsFetch.fetchLimit = fetchLimit
+    public class CoreDataBackgroundContextWorker {
+        
+        private let baseWorker: CoreDataBaseContextWorker
+        
+        fileprivate init(coordinator: NSPersistentStoreCoordinator) {
+            let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            context.persistentStoreCoordinator = coordinator
+            baseWorker = CoreDataBaseContextWorker(context: context)
         }
-        let fetchedObjects = try (context ?? mainContext).fetch(objectsFetch)
-        return fetchedObjects as! [ENTITY]
+        
+        fileprivate init(container: NSPersistentContainer) {
+            baseWorker = CoreDataBaseContextWorker(context: container.newBackgroundContext())
+        }
+        
+        public func saveContext(completion: @escaping () -> Void) {
+            baseWorker.context.perform {
+                self.baseWorker.saveContext()
+            }
+        }
+        
+        public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil, completion: @escaping ([ENTITY]?, Error?, CoreDataBaseContextWorker) -> Void) {
+            baseWorker.context.perform {
+                var entitiesOut: [ENTITY]? = nil
+                var errorOut: Error? = nil
+                do {
+                    entitiesOut = try self.baseWorker.fetche(type, predicate: predicate, sortDescriptors: sortDescriptors, fetchLimit: fetchLimit)
+                } catch {
+                    errorOut = error
+                }
+                completion(entitiesOut, errorOut, self.baseWorker)
+            }
+        }
+        
+        public func create<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, completion: @escaping (ENTITY) -> Void) {
+            baseWorker.context.perform {
+                completion(self.baseWorker.create(type))
+            }
+        }
+        
+        public func delete<ENTITY: CoreDataEntity>(_ entity: ENTITY, completion: @escaping () -> Void) {
+            baseWorker.context.perform {
+                self.baseWorker.delete(entity)
+                completion()
+            }
+        }
+        
     }
     
-    public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil, completion: @escaping ([ENTITY]?, Error?, NSManagedObjectContext) -> Void) {
-        persistentContainer.performBackgroundTask() { [weak self] context in
-            var entitiesOut: [ENTITY]? = nil
+    public class CoreDataForegroundContextWorker {
+        
+        private let baseWorker: CoreDataBaseContextWorker
+        
+        fileprivate init(coordinator: NSPersistentStoreCoordinator) {
+            let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+            context.persistentStoreCoordinator = coordinator
+            baseWorker = CoreDataBaseContextWorker(context: context)
+        }
+        
+        fileprivate init(container: NSPersistentContainer) {
+            baseWorker = CoreDataBaseContextWorker(context: container.newBackgroundContext())
+        }
+        
+        public func saveContext() {
+            baseWorker.saveContext()
+        }
+        
+        public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil) throws -> [ENTITY] {
+            return try baseWorker.fetche(type, predicate: predicate, sortDescriptors: sortDescriptors, fetchLimit: fetchLimit)
+        }
+        
+        public func create<ENTITY: CoreDataEntity>(_ type: ENTITY.Type) -> ENTITY {
+            return baseWorker.create(type)
+        }
+        
+        public func delete<ENTITY: CoreDataEntity>(_ entity: ENTITY) {
+            baseWorker.delete(entity)
+        }
+        
+    }
+    
+    private let modelName = "DataModel"
+    private var persistentStoreCoordinator: NSPersistentStoreCoordinator?
+    private lazy var managedObjectModel: NSManagedObjectModel = {
+        let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
+    }()
+    
+    public var isInited: Bool {
+        get { return persistentStoreCoordinator != nil }
+    }
+    public func initStack(completion: @escaping (Error?) -> Void) {
+        if let _ = persistentStoreCoordinator {
+            completion(nil)
+            return
+        }
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!.appendingPathComponent(modelName + ".sqlite")
+        DispatchQueue.global(qos: .background).async { [weak self] in
             var errorOut: Error? = nil
             do {
-                entitiesOut = try self?.fetche(type, predicate: predicate, sortDescriptors: sortDescriptors, fetchLimit: fetchLimit, context: context)
+                let options = [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
+                try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options)
+                self?.persistentStoreCoordinator = coordinator
             } catch {
                 errorOut = error
             }
-            completion(entitiesOut, errorOut, context)
+            DispatchQueue.main.async { completion(errorOut) }
         }
     }
+
     
-    public func create<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, context: NSManagedObjectContext? = nil) -> ENTITY {
-        let workContext = context ?? mainContext
-        let entity = NSEntityDescription.entity(forEntityName: String(describing: type), in: workContext)!
-        return NSManagedObject(entity: entity, insertInto: workContext) as! ENTITY
+    public func getForegroundWorker() -> CoreDataForegroundContextWorker? {
+        return persistentStoreCoordinator != nil ? CoreDataForegroundContextWorker(coordinator: persistentStoreCoordinator!) : nil
     }
     
-    public func delete<ENTITY: CoreDataEntity>(_ entity: ENTITY, context: NSManagedObjectContext? = nil) {
-        (context ?? mainContext).delete(entity)
+    public func getBackgroundWorker() -> CoreDataBackgroundContextWorker? {
+        return persistentStoreCoordinator != nil ? CoreDataBackgroundContextWorker(coordinator: persistentStoreCoordinator!) : nil
     }
     
 }
