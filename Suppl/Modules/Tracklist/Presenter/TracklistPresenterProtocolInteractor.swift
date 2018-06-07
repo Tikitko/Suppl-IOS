@@ -1,9 +1,7 @@
 import Foundation
 import UIKit
 
-protocol TracklistPresenterProtocol: class {}
-
-protocol TracklistPresenterProtocolInteractor: TracklistPresenterProtocol {
+protocol TracklistPresenterProtocolInteractor: class {
     var moduleNameId: String { get }
     func tracklistUpdateResult(status: Bool)
     func clearTracks()
@@ -11,10 +9,3 @@ protocol TracklistPresenterProtocolInteractor: TracklistPresenterProtocol {
     func setUpdateResult(_ status: LocalesManager.Expression?)
     func offlineStatus(_ isOn: Bool)
 }
-
-protocol TracklistPresenterProtocolView: TracklistPresenterProtocol {
-    func load()
-    func updateButtonClick()
-    func filterButtonClick()
-}
-

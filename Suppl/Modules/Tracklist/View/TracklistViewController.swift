@@ -5,7 +5,9 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     
     var presenter: TracklistPresenterProtocolView!
     
-    public let name: String = LocalesManager.s.get(.tracklistTitle)
+    public lazy var name: String = {
+        return presenter.getTitle()
+    }()
     public let imageName: String = "list-simple-star-7.png"
     
     @IBOutlet weak var searchBar: UISearchBar!

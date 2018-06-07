@@ -1,10 +1,6 @@
 import Foundation
 
-protocol TrackFilterPresenterProtocol: class {}
-
-protocol TrackFilterPresenterProtocolInteractor: TrackFilterPresenterProtocol {}
-
-protocol TrackFilterPresenterProtocolView: TrackFilterPresenterProtocol {
+protocol TrackFilterPresenterProtocolView: class {
     func timeValue() -> Float?
     func titleValue() -> Bool?
     func performerValue() -> Bool?

@@ -80,8 +80,13 @@ final class PlayerItemsManager {
         return (inLoad, (try? FileManager.default.contentsOfDirectory(atPath: tracksCacheDirPath.path)) ?? [])
     }
     
-    public func resetAllCachedTracks() {
+    public func resetAllCachedItems() {
         try? FileManager.default.removeItem(atPath: tracksCacheDirPath.path)
+    }
+    
+    public func removeDownloadableItems() {
+        downloadQueueItems = []
+        nowDownloading = nil
     }
     
     private func nextDownload() {

@@ -13,6 +13,10 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
         get { return router.moduleNameId }
     }
     
+    func getTitle() -> String {
+        return LocalesManager.s.get(.musicTitle)
+    }
+    
     func setListener() {
         interactor.setListener(self)
     }

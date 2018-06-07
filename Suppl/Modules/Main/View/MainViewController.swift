@@ -6,7 +6,9 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     
     var presenter: MainPresenterProtocolView!
     
-    public let name: String = LocalesManager.s.get(.musicTitle)
+    public lazy var name: String = {
+        return presenter.getTitle()
+    }()
     public let imageName = "music-7.png"
     
     @IBOutlet weak var tracksSearch: UISearchBar!

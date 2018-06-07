@@ -1,8 +1,13 @@
 //
-//  AppDelegate.swift
-//  Suppl
+//    ╭━━━╮        ╭╮
+//    ┃╭━╮┃        ┃┃
+//    ┃╰━━┳╮╭┳━━┳━━┫┃
+//    ╰━━╮┃┃┃┃╭╮┃╭╮┃┃
+//    ┃╰━╯┃╰╯┃╰╯┃╰╯┃╰╮
+//    ╰━━━┻━━┫╭━┫╭━┻━╯
+//           ┃┃ ┃┃
+//           ╰╯ ╰╯
 //
-//  Created by Mikita Bykau on 1/26/18.
 //  Copyright © 2018 Mikita Bykau. All rights reserved.
 //
 

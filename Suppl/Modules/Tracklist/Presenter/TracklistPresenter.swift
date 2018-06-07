@@ -19,6 +19,10 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         get { return router.moduleNameId }
     }
     
+    func getTitle() -> String {
+        return LocalesManager.s.get(.tracklistTitle)
+    }
+    
     func load() {
         interactor.requestOfflineStatus()
         interactor.setListener(self)
