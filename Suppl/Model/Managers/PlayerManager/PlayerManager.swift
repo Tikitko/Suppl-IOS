@@ -224,16 +224,6 @@ final class PlayerManager: NSObject {
             }
             self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
         }
-        /*
-        RemoteDataManager.s.getData(link: track.images.last ?? "") { [weak self] imageData in
-            guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
-            self.currentTrack?.image = image
-            self.sayToListeners() { delegate in
-                delegate.trackInfoChanged(self.currentTrack!, imageData as Data)
-            }
-            self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
-        }
-         */
     }
     
     public func clearPlayer() {
