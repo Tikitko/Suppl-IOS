@@ -21,14 +21,13 @@ final class CoreDataManager {
         }
         
         public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil) throws -> [ENTITY] {
-            let objectsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: type))
+            let objectsFetch = NSFetchRequest<ENTITY>(entityName: String(describing: type))
             objectsFetch.predicate = predicate
             objectsFetch.sortDescriptors = sortDescriptors
             if let fetchLimit = fetchLimit {
                 objectsFetch.fetchLimit = fetchLimit
             }
-            let fetchedObjects = try context.fetch(objectsFetch)
-            return fetchedObjects as! [ENTITY]
+            return try context.fetch(objectsFetch)
         }
         
         public func create<ENTITY: CoreDataEntity>(_ type: ENTITY.Type) -> ENTITY {
@@ -56,34 +55,38 @@ final class CoreDataManager {
             baseWorker = CoreDataBaseContextWorker(context: container.newBackgroundContext())
         }
         
+        public func run(completion: @escaping (CoreDataBaseContextWorker) -> Void) {
+            baseWorker.context.perform { completion(self.baseWorker) }
+        }
+        
         public func saveContext(completion: @escaping () -> Void) {
-            baseWorker.context.perform {
-                self.baseWorker.saveContext()
+            run { inWorker in
+                inWorker.saveContext()
             }
         }
         
-        public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil, completion: @escaping ([ENTITY]?, Error?, CoreDataBaseContextWorker) -> Void) {
-            baseWorker.context.perform {
+        public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil, completion: @escaping ([ENTITY]?, Error?) -> Void) {
+            run { inWorker in
                 var entitiesOut: [ENTITY]? = nil
                 var errorOut: Error? = nil
                 do {
-                    entitiesOut = try self.baseWorker.fetche(type, predicate: predicate, sortDescriptors: sortDescriptors, fetchLimit: fetchLimit)
+                    entitiesOut = try inWorker.fetche(type, predicate: predicate, sortDescriptors: sortDescriptors, fetchLimit: fetchLimit)
                 } catch {
                     errorOut = error
                 }
-                completion(entitiesOut, errorOut, self.baseWorker)
+                completion(entitiesOut, errorOut)
             }
         }
         
         public func create<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, completion: @escaping (ENTITY) -> Void) {
-            baseWorker.context.perform {
-                completion(self.baseWorker.create(type))
+            run { inWorker in
+                completion(inWorker.create(type))
             }
         }
         
         public func delete<ENTITY: CoreDataEntity>(_ entity: ENTITY, completion: @escaping () -> Void) {
-            baseWorker.context.perform {
-                self.baseWorker.delete(entity)
+            run { inWorker in
+                inWorker.delete(entity)
                 completion()
             }
         }

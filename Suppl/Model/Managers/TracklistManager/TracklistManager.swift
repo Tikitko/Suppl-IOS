@@ -50,7 +50,7 @@ final class TracklistManager {
         }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) { tracks, error, _ in
+        coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) { tracks, error in
             var tracklist: [String]? = nil
             if let tracks = tracks {
                 tracklist = []
@@ -87,8 +87,8 @@ final class TracklistManager {
     private func setDBTracklistBackground(_ tracklist: [String]?) {
         guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getBackgroundWorker(), let tracklist = tracklist else { return }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
-        coreDataWorker.fetche(UserTrack.self, predicate: predicate) { userTracks, _, inWorker in
-            guard let tracks = userTracks else { return }
+        coreDataWorker.run { inWorker in
+            guard let tracks = try? inWorker.fetche(UserTrack.self, predicate: predicate) else { return }
             for track in tracks {
                 guard !tracklist.contains(track.trackId as String) else { continue }
                 inWorker.delete(track)

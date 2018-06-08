@@ -64,8 +64,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     func setDBTracksBackground(_ tracks: [AudioData]) {
         guard let coreDataWorker = CoreDataManager.s.getBackgroundWorker() else { return }
-        coreDataWorker.fetche(Track.self) { tracksDB, error, inWorker in
-            guard let tracksDB = tracksDB, let userTracksDB = try? inWorker.fetche(UserTrack.self) else { return }
+        coreDataWorker.run { inWorker in
+            guard let tracksDB = try? inWorker.fetche(Track.self), let userTracksDB = try? inWorker.fetche(UserTrack.self) else { return }
             for trackDB in tracksDB {
                 guard !tracks.contains(where: { $0.id == trackDB.id as String }), !userTracksDB.contains(where: { $0.trackId == trackDB }) else { continue }
                 inWorker.delete(trackDB)
@@ -103,9 +103,9 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        coreDataWorker.fetche(Track.self) { tracksDB, error, inWorker in
+        coreDataWorker.run { inWorker in
             var tracks: [AudioData]? = nil
-            if let tracksDB = tracksDB, let userTracksDB = try? inWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) {
+            if let tracksDB = try? inWorker.fetche(Track.self), let userTracksDB = try? inWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) {
                 tracks = []
                 for userTrack in userTracksDB {
                     guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
