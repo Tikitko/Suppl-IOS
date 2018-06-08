@@ -20,6 +20,9 @@ class SettingsGeneralViewController: UIViewController {
                 OfflineModeManager.s.on()
             } else {
                 OfflineModeManager.s.off()
+                if OfflineModeManager.s.offlineMode {
+                    switchElement.isOn = true
+                }
             }
         },
         {
