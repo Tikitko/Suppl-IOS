@@ -13,7 +13,7 @@ final class RootTabBarController: UITabBarController {
         super.viewDidLoad()
         setTheme()
         
-        var controllers = [TracklistRouter.setup(), SettingsMainViewController.initial()]
+        var controllers: [UIViewController] = [TracklistRouter.setup(), SettingsMainViewController.initial()]
         controllers[0].loadViewIfNeeded()
         if !OfflineModeManager.s.offlineMode {
             controllers.insert(MainRouter.setup(), at: 0)

@@ -30,7 +30,7 @@ final class PlayerManager: NSObject {
         mapTableDelegates.setObject(delegate, forKey: name as NSString)
     }
     
-    private  func getListener(name: String) -> PlayerListenerDelegate? {
+    private func getListener(name: String) -> PlayerListenerDelegate? {
         return mapTableDelegates.object(forKey: name as NSString) as? PlayerListenerDelegate
     }
     
@@ -166,7 +166,9 @@ final class PlayerManager: NSObject {
             if !loadedFromCache {
                 self?.setTrackInfo(track)
             }
-            if /*TracklistManager.s.tracklist?.contains(track.id) ?? false,*/
+            
+            /*
+            if TracklistManager.s.tracklist?.contains(track.id) ?? false,
                 let urlString = track.track, let url = URL(string: urlString),
                 PlayerItemsManager.s.addItem(track.id, url),
                 let item = PlayerItemsManager.s.getItem(track.id)
@@ -175,6 +177,8 @@ final class PlayerManager: NSObject {
             } else {
                 self?.setTrack(url: trackURL)
             }
+            */
+            self?.setTrack(url: trackURL)
         }
     }
     

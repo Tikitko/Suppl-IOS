@@ -3,5 +3,7 @@ import UIKit
 
 protocol TrackInfoPresenterProtocolInteractor: class {
     var moduleNameId: String { get }
-    func additionalInfo(currentPlayingId: String?, roundImage: Bool)
+    var isOffline: Bool { get set }
+    func additionalInfo(currentPlayingId: String?, roundImage: Bool, downloadedStatus status: PlayerItemsManager.ItemStatus, lastLoadPercentages: Int?)
+    func controlEnabled(_ value: Bool)
 }
