@@ -12,6 +12,8 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     @IBOutlet weak var loadProgressBar: UIProgressView!
     @IBOutlet weak var loadImage: UIImageView!
     @IBOutlet weak var loadButton: UIButton!
+    @IBOutlet weak var blurView: UIView!
+    var loadCircle: CircleLoad!
     
     var baseImage = true
     let allowDownloadButton = (UIApplication.topViewController() as? MainViewController) == nil
@@ -24,6 +26,13 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadCircle = CircleLoad(frame: blurView.bounds, radiusOffset: 10, lineWidth: 5, color: UIColor.white)
+        loadCircle.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurView.addSubview(loadCircle)
+        loadProgressBar.isHidden = true
+        
+        blurView.layer.cornerRadius = 5
+        blurView.clipsToBounds = true
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         trackImage.clipsToBounds = true
@@ -66,23 +75,25 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         if !isOn {
             setLoadPercentages(0)
         }
-        loadProgressBar.isHidden = !isOn
+        //loadProgressBar.isHidden = !isOn
         percentagesLabel.isHidden = !isOn
+        blurView.isHidden = !isOn
     }
     
     func setLoadPercentages(_ percentages: Int) {
-        loadProgressBar.progress = Float(percentages) / 100
+        //loadProgressBar.progress = Float(percentages) / 100
         percentagesLabel.text = "\(percentages)%"
+        loadCircle.currentAngle = Float((percentages * 360) / 100)
     }
     
     func setImage(_ image: UIImage) {
         guard baseImage else { return }
         baseImage = false
         
-        //trackImage.image = image
-        UIView.transition(with: trackImage, duration: 0.2, options: .transitionCrossDissolve, animations: { [weak self] in
+        trackImage.image = image
+        /*UIView.transition(with: trackImage, duration: 0.2, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.trackImage.image = image
-        }, completion: nil)
+        }, completion: nil)*/
     }
     
     func setRoundImage(_ value: Bool) {
@@ -115,6 +126,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         turnLoadImage(false)
         turnLoad(false)
         turnLoadButton(false)
+        loadCircle.currentAngle = 0
     }
     
     @IBAction func loadButtonClick(_ sender: Any) {
