@@ -19,6 +19,11 @@ class SettingsAccountViewController: UIViewController {
         getAccount()
         emailField.delegate = self
         identifierField.delegate = self
+        
+        emailButton.layer.cornerRadius = 5
+        emailButton.clipsToBounds = true
+        accountOutButton.layer.cornerRadius = 5
+        accountOutButton.clipsToBounds = true
     }
     
     @IBAction func accountOutButtonClick(_ sender: Any) {

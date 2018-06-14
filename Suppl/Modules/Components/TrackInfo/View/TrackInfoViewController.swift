@@ -36,6 +36,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         trackImage.clipsToBounds = true
+        blurView .clipsToBounds = true
         resetInfo()
         presenter.setListeners()
         presenter.requestOfflineMode()
@@ -97,7 +98,9 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
     
     func setRoundImage(_ value: Bool) {
-        trackImage.layer.cornerRadius = value ? trackImage.frame.width / 2 : 5
+        let cornerRadius = value ? trackImage.frame.width / 2 : 5
+        trackImage.layer.cornerRadius = cornerRadius
+        blurView.layer.cornerRadius = cornerRadius
     }
     
     func setSelected(_ value: Bool, instantly: Bool = false) {

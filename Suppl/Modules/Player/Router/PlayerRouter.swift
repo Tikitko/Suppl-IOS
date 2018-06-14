@@ -5,6 +5,7 @@ class PlayerRouter: BaseRouter, PlayerRouterProtocol {
     
     weak var viewController: UIViewController!
     
+    @available(*, deprecated)
     static func setup() -> UIViewController {
         let router = PlayerRouter()
         let interactor = PlayerInteractor()

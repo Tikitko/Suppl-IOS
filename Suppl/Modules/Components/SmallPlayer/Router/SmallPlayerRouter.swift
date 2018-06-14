@@ -24,6 +24,7 @@ class SmallPlayerRouter: BaseRouter, SmallPlayerRouterProtocol {
         return viewController
     }
     
+    @available(*, deprecated)
     func openBigPlayer() {
         UIApplication.topViewController()?.present(PlayerRouter.setup(), animated: true, completion: nil)
     }
