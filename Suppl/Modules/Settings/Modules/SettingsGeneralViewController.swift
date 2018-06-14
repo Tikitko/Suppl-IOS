@@ -51,7 +51,7 @@ class SettingsGeneralViewController: UIViewController {
     }
     
     func showToast(text: String) {
-        view.makeToast(text, duration: 2.0, position: .bottom)
+        view.makeToast(text, duration: 2.0, position: .top)
     }
     
 }
