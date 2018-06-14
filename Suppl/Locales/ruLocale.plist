@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>tracksCacheRemoved</key>
+	<string>Кэш треков очищен!</string>
+	<key>imagesCacheRemoved</key>
+	<string>Кэш картинок очищен!</string>
 	<key>coreDataLoading</key>
 	<string>Загрузка базы данных...</string>
 	<key>coreDataLoadError</key>

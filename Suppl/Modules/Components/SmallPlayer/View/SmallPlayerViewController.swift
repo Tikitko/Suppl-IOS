@@ -12,15 +12,17 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     @IBOutlet weak var smallPlayerView: UIView!
+    @IBOutlet weak var infoStackView: UIStackView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var openPlayerButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
+    
+    @IBOutlet weak var playerTitleLabelBig: UILabel!
     @IBOutlet weak var titleLabelBig: UILabel!
     @IBOutlet weak var performerLabelBig: UILabel!
     @IBOutlet weak var imageViewBig: UIImageView!
@@ -32,8 +34,9 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     @IBOutlet weak var progressSliderBig: UISlider!
     @IBOutlet weak var backButtonBig: UIButton!
     @IBOutlet weak var nextButtonBig: UIButton!
-    @IBOutlet weak var closeButtonBig: UIButton!
     
+    let safeAreaMarginIdentifier = "safeAreaMargin"
+    var baseMargin: CGFloat = 0
     var nowShowType: ShowType = .closed
     var closed: CGFloat = 0
     var opened: CGFloat = 0
@@ -44,6 +47,12 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        playerTitleLabelBig.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
+        infoStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
+        
+        if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) {
+            baseMargin = view.constraints[safeAreaMarginConstraintIndex].constant
+        }
         presenter.setListener()
         setTheme()
         clearPlayer()
@@ -57,7 +66,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func setPlayerShowAnimated(type: ShowType) {
-        UIView.animate(withDuration: 0.5, animations: { [weak self] in
+        UIView.animate(withDuration: 0.4, animations: { [weak self] in
             self?.setPlayerShow(type: type, needClear: false)
         }) { [weak self] status in
             if status && type == .closed {
@@ -66,9 +75,12 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         }
     }
     
-    func updateTopMargin(_ margin: CGFloat? = nil) {
-        if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == "safeAreaMargin" }) {
+    func updateTopMargin(_ margin: CGFloat? = nil, withBase: Bool = true) {
+        if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) {
             view.constraints[safeAreaMarginConstraintIndex].constant = margin ?? view.superview?.safeAreaInsets.top ?? 0
+            if withBase {
+                view.constraints[safeAreaMarginConstraintIndex].constant += baseMargin
+            }
             view.layoutIfNeeded()
         }
     }
@@ -80,17 +92,23 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
             result = closed
             smallPlayerView.alpha = 1
             parentTabBar?.alpha = 1
-            updateTopMargin(0)
+            updateTopMargin(0, withBase: false)
+            playerTitleLabelBig.isUserInteractionEnabled = false
+            infoStackView.isUserInteractionEnabled = false
         case .opened:
             result = opened
             smallPlayerView.alpha = 0
             parentTabBar?.alpha = 0
             updateTopMargin()
+            playerTitleLabelBig.isUserInteractionEnabled = true
+            infoStackView.isUserInteractionEnabled = false
         case .partOpened:
             result = partOpened
             smallPlayerView.alpha = 1
             parentTabBar?.alpha = 1
-            updateTopMargin(0)
+            updateTopMargin(0, withBase: false)
+            playerTitleLabelBig.isUserInteractionEnabled = false
+            infoStackView.isUserInteractionEnabled = true
         }
         nowShowType = type
         view.frame.origin.y = result
@@ -150,7 +168,6 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         leftLabelBig.text = TrackTime(sec: Int(progressSliderBig.maximumValue - progressSliderBig.value)).formatted
     }
     
-    
     func clearPlayer() {
         setPlayImage()
         imageView.image = #imageLiteral(resourceName: "cd")
@@ -186,20 +203,18 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         setPlayButtonImage(#imageLiteral(resourceName: "icon_154"))
     }
     
+    @objc func tapGestureRecognizerAction(_ gesture: UITapGestureRecognizer) {
+        if gesture.state == .ended {
+            setPlayerShowAnimated(type: nowShowType == .opened ? .partOpened : .opened)
+        }
+    }
+    
     @IBAction func playButtonClicked(_ sender: Any) {
         presenter.play()
     }
     
     @IBAction func closeButtonClicked(_ sender: Any) {
         presenter.removePlayer()
-    }
-    
-    @IBAction func openPlayerButtonClicked(_ sender: Any) {
-        setPlayerShowAnimated(type: .opened)
-    }
-    
-    @IBAction func closePlayerButtonClicked(_ sender: Any) {
-        setPlayerShowAnimated(type: .partOpened)
     }
     
     @IBAction func backButtonClick(_ sender: Any) {

@@ -5,7 +5,7 @@ class SettingsGeneralViewController: UIViewController {
     
     @IBOutlet weak var settingsTable: UITableView!
     
-    private let settingsCells: [UITableViewCell] = [
+    private lazy var settingsCells: [UITableViewCell] = [
         SettingTableCell(labelText: LocalesManager.s.get(.setting0), switchValue: SettingsManager.s.autoNextTrack!) { switchElement in
             SettingsManager.s.autoNextTrack = switchElement.isOn
         },
@@ -34,11 +34,13 @@ class SettingsGeneralViewController: UIViewController {
                 SettingsManager.s.theme = themeId
             }
         }(),
-        SettingTableCell(labelText: LocalesManager.s.get(.setting5), buttonText: LocalesManager.s.get(.clear)) { button in
+        SettingTableCell(labelText: LocalesManager.s.get(.setting5), buttonText: LocalesManager.s.get(.clear)) { [weak self] button in
             RemoteDataManager.s.resetAllCachedImages()
+            self?.showToast(text: LocalesManager.s.get(.imagesCacheRemoved))
         },
-        SettingTableCell(labelText: LocalesManager.s.get(.setting6), buttonText: LocalesManager.s.get(.clear)) { button in
+        SettingTableCell(labelText: LocalesManager.s.get(.setting6), buttonText: LocalesManager.s.get(.clear)) { [weak self] button in
             PlayerItemsManager.s.resetAllCachedItems()
+            self?.showToast(text: LocalesManager.s.get(.tracksCacheRemoved))
         }
     ]
     
@@ -46,6 +48,10 @@ class SettingsGeneralViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = LocalesManager.s.get(.titleSMain)
         settingsTable.allowsSelection = false
+    }
+    
+    func showToast(text: String) {
+        view.makeToast(text, duration: 2.0, position: .bottom)
     }
     
 }
