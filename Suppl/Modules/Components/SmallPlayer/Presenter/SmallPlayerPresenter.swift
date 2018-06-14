@@ -45,19 +45,19 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
 extension SmallPlayerPresenter: PlayerListenerDelegate {
     
     func playlistAdded(_ playlist: Playlist) {
-        view.showPlayer()
+        view.setPlayerShowAnimated(type: .partOpened)
     }
     
     func playlistRemoved() {
-        view.closePlayer()
+        view.setPlayerShowAnimated(type: .closed)
     }
     
     func itemReadyToPlay(_ item: AVPlayerItem, _ duration: Int?) {
-        view.openPlayer()
+        view.openPlayer(duration: !item.duration.seconds.isNaN ? item.duration.seconds : Double(duration ?? 0))
     }
 
     func itemTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
-        view.updatePlayerProgress(percentages: Float(sec / item.duration.seconds))
+        view.updatePlayerProgress(percentages: Float(sec / item.duration.seconds), currentTime: sec)
     }
     
     func playerStop() {

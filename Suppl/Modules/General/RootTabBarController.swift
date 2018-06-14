@@ -6,7 +6,7 @@ final class RootTabBarController: UITabBarController {
     
     var tapGestureRecognizer: UITapGestureRecognizer?
     
-    private let smallPlayer = SmallPlayerRouter.setup()
+    public let smallPlayer = SmallPlayerRouter.setup()
     private var smallPlayerConstraints: [NSLayoutConstraint] = []
     
     override func viewDidLoad() {
@@ -26,33 +26,13 @@ final class RootTabBarController: UITabBarController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-        view.addSubview(smallPlayer.view)
-        smallPlayer.view.translatesAutoresizingMaskIntoConstraints = false
-        updateSmallPlayerConstraints()
+        smallPlayer.view.frame = view.bounds
+        smallPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(smallPlayer.view, belowSubview: tabBar)
         
         TracklistManager.s.update() { status in }
     }
 
-    
-    private func updateSmallPlayerConstraints() {
-        view.removeConstraints(smallPlayerConstraints)
-        smallPlayerConstraints.removeAll(keepingCapacity: false)
-        
-        smallPlayerConstraints.append(smallPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor, constant: 0))
-        smallPlayerConstraints.append(smallPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-        smallPlayerConstraints.append(smallPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor))
-        smallPlayerConstraints.append(smallPlayer.view.heightAnchor.constraint(equalToConstant: 50))
-        
-        view.addConstraints(smallPlayerConstraints)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if previousTraitCollection != nil {
-            updateSmallPlayerConstraints()
-        }
-    }
-    
     func setTheme() {
         tabBar.theme_barTintColor = "secondColor"
         tabBar.theme_tintColor = ["#FFF"]

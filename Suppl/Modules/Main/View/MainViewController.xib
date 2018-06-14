@@ -106,6 +106,10 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="2yO-Al-Nc8"/>
+                    <exclude reference="3sm-bR-65P"/>
+                    <exclude reference="Mxr-zD-1TE"/>
+                    <exclude reference="xeM-Ws-Fbk"/>
                     <exclude reference="0aw-Op-C9L"/>
                     <exclude reference="3AL-J1-9fv"/>
                     <exclude reference="58i-KA-xFT"/>
@@ -115,15 +119,6 @@
                     <exclude reference="Qxf-v5-wYV"/>
                     <exclude reference="f2r-6D-mij"/>
                     <exclude reference="fJ5-LQ-G9W"/>
-                    <exclude reference="2yO-Al-Nc8"/>
-                    <exclude reference="3sm-bR-65P"/>
-                    <exclude reference="Mxr-zD-1TE"/>
-                    <exclude reference="xeM-Ws-Fbk"/>
-                    <exclude reference="7ht-aU-meW"/>
-                    <exclude reference="S0O-Bd-3l7"/>
-                    <exclude reference="YXZ-ts-8df"/>
-                    <exclude reference="eKr-S0-7Xv"/>
-                    <exclude reference="rem-lM-J5u"/>
                     <exclude reference="CUV-Oe-WEc"/>
                     <exclude reference="ODU-Lx-WKx"/>
                     <exclude reference="fXE-xo-uO8"/>
@@ -132,40 +127,45 @@
                     <exclude reference="gV9-eF-pgQ"/>
                     <exclude reference="hO3-zu-Udw"/>
                     <exclude reference="w4U-4v-4tY"/>
+                    <exclude reference="7ht-aU-meW"/>
+                    <exclude reference="S0O-Bd-3l7"/>
+                    <exclude reference="YXZ-ts-8df"/>
+                    <exclude reference="eKr-S0-7Xv"/>
+                    <exclude reference="rem-lM-J5u"/>
                 </mask>
             </variation>
             <variation key="heightClass=compact">
                 <mask key="constraints">
+                    <include reference="3sm-bR-65P"/>
+                    <include reference="Mxr-zD-1TE"/>
                     <include reference="0aw-Op-C9L"/>
                     <include reference="3AL-J1-9fv"/>
                     <include reference="9y2-Lf-Osy"/>
                     <include reference="CPK-iW-kOQ"/>
                     <include reference="f2r-6D-mij"/>
-                    <include reference="3sm-bR-65P"/>
-                    <include reference="Mxr-zD-1TE"/>
-                    <include reference="S0O-Bd-3l7"/>
-                    <include reference="YXZ-ts-8df"/>
                     <include reference="CUV-Oe-WEc"/>
                     <include reference="0IM-Ne-RzK"/>
                     <include reference="fR2-rI-IjA"/>
                     <include reference="w4U-4v-4tY"/>
+                    <include reference="S0O-Bd-3l7"/>
+                    <include reference="YXZ-ts-8df"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular">
                 <mask key="constraints">
+                    <include reference="2yO-Al-Nc8"/>
+                    <include reference="xeM-Ws-Fbk"/>
                     <include reference="58i-KA-xFT"/>
                     <include reference="MiT-qh-2tz"/>
                     <include reference="Qxf-v5-wYV"/>
                     <include reference="fJ5-LQ-G9W"/>
-                    <include reference="2yO-Al-Nc8"/>
-                    <include reference="xeM-Ws-Fbk"/>
-                    <include reference="7ht-aU-meW"/>
-                    <include reference="eKr-S0-7Xv"/>
-                    <include reference="rem-lM-J5u"/>
                     <include reference="ODU-Lx-WKx"/>
                     <include reference="fXE-xo-uO8"/>
                     <include reference="gV9-eF-pgQ"/>
                     <include reference="hO3-zu-Udw"/>
+                    <include reference="7ht-aU-meW"/>
+                    <include reference="eKr-S0-7Xv"/>
+                    <include reference="rem-lM-J5u"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="26" y="51"/>

@@ -251,7 +251,8 @@ final class PlayerManager: NSObject {
     }
     
     public func setPlaylist(tracksIDs: [String], current: Int = 0, cachedTracksInfo: [AudioData]? = nil) {
-        playlist = Playlist(IDs: tracksIDs, current: current)
+        guard let playlistNew = Playlist(IDs: tracksIDs, current: current), self.playlist?.curr() != tracksIDs[current] else { return }
+        playlist = playlistNew
         self.cachedTracksInfo = cachedTracksInfo
         loadTrackByID(playlist!.curr())
         sayToListeners() { delegate in
