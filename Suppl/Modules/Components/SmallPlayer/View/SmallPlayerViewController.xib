@@ -146,7 +146,7 @@
                         <constraint firstAttribute="height" constant="56" id="8C7-jZ-Rhk"/>
                         <constraint firstAttribute="height" constant="46" id="Rf0-V6-eGO"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
@@ -332,14 +332,14 @@
                     <exclude reference="ewA-xl-N6i"/>
                     <exclude reference="wi6-gQ-PGg"/>
                     <exclude reference="xF7-7f-Hxd"/>
+                    <exclude reference="fKy-MC-uDj"/>
+                    <exclude reference="j8q-9q-rHq"/>
+                    <exclude reference="oUs-7q-AgY"/>
                     <exclude reference="FgX-Tl-hG2"/>
                     <exclude reference="eY3-ne-1Ak"/>
                     <exclude reference="lgs-Hc-ul9"/>
                     <exclude reference="wNE-Jk-T9B"/>
                     <exclude reference="xFn-Wi-jSP"/>
-                    <exclude reference="fKy-MC-uDj"/>
-                    <exclude reference="j8q-9q-rHq"/>
-                    <exclude reference="oUs-7q-AgY"/>
                     <exclude reference="5Uf-lI-aKc"/>
                     <exclude reference="Gft-0L-ui6"/>
                     <exclude reference="jVm-aR-FdV"/>
@@ -360,11 +360,11 @@
                     <include reference="yc5-gl-acI"/>
                     <include reference="ZhP-C7-cIY"/>
                     <include reference="ewA-xl-N6i"/>
+                    <include reference="fKy-MC-uDj"/>
+                    <include reference="j8q-9q-rHq"/>
                     <include reference="FgX-Tl-hG2"/>
                     <include reference="eY3-ne-1Ak"/>
                     <include reference="xFn-Wi-jSP"/>
-                    <include reference="fKy-MC-uDj"/>
-                    <include reference="j8q-9q-rHq"/>
                     <include reference="5Uf-lI-aKc"/>
                     <include reference="jVm-aR-FdV"/>
                     <include reference="Efq-Xa-w4H"/>
@@ -380,9 +380,9 @@
                     <include reference="w24-Mr-GEN"/>
                     <include reference="wi6-gQ-PGg"/>
                     <include reference="xF7-7f-Hxd"/>
+                    <include reference="oUs-7q-AgY"/>
                     <include reference="lgs-Hc-ul9"/>
                     <include reference="wNE-Jk-T9B"/>
-                    <include reference="oUs-7q-AgY"/>
                     <include reference="Gft-0L-ui6"/>
                     <include reference="sAd-1J-fFs"/>
                     <include reference="1wD-Jm-soc"/>
