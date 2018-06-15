@@ -76,7 +76,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cFb-cI-qNG" secondAttribute="bottom" constant="4" id="3sm-bR-65P">
                     <variation key="heightClass=compact" constant="5"/>
                 </constraint>
-                <constraint firstItem="dPR-f1-7Wh" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="5" id="58i-KA-xFT">
+                <constraint firstItem="dPR-f1-7Wh" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="5" identifier="topSafeAreaConstraint" id="58i-KA-xFT">
                     <variation key="heightClass=regular" constant="5"/>
                 </constraint>
                 <constraint firstItem="5uA-Ku-hgZ" firstAttribute="top" secondItem="dPR-f1-7Wh" secondAttribute="bottom" id="7ht-aU-meW"/>
@@ -85,20 +85,20 @@
                 <constraint firstItem="cFb-cI-qNG" firstAttribute="trailing" secondItem="vh2-OT-Ae6" secondAttribute="trailing" id="CUV-Oe-WEc"/>
                 <constraint firstItem="dPR-f1-7Wh" firstAttribute="trailing" secondItem="5uA-Ku-hgZ" secondAttribute="trailing" id="MiT-qh-2tz"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="5uA-Ku-hgZ" secondAttribute="trailing" constant="5" id="Mxr-zD-1TE"/>
-                <constraint firstItem="cFb-cI-qNG" firstAttribute="leading" secondItem="vh2-OT-Ae6" secondAttribute="leading" id="ODU-Lx-WKx"/>
+                <constraint firstItem="cFb-cI-qNG" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="ODU-Lx-WKx"/>
                 <constraint firstItem="dPR-f1-7Wh" firstAttribute="leading" secondItem="5uA-Ku-hgZ" secondAttribute="leading" id="Qxf-v5-wYV"/>
                 <constraint firstItem="5uA-Ku-hgZ" firstAttribute="leading" secondItem="dPR-f1-7Wh" secondAttribute="trailing" id="S0O-Bd-3l7"/>
+                <constraint firstItem="cFb-cI-qNG" firstAttribute="top" secondItem="5uA-Ku-hgZ" secondAttribute="bottom" id="WRB-Ij-Dgg"/>
                 <constraint firstItem="5uA-Ku-hgZ" firstAttribute="bottom" secondItem="cFb-cI-qNG" secondAttribute="top" id="YXZ-ts-8df"/>
-                <constraint firstItem="5uA-Ku-hgZ" firstAttribute="trailing" secondItem="vh2-OT-Ae6" secondAttribute="trailing" id="eKr-S0-7Xv"/>
+                <constraint firstItem="cFb-cI-qNG" firstAttribute="trailing" secondItem="vh2-OT-Ae6" secondAttribute="trailing" id="eKr-S0-7Xv"/>
                 <constraint firstItem="dPR-f1-7Wh" firstAttribute="bottom" secondItem="5uA-Ku-hgZ" secondAttribute="bottom" id="f2r-6D-mij"/>
                 <constraint firstItem="dPR-f1-7Wh" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="fJ5-LQ-G9W"/>
                 <constraint firstItem="vh2-OT-Ae6" firstAttribute="top" secondItem="cFb-cI-qNG" secondAttribute="top" id="fR2-rI-IjA"/>
                 <constraint firstItem="cFb-cI-qNG" firstAttribute="top" secondItem="vh2-OT-Ae6" secondAttribute="top" id="fXE-xo-uO8"/>
-                <constraint firstItem="vh2-OT-Ae6" firstAttribute="top" secondItem="5uA-Ku-hgZ" secondAttribute="bottom" id="gV9-eF-pgQ"/>
-                <constraint firstItem="vh2-OT-Ae6" firstAttribute="trailing" secondItem="cFb-cI-qNG" secondAttribute="trailing" id="hO3-zu-Udw"/>
-                <constraint firstItem="5uA-Ku-hgZ" firstAttribute="leading" secondItem="vh2-OT-Ae6" secondAttribute="leading" id="rem-lM-J5u"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cFb-cI-qNG" secondAttribute="trailing" constant="5" id="hO3-zu-Udw"/>
+                <constraint firstItem="cFb-cI-qNG" firstAttribute="leading" secondItem="vh2-OT-Ae6" secondAttribute="leading" id="rem-lM-J5u"/>
                 <constraint firstItem="vh2-OT-Ae6" firstAttribute="leading" secondItem="dPR-f1-7Wh" secondAttribute="leading" id="w4U-4v-4tY"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cFb-cI-qNG" secondAttribute="bottom" constant="8" id="xeM-Ws-Fbk">
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cFb-cI-qNG" secondAttribute="bottom" constant="8" identifier="bottomSafeAreaConstraint" id="xeM-Ws-Fbk">
                     <variation key="heightClass=regular" constant="5"/>
                 </constraint>
             </constraints>
@@ -109,6 +109,7 @@
                     <exclude reference="2yO-Al-Nc8"/>
                     <exclude reference="3sm-bR-65P"/>
                     <exclude reference="Mxr-zD-1TE"/>
+                    <exclude reference="hO3-zu-Udw"/>
                     <exclude reference="xeM-Ws-Fbk"/>
                     <exclude reference="0aw-Op-C9L"/>
                     <exclude reference="3AL-J1-9fv"/>
@@ -119,19 +120,17 @@
                     <exclude reference="Qxf-v5-wYV"/>
                     <exclude reference="f2r-6D-mij"/>
                     <exclude reference="fJ5-LQ-G9W"/>
-                    <exclude reference="CUV-Oe-WEc"/>
-                    <exclude reference="ODU-Lx-WKx"/>
-                    <exclude reference="fXE-xo-uO8"/>
-                    <exclude reference="0IM-Ne-RzK"/>
-                    <exclude reference="fR2-rI-IjA"/>
-                    <exclude reference="gV9-eF-pgQ"/>
-                    <exclude reference="hO3-zu-Udw"/>
-                    <exclude reference="w4U-4v-4tY"/>
                     <exclude reference="7ht-aU-meW"/>
                     <exclude reference="S0O-Bd-3l7"/>
                     <exclude reference="YXZ-ts-8df"/>
                     <exclude reference="eKr-S0-7Xv"/>
                     <exclude reference="rem-lM-J5u"/>
+                    <exclude reference="CUV-Oe-WEc"/>
+                    <exclude reference="ODU-Lx-WKx"/>
+                    <exclude reference="fXE-xo-uO8"/>
+                    <exclude reference="0IM-Ne-RzK"/>
+                    <exclude reference="fR2-rI-IjA"/>
+                    <exclude reference="w4U-4v-4tY"/>
                 </mask>
             </variation>
             <variation key="heightClass=compact">
@@ -143,29 +142,28 @@
                     <include reference="9y2-Lf-Osy"/>
                     <include reference="CPK-iW-kOQ"/>
                     <include reference="f2r-6D-mij"/>
+                    <include reference="S0O-Bd-3l7"/>
+                    <include reference="YXZ-ts-8df"/>
                     <include reference="CUV-Oe-WEc"/>
                     <include reference="0IM-Ne-RzK"/>
                     <include reference="fR2-rI-IjA"/>
                     <include reference="w4U-4v-4tY"/>
-                    <include reference="S0O-Bd-3l7"/>
-                    <include reference="YXZ-ts-8df"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular">
                 <mask key="constraints">
                     <include reference="2yO-Al-Nc8"/>
+                    <include reference="hO3-zu-Udw"/>
                     <include reference="xeM-Ws-Fbk"/>
                     <include reference="58i-KA-xFT"/>
                     <include reference="MiT-qh-2tz"/>
                     <include reference="Qxf-v5-wYV"/>
                     <include reference="fJ5-LQ-G9W"/>
-                    <include reference="ODU-Lx-WKx"/>
-                    <include reference="fXE-xo-uO8"/>
-                    <include reference="gV9-eF-pgQ"/>
-                    <include reference="hO3-zu-Udw"/>
                     <include reference="7ht-aU-meW"/>
                     <include reference="eKr-S0-7Xv"/>
                     <include reference="rem-lM-J5u"/>
+                    <include reference="ODU-Lx-WKx"/>
+                    <include reference="fXE-xo-uO8"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="26" y="51"/>

@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import SwiftTheme
 
-class MainViewController: UIViewController, MainViewControllerProtocol, ControllerInfoProtocol {
+class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtocol, ControllerInfoProtocol {
     
     var presenter: MainPresenterProtocolView!
     
@@ -35,7 +35,7 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name
-        
+
         ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
         ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: tracksSearch, includeParent: view)
         
@@ -48,10 +48,10 @@ class MainViewController: UIViewController, MainViewControllerProtocol, Controll
         presenter.setListener()
         presenter.loadRandomTracks()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tracksTableTest.tableView.reloadData()
+        reloadData()
     }
     
     func reloadData() {

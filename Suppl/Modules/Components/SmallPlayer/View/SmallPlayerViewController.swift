@@ -35,6 +35,8 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     @IBOutlet weak var backButtonBig: UIButton!
     @IBOutlet weak var nextButtonBig: UIButton!
     
+    var marginsUpdating = false
+    
     let safeAreaMarginIdentifier = "safeAreaMargin"
     var baseMargin: CGFloat = 0
     var nowShowType: ShowType = .closed
@@ -65,27 +67,34 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         setPlayerShow(type: nowShowType)
     }
     
-    func setPlayerShowAnimated(type: ShowType) {
-        UIView.animate(withDuration: 0.4, animations: { [weak self] in
-            self?.setPlayerShow(type: type, needClear: false)
-        }) { [weak self] status in
-            if status && type == .closed {
-                self?.clearPlayer()
-            }
-        }
-    }
-    
     func updateTopMargin(_ margin: CGFloat? = nil, withBase: Bool = true) {
-        if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) {
-            view.constraints[safeAreaMarginConstraintIndex].constant = margin ?? view.superview?.safeAreaInsets.top ?? 0
-            if withBase {
-                view.constraints[safeAreaMarginConstraintIndex].constant += baseMargin
-            }
-            view.layoutIfNeeded()
+        guard let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) else { return }
+        let safeAreaMargin: CGFloat?
+        if #available(iOS 11.0, *) {
+            safeAreaMargin = view.superview?.safeAreaInsets.top
+        } else {
+            safeAreaMargin = view.superview?.parentViewController?.topLayoutGuide.length
+        }
+        view.constraints[safeAreaMarginConstraintIndex].constant = margin ?? safeAreaMargin ?? 0
+        if withBase {
+            view.constraints[safeAreaMarginConstraintIndex].constant += baseMargin
+        }
+        view.layoutIfNeeded()
+    }
+    
+    func setPlayerShowAnimated(type: ShowType) {
+        startExtraPart(showType: type)
+        UIView.animate(withDuration: 0.4, animations: { [weak self] in
+            self?.setPlayerShow(type: type, needExtraPart: false)
+        }) { [weak self] status in
+            self?.finalExtraPart(showType: type)
         }
     }
     
-    func setPlayerShow(type: ShowType, needClear: Bool = true) {
+    func setPlayerShow(type: ShowType, needExtraPart: Bool = true) {
+        if needExtraPart {
+            startExtraPart(showType: type)
+        }
         let result: CGFloat
         switch type {
         case .closed:
@@ -112,18 +121,47 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         }
         nowShowType = type
         view.frame.origin.y = result
-        if needClear && type == .closed {
+        if needExtraPart {
+            finalExtraPart(showType: type)
+        }
+    }
+    
+    func startExtraPart(showType: ShowType) {
+        if showType == .partOpened {
+            //view.isHidden = false
+        }
+    }
+    
+    func finalExtraPart(showType: ShowType) {
+        if showType == .closed {
             clearPlayer()
+            //view.isHidden = true
         }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        updateMargins()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                self?.updateMargins()
+            }
+        })
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+
+    func updateMargins() {
+        if marginsUpdating { return }
+        marginsUpdating = true
         let tabBarHeight: CGFloat = parentTabBar?.frame.height ?? 0
         closed = (view.superview?.frame.height ?? view.frame.height) - tabBarHeight
         partOpened = closed - smallPlayerView.frame.height
         opened = view.superview?.frame.origin.y ?? 0
         setPlayerShow(type: nowShowType)
+        marginsUpdating = false
     }
     
     func setTheme() {
@@ -204,9 +242,8 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     @objc func tapGestureRecognizerAction(_ gesture: UITapGestureRecognizer) {
-        if gesture.state == .ended {
-            setPlayerShowAnimated(type: nowShowType == .opened ? .partOpened : .opened)
-        }
+        guard gesture.state == .ended else { return }
+        setPlayerShowAnimated(type: nowShowType == .opened ? .partOpened : .opened)
     }
     
     @IBAction func playButtonClicked(_ sender: Any) {

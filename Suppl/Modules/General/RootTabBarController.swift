@@ -26,6 +26,7 @@ final class RootTabBarController: UITabBarController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
+        view.clipsToBounds = true
         smallPlayer.view.frame = view.bounds
         smallPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.insertSubview(smallPlayer.view, belowSubview: tabBar)
@@ -56,6 +57,11 @@ final class RootTabBarController: UITabBarController {
         } else {
             viewControllers?.append(controllerTab)
         }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        smallPlayer.viewWillTransition(to: size, with: coordinator)
+        super.viewWillTransition(to: size, with: coordinator)
     }
     
     @objc func tapAndHideKeyboard(_ gesture: UITapGestureRecognizer) {

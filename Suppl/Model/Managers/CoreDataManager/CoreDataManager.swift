@@ -142,7 +142,7 @@ final class CoreDataManager {
         }
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!.appendingPathComponent(modelName + ".sqlite")
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global(qos: .default).async { [weak self] in
             var errorOut: Error? = nil
             do {
                 let options = [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]

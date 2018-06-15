@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TracklistViewController: UIViewController, TracklistViewControllerProtocol, ControllerInfoProtocol {
+class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControllerProtocol, ControllerInfoProtocol {
     
     var presenter: TracklistPresenterProtocolView!
     
@@ -37,7 +37,7 @@ class TracklistViewController: UIViewController, TracklistViewControllerProtocol
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tracksTableTest.tableView.reloadData()
+        reloadData()
     }
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {

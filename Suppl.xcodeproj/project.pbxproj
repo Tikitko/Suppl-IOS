@@ -55,6 +55,7 @@
 		8C0E1B9A2091E66000CE5C12 /* ModulesCommunicateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */; };
 		8C0E1B9C2091E6A300CE5C12 /* SearchCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */; };
 		8C1BE68020AF129000E2425A /* TrackInfoCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1BE67F20AF129000E2425A /* TrackInfoCommunicateProtocol.swift */; };
+		8C1E99EA20D3DDC400D0743E /* OldSafeAreaUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1E99E920D3DDC400D0743E /* OldSafeAreaUIViewController.swift */; };
 		8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889B2089D7F0000505F9 /* Playlist.swift */; };
 		8C20889E2089D851000505F9 /* RowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889D2089D851000505F9 /* RowAction.swift */; };
 		8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889F2089DBEF000505F9 /* TrackTime.swift */; };
@@ -216,6 +217,7 @@
 		8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesCommunicateManager.swift; sourceTree = "<group>"; };
 		8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCommunicateProtocol.swift; sourceTree = "<group>"; };
 		8C1BE67F20AF129000E2425A /* TrackInfoCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInfoCommunicateProtocol.swift; sourceTree = "<group>"; };
+		8C1E99E920D3DDC400D0743E /* OldSafeAreaUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSafeAreaUIViewController.swift; sourceTree = "<group>"; };
 		8C20889B2089D7F0000505F9 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		8C20889D2089D851000505F9 /* RowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowAction.swift; sourceTree = "<group>"; };
 		8C20889F2089DBEF000505F9 /* TrackTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTime.swift; sourceTree = "<group>"; };
@@ -881,6 +883,7 @@
 			children = (
 				8C95DEC220B596D10081C477 /* BaseInteractor */,
 				8C95DEBF20B5966F0081C477 /* BaseRouter */,
+				8C1E99E920D3DDC400D0743E /* OldSafeAreaUIViewController.swift */,
 			);
 			path = ModulesComponents;
 			sourceTree = "<group>";
@@ -1323,6 +1326,7 @@
 				8C0CB5F6208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift in Sources */,
 				8C32F88520A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift in Sources */,
 				8C71CE382080BFEC00AC4BDB /* AuthPresenterProtocolView.swift in Sources */,
+				8C1E99EA20D3DDC400D0743E /* OldSafeAreaUIViewController.swift in Sources */,
 				8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */,
 				8C3BB33E20B2A1D70012E1D7 /* TrackInfoInteractorProtocol.swift in Sources */,
 				8C0E1B962091C74400CE5C12 /* LocalesManager.swift in Sources */,
@@ -1527,7 +1531,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T2KFCL2CW5;
 				INFOPLIST_FILE = Suppl/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Tikitko.Suppl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1547,7 +1551,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T2KFCL2CW5;
 				INFOPLIST_FILE = Suppl/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Tikitko.Suppl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
