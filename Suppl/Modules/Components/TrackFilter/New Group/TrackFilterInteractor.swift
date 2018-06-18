@@ -1,6 +1,6 @@
 import Foundation
 
-class TrackFilterInteractor: TrackFilterInteractorProtocol {
+class TrackFilterInteractor: BaseInteractor, TrackFilterInteractorProtocol {
     
     weak var presenter: TrackFilterPresenterProtocolInteractor!
     

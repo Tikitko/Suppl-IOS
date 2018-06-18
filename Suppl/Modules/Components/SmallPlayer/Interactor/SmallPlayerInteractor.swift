@@ -1,6 +1,6 @@
 import Foundation
 
-class SmallPlayerInteractor: SmallPlayerInteractorProtocol {
+class SmallPlayerInteractor: BaseInteractor, SmallPlayerInteractorProtocol {
     
     weak var presenter: SmallPlayerPresenterProtocolInteractor!
 

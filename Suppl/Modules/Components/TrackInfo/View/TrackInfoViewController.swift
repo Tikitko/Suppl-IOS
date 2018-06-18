@@ -26,6 +26,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTheme()
         loadCircle = CircleLoad(frame: blurView.bounds, radiusOffset: 10, lineWidth: 5, color: UIColor.white)
         loadCircle.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurView.addSubview(loadCircle)
@@ -41,6 +42,10 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         presenter.setListeners()
         presenter.requestOfflineMode()
     }
+    
+    func setTheme() {
+        loadButton.theme_tintColor = "secondColor"
+    }
 
     func setInfo(title: String, performer: String, durationString: String) {
         trackTitle.text = title
@@ -51,11 +56,11 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     func setLoadButtonType(_ type: LoadButtonType) {
         let image: UIImage
         switch type {
-        case .download: image = #imageLiteral(resourceName: "cloud-download-7")
-        case .remove: image = #imageLiteral(resourceName: "bin-7")
-        case .сancel: image = #imageLiteral(resourceName: "circle-x-7")
+        case .download: image = #imageLiteral(resourceName: "icon_206")
+        case .remove: image = #imageLiteral(resourceName: "icon_228")
+        case .сancel: image = #imageLiteral(resourceName: "icon_182")
         }
-        loadButton.setImage(image, for: .normal)
+        loadButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
     func turnLoadButton(_ isOn: Bool) {

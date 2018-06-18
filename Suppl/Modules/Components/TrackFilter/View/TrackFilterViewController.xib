@@ -15,9 +15,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TrackFilterViewController" customModule="Suppl" customModuleProvider="target">
             <connections>
                 <outlet property="okButton" destination="ydG-YM-9gv" id="isr-c1-ygW"/>
+                <outlet property="searchLabel" destination="caT-5y-caJ" id="J5L-x6-6az"/>
+                <outlet property="searchPLabel" destination="yv8-Q8-ltF" id="Kx3-Zj-pJo"/>
                 <outlet property="searchPerformerSwitch" destination="8NS-hJ-GuE" id="TGE-3I-GDV"/>
+                <outlet property="searchTLabel" destination="KO1-ww-g5P" id="iSh-Kh-RQv"/>
                 <outlet property="searchTitleSwitch" destination="0mu-oW-azF" id="8Bl-MI-dlg"/>
+                <outlet property="timeLabel" destination="oA3-FB-FSz" id="Z2x-3O-4cr"/>
                 <outlet property="timeSlider" destination="VQb-ob-VAP" id="jza-Rp-wPU"/>
+                <outlet property="titleLabel" destination="IXw-T8-GdV" id="lsO-3g-qzP"/>
                 <outlet property="view" destination="bVn-xr-smr" id="t8W-n4-mxb"/>
             </connections>
         </placeholder>

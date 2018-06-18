@@ -8,7 +8,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     public lazy var name: String = {
         return presenter.getTitle()
     }()
-    public let imageName: String = "list-simple-star-7.png"
+    public let imageName: String = "icon_204"
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var updateButton: UIButton!
@@ -16,23 +16,36 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     
     var tracksTableTest: UITableViewController!
     var searchTest: SearchBarViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTheme()
+        updateButton.setImage(UIImage(named: "icon_020")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        filterButton.setImage(UIImage(named: "icon_141")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        editButton.setImage(UIImage(named: "icon_166")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        
         navigationItem.title = name
+        titleLabel.text = name
         
         ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
         ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: searchBar, includeParent: view)
-        searchTest.searchBar.placeholder = searchBar.placeholder
+        searchTest.searchBar.placeholder = presenter.getSearchLabel()
         searchBar.isHidden = true
         tracksTable.isHidden = true
         
-        onLabel(text: infoLabel.text ?? "")
+        onLabel(text: presenter.getLoadLabel())
         
         presenter.load()
+    }
+    
+    func setTheme() {
+        updateButton.theme_tintColor = "secondColor"
+        filterButton.theme_tintColor = "secondColor"
+        editButton.theme_tintColor = "secondColor"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,7 +114,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     @IBAction func editButtonClick(_ sender: Any) {
-        tracksTableTest.isEditing = !tracksTableTest.isEditing
+        tracksTableTest.setEditing(!tracksTableTest.isEditing, animated: true)
     }
     
 }

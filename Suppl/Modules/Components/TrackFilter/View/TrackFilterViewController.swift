@@ -6,6 +6,11 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
     
     var presenter: TrackFilterPresenterProtocolView!
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var searchLabel: UILabel!
+    @IBOutlet weak var searchTLabel: UILabel!
+    @IBOutlet weak var searchPLabel: UILabel!
     @IBOutlet weak var timeSlider: UISlider!
     @IBOutlet weak var searchTitleSwitch: UISwitch!
     @IBOutlet weak var searchPerformerSwitch: UISwitch!
@@ -14,9 +19,18 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
+        
+        let titles = presenter.getAllLocalizedStrings()
+        
+        titleLabel.text = titles[.filterTitle]
+        timeLabel.text = titles[.filterTime]
+        searchLabel.text = titles[.filterSearch]
+        searchTLabel.text = titles[.filterSearchT]
+        searchPLabel.text = titles[.filterSearchP]
+        okButton.setTitle(titles[.filterOK], for: .normal)
+        
         okButton.isEnabled = false
         okButton.isHidden = true
-        
         
         timeSlider.value = presenter.timeValue() ?? 1
         searchTitleSwitch.isOn = presenter.titleValue() ?? true

@@ -9,11 +9,12 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     public lazy var name: String = {
         return presenter.getTitle()
     }()
-    public let imageName = "music-7.png"
+    public let imageName = "icon_210"
     
     @IBOutlet weak var tracksSearch: UISearchBar!
     @IBOutlet weak var tracksTable: UITableView!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     
     var tracksTableTest: UITableViewController!
     var searchTest: SearchBarViewController!
@@ -35,15 +36,16 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name
+        titleLabel.text = name
 
         ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
         ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: tracksSearch, includeParent: view)
         
-        searchTest.searchBar.placeholder = tracksSearch.placeholder
+        searchTest.searchBar.placeholder = presenter.getSearchLabel()
         tracksSearch.isHidden = true
         tracksTable.isHidden = true
         
-        onLabel(text: infoLabel.text ?? "")
+        onLabel(text: presenter.getLoadLabel())
         
         presenter.setListener()
         presenter.loadRandomTracks()

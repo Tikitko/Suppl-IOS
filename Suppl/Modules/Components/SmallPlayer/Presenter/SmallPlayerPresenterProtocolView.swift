@@ -3,6 +3,7 @@ import UIKit
 
 protocol SmallPlayerPresenterProtocolView: class {
     func setListener()
+    func getTitle() -> String
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool)
     func navButtonClick(next: Bool)
     func play()

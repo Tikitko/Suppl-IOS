@@ -4,7 +4,9 @@ import UIKit
 class SettingsMainViewController: UIViewController, ControllerInfoProtocol {
     
     public let name: String = LocalesManager.s.get(.settingsTitle)
-    public let imageName: String = "gear-7.png"
+    public let imageName: String = "icon_186"
+    
+    @IBOutlet weak var titleLabel: UILabel!
     
     static func initial() -> SettingsMainViewController {
         let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
@@ -22,5 +24,6 @@ class SettingsMainViewController: UIViewController, ControllerInfoProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = name
+        titleLabel.text = name
     }
 }

@@ -16,6 +16,7 @@
                 <outlet property="filterButton" destination="bWp-41-h10" id="gSx-xm-c9u"/>
                 <outlet property="infoLabel" destination="DPK-Ye-23v" id="VBf-FX-2Mj"/>
                 <outlet property="searchBar" destination="yBe-8n-PaE" id="N0R-xO-SFj"/>
+                <outlet property="titleLabel" destination="9AU-sj-sVD" id="vsa-jk-cIJ"/>
                 <outlet property="tracksTable" destination="3pJ-XD-qtM" id="DVS-Wq-7Pv"/>
                 <outlet property="updateButton" destination="VPl-IA-S6M" id="gJL-a9-VZy"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6Ng-N5-kYf"/>

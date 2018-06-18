@@ -1,5 +1,5 @@
 import Foundation
 
-protocol TrackFilterInteractorProtocol: class {
+protocol TrackFilterInteractorProtocol: class, BaseInteractorProtocol {
     var communicateDelegate: TrackFilterCommunicateProtocol? { get }
 }

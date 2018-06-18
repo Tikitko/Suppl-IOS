@@ -173,10 +173,10 @@
                             <rect key="frame" x="170" y="9" width="195" height="36"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cd" translatesAutoresizingMaskIntoConstraints="NO" id="uxr-Sp-0oA">
-                                    <rect key="frame" x="0.0" y="0.0" width="54" height="36"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="54.5" height="36"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="track" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37e-gl-1ny">
-                                    <rect key="frame" x="59" y="0.0" width="136" height="36"/>
+                                    <rect key="frame" x="59.5" y="0.0" width="135.5" height="36"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -269,7 +269,7 @@
                         <constraint firstAttribute="height" constant="40" id="G3Q-nd-RlF"/>
                     </constraints>
                 </stackView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R6F-if-q8W">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R6F-if-q8W">
                     <rect key="frame" x="16" y="152" width="343" height="341"/>
                 </imageView>
             </subviews>
@@ -332,14 +332,14 @@
                     <exclude reference="ewA-xl-N6i"/>
                     <exclude reference="wi6-gQ-PGg"/>
                     <exclude reference="xF7-7f-Hxd"/>
-                    <exclude reference="fKy-MC-uDj"/>
-                    <exclude reference="j8q-9q-rHq"/>
-                    <exclude reference="oUs-7q-AgY"/>
                     <exclude reference="FgX-Tl-hG2"/>
                     <exclude reference="eY3-ne-1Ak"/>
                     <exclude reference="lgs-Hc-ul9"/>
                     <exclude reference="wNE-Jk-T9B"/>
                     <exclude reference="xFn-Wi-jSP"/>
+                    <exclude reference="fKy-MC-uDj"/>
+                    <exclude reference="j8q-9q-rHq"/>
+                    <exclude reference="oUs-7q-AgY"/>
                     <exclude reference="5Uf-lI-aKc"/>
                     <exclude reference="Gft-0L-ui6"/>
                     <exclude reference="jVm-aR-FdV"/>
@@ -360,11 +360,11 @@
                     <include reference="yc5-gl-acI"/>
                     <include reference="ZhP-C7-cIY"/>
                     <include reference="ewA-xl-N6i"/>
-                    <include reference="fKy-MC-uDj"/>
-                    <include reference="j8q-9q-rHq"/>
                     <include reference="FgX-Tl-hG2"/>
                     <include reference="eY3-ne-1Ak"/>
                     <include reference="xFn-Wi-jSP"/>
+                    <include reference="fKy-MC-uDj"/>
+                    <include reference="j8q-9q-rHq"/>
                     <include reference="5Uf-lI-aKc"/>
                     <include reference="jVm-aR-FdV"/>
                     <include reference="Efq-Xa-w4H"/>
@@ -380,9 +380,9 @@
                     <include reference="w24-Mr-GEN"/>
                     <include reference="wi6-gQ-PGg"/>
                     <include reference="xF7-7f-Hxd"/>
-                    <include reference="oUs-7q-AgY"/>
                     <include reference="lgs-Hc-ul9"/>
                     <include reference="wNE-Jk-T9B"/>
+                    <include reference="oUs-7q-AgY"/>
                     <include reference="Gft-0L-ui6"/>
                     <include reference="sAd-1J-fFs"/>
                     <include reference="1wD-Jm-soc"/>
@@ -394,7 +394,7 @@
         </view>
     </objects>
     <resources>
-        <image name="cd" width="90" height="90"/>
+        <image name="cd" width="45" height="45"/>
         <image name="icon_003" width="30" height="30"/>
         <image name="icon_076" width="30" height="30"/>
         <image name="icon_152" width="30" height="30"/>

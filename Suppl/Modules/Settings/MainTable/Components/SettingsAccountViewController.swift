@@ -7,14 +7,20 @@ class SettingsAccountViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var identifierField: UITextField!
+    @IBOutlet weak var identifierLabel: UILabel!
     @IBOutlet weak var accountOutButton: UIButton!
     
     @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var emailButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = LocalesManager.s.get(.titleSAccount)
+        identifierLabel.text = LocalesManager.s.get(.youIdentifierLabel)
+        accountOutButton.setTitle(LocalesManager.s.get(.identifierButton), for: .normal)
+        emailLabel.text = LocalesManager.s.get(.youEmailLabel)
+        emailButton.setTitle(LocalesManager.s.get(.emailButton), for: .normal)
         setTheme()
         getAccount()
         emailField.delegate = self

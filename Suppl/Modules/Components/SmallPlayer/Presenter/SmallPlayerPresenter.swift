@@ -12,6 +12,10 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
         interactor.setPlayerListener(self)
     }
     
+    func getTitle() -> String {
+        return interactor.getLocaleString(.playerTitle)
+    }
+    
     func navButtonClick(next: Bool) {
         next ? interactor.callNextTrack() : interactor.callPrevTrack()
     }

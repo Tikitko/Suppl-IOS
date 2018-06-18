@@ -68,6 +68,8 @@
 		8C285F79208881B5007427E7 /* TrackTablePresenterProtocolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F78208881B5007427E7 /* TrackTablePresenterProtocolView.swift */; };
 		8C285F7B208881CC007427E7 /* TrackTablePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F7A208881CC007427E7 /* TrackTablePresenter.swift */; };
 		8C29C4D120B68CB100AC7F6C /* TracklistListenerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C29C4D020B68CB100AC7F6C /* TracklistListenerDelegate.swift */; };
+		8C2A6E8020D7AA8A0047A1A0 /* SettingsMainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A6E7F20D7AA8A0047A1A0 /* SettingsMainTableViewController.swift */; };
+		8C2A6E8620D7BCC60047A1A0 /* SettingsMainTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A6E8520D7BCC60047A1A0 /* SettingsMainTableCell.swift */; };
 		8C2D6F7520C1196900F49D6D /* CachingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D6F7420C1196800F49D6D /* CachingPlayerItem.swift */; };
 		8C2D6F7720C1202500F49D6D /* PlayerItemsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D6F7620C1202500F49D6D /* PlayerItemsManager.swift */; };
 		8C316CB8208710BF00BD891B /* PlayerViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CB7208710BF00BD891B /* PlayerViewControllerProtocol.swift */; };
@@ -119,7 +121,6 @@
 		8C4B1339202463C0004A997E /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */; };
 		8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */; };
 		8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */; };
-		8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133F202489AA004A997E /* SettingsDesignViewController.swift */; };
 		8C4C043220C962D3006CC269 /* PlayerPresenterProtocolInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C043120C962D3006CC269 /* PlayerPresenterProtocolInteractor.swift */; };
 		8C4C043420C9635D006CC269 /* SmallPlayerPresenterProtocolInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C043320C9635D006CC269 /* SmallPlayerPresenterProtocolInteractor.swift */; };
 		8C4C043620C963A5006CC269 /* SearchBarPresenterProtocolInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C043520C963A5006CC269 /* SearchBarPresenterProtocolInteractor.swift */; };
@@ -230,6 +231,8 @@
 		8C285F78208881B5007427E7 /* TrackTablePresenterProtocolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTablePresenterProtocolView.swift; sourceTree = "<group>"; };
 		8C285F7A208881CC007427E7 /* TrackTablePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTablePresenter.swift; sourceTree = "<group>"; };
 		8C29C4D020B68CB100AC7F6C /* TracklistListenerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistListenerDelegate.swift; sourceTree = "<group>"; };
+		8C2A6E7F20D7AA8A0047A1A0 /* SettingsMainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMainTableViewController.swift; sourceTree = "<group>"; };
+		8C2A6E8520D7BCC60047A1A0 /* SettingsMainTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMainTableCell.swift; sourceTree = "<group>"; };
 		8C2D6F7420C1196800F49D6D /* CachingPlayerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingPlayerItem.swift; sourceTree = "<group>"; };
 		8C2D6F7620C1202500F49D6D /* PlayerItemsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerItemsManager.swift; sourceTree = "<group>"; };
 		8C316CB7208710BF00BD891B /* PlayerViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewControllerProtocol.swift; sourceTree = "<group>"; };
@@ -281,7 +284,6 @@
 		8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
 		8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralViewController.swift; sourceTree = "<group>"; };
 		8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAccountViewController.swift; sourceTree = "<group>"; };
-		8C4B133F202489AA004A997E /* SettingsDesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDesignViewController.swift; sourceTree = "<group>"; };
 		8C4C043120C962D3006CC269 /* PlayerPresenterProtocolInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPresenterProtocolInteractor.swift; sourceTree = "<group>"; };
 		8C4C043320C9635D006CC269 /* SmallPlayerPresenterProtocolInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerPresenterProtocolInteractor.swift; sourceTree = "<group>"; };
 		8C4C043520C963A5006CC269 /* SearchBarPresenterProtocolInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarPresenterProtocolInteractor.swift; sourceTree = "<group>"; };
@@ -372,7 +374,6 @@
 				8C3B74E52090753600D0AF3E /* SearchBar */,
 				8C285F6720887B68007427E7 /* TrackTable */,
 				0E0A983E2033141500E91922 /* TrackFilter */,
-				0E12FAC82030A39300EE3422 /* SettingTableCell */,
 				0E0F520A2025F346000C6DD3 /* TrackInfo */,
 			);
 			path = Components;
@@ -386,14 +387,6 @@
 				8C44FFBE203432C3008C50D0 /* Black.plist */,
 			);
 			path = Themes;
-			sourceTree = "<group>";
-		};
-		0E12FAC82030A39300EE3422 /* SettingTableCell */ = {
-			isa = PBXGroup;
-			children = (
-				0E12FAC92030A3D400EE3422 /* SettingTableCell.swift */,
-			);
-			path = SettingTableCell;
 			sourceTree = "<group>";
 		};
 		0E29CBD52029FFD700BE5975 /* Player */ = {
@@ -629,6 +622,26 @@
 				8C29C4D020B68CB100AC7F6C /* TracklistListenerDelegate.swift */,
 			);
 			path = TracklistManager;
+			sourceTree = "<group>";
+		};
+		8C2A6E8120D7B7150047A1A0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */,
+				8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */,
+				0E12FAC92030A3D400EE3422 /* SettingTableCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		8C2A6E8220D7B7AE0047A1A0 /* MainTable */ = {
+			isa = PBXGroup;
+			children = (
+				8C2A6E8120D7B7150047A1A0 /* Components */,
+				8C2A6E7F20D7AA8A0047A1A0 /* SettingsMainTableViewController.swift */,
+				8C2A6E8520D7BCC60047A1A0 /* SettingsMainTableCell.swift */,
+			);
+			path = MainTable;
 			sourceTree = "<group>";
 		};
 		8C2D6F7320C1192B00F49D6D /* External */ = {
@@ -897,16 +910,6 @@
 			path = PlayerManager;
 			sourceTree = "<group>";
 		};
-		8C4B133A20248913004A997E /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-				8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */,
-				8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */,
-				8C4B133F202489AA004A997E /* SettingsDesignViewController.swift */,
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
 		8C67F5D3201B153100333EB2 = {
 			isa = PBXGroup;
 			children = (
@@ -1084,7 +1087,7 @@
 		8CCAC59720205FB700D91687 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				8C4B133A20248913004A997E /* Modules */,
+				8C2A6E8220D7B7AE0047A1A0 /* MainTable */,
 				8CCAC5982020600E00D91687 /* SettingsMainViewController.swift */,
 				8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */,
 			);
@@ -1331,6 +1334,7 @@
 				8C3BB33E20B2A1D70012E1D7 /* TrackInfoInteractorProtocol.swift in Sources */,
 				8C0E1B962091C74400CE5C12 /* LocalesManager.swift in Sources */,
 				8C71CE352080BFCB00AC4BDB /* AuthPresenter.swift in Sources */,
+				8C2A6E8620D7BCC60047A1A0 /* SettingsMainTableCell.swift in Sources */,
 				8C1BE68020AF129000E2425A /* TrackInfoCommunicateProtocol.swift in Sources */,
 				0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */,
 				8CE38E4720CAAC6C007768BC /* PlayerItemDelegate.swift in Sources */,
@@ -1348,7 +1352,6 @@
 				8C479666209C6888009F5623 /* CurrentTrack.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,
 				8C73006B20999AF900B2FA44 /* CommunicateManagerProtocol.swift in Sources */,
-				8C4B1340202489AA004A997E /* SettingsDesignViewController.swift in Sources */,
 				8C0CB600208DA8C800456A68 /* TrackFilterPresenterProtocolView.swift in Sources */,
 				8C32F88B20A03AA80059C1F4 /* SmallPlayerInteractor.swift in Sources */,
 				0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */,
@@ -1367,6 +1370,7 @@
 				8C71CE2D2080BECD00AC4BDB /* AuthRouter.swift in Sources */,
 				8C3594D820BD90CE00E5E0DB /* Track.swift in Sources */,
 				8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */,
+				8C2A6E8020D7AA8A0047A1A0 /* SettingsMainTableViewController.swift in Sources */,
 				8C3B74E42090725700D0AF3E /* ViewIncludeTemplate.swift in Sources */,
 				8C0CB624208DDB4200456A68 /* TracklistRouter.swift in Sources */,
 				8C3B74F22090785400D0AF3E /* SearchBarPresenterProtocolView.swift in Sources */,

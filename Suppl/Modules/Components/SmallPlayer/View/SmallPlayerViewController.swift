@@ -49,6 +49,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        playerTitleLabelBig.text = presenter.getTitle()
         playerTitleLabelBig.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
         infoStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
         

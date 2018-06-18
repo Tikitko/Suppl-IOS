@@ -2,6 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>emailButton</key>
+	<string>Установить EMail</string>
+	<key>identifierButton</key>
+	<string>Выйти из аккаунта</string>
+	<key>youIdentifierLabel</key>
+	<string>Ваш идентификатор:</string>
+	<key>youEmailLabel</key>
+	<string>Ваш EMail:</string>
+	<key>filterOK</key>
+	<string>Применить</string>
+	<key>filterSearchP</key>
+	<string>исполнитель:</string>
+	<key>filterSearchT</key>
+	<string>название:</string>
+	<key>filterSearch</key>
+	<string>Поиск:</string>
+	<key>filterTime</key>
+	<string>Время:</string>
+	<key>filterTitle</key>
+	<string>Фильтры</string>
+	<key>searchTracklist</key>
+	<string>Поиск по плейлисту</string>
+	<key>searchMain</key>
+	<string>Поиск музыки</string>
 	<key>tracksCacheRemoved</key>
 	<string>Кэш треков очищен!</string>
 	<key>imagesCacheRemoved</key>

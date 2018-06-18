@@ -14,13 +14,22 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
     var searchByTitle = true
     var searchByPerformer = true
     var searchTimeRate: Float = 1.0
+    var updateTrysCount = 0
     
     var moduleNameId: String {
         get { return router.moduleNameId }
     }
     
     func getTitle() -> String {
-        return LocalesManager.s.get(.tracklistTitle)
+        return interactor.getLocaleString(.tracklistTitle)
+    }
+    
+    func getLoadLabel() -> String {
+        return interactor.getLocaleString(.load)
+    }
+    
+    func getSearchLabel() -> String {
+        return interactor.getLocaleString(.searchTracklist)
     }
     
     func load() {
@@ -75,6 +84,7 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
     }
     
     func updateButtonClick() {
+        setInfo(getLoadLabel())
         clearSearch()
         view.updateButtonIsEnabled(false)
         interactor.tracklistUpdate()
@@ -123,6 +133,14 @@ extension TracklistPresenter: TrackFilterCommunicateProtocol {
     }
     
     func timeChange(_ value: inout Float) {
+        updateTrysCount += 1
+        if updateTrysCount != 1 {
+            if updateTrysCount >= 8 {
+                updateTrysCount = 0
+            }
+            return
+        }
+        
         searchTimeRate = value
         
         let offset = 3

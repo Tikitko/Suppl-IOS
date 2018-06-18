@@ -63,9 +63,11 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         presenter.load()
     }
     
+    /*
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         return presenter.rowEditType(indexPath: indexPath)
     }
+    */
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         presenter.moveTrack(fromPath: sourceIndexPath, toPath: destinationIndexPath)
@@ -100,7 +102,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         guard let actionsCreated = presenter.createRowActions(indexPath: editActionsForRowAt) else { return nil }
         var actions: [UITableViewRowAction] = []
         for action in actionsCreated {
-            let finalAction = UITableViewRowAction(style: .normal, title: action.title) { [weak self] a, i in
+            let finalAction = UITableViewRowAction(style: .normal, title: action.title) { [weak self] _, i in
                 self?.setEditing(false, animated: true)
                 action.action(i)
             }

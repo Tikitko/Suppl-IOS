@@ -14,7 +14,15 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     }
     
     func getTitle() -> String {
-        return LocalesManager.s.get(.musicTitle)
+        return interactor.getLocaleString(.musicTitle)
+    }
+    
+    func getLoadLabel() -> String {
+        return interactor.getLocaleString(.load)
+    }
+    
+    func getSearchLabel() -> String {
+        return interactor.getLocaleString(.searchMain)
     }
     
     func setListener() {
@@ -67,7 +75,7 @@ extension MainPresenter: SearchCommunicateProtocol {
     
     func searchButtonClicked(query: String) {
         clearData()
-        setInfo(interactor.getLocaleString(.load))
+        setInfo(getLoadLabel())
         interactor.searchTracks(query, offset: 0)
         view.setOffsetZero()
     }
