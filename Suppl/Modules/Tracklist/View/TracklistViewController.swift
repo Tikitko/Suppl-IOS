@@ -21,6 +21,8 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     var tracksTableTest: UITableViewController!
     var searchTest: SearchBarViewController!
     
+    var buttonsIsOff = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
@@ -68,6 +70,10 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     func reloadData() {
+        editButton.isEnabled = presenter.getEditPermission() && !buttonsIsOff
+        if !editButton.isEnabled, tracksTableTest.isEditing {
+            tracksTableTest.setEditing(false, animated: true)
+        }
         tracksTableTest.tableView.reloadData()
     }
     
@@ -76,6 +82,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     func offButtons() {
+        buttonsIsOff = true
         editButton.isEnabled = false
     }
     

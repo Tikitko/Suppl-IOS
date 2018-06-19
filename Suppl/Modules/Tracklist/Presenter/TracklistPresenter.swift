@@ -65,6 +65,10 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         view.clearSearch()
     }
     
+    func getEditPermission() -> Bool {
+        return foundTracks == nil
+    }
+    
     func clearTracks() {
         tracks = []
     }
@@ -160,8 +164,12 @@ extension TracklistPresenter: TrackFilterCommunicateProtocol {
                 foundTracks?.append(track)
             }
         }
+        if value == 1 {
+            foundTracks = nil
+        } else {
+            setInfo(foundTracks?.count == 0 ? interactor.getLocaleString(.notFound) : nil)
+        }
         view.reloadData()
-        setInfo(foundTracks?.count == 0 ? interactor.getLocaleString(.notFound) : nil)
     }
     
     func titleChange(_ value: inout Bool) {

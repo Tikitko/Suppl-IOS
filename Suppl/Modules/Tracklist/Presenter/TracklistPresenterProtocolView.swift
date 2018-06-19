@@ -6,6 +6,7 @@ protocol TracklistPresenterProtocolView: class {
     func getTitle() -> String
     func getLoadLabel() -> String
     func getSearchLabel() -> String
+    func getEditPermission() -> Bool
     func updateButtonClick()
     func filterButtonClick()
 }
