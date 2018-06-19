@@ -405,12 +405,11 @@
 		0EEC5A95202119690028694E /* General */ = {
 			isa = PBXGroup;
 			children = (
-				8C75D09E20A96A0600DB0F0D /* TemplateClasses */,
+				8C1E99E920D3DDC400D0743E /* OldSafeAreaUIViewController.swift */,
 				8C3F087A20AD8FF900129A75 /* ModulesComponents */,
 				8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */,
 				8CCAC59520205D5C00D91687 /* RootTabBarController.swift */,
 				0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */,
-				8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -650,7 +649,10 @@
 		8C2D6F7320C1192B00F49D6D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				8C75D09C20A9694200DB0F0D /* QueueTemplate.swift */,
+				8C3B74E32090725700D0AF3E /* ViewIncludeTemplate.swift */,
 				8C2D6F7420C1196800F49D6D /* CachingPlayerItem.swift */,
+				8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */,
 				8CA4F90A20B802E200C1A81B /* Toast.swift */,
 			);
 			path = External;
@@ -899,7 +901,6 @@
 			children = (
 				8C95DEC220B596D10081C477 /* BaseInteractor */,
 				8C95DEBF20B5966F0081C477 /* BaseRouter */,
-				8C1E99E920D3DDC400D0743E /* OldSafeAreaUIViewController.swift */,
 			);
 			path = ModulesComponents;
 			sourceTree = "<group>";
@@ -937,6 +938,7 @@
 				8C0E1B932091C0D900CE5C12 /* Locales */,
 				8C3301F02021A9AD00446945 /* Modules */,
 				0E12FAC320308B0800EE3422 /* Themes */,
+				8C2D6F7320C1192B00F49D6D /* External */,
 				8C67F5F1201B172700333EB2 /* Model */,
 				8C67F5DF201B153100333EB2 /* AppDelegate.swift */,
 				0E12FACD2030E97A00EE3422 /* Suppl-Bridging-Header.h */,
@@ -951,7 +953,6 @@
 		8C67F5F1201B172700333EB2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8C2D6F7320C1192B00F49D6D /* External */,
 				8C20889A2089D412000505F9 /* Entities */,
 				8CBDFD622022FEEF00BED743 /* Managers */,
 				8C67F5F2201B174200333EB2 /* API */,
@@ -1038,15 +1039,6 @@
 				8C4C043D20C96481006CC269 /* AuthPresenterProtocolInteractor.swift */,
 			);
 			path = Presenter;
-			sourceTree = "<group>";
-		};
-		8C75D09E20A96A0600DB0F0D /* TemplateClasses */ = {
-			isa = PBXGroup;
-			children = (
-				8C3B74E32090725700D0AF3E /* ViewIncludeTemplate.swift */,
-				8C75D09C20A9694200DB0F0D /* QueueTemplate.swift */,
-			);
-			path = TemplateClasses;
 			sourceTree = "<group>";
 		};
 		8C95DEBF20B5966F0081C477 /* BaseRouter */ = {
