@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>emailButton</key>
+	<string>Install EMail</string>
+	<key>identifierButton</key>
+	<string>Sign out of account</string>
+	<key>youIdentifierLabel</key>
+	<string>Your ID:</string>
+	<key>youEmailLabel</key>
+	<string>Your EMail:</string>
+	<key>filterOK</key>
+	<string>Apply</string>
+	<key>filterSearchP</key>
+	<string>artist:</string>
+	<key>filterSearchT</key>
+	<string>title:</string>
+	<key>filterSearch</key>
+	<string>Search:</string>
+	<key>filterTime</key>
+	<string>Time:</string>
+	<key>filterTitle</key>
+	<string>Filters</string>
+	<key>searchTracklist</key>
+	<string>Search by playlist</string>
+	<key>searchMain</key>
+	<string>Find music</string>
+	<key>tracksCacheRemoved</key>
+	<string>The track cache is cleared!</string>
+	<key>imagesCacheRemoved</key>
+	<string>The picture cache is cleared!</string>
+	<key>coreDataLoading</key>
+	<string>Loading the database...</string>
+	<key>coreDataLoadError</key>
+	<string>Error loading the database!</string>
+	<key>setting6</key>
+	<string>Clear the track cache</string>
+	<key>serverError</key>
+	<string>Error getting data</string>
+	<key>clear</key>
+	<string>Clear</string>
+	<key>setting5</key>
+	<string>Clear the image cache</string>
+	<key>off</key>
+	<string>Off</string>
+	<key>on</key>
+	<string>On</string>
+	<key>setting4</key>
+	<string>Offline mode</string>
+	<key>noInOffline</key>
+	<string>Not available offline</string>
+	<key>noOffline</key>
+	<string>Offline mode is not available</string>
+	<key>APIError_1</key>
+	<string>Server error</string>
+	<key>APIError_5</key>
+	<string>Spam control</string>
+	<key>APIError_15</key>
+	<string>Server error</string>
+	<key>APIError_16</key>
+	<string>User not found</string>
+	<key>APIError_17</key>
+	<string>Invalid identifier</string>
+	<key>APIError_18</key>
+	<string>Re-registration is not possible</string>
+	<key>APIError_19</key>
+	<string>Invalid identifier</string>
+	<key>APIError_20</key>
+	<string>E-Mail is busy</string>
+	<key>APIError_21</key>
+	<string>E-Mail of the wrong format</string>
+	<key>playerTitle</key>
+	<string>Player</string>
+	<key>del</key>
+	<string>Delete</string>
+	<key>add</key>
+	<string>Add</string>
+	<key>load</key>
+	<string>Loading...</string>
+	<key>getInfo</key>
+	<string>Getting information...</string>
+	<key>auth</key>
+	<string>Authorization...</string>
+	<key>reg</key>
+	<string>Registration...</string>
+	<key>hi</key>
+	<string>Welcome!</string>
+	<key>inputIdentifier</key>
+	<string>Enter your ID</string>
+	<key>checkIdentifier</key>
+	<string>Checking the identifier</string>
+	<key>badIdentifier</key>
+	<string>Invalid ID format</string>
+	<key>notFound</key>
+	<string>Nothing found</string>
+	<key>musicTitle</key>
+	<string>Music</string>
+	<key>settingsTitle</key>
+	<string>Settings</string>
+	<key>emptyTracklist</key>
+	<string>Your playlist is empty</string>
+	<key>tracklistTitle</key>
+	<string>Playlist</string>
+	<key>titleSMain</key>
+	<string>Main</string>
+	<key>titleSAccount</key>
+	<string>Account</string>
+	<key>titleSDesign</key>
+	<string>Design</string>
+	<key>setting0</key>
+	<string>Auto. switching track</string>
+	<key>setting1</key>
+	<string>Load thumbnails of tracks</string>
+	<key>setting2</key>
+	<string>Round Thumbnails</string>
+	<key>setting3</key>
+	<string>Application Theme</string>
+	<key>install</key>
+	<string>Installing...</string>
+	<key>emailSet</key>
+	<string>EMail is installed!</string>
+	<key>youEmail</key>
+	<string>Your EMail</string>
+	<key>addOk</key>
+	<string>Added to playlist!</string>
+	<key>addError</key>
+	<string>Error adding to playlist!</string>
+	<key>removeOk</key>
+	<string>Removed from the playlist!</string>
+	<key>removeError</key>
+	<string>Error removing from playlist!</string>
+	<key>moveOk</key>
+	<string>Successfully moved!</string>
+	<key>moveError</key>
+	<string>Move error!</string>
+</dict>
+</plist>

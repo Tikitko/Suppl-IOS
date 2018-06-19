@@ -22,7 +22,8 @@ final class AppStaticData {
     ]
     
     public static let locales = [
-        "ruLocale"
+        "en",
+        "ru"
     ]
     
 }

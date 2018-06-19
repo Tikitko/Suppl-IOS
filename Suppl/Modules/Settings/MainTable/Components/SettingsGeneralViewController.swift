@@ -48,6 +48,10 @@ class SettingsGeneralViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = LocalesManager.s.get(.titleSMain)
         settingsTable.allowsSelection = false
+        if #available(iOS 11.0, *) {
+            let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == "topConstraint" })?.constant ?? 10
+            settingsTable.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + offset, 0, bottomLayoutGuide.length + offset, 0)
+        }
     }
     
     func showToast(text: String) {

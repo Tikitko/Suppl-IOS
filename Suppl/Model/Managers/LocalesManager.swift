@@ -15,15 +15,21 @@ final class LocalesManager {
     static public let s = LocalesManager()
     private init() {}
     
-    public let locale = PListsManager.s.loadPList(AppStaticData.locales.first ?? "")! as! [String: String]
-    private let empty = "---"
+    public let locale: [String: String] = {
+        let localesList = AppStaticData.locales
+        let localeSystem = NSLocale.preferredLanguages.first
+        let localePList = localesList.first(where: { $0 == localeSystem }) ?? localesList.first(where: { localeSystem?.hasPrefix($0) ?? false }) ?? "en"
+        return PListsManager.s.loadPList(localePList) as? [String: String] ?? [:]
+    }()
 
     public func get(_ expression: Expression) -> String {
-        return locale[expression.rawValue] ?? empty
+        let keyString = expression.rawValue
+        return locale[keyString] ?? keyString
     }
     
     public func get(apiErrorCode code: Int) -> String {
-        return locale["APIError_\(code)"] ?? empty
+        let keyString = "APIError_\(code)"
+        return locale[keyString] ?? keyString
     }
     
 }

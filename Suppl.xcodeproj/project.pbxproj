@@ -50,7 +50,7 @@
 		8C0CB628208DDB8300456A68 /* TracklistPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB627208DDB8300456A68 /* TracklistPresenter.swift */; };
 		8C0E1B8E2091A76D00CE5C12 /* KeysPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B8D2091A76D00CE5C12 /* KeysPair.swift */; };
 		8C0E1B902091BCA100CE5C12 /* PListsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B8F2091BCA100CE5C12 /* PListsManager.swift */; };
-		8C0E1B922091BF5400CE5C12 /* ruLocale.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C0E1B912091BF5400CE5C12 /* ruLocale.plist */; };
+		8C0E1B922091BF5400CE5C12 /* ru.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C0E1B912091BF5400CE5C12 /* ru.plist */; };
 		8C0E1B962091C74400CE5C12 /* LocalesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B952091C74400CE5C12 /* LocalesManager.swift */; };
 		8C0E1B9A2091E66000CE5C12 /* ModulesCommunicateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */; };
 		8C0E1B9C2091E6A300CE5C12 /* SearchCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */; };
@@ -165,6 +165,7 @@
 		8CCAC59E202065AA00D91687 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC59D202065AA00D91687 /* MainViewController.swift */; };
 		8CCAC5A0202065B300D91687 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CCAC59F202065B300D91687 /* MainViewController.xib */; };
 		8CE38E4720CAAC6C007768BC /* PlayerItemDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE38E4620CAAC6C007768BC /* PlayerItemDelegate.swift */; };
+		8CEDF42820D8E3D90034F314 /* en.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8CEDF42720D8E3D90034F314 /* en.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -213,7 +214,7 @@
 		8C0CB627208DDB8300456A68 /* TracklistPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistPresenter.swift; sourceTree = "<group>"; };
 		8C0E1B8D2091A76D00CE5C12 /* KeysPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeysPair.swift; sourceTree = "<group>"; };
 		8C0E1B8F2091BCA100CE5C12 /* PListsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PListsManager.swift; sourceTree = "<group>"; };
-		8C0E1B912091BF5400CE5C12 /* ruLocale.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ruLocale.plist; sourceTree = "<group>"; };
+		8C0E1B912091BF5400CE5C12 /* ru.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ru.plist; sourceTree = "<group>"; };
 		8C0E1B952091C74400CE5C12 /* LocalesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalesManager.swift; sourceTree = "<group>"; };
 		8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesCommunicateManager.swift; sourceTree = "<group>"; };
 		8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCommunicateProtocol.swift; sourceTree = "<group>"; };
@@ -330,6 +331,7 @@
 		8CCAC59D202065AA00D91687 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8CCAC59F202065B300D91687 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		8CE38E4620CAAC6C007768BC /* PlayerItemDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerItemDelegate.swift; sourceTree = "<group>"; };
+		8CEDF42720D8E3D90034F314 /* en.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = en.plist; sourceTree = "<group>"; };
 		DC594A90A504837522D11FA5 /* Pods_Suppl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Suppl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -540,7 +542,8 @@
 		8C0E1B932091C0D900CE5C12 /* Locales */ = {
 			isa = PBXGroup;
 			children = (
-				8C0E1B912091BF5400CE5C12 /* ruLocale.plist */,
+				8CEDF42720D8E3D90034F314 /* en.plist */,
+				8C0E1B912091BF5400CE5C12 /* ru.plist */,
 			);
 			path = Locales;
 			sourceTree = "<group>";
@@ -1192,7 +1195,8 @@
 			files = (
 				0E0A98422033141600E91922 /* TrackFilterViewController.xib in Resources */,
 				0EEC5AAB202135B50028694E /* TracklistViewController.xib in Resources */,
-				8C0E1B922091BF5400CE5C12 /* ruLocale.plist in Resources */,
+				8C0E1B922091BF5400CE5C12 /* ru.plist in Resources */,
+				8CEDF42820D8E3D90034F314 /* en.plist in Resources */,
 				8C44FFBF203432C3008C50D0 /* Black.plist in Resources */,
 				8C4B1339202463C0004A997E /* SettingsStoryboard.storyboard in Resources */,
 				0E12FAC72030973500EE3422 /* Blue.plist in Resources */,
