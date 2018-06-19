@@ -18,7 +18,7 @@ final class LocalesManager {
     public let locale: [String: String] = {
         let localesList = AppStaticData.locales
         let localeSystem = NSLocale.preferredLanguages.first
-        let localePList = localesList.first(where: { $0 == localeSystem }) ?? localesList.first(where: { localeSystem?.hasPrefix($0) ?? false }) ?? "en"
+        let localePList = localesList.first(where: { $0 == localeSystem }) ?? localesList.first(where: { localeSystem?.hasPrefix($0) ?? false }) ?? localesList.first ?? String()
         return PListsManager.s.loadPList(localePList) as? [String: String] ?? [:]
     }()
 
