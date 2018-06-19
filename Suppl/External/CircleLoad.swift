@@ -24,9 +24,9 @@ class CircleLoad: UIView {
     }
     
     private override init(frame: CGRect) {
-        centerX = frame.height / 2
-        centerY = frame.width / 2
-        radius = centerY > centerX ? centerY : centerX
+        centerX = frame.width / 2
+        centerY = frame.height / 2
+        radius = centerY < centerX ? centerY : centerX
         _currentAngle = offset
         lineWidth = 1
         color = UIColor.black.cgColor

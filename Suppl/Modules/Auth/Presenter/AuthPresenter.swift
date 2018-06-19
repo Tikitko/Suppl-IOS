@@ -12,6 +12,10 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
         self.noAuthOnShow = noAuthOnShow
     }
     
+    func getButtonLabel() -> String {
+        return interactor.getLocaleString(.loginIn)
+    }
+    
     func setLabel(expression: LocalesManager.Expression) {
         view.setLabel(interactor.getLocaleString(expression))
     }

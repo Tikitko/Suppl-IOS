@@ -14,6 +14,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
+        repeatButton.setTitle(presenter.getButtonLabel(), for: .normal)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         presenter.setLoadLabel()
