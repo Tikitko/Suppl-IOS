@@ -67,10 +67,8 @@
 	<key>APIError_18</key>
 	<string>Повторная регистрация невозможна</string>
 	<key>APIError_19</key>
-	<string>Неверный идентификатор</string>
-	<key>APIError_20</key>
 	<string>E-Mail занят</string>
-	<key>APIError_21</key>
+	<key>APIError_20</key>
 	<string>E-Mail неверного формата</string>
 	<key>playerTitle</key>
 	<string>Плеер</string>

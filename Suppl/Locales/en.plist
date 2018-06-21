@@ -67,10 +67,8 @@
 	<key>APIError_18</key>
 	<string>Re-registration is not possible</string>
 	<key>APIError_19</key>
-	<string>Invalid identifier</string>
-	<key>APIError_20</key>
 	<string>E-Mail is busy</string>
-	<key>APIError_21</key>
+	<key>APIError_20</key>
 	<string>E-Mail of the wrong format</string>
 	<key>playerTitle</key>
 	<string>Player</string>

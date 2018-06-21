@@ -75,6 +75,7 @@ class SettingsAccountViewController: UIViewController {
             return
         }
         let loadText: String = LocalesManager.s.get(.getInfo)
+        emailField.isEnabled = false
         emailField.text = loadText
         identifierField.text = loadText
         APIManager.s.userGet(keys: keys) { [weak self] error, data in
@@ -83,6 +84,7 @@ class SettingsAccountViewController: UIViewController {
                 AuthManager.s.setAuthWindow()
                 return
             }
+            self.emailField.isEnabled = true
             self.emailButton.isEnabled = true
             self.emailField.placeholder = LocalesManager.s.get(.youEmail)
             self.emailField.text = data.email != nil ? data.email! : ""
