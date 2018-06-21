@@ -76,7 +76,6 @@ extension UIView {
 }
 
 extension UIImage {
-    
     func mask(with color: UIColor) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         defer { UIGraphicsEndImageContext() }

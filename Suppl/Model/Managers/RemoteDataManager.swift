@@ -14,47 +14,64 @@ final class RemoteDataManager {
     private let thumbsCacheDirPath: URL
     
     
-    public func getData(link: String, noCache: Bool = false, callbackData: @escaping (NSData) -> ()) {
-        let nsLink = link as NSString
-        if let cachedVersion = cache.object(forKey: nsLink), !noCache {
+    public func getData(link: String, noCache: Bool = false, inMainQueue: Bool = true, callbackData: @escaping (Data) -> ()) {
+        if !noCache, let cachedVersion = getFromCache(link: link) {
             callbackData(cachedVersion)
             return
         }
-        session.request(url: link) { [weak self] error, response, data in
-            guard let `self` = self, let data = data else { return }
-            let nsData = data as NSData
-            self.cache.setObject(nsData, forKey: nsLink)
-            callbackData(nsData)
+        session.request(url: link, inMainQueue: inMainQueue) { [weak self] error, response, data in
+            guard let data = data else { return }
+            self?.setToCache(link: link, data: data)
+            callbackData(data)
         }
     }
     
-    public func getCachedImage(link: String, imagesLifetime: Int = 6, callbackImage: @escaping (UIImage) -> ()) {
-        guard let imageName = URL(string: link)?.path else { return }
-        let filename = thumbsCacheDirPath.appendingPathComponent(imageName)
-        if FileManager.default.fileExists(atPath: filename.path), let image = UIImage(contentsOfFile: filename.path) {
-            var imageAlive = false
-            if let dateAny = try? FileManager.default.attributesOfItem(atPath: filename.path)[FileAttributeKey.modificationDate],
-                let editDate = dateAny as? Date,
-                let hours = Calendar.current.dateComponents([.hour], from: editDate, to: Date()).hour,
-                hours < imagesLifetime
-            {
-                imageAlive = true
-            } else {
-                imageAlive = OfflineModeManager.s.offlineMode ? true : false
-            }
-            if imageAlive {
-                callbackImage(image)
-                return
-            } else {
-                try? FileManager.default.removeItem(atPath: filename.path)
-            }
+    private func getFromCache(link: String) -> Data? {
+        if let cachedVersion = cache.object(forKey: link as NSString) {
+            return cachedVersion as Data
         }
-        if OfflineModeManager.s.offlineMode { return }
-        getData(link: link, noCache: true) { data in
-            guard let image = UIImage(data: data as Data), let data = UIImageJPEGRepresentation(image, 1.0) else { return }
-            try? FileManager.default.createDirectory(at: filename.deletingLastPathComponent(), withIntermediateDirectories: true)
-            try? data.write(to: filename, options: [.atomic])
+        return nil
+    }
+    
+    private func setToCache(link: String, data: Data) {
+        cache.setObject(data as NSData, forKey: link as NSString)
+    }
+    
+    public func getCachedImage(link: String, imagesLifetime: Int = 6, callbackImage: @escaping (UIImage) -> ()) {
+        if let cachedVersion = self.getFromCache(link: link), let image = UIImage(data: cachedVersion as Data) {
             callbackImage(image)
+            return
+        }
+        DispatchQueue.global(qos: .default).async { [weak self] in
+            guard let `self` = self else { return }
+            guard let imageName = URL(string: link)?.path else { return }
+            let filename = self.thumbsCacheDirPath.appendingPathComponent(imageName)
+            if FileManager.default.fileExists(atPath: filename.path), let imageData = try? Data(contentsOf: filename), let image = UIImage(data: imageData) {
+                var imageAlive = false
+                if let dateAny = try? FileManager.default.attributesOfItem(atPath: filename.path)[FileAttributeKey.modificationDate],
+                    let editDate = dateAny as? Date,
+                    let hours = Calendar.current.dateComponents([.hour], from: editDate, to: Date()).hour,
+                    hours < imagesLifetime
+                {
+                    imageAlive = true
+                } else {
+                    imageAlive = OfflineModeManager.s.offlineMode ? true : false
+                }
+                if imageAlive {
+                    self.setToCache(link: link, data: imageData)
+                    DispatchQueue.main.async { callbackImage(image) }
+                    return
+                } else {
+                    try? FileManager.default.removeItem(atPath: filename.path)
+                }
+            }
+            if OfflineModeManager.s.offlineMode { return }
+            self.getData(link: link, noCache: true, inMainQueue: false) { data in
+                guard let image = UIImage(data: data as Data), let data = UIImageJPEGRepresentation(image, 1.0) else { return }
+                try? FileManager.default.createDirectory(at: filename.deletingLastPathComponent(), withIntermediateDirectories: true)
+                try? data.write(to: filename, options: [.atomic])
+                DispatchQueue.main.async { callbackImage(image) }
+            }
         }
     }
     
@@ -67,6 +84,7 @@ final class RemoteDataManager {
     
     public func resetAllCachedImages() {
         try? FileManager.default.removeItem(atPath: thumbsCacheDirPath.path)
+        clearCache()
     }
     
     public func resetOldCachedImages(imagesLifetime: Int = 6) {
