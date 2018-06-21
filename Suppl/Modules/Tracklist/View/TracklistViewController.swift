@@ -52,7 +52,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //reloadData()
+        reloadData()
     }
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {

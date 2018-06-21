@@ -53,7 +53,7 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //reloadData()
+        reloadData()
     }
     
     func reloadData() {

@@ -168,16 +168,17 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func setTheme() {
-        /*
+        
         view.theme_backgroundColor = "thirdColor"
         smallPlayerView.theme_backgroundColor = "secondColor"
         progressBar.theme_tintColor = "thirdColor"
         imageViewBig.theme_backgroundColor = "secondColor"
-         */
+        /*
         view.theme_backgroundColor = "secondColor"
         smallPlayerView.theme_backgroundColor = "secondColor"
         progressBar.theme_tintColor = "secondColor"
         imageViewBig.theme_backgroundColor = "thirdColor"
+         */
     }
     
     func setTrackInfo(title: String, performer: String) {
