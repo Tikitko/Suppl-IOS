@@ -9,10 +9,13 @@ class AnimateLogo {
     private var continueAnimation = true
     
     private let color: UIColor
+    private let lineWidth: CGFloat
     
-    init(_ text: String, color: UIColor, fontName: String = "System", fontSize: CGFloat = 60) {
+    init(_ text: String, color: UIColor, fontName: String = "System", fontSize: CGFloat = 60, lineWidth: CGFloat = 2) {
         self.color = color
-        let wordBezierPath = AnimateLogo.getPathForWord(text, font: CTFontCreateWithName(fontName as CFString, fontSize, nil), spacing: fontSize / 10)
+        self.lineWidth = lineWidth
+        let font = CTFontCreateWithName(fontName as CFString, fontSize, nil)
+        let wordBezierPath = AnimateLogo.getPathForWord(text, font: font, spacing: fontSize / 10)
         let (view, layer) = getViewWithPath(wordBezierPath)
         self.view = view
         self.layer = layer
@@ -49,7 +52,7 @@ class AnimateLogo {
     private func getViewWithPath(_ wordBezierPath: UIBezierPath) -> (UIView, CAShapeLayer) {
         let layer = CAShapeLayer()
         layer.path = wordBezierPath.cgPath
-        layer.lineWidth = 2
+        layer.lineWidth = lineWidth
         layer.strokeColor = color.cgColor
         layer.fillColor = color.cgColor
         
