@@ -8,6 +8,8 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     
     let noAuthOnShow: Bool
     
+    let showDelay = 2.2
+    
     init(noAuth noAuthOnShow: Bool = false) {
         self.noAuthOnShow = noAuthOnShow
     }
@@ -49,7 +51,7 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
         if let error = error {
             setLabel(error)
             if blockOnError { return }
-            QueueTemplate.continueAfter(1.7) { [weak self] in
+            QueueTemplate.continueAfter(showDelay) { [weak self] in
                 self?.setLabel(expression: .inputIdentifier)
                 self?.view.enableButtons()
             }
@@ -61,7 +63,7 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     
     func coreDataLoaded() {
         setLabel(expression: .hi)
-        QueueTemplate.continueAfter(0.7) { [weak self] in
+        QueueTemplate.continueAfter(showDelay) { [weak self] in
             self?.interactor.startAuthCheck()
             self?.router.goToRootTabBar()
         }

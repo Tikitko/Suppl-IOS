@@ -11,17 +11,35 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     @IBOutlet weak var identifierField: UITextField!
     @IBOutlet weak var repeatButton: UIButton!
     
+    var logo: AnimateLogo!
+    var animInWork = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
+        logoLabel.isHidden = true
+        initLogo()
         repeatButton.setTitle(presenter.getButtonLabel(), for: .normal)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         presenter.setLoadLabel()
     }
     
+    func initLogo() {
+        logo = AnimateLogo.init("Suppl", color: .white, fontName: "System Light")
+        view.addSubview(logo.view)
+        let height = logo.view.frame.size.height
+        let width = logo.view.frame.size.width
+        logo.view.translatesAutoresizingMaskIntoConstraints = false
+        logo.view.centerXAnchor.constraint(equalTo: logoLabel.centerXAnchor).isActive = true
+        logo.view.centerYAnchor.constraint(equalTo: logoLabel.centerYAnchor).isActive = true
+        logo.view.heightAnchor.constraint(equalToConstant: height).isActive = true
+        logo.view.widthAnchor.constraint(equalToConstant: width).isActive = true
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        startAnim()
         presenter.firstStartAuth()
     }
     
@@ -44,11 +62,25 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         repeatButton.isEnabled = true
         identifierField.isHidden = false
         repeatButton.isHidden = false
+        stopAnim()
     }
     
     func disableButtons() {
         identifierField.isEnabled = false
         repeatButton.isEnabled = false
+        startAnim()
+    }
+    
+    func startAnim() {
+        guard !animInWork else { return }
+        animInWork = true
+        logo.startAnim()
+    }
+    
+    func stopAnim() {
+        guard animInWork else { return }
+        animInWork = false
+        logo.stopAnim()
     }
     
     func goButton() {
@@ -58,13 +90,13 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     @objc func keyboardWillShow(sender: NSNotification) {
         if let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect {
             view.frame.origin.y = -keyboardFrame.height
-            logoLabel.isHidden = true
+            logo.view.isHidden = true
         }
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {
         view.frame.origin.y = 0
-        logoLabel.isHidden = false
+        logo.view.isHidden = false
     }
     
     @IBAction func repeatButtonClick(_ sender: Any) {

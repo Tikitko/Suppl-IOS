@@ -59,6 +59,7 @@
 		8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889B2089D7F0000505F9 /* Playlist.swift */; };
 		8C20889E2089D851000505F9 /* RowAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889D2089D851000505F9 /* RowAction.swift */; };
 		8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889F2089DBEF000505F9 /* TrackTime.swift */; };
+		8C265D3820DB8AB000D35A29 /* AnimateLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C265D3720DB8AAF00D35A29 /* AnimateLogo.swift */; };
 		8C285F6D20887C16007427E7 /* TrackTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F6C20887C16007427E7 /* TrackTableViewController.swift */; };
 		8C285F6F20887E69007427E7 /* TrackTableViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F6E20887E69007427E7 /* TrackTableViewControllerProtocol.swift */; };
 		8C285F712088811C007427E7 /* TrackTableInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C285F702088811C007427E7 /* TrackTableInteractorProtocol.swift */; };
@@ -223,6 +224,7 @@
 		8C20889B2089D7F0000505F9 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		8C20889D2089D851000505F9 /* RowAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowAction.swift; sourceTree = "<group>"; };
 		8C20889F2089DBEF000505F9 /* TrackTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTime.swift; sourceTree = "<group>"; };
+		8C265D3720DB8AAF00D35A29 /* AnimateLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimateLogo.swift; sourceTree = "<group>"; };
 		8C285F6C20887C16007427E7 /* TrackTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewController.swift; sourceTree = "<group>"; };
 		8C285F6E20887E69007427E7 /* TrackTableViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewControllerProtocol.swift; sourceTree = "<group>"; };
 		8C285F702088811C007427E7 /* TrackTableInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableInteractorProtocol.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 		8C2D6F7320C1192B00F49D6D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				8C265D3720DB8AAF00D35A29 /* AnimateLogo.swift */,
 				8C75D09C20A9694200DB0F0D /* QueueTemplate.swift */,
 				8C3B74E32090725700D0AF3E /* ViewIncludeTemplate.swift */,
 				8C2D6F7420C1196800F49D6D /* CachingPlayerItem.swift */,
@@ -1373,6 +1376,7 @@
 				8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */,
 				8C0CB615208DCD9A00456A68 /* MainPresenter.swift in Sources */,
 				8C32F88920A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift in Sources */,
+				8C265D3820DB8AB000D35A29 /* AnimateLogo.swift in Sources */,
 				8C67F607201B174200333EB2 /* UserData.swift in Sources */,
 				0E466276201F87A30037FD0E /* TracklistData.swift in Sources */,
 				8C2D6F7520C1196900F49D6D /* CachingPlayerItem.swift in Sources */,
