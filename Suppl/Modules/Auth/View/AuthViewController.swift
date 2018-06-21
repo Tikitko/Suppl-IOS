@@ -26,7 +26,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     }
     
     func initLogo() {
-        logo = AnimateLogo.init("Suppl", color: .white, fontName: "System Light")
+        logo = AnimateLogo.init(logoLabel.text ?? "", color: logoLabel.textColor ?? .white, fontName: logoLabel.font.fontName, fontSize: logoLabel.font.pointSize)
         view.addSubview(logo.view)
         let height = logo.view.frame.size.height
         let width = logo.view.frame.size.width
