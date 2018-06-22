@@ -98,24 +98,23 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         if needExtraPart {
             startExtraPart(showType: type)
         }
-        let result: CGFloat
         switch type {
         case .closed:
-            result = closed
+            view.frame.origin.y = closed
             smallPlayerView.alpha = 1
             parentTabBar?.alpha = 1
             updateTopMargin(0, withBase: false)
             playerTitleLabelBig.isUserInteractionEnabled = false
             infoStackView.isUserInteractionEnabled = false
         case .opened:
-            result = opened
+            view.frame.origin.y = opened
             smallPlayerView.alpha = 0
             parentTabBar?.alpha = 0
             updateTopMargin()
             playerTitleLabelBig.isUserInteractionEnabled = true
             infoStackView.isUserInteractionEnabled = false
         case .partOpened:
-            result = partOpened
+            view.frame.origin.y = partOpened
             smallPlayerView.alpha = 1
             parentTabBar?.alpha = 1
             updateTopMargin(0, withBase: false)
@@ -123,7 +122,6 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
             infoStackView.isUserInteractionEnabled = true
         }
         nowShowType = type
-        view.frame.origin.y = result
         if needExtraPart {
             finalExtraPart(showType: type)
         }
