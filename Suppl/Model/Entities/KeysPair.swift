@@ -25,6 +25,5 @@ struct KeysPair {
         tempQuery["access_key"] = String(accessKey)
         return tempQuery
     }
-
     
 }

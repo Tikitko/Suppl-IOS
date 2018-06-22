@@ -16,9 +16,9 @@ final class UserDefaultsManager {
     public func keySet<T>(_ key: String, value: T?) {
         if let value = value {
             obj.set(value, forKey: key)
-            return
+        } else {
+            obj.removeObject(forKey: key)
         }
-        obj.removeObject(forKey: key)
     }
     
     

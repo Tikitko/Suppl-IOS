@@ -13,7 +13,6 @@ final class RemoteDataManager {
     public let baseCacheDirPath = RemoteDataManager.getDocumentsDirectory().appendingPathComponent(AppStaticData.cacheDir)
     private let thumbsCacheDirPath: URL
     
-    
     public func getData(link: String, noCache: Bool = false, inMainQueue: Bool = true, callbackData: @escaping (Data) -> ()) {
         if !noCache, let cachedVersion = getFromCache(link: link) {
             callbackData(cachedVersion)

@@ -126,7 +126,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             return
         }
         let tracklistPart = getTracklistPart(tracklist, from: from, count: count)
-        APIManager.s.audioGet(keys: keys, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
+        APIManager.s.audio.get(keys: keys, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
             guard let data = data else {
                 self?.inSearchWork = false
                 return
@@ -180,7 +180,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             addTracks([])
             return
         }
-        APIManager.s.audioGet(keys: keys, ids: tracklistPartForLoad.joined(separator: ",")) { [weak self] error, data in
+        APIManager.s.audio.get(keys: keys, ids: tracklistPartForLoad.joined(separator: ",")) { [weak self] error, data in
             guard let data = data, data.list.count == tracklistPartForLoad.count else {
                 self?.presenter.setUpdateResult(.serverError)
                 self?.inSearchWork = false

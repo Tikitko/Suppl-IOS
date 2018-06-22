@@ -124,7 +124,7 @@ final class PlayerItemsManager {
             completion(false)
             return
         }
-        APIManager.s.audioGet(keys: keys, ids: name) { [weak self] error, data in
+        APIManager.s.audio.get(keys: keys, ids: name) { [weak self] error, data in
             if let `self` = self, let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? "") {
                 completion(self.addItem(name, trackURL))
             } else {

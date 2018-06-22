@@ -121,7 +121,7 @@ final class TracklistManager {
             return
         }
         inUpdate = true
-        APIManager.s.tracklistGet(keys: keys) { [weak self] error, data in
+        APIManager.s.tracklist.get(keys: keys) { [weak self] error, data in
             guard let `self` = self else { return }
             if let error = error, error.code == 40 {
                 self.tracklist = []
@@ -149,7 +149,7 @@ final class TracklistManager {
             callback(false)
             return
         }
-        APIManager.s.tracklistAdd(keys: keys, trackID: trackId, to: to) { [weak self] error, status in
+        APIManager.s.tracklist.add(keys: keys, trackID: trackId, to: to) { [weak self] error, status in
             guard let `self` = self else { return }
             if let _ = error {
                 callback(false)
@@ -168,7 +168,7 @@ final class TracklistManager {
             callback(false)
             return
         }
-        APIManager.s.tracklistRemove(keys: keys, from: from) { [weak self] error, status in
+        APIManager.s.tracklist.remove(keys: keys, from: from) { [weak self] error, status in
             guard let `self` = self else { return }
             if let _ = error {
                 callback(false)
@@ -187,7 +187,7 @@ final class TracklistManager {
             callback(false)
             return
         }
-        APIManager.s.tracklistMove(keys: keys, from: from, to: to) { [weak self] error, status in
+        APIManager.s.tracklist.move(keys: keys, from: from, to: to) { [weak self] error, status in
             guard let `self` = self else { return }
             if let _ = error {
                 callback(false)

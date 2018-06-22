@@ -5,10 +5,10 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     
     var presenter: TracklistPresenterProtocolView!
     
-    public lazy var name: String = {
+    public lazy var name = {
         return presenter.getTitle()
     }()
-    public let imageName: String = "icon_204"
+    public let image = #imageLiteral(resourceName: "icon_204")
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var updateButton: UIButton!
@@ -26,9 +26,9 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        updateButton.setImage(UIImage(named: "icon_020")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        filterButton.setImage(UIImage(named: "icon_141")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        editButton.setImage(UIImage(named: "icon_166")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        updateButton.setImage(#imageLiteral(resourceName: "icon_020").withRenderingMode(.alwaysTemplate), for: .normal)
+        filterButton.setImage(#imageLiteral(resourceName: "icon_141").withRenderingMode(.alwaysTemplate), for: .normal)
+        editButton.setImage(#imageLiteral(resourceName: "icon_166").withRenderingMode(.alwaysTemplate), for: .normal)
         
         navigationItem.title = name
         titleLabel.text = name

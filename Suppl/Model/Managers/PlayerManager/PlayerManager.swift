@@ -74,9 +74,9 @@ final class PlayerManager: NSObject {
         }
     }
     
-    private func observePlayerItemStatus(_ statusNumber: NSNumber?) {
+    private func observePlayerItemStatus(_ statusNumber: NSNumber) {
         removePlayStatusObserver()
-        let status: AVPlayerItemStatus = AVPlayerItemStatus(rawValue: statusNumber?.intValue ?? AVPlayerItemStatus.unknown.rawValue)!
+        let status: AVPlayerItemStatus = AVPlayerItemStatus(rawValue: statusNumber.intValue)!
         switch status {
         case .readyToPlay:
             guard let player = player, let item = player.currentItem else { return }
@@ -97,8 +97,8 @@ final class PlayerManager: NSObject {
         }
     }
     
-    private func observePlayerRate(_ statusNumber: NSNumber?) {
-        let rate: Float = statusNumber?.floatValue ?? -1.0
+    private func observePlayerRate(_ statusNumber: NSNumber) {
+        let rate: Float = statusNumber.floatValue
         if rate == 1.0 {
             sayToListeners() { delegate in
                 delegate.playerPlay()
@@ -160,24 +160,11 @@ final class PlayerManager: NSObject {
             setTrack(item: item)
             return
         }
-        APIManager.s.audioGet(keys: keys, ids: trackID) { [weak self] error, data in
+        APIManager.s.audio.get(keys: keys, ids: trackID) { [weak self] error, data in
             guard let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? ""), self?.currentTrack?.id == list[0].id else { return }
-            let track = list[0]
             if !loadedFromCache {
-                self?.setTrackInfo(track)
+                self?.setTrackInfo(list[0])
             }
-            
-            /*
-            if TracklistManager.s.tracklist?.contains(track.id) ?? false,
-                let urlString = track.track, let url = URL(string: urlString),
-                PlayerItemsManager.s.addItem(track.id, url),
-                let item = PlayerItemsManager.s.getItem(track.id)
-            {
-                self?.setTrack(item: item)
-            } else {
-                self?.setTrack(url: trackURL)
-            }
-            */
             self?.setTrack(url: trackURL)
         }
     }
@@ -194,10 +181,7 @@ final class PlayerManager: NSObject {
     }
     
     private func setTrack(url trackURL: URL) {
-        player = AVPlayer(playerItem: AVPlayerItem(url: trackURL))
-        player?.automaticallyWaitsToMinimizeStalling = false
-        addPlayStatusObserver()
-        addPlayerRateObserver()
+        setTrack(item: AVPlayerItem(url: trackURL))
     }
     
     private func setTrack(item: AVPlayerItem) {

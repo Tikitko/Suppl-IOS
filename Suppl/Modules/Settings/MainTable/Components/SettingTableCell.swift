@@ -53,13 +53,9 @@ class SettingTableCell: UITableViewCell {
     }
     
     private func setConstraints() {
+        guard let element: UIView = settingButton ?? settingSwitch else { return }
+        let allViews: [String:UIView] = ["label": settingLabel, "element": element]
         var constraints: [NSLayoutConstraint] = [NSLayoutConstraint]()
-        var allViews: [String:UIView] = ["label":settingLabel]
-        if let settingButton = settingButton {
-            allViews["element"] = settingButton
-        } else if let settingSwitch = settingSwitch {
-            allViews["element"] = settingSwitch
-        } else { return }
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-[label]-|", options:[], metrics: nil, views: allViews)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-[element]-|", options:[], metrics: nil, views: allViews)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "|-[label]-[element(50)]-|", options: .alignAllCenterY, metrics: nil, views: allViews)

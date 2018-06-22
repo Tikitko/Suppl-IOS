@@ -22,6 +22,13 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         case download
         case сancel
         case remove
+        var image: UIImage {
+            switch self {
+            case .download: return #imageLiteral(resourceName: "icon_206")
+            case .remove: return #imageLiteral(resourceName: "icon_228")
+            case .сancel: return #imageLiteral(resourceName: "icon_182")
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -54,13 +61,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
     
     func setLoadButtonType(_ type: LoadButtonType) {
-        let image: UIImage
-        switch type {
-        case .download: image = #imageLiteral(resourceName: "icon_206")
-        case .remove: image = #imageLiteral(resourceName: "icon_228")
-        case .сancel: image = #imageLiteral(resourceName: "icon_182")
-        }
-        loadButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+        loadButton.setImage(type.image.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
     func turnLoadButton(_ isOn: Bool) {
@@ -95,7 +96,6 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     func setImage(_ image: UIImage) {
         guard baseImage else { return }
         baseImage = false
-        
         trackImage.image = image
         /*UIView.transition(with: trackImage, duration: 0.2, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.trackImage.image = image

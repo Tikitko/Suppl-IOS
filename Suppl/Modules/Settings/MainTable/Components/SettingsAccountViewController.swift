@@ -46,7 +46,7 @@ class SettingsAccountViewController: UIViewController {
         let lastPlacehilderText = emailField.placeholder
         self.emailField.text = ""
         self.emailField.placeholder = LocalesManager.s.get(.install)
-        APIManager.s.userUpdateEmail(keys: keys, email: email) { [weak self] error, data in
+        APIManager.s.user.updateEmail(keys: keys, email: email) { [weak self] error, data in
             guard let `self` = self else { return }
             self.emailField.placeholder = error != nil ? LocalesManager.s.get(apiErrorCode: error!.code) : LocalesManager.s.get(.emailSet)
             let when = DispatchTime.now() + 2
@@ -78,7 +78,7 @@ class SettingsAccountViewController: UIViewController {
         emailField.isEnabled = false
         emailField.text = loadText
         identifierField.text = loadText
-        APIManager.s.userGet(keys: keys) { [weak self] error, data in
+        APIManager.s.user.get(keys: keys) { [weak self] error, data in
             guard let `self` = self else { return }
             guard let data = data else {
                 AuthManager.s.setAuthWindow()
@@ -87,7 +87,7 @@ class SettingsAccountViewController: UIViewController {
             self.emailField.isEnabled = true
             self.emailButton.isEnabled = true
             self.emailField.placeholder = LocalesManager.s.get(.youEmail)
-            self.emailField.text = data.email != nil ? data.email! : ""
+            self.emailField.text = data.email ?? ""
             self.accountOutButton.isEnabled = true
             self.identifierField.text = String(keys.identifierKey) + String(keys.accessKey)
         }

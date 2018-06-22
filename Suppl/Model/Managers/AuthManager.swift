@@ -13,7 +13,7 @@ final class AuthManager {
     
     private func authCheckRequest() {
         guard let keys = getAuthKeys() else { return }
-        APIManager.s.userGet(keys: keys) { error, data in
+        APIManager.s.user.get(keys: keys) { error, data in
             guard let _ = error else { return }
             let _ = self.setAuthWindow()
         }
@@ -58,15 +58,14 @@ final class AuthManager {
     }
     
     public func authorization(keys: KeysPair? = nil, callback: @escaping (UserData?, NSError?) -> Void) {
-        let keysFromDefaults = getAuthKeys()
-        guard let keys = keys ?? keysFromDefaults else { return }
-        APIManager.s.userGet(keys: keys) { error, data in
+        guard let keys = keys ?? getAuthKeys() else { return }
+        APIManager.s.user.get(keys: keys) { error, data in
             callback(data, error)
         }
     }
     
     public func registration(callback: @escaping (UserSecretData?, NSError?) -> Void) {
-        APIManager.s.userRegister() { error, data in
+        APIManager.s.user.register() { error, data in
             if let error = error {
                 callback(nil, error)
                 return

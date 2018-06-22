@@ -6,10 +6,10 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     
     var presenter: MainPresenterProtocolView!
     
-    public lazy var name: String = {
+    public lazy var name = {
         return presenter.getTitle()
     }()
-    public let imageName = "icon_210"
+    public let image = #imageLiteral(resourceName: "icon_210")
     
     @IBOutlet weak var tracksSearch: UISearchBar!
     @IBOutlet weak var tracksTable: UITableView!

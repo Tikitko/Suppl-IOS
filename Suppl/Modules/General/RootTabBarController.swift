@@ -49,9 +49,8 @@ final class RootTabBarController: UITabBarController {
     private func setupController(_ controller: UIViewController) {
         guard let controllerInfo = controller as? ControllerInfoProtocol else { return }
         let controllerTab = BaseNavigationController(rootViewController: controller)
-        let image = UIImage(named: controllerInfo.imageName)
         let tag = (viewControllers?.count ?? 0) + 1
-        controller.navigationController?.tabBarItem = UITabBarItem(title: controllerInfo.name, image: image, tag: tag)
+        controller.navigationController?.tabBarItem = UITabBarItem(title: controllerInfo.name, image: controllerInfo.image, tag: tag)
         if viewControllers == nil {
             viewControllers = [controllerTab]
         } else {
