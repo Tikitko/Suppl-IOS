@@ -54,7 +54,7 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
 extension SmallPlayerInteractionController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return smallPlayerViewController.view.point(inside: gestureRecognizer.location(in: smallPlayerViewController.view), with: nil)
+        return smallPlayerViewController.nowShowType != .closed && smallPlayerViewController.view.point(inside: gestureRecognizer.location(in: smallPlayerViewController.view), with: nil)
     }
     
 }
