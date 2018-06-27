@@ -24,8 +24,7 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
     }
     
     private func getProgress(gestureRecognizer: UIPanGestureRecognizer) -> CGFloat {
-        let tbc = smallPlayerViewController.parentRootTabBarController!
-        let spaceSize = tbc.tabBar.frame.origin.y
+        let spaceSize = smallPlayerViewController.parentRootTabBarController.tabBar.frame.origin.y
         let tapPositionInParent = gestureRecognizer.location(in: smallPlayerViewController.view).y
         let progress = 1 - CGFloat(fminf(fmaxf(Float((tapPositionInParent / spaceSize) * (!forPresent ? -1 : 1)), 0.0), 1.0))
         return progress
