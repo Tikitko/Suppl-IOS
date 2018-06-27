@@ -39,7 +39,7 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
             interactionInProgress = true
             forPresent ? smallPlayerViewController.openFullPlayer() : smallPlayerViewController.closeFullPlayer()
         case .changed:
-            shouldCompleteTransition = progress > 0.3
+            shouldCompleteTransition = progress > 0.5
             update(progress)
         case .cancelled:
             interactionInProgress = false
