@@ -37,21 +37,33 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     var marginsUpdating = false
     
+    var interactionControllerPresent: SmallPlayerInteractionController?
+    var interactionControllerDismiss: SmallPlayerInteractionController?
+    
     let safeAreaMarginIdentifier = "safeAreaMargin"
     var baseMargin: CGFloat = 0
     var nowShowType: ShowType = .closed
     var closed: CGFloat = 0
     var opened: CGFloat = 0
     var partOpened: CGFloat = 0
-    var parentTabBar: UITabBar? {
-        get { return (view.superview?.parentViewController as? UITabBarController)?.tabBar }
-    }
+    
+    var useOldAnimation = false
+    
+    weak var parentRootTabBarController: RootTabBarController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        transitioningDelegate = self
+        if useOldAnimation {
+            playerTitleLabelBig.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
+            infoStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
+        } else {
+            interactionControllerPresent = SmallPlayerInteractionController(self, forPresent: true)
+            interactionControllerDismiss = SmallPlayerInteractionController(self, forPresent: false)
+        }
+        
         playerTitleLabelBig.text = presenter.getTitle()
-        playerTitleLabelBig.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
-        infoStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
         
         if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) {
             baseMargin = view.constraints[safeAreaMarginConstraintIndex].constant
@@ -62,7 +74,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         imageViewBig.layer.cornerRadius = 10
         imageViewBig.clipsToBounds = true
         smallPlayerView.isOpaque = true
-        parentTabBar?.isOpaque = true
+        parentRootTabBarController.tabBar.isOpaque = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,13 +82,23 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         setPlayerShow(type: nowShowType)
     }
     
-    func updateTopMargin(_ margin: CGFloat? = nil, withBase: Bool = true) {
+    func setInParent(initi: Bool = true) {
+        if initi {
+            view.frame = parentRootTabBarController.view.bounds
+            view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        }
+        parentRootTabBarController.view.insertSubview(view, belowSubview: parentRootTabBarController.tabBar)
+    }
+    
+    func updateTopMargin(rootSelf: Bool = false, _ margin: CGFloat? = nil, withBase: Bool = true) {
         guard let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) else { return }
         let safeAreaMargin: CGFloat?
+        
+        let rootViewController = rootSelf ? self : parentRootTabBarController
         if #available(iOS 11.0, *) {
-            safeAreaMargin = view.superview?.safeAreaInsets.top
+            safeAreaMargin = rootViewController.view.safeAreaInsets.top
         } else {
-            safeAreaMargin = view.superview?.parentViewController?.topLayoutGuide.length
+            safeAreaMargin = rootViewController.topLayoutGuide.length
         }
         view.constraints[safeAreaMarginConstraintIndex].constant = margin ?? safeAreaMargin ?? 0
         if withBase {
@@ -94,7 +116,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         }
     }
     
-    func setPlayerShow(type: ShowType, needExtraPart: Bool = true) {
+    func setPlayerShow(type: ShowType, needExtraPart: Bool = true, rootSelf: Bool = false) {
         if needExtraPart {
             startExtraPart(showType: type)
         }
@@ -102,22 +124,22 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         case .closed:
             view.frame.origin.y = closed
             smallPlayerView.alpha = 1
-            parentTabBar?.alpha = 1
-            updateTopMargin(0, withBase: false)
+            parentRootTabBarController.tabBar.alpha = 1
+            updateTopMargin(rootSelf: rootSelf, 0, withBase: false)
             playerTitleLabelBig.isUserInteractionEnabled = false
             infoStackView.isUserInteractionEnabled = false
         case .opened:
             view.frame.origin.y = opened
             smallPlayerView.alpha = 0
-            parentTabBar?.alpha = 0
-            updateTopMargin()
+            parentRootTabBarController.tabBar.alpha = 0
+            updateTopMargin(rootSelf: rootSelf)
             playerTitleLabelBig.isUserInteractionEnabled = true
             infoStackView.isUserInteractionEnabled = false
         case .partOpened:
             view.frame.origin.y = partOpened
             smallPlayerView.alpha = 1
-            parentTabBar?.alpha = 1
-            updateTopMargin(0, withBase: false)
+            parentRootTabBarController.tabBar.alpha = 1
+            updateTopMargin(rootSelf: rootSelf, 0, withBase: false)
             playerTitleLabelBig.isUserInteractionEnabled = false
             infoStackView.isUserInteractionEnabled = true
         }
@@ -142,31 +164,30 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        updateMargins()
+        updateMargins(rootSelf: true)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate(alongsideTransition: { [weak self] _ in
             if UIDevice.current.userInterfaceIdiom == .pad {
-                self?.updateMargins()
+                self?.updateMargins(rootSelf: true)
             }
         })
         super.viewWillTransition(to: size, with: coordinator)
     }
 
-    func updateMargins() {
+    func updateMargins(rootSelf: Bool = false) {
         if marginsUpdating { return }
         marginsUpdating = true
-        let tabBarHeight: CGFloat = parentTabBar?.frame.height ?? 0
+        let tabBarHeight: CGFloat = parentRootTabBarController.tabBar.frame.height
         closed = (view.superview?.frame.height ?? view.frame.height) - tabBarHeight
         partOpened = closed - smallPlayerView.frame.height
         opened = view.superview?.frame.origin.y ?? 0
-        setPlayerShow(type: nowShowType)
+        setPlayerShow(type: nowShowType, rootSelf: rootSelf)
         marginsUpdating = false
     }
     
     func setTheme() {
-        
         view.theme_backgroundColor = "thirdColor"
         smallPlayerView.theme_backgroundColor = "secondColor"
         progressBar.theme_tintColor = "thirdColor"
@@ -215,6 +236,14 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         leftLabelBig.text = TrackTime(sec: Int(progressSliderBig.maximumValue - progressSliderBig.value)).formatted
     }
     
+    func updateAfterAnimation(block: @escaping (UIViewControllerTransitionCoordinatorContext?) -> Void) {
+        if let transitionCoordinator = transitionCoordinator {
+            transitionCoordinator.animate(alongsideTransition: nil, completion: block)
+        } else {
+            block(nil)
+        }
+    }
+    
     func clearPlayer() {
         setPlayImage()
         imageView.image = #imageLiteral(resourceName: "cd")
@@ -255,6 +284,35 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         setPlayerShowAnimated(type: nowShowType == .opened ? .partOpened : .opened)
     }
     
+    func openFullPlayer() {
+        let player = self
+        let parent = player.parentRootTabBarController!
+        guard let playerSnapshot = player.view.snapshotView(afterScreenUpdates: true),
+              let tabBarSnapshot = parent.tabBar.snapshotView(afterScreenUpdates: true)
+              else { return }
+        playerSnapshot.frame = player.view.frame
+        tabBarSnapshot.frame = parent.tabBar.frame
+        parent.view.addSubview(playerSnapshot)
+        parent.view.addSubview(tabBarSnapshot)
+        view.removeFromSuperview()
+        parent.present(player, animated: true) {
+            playerSnapshot.removeFromSuperview()
+            tabBarSnapshot.removeFromSuperview()
+            if UIApplication.topViewController() != self {
+                player.setInParent(initi: false)
+            }
+        }
+    }
+    
+    func closeFullPlayer() {
+        let player = self
+        dismiss(animated: true) {
+            if UIApplication.topViewController() != self {
+                player.setInParent(initi: false)
+            }
+        }
+    }
+    
     @IBAction func playButtonClicked(_ sender: Any) {
         presenter.play()
     }
@@ -281,6 +339,28 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     @IBAction func rewindMClicked(_ sender: Any) {
         presenter.rewindM()
+    }
+    
+}
+
+extension SmallPlayerViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return SmallPlayerAnimationController(self, forPresent: true)
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return SmallPlayerAnimationController(self, forPresent: false)
+    }
+    
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard interactionControllerDismiss?.interactionInProgress ?? false else { return nil }
+        return interactionControllerDismiss
+    }
+    
+    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard interactionControllerPresent?.interactionInProgress ?? false else { return nil }
+        return interactionControllerPresent
     }
     
 }

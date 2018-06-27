@@ -6,7 +6,7 @@ final class RootTabBarController: UITabBarController {
     
     var tapGestureRecognizer: UITapGestureRecognizer?
     
-    public let smallPlayer = SmallPlayerRouter.setup()
+    private(set) var smallPlayer: UIViewController!
     private var smallPlayerConstraints: [NSLayoutConstraint] = []
     
     override func viewDidLoad() {
@@ -27,9 +27,7 @@ final class RootTabBarController: UITabBarController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
         view.clipsToBounds = true
-        smallPlayer.view.frame = view.bounds
-        smallPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.insertSubview(smallPlayer.view, belowSubview: tabBar)
+        smallPlayer = SmallPlayerRouter.setup(parentRootTabBarController: self)
         
         TracklistManager.s.update() { status in }
     }

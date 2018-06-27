@@ -24,6 +24,13 @@ class SmallPlayerRouter: BaseRouter, SmallPlayerRouterProtocol {
         return viewController
     }
     
+    static func setup(parentRootTabBarController: RootTabBarController) -> UIViewController {
+        let player = SmallPlayerRouter.setup() as! SmallPlayerViewController
+        player.parentRootTabBarController = parentRootTabBarController
+        player.setInParent()
+        return player
+    }
+    
     @available(*, deprecated)
     func openBigPlayer() {
         UIApplication.topViewController()?.present(PlayerRouter.setup(), animated: true, completion: nil)

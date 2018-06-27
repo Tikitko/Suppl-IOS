@@ -57,27 +57,38 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
     }
     
     func itemReadyToPlay(_ item: AVPlayerItem, _ duration: Int?) {
-        view.openPlayer(duration: !item.duration.seconds.isNaN ? item.duration.seconds : Double(duration ?? 0))
+        view.updateAfterAnimation() { [weak self] context in
+            self?.view.openPlayer(duration: !item.duration.seconds.isNaN ? item.duration.seconds : Double(duration ?? 0))
+        }
     }
 
     func itemTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
-        view.updatePlayerProgress(percentages: Float(sec / item.duration.seconds), currentTime: sec)
+        view.updateAfterAnimation() { [weak self] context in
+            self?.view.updatePlayerProgress(percentages: Float(sec / item.duration.seconds), currentTime: sec)
+        }
     }
     
     func playerStop() {
-        view.setPlayImage()
+        view.updateAfterAnimation() { [weak self] context in
+            self?.view.setPlayImage()
+        }
     }
     
     func playerPlay() {
-        view.setPauseImage()
+        view.updateAfterAnimation() { [weak self] context in
+            self?.view.setPauseImage()
+        }
     }
     
     func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
-        if let imageData = imageData {
-            view.setTrackImage(imageData)
-        } else {
-            view.clearPlayer()
-            view.setTrackInfo(title: track.title, performer: track.performer)
+        view.updateAfterAnimation() { [weak self] context in
+            guard let `self` = self else { return }
+            if let imageData = imageData {
+                self.view.setTrackImage(imageData)
+            } else {
+                self.view.clearPlayer()
+                self.view.setTrackInfo(title: track.title, performer: track.performer)
+            }
         }
     }
 

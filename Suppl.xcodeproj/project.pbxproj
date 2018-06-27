@@ -114,6 +114,8 @@
 		8C3C6B372093103C00272018 /* TrackFilterInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3C6B362093103C00272018 /* TrackFilterInteractorProtocol.swift */; };
 		8C3C6B392093104500272018 /* TrackFilterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3C6B382093104500272018 /* TrackFilterInteractor.swift */; };
 		8C3C6B3B20931BAA00272018 /* TrackTableCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3C6B3A20931BAA00272018 /* TrackTableCommunicateProtocol.swift */; };
+		8C3E0D0B20E0BF4700B2F0B5 /* SmallPlayerInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3E0D0A20E0BF4700B2F0B5 /* SmallPlayerInteractionController.swift */; };
+		8C3E0D0E20E0BF9B00B2F0B5 /* SmallPlayerAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3E0D0C20E0BF9A00B2F0B5 /* SmallPlayerAnimationController.swift */; };
 		8C3F087C20AD906700129A75 /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F087B20AD906700129A75 /* BaseRouter.swift */; };
 		8C44FFBF203432C3008C50D0 /* Black.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C44FFBE203432C3008C50D0 /* Black.plist */; };
 		8C479664209C51E1009F5623 /* PlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C479663209C51E1009F5623 /* PlayerManager.swift */; };
@@ -279,6 +281,8 @@
 		8C3C6B362093103C00272018 /* TrackFilterInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterInteractorProtocol.swift; sourceTree = "<group>"; };
 		8C3C6B382093104500272018 /* TrackFilterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterInteractor.swift; sourceTree = "<group>"; };
 		8C3C6B3A20931BAA00272018 /* TrackTableCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableCommunicateProtocol.swift; sourceTree = "<group>"; };
+		8C3E0D0A20E0BF4700B2F0B5 /* SmallPlayerInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallPlayerInteractionController.swift; sourceTree = "<group>"; };
+		8C3E0D0C20E0BF9A00B2F0B5 /* SmallPlayerAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallPlayerAnimationController.swift; sourceTree = "<group>"; };
 		8C3F087B20AD906700129A75 /* BaseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
 		8C44FFBE203432C3008C50D0 /* Black.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Black.plist; sourceTree = "<group>"; };
 		8C479663209C51E1009F5623 /* PlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerManager.swift; sourceTree = "<group>"; };
@@ -899,9 +903,19 @@
 			path = "New Group";
 			sourceTree = "<group>";
 		};
+		8C3E0D1020E0C09000B2F0B5 /* SmallPlayerAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				8C3E0D0C20E0BF9A00B2F0B5 /* SmallPlayerAnimationController.swift */,
+				8C3E0D0A20E0BF4700B2F0B5 /* SmallPlayerInteractionController.swift */,
+			);
+			path = SmallPlayerAnimation;
+			sourceTree = "<group>";
+		};
 		8C3F087A20AD8FF900129A75 /* ModulesComponents */ = {
 			isa = PBXGroup;
 			children = (
+				8C3E0D1020E0C09000B2F0B5 /* SmallPlayerAnimation */,
 				8C95DEC220B596D10081C477 /* BaseInteractor */,
 				8C95DEBF20B5966F0081C477 /* BaseRouter */,
 			);
@@ -1258,6 +1272,7 @@
 				8C285F772088818A007427E7 /* TrackTableRouter.swift in Sources */,
 				8C71CE2B2080BE9100AC4BDB /* AuthInteractor.swift in Sources */,
 				8C285F7320888126007427E7 /* TrackTableInteractor.swift in Sources */,
+				8C3E0D0B20E0BF4700B2F0B5 /* SmallPlayerInteractionController.swift in Sources */,
 				8C95DEC420B596E50081C477 /* BaseInteractorProtocol.swift in Sources */,
 				8C32F88D20A03AB80059C1F4 /* SmallPlayerRouterProtocol.swift in Sources */,
 				8C0CB620208DDB0F00456A68 /* TracklistInteractor.swift in Sources */,
@@ -1302,6 +1317,7 @@
 				8C0CB61E208DDB0400456A68 /* TracklistInteractorProtocol.swift in Sources */,
 				8C4C043E20C96481006CC269 /* AuthPresenterProtocolInteractor.swift in Sources */,
 				8C3594D520BD904800E5E0DB /* CoreDataManager.swift in Sources */,
+				8C3E0D0E20E0BF9B00B2F0B5 /* SmallPlayerAnimationController.swift in Sources */,
 				8C32F89320A03AE60059C1F4 /* SmallPlayerPresenter.swift in Sources */,
 				8C0E1B8E2091A76D00CE5C12 /* KeysPair.swift in Sources */,
 				8C0CB626208DDB7800456A68 /* TracklistPresenterProtocolView.swift in Sources */,
