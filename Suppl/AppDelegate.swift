@@ -29,6 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        // Develop account reset
+        return true
+    }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         let _ = AuthManager.s.stopAuthCheck()
