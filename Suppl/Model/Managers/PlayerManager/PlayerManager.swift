@@ -210,7 +210,7 @@ final class PlayerManager: NSObject {
             self.sayToListeners() { delegate in
                 delegate.trackInfoChanged(self.currentTrack!, imageData as Data)
             }
-            self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
+            self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
         }
     }
     
