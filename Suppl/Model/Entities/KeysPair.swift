@@ -5,13 +5,13 @@ struct KeysPair {
     let identifierKey: Int
     let accessKey: Int
     
+    var string: String {
+        get { return "\(identifierKey)\(accessKey)" }
+    }
+    
     init(_ identifierKey: Int, _ accessKey: Int) {
         self.identifierKey = identifierKey
         self.accessKey = accessKey
-    }
-    
-    func toString() -> String {
-        return "\(identifierKey)\(accessKey)"
     }
     
     func addToQuery(_ query: inout Dictionary<String, String>) {
