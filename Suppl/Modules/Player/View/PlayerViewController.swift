@@ -49,7 +49,7 @@ class PlayerViewController: UIViewController, PlayerViewControllerProtocol {
     }
     
     func setTrackImage(_ imageData: Data) {
-        imageView.image = UIImage(data: imageData)
+        setTrackImage(UIImage(data: imageData))
     }
     
     func openPlayer(duration: Double) {

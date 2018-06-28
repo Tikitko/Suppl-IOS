@@ -16,7 +16,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     var loadCircle: CircleLoad!
     
     var baseImage = true
-    let allowDownloadButton = (UIApplication.topViewController() as? MainViewController) == nil
+    let allowDownloadButton = UIApplication.topViewController() is TracklistViewController
     
     enum LoadButtonType {
         case download
@@ -44,7 +44,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         trackImage.clipsToBounds = true
-        blurView .clipsToBounds = true
+        blurView.clipsToBounds = true
         resetInfo()
         presenter.setListeners()
         presenter.requestOfflineMode()

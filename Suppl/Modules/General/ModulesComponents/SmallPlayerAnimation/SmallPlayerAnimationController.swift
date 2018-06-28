@@ -33,7 +33,6 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
         containerView.addSubview(toVC.view)
         containerView.addSubview(tabBarSnapshot)
         
-        
         UIView.animateKeyframes(
             withDuration: duration,
             delay: 0,

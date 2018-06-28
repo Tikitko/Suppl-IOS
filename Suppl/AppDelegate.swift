@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        if let topController = UIApplication.topViewController(), let _ = topController as? AuthViewController { return }
+        if UIApplication.topViewController() is AuthViewController { return }
         let _ = AuthManager.s.startAuthCheck(startNow: true)
     }
 
@@ -55,10 +55,8 @@ extension UIApplication {
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)
         }
-        if let tabController = controller as? UITabBarController {
-            if let selected = tabController.selectedViewController {
-                return topViewController(controller: selected)
-            }
+        if let selectedInTabBarController = (controller as? UITabBarController)?.selectedViewController {
+            return topViewController(controller: selectedInTabBarController)
         }
         if let presented = controller?.presentedViewController {
             return topViewController(controller: presented)
@@ -77,27 +75,5 @@ extension UIView {
             }
         }
         return nil
-    }
-}
-
-extension UIImage {
-    func mask(with color: UIColor) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
-        defer { UIGraphicsEndImageContext() }
-        
-        guard let context = UIGraphicsGetCurrentContext() else { return self }
-        context.translateBy(x: 0, y: self.size.height)
-        context.scaleBy(x: 1.0, y: -1.0)
-        context.setBlendMode(.normal)
-        
-        let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
-        guard let mask = self.cgImage else { return self }
-        context.clip(to: rect, mask: mask)
-        
-        color.setFill()
-        context.fill(rect)
-        
-        guard let newImage = UIGraphicsGetImageFromCurrentImageContext() else { return self }
-        return newImage
     }
 }

@@ -107,7 +107,7 @@ final class TracklistManager {
         }
     }
     
-    public func update(callback: @escaping (Bool) -> ()) {
+    public func update(callback: @escaping (Bool) -> () = { _ in }) {
         if OfflineModeManager.s.offlineMode {
             getDBTracklistBackground() { [weak self] tracklist in
                 guard let `self` = self else { return }
@@ -140,7 +140,7 @@ final class TracklistManager {
         }
     }
     
-    public func add(trackId: String, to: Int = 0, callback: @escaping (Bool) -> ()) {
+    public func add(trackId: String, to: Int = 0, callback: @escaping (Bool) -> () = { _ in }) {
         guard let keys = AuthManager.s.getAuthKeys(), let tracklist = self.tracklist else {
             callback(false)
             return
@@ -160,7 +160,7 @@ final class TracklistManager {
         }
     }
     
-    public func remove(from: Int = 0, callback: @escaping (Bool) -> ()) {
+    public func remove(from: Int = 0, callback: @escaping (Bool) -> () = { _ in }) {
         guard let keys = AuthManager.s.getAuthKeys(),
             let tracklist = self.tracklist,
             from <= tracklist.count - 1 else
@@ -179,7 +179,7 @@ final class TracklistManager {
         }
     }
     
-    public func move(from: Int = 0, to: Int = 0, callback: @escaping (Bool) -> ()) {
+    public func move(from: Int = 0, to: Int = 0, callback: @escaping (Bool) -> () = { _ in }) {
         guard let keys = AuthManager.s.getAuthKeys(),
             let tracklist = self.tracklist, from <= tracklist.count - 1,
             to <= tracklist.count else

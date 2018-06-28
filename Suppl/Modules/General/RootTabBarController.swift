@@ -29,7 +29,7 @@ final class RootTabBarController: UITabBarController {
         view.clipsToBounds = true
         smallPlayer = SmallPlayerRouter.setup(parentRootTabBarController: self)
         
-        TracklistManager.s.update() { status in }
+        TracklistManager.s.update()
     }
 
     func setTheme() {
