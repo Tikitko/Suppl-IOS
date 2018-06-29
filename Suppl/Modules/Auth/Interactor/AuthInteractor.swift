@@ -12,7 +12,7 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
         presenter.setIdentifier(AuthManager.s.getAuthKeys(setFailAuth: false)?.string ?? "")
     }
 
-    func startAuth(fromString input: String? = nil, onlyInfo: Bool = false) {
+    func startAuth(fromString input: String? = nil, resetKey: String? = nil, onlyInfo: Bool = false) {
         if OfflineModeManager.s.offlineMode {
             if let _ = AuthManager.s.getAuthKeys(setFailAuth: false) {
                 presenter.setAuthResult(nil, blockOnError: false)
@@ -35,8 +35,15 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
                 return
             }
         }
-        
-        if let keys = AuthManager.s.getAuthKeys(setFailAuth: false) {
+        if let resetKey = resetKey {
+            presenter.setAuthStarted(isReg: false)
+            AuthManager.s.reset(resetKey: resetKey) { [weak self] data, error in
+                if let data = data {
+                    self?.presenter.setIdentifier(KeysPair(data.identifierKey, data.accessKey).string)
+                }
+                self?.sendAuthResult(error)
+            }
+        } else if let keys = AuthManager.s.getAuthKeys(setFailAuth: false) {
             presenter.setAuthStarted(isReg: false)
             AuthManager.s.authorization(keys: keys) { [weak self] data, error in
                 self?.sendAuthResult(error)
@@ -46,6 +53,12 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
             AuthManager.s.registration() { [weak self] data, error in
                 self?.sendAuthResult(error)
             }
+        }
+    }
+    
+    func requestResetKey(forEmail email: String) {
+        APIManager.s.user.sendResetKey(email: email) { [weak self] error, status in
+            self?.presenter.setRequestResetResult(error?.code)
         }
     }
     

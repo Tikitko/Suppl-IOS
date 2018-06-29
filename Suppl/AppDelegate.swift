@@ -31,8 +31,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        // Develop account reset
-        return true
+        switch url.host {
+        case "resetKey":
+            if let authVC = UIApplication.topViewController() as? AuthViewController {
+                authVC.resetKeyForUse = url.lastPathComponent
+                authVC.viewDidAppear(false)
+            }
+            return true
+        default: return false
+        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {

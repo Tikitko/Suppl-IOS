@@ -76,5 +76,17 @@ final class AuthManager {
         }
     }
     
+    public func reset(resetKey: String, callback: @escaping (UserSecretData?, NSError?) -> Void) {
+        APIManager.s.user.reset(resetKey: resetKey) { error, data in
+            if let error = error {
+                callback(nil, error)
+                return
+            }
+            UserDefaultsManager.s.identifierKey = data!.identifierKey
+            UserDefaultsManager.s.accessKey = data!.accessKey
+            callback(data, nil)
+        }
+    }
+    
 }
 

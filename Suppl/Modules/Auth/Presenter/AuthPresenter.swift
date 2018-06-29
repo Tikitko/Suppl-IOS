@@ -18,6 +18,13 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
         return interactor.getLocaleString(.loginIn)
     }
     
+    func getResetStackStrings() -> (title: String, field: String, button: String) {
+        let title = interactor.getLocaleString(.resetTitle)
+        let field = interactor.getLocaleString(.youEmail)
+        let button = interactor.getLocaleString(.send)
+        return (title, field, button)
+    }
+    
     func setLabel(expression: LocalesManager.Expression) {
         view.setLabel(interactor.getLocaleString(expression))
     }
@@ -39,8 +46,12 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
         view.setIdentifier(string)
     }
     
-    func startAuth(fromString input: String? = nil, onlyInfo: Bool = false) {
-        interactor.startAuth(fromString: input, onlyInfo: onlyInfo)
+    func startAuth(fromString input: String? = nil, resetKey: String? = nil, onlyInfo: Bool = false) {
+        interactor.startAuth(fromString: input, resetKey: resetKey, onlyInfo: onlyInfo)
+    }
+    
+    func userResetKey(_ resetKey: String) {
+        startAuth(resetKey: resetKey)
     }
     
     func setAuthStarted(isReg: Bool) {
@@ -59,6 +70,19 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
             setLabel(expression: .coreDataLoading)
             interactor.loadCoreData()
         }
+    }
+    
+    func setRequestResetResult(_ errorId: Int?) {
+        if let errorId = errorId {
+            view.showToast(text: interactor.getLocaleString(apiErrorCode: errorId))
+            view.enableResetForm(true, full: false)
+        } else {
+            view.showToast(text: interactor.getLocaleString(.keySent))
+        }
+    }
+    
+    func requestResetKey(forEmail email: String) {
+        interactor.requestResetKey(forEmail: email)
     }
     
     func coreDataLoaded() {

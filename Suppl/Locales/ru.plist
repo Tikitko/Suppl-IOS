@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>keySent</key>
+	<string>Ключ восстановления отправлен</string>
+	<key>resetTitle</key>
+	<string>Восстановить аккаунт</string>
+	<key>send</key>
+	<string>Отправить</string>
 	<key>loginIn</key>
 	<string>Войти</string>
 	<key>emailButton</key>
@@ -70,6 +76,12 @@
 	<string>E-Mail занят</string>
 	<key>APIError_20</key>
 	<string>E-Mail неверного формата</string>
+	<key>APIError_21</key>
+	<string>Указанный E-Mail не привязан к аккаунту</string>
+	<key>APIError_22</key>
+	<string>Ошибка отправки</string>
+    <key>APIError_23</key>
+    <string>Ключ сброса недействителен</string>
 	<key>playerTitle</key>
 	<string>Плеер</string>
 	<key>del</key>

@@ -9,7 +9,7 @@ final class LocalesManager {
         moveOk, moveError, noOffline, noInOffline, setting4, on, off, setting5, clear, serverError, setting6,
         coreDataLoadError, coreDataLoading, imagesCacheRemoved, tracksCacheRemoved, searchTracklist, searchMain,
         filterTitle, filterTime, filterSearch, filterSearchT, filterSearchP, filterOK, youIdentifierLabel,
-        youEmailLabel, identifierButton, emailButton, loginIn
+        youEmailLabel, identifierButton, emailButton, loginIn, send, resetTitle, keySent
     }
     
     static public let s = LocalesManager()
