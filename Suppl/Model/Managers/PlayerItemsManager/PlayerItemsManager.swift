@@ -275,10 +275,6 @@ extension PlayerItemsManager: CachingPlayerItemDelegate {
         }
     }
 
-    func playerItemReadyToPlay(_ playerItem: CachingPlayerItem) {}
-
-    func playerItemPlaybackStalled(_ playerItem: CachingPlayerItem) {}
-
     func playerItem(_ playerItem: CachingPlayerItem, downloadingFailedWith error: Error) {
         DispatchQueue.main.sync { [weak self] in
             self?.endDownload(forItem: playerItem, data: nil)
