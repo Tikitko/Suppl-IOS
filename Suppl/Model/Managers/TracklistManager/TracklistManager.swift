@@ -5,9 +5,11 @@ final class TracklistManager {
     static public let s = TracklistManager()
     private init() {}
     
+    private var inRemove = false
     private(set) var inUpdate: Bool = false
     private(set) var tracklist: [String]? {
         didSet {
+            if inRemove { return }
             setDBTracklistBackground(tracklist)
             sayToListeners() { delegate in delegate.tracklistUpdated(tracklist) }
         }
@@ -138,6 +140,12 @@ final class TracklistManager {
             self.inUpdate = false
             callback(true)
         }
+    }
+    
+    public func clear() {
+        inRemove = true
+        tracklist = nil
+        inRemove = false
     }
     
     public func add(trackId: String, to: Int = 0, callback: @escaping (Bool) -> () = { _ in }) {

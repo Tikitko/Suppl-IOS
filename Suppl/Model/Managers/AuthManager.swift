@@ -22,6 +22,7 @@ final class AuthManager {
     public func setAuthWindow(noAuth: Bool = false) {
         PlayerItemsManager.s.removeDownloadableItems()
         PlayerManager.s.clearPlayer()
+        TracklistManager.s.clear()
         let _ = stopAuthCheck()
         AuthRouter.setSelf(noAuth: noAuth)
     }
