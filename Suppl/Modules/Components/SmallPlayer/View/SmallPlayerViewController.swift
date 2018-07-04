@@ -169,9 +169,9 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                self?.updateMargins(rootSelf: true)
-            }
+            self?.parentRootTabBarController.view.setNeedsLayout()
+            self?.parentRootTabBarController.view.layoutIfNeeded()
+            self?.updateMargins(rootSelf: true)
         })
         super.viewWillTransition(to: size, with: coordinator)
     }
