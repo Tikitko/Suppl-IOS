@@ -38,6 +38,8 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
 
             layer.cornerRadius = 5
             clipsToBounds = true
+            
+            selectionStyle = .none
         }
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -46,6 +48,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             super.prepareForReuse()
             myController.presenter.resetCell(name: cellModuleNameId)
         }
+        /*
         override func setSelected(_ selected: Bool, animated: Bool) {
             if selected { return }
             UIView.animate(withDuration: animated ? 0.4 : 0) {
@@ -58,6 +61,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
                 self.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0.9, alpha: 1.0)
             }
         }
+        */
     }
     
     func relaodData() {
