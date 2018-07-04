@@ -51,6 +51,7 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     }
     
     func userResetKey(_ resetKey: String) {
+        interactor.requestIdentifierString()
         startAuth(resetKey: resetKey)
     }
     

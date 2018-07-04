@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,12 +28,19 @@
                                 <color key="shadowColor" red="0.58039215686274503" green="0.12941176470588234" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="0.0" height="-3"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="suppl" translatesAutoresizingMaskIntoConstraints="NO" id="vY2-xV-Uja">
+                                <rect key="frame" x="36" y="90" width="303" height="218.5"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.58039215686274503" green="0.12941176470588234" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="vuO-fc-SqJ" firstAttribute="trailing" secondItem="vY2-xV-Uja" secondAttribute="trailing" constant="20" id="0Vw-H0-oCR"/>
+                            <constraint firstItem="vuO-fc-SqJ" firstAttribute="bottom" secondItem="vY2-xV-Uja" secondAttribute="bottom" multiplier="2" constant="30" id="Abj-XQ-lbN"/>
+                            <constraint firstItem="vY2-xV-Uja" firstAttribute="top" secondItem="vuO-fc-SqJ" secondAttribute="top" multiplier="3" constant="30" id="ZGT-7J-gfa"/>
                             <constraint firstAttribute="bottom" secondItem="vuO-fc-SqJ" secondAttribute="bottom" constant="20" symbolic="YES" id="aIo-eg-UgL"/>
                             <constraint firstItem="vuO-fc-SqJ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="fg8-cV-lxu"/>
                             <constraint firstItem="vuO-fc-SqJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="h27-Ur-Jdf"/>
+                            <constraint firstItem="vY2-xV-Uja" firstAttribute="leading" secondItem="vuO-fc-SqJ" secondAttribute="leading" constant="20" id="hCC-5w-iqJ"/>
                             <constraint firstItem="vuO-fc-SqJ" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailingMargin" id="tgx-df-h14"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -43,4 +51,7 @@
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="suppl" width="525" height="525"/>
+    </resources>
 </document>

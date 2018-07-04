@@ -2,7 +2,7 @@ import Foundation
 
 class APIRequest {
     
-    public static let API_URL = "https://wioz.su/suppl/api/0.2/" // DOC: https://wioz.su/suppl/API_v0.2.pdf
+    public static let API_URL = "https://wioz.su/suppl/api/0.2.1/"
     
     private let session = CommonRequest()
     

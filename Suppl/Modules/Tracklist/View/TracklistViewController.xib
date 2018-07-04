@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -58,7 +58,6 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="zam-ml-Ge1"/>
                     </constraints>
-                    <state key="normal" image="update-7"/>
                     <connections>
                         <action selector="updateButtonClick:" destination="-1" eventType="touchUpInside" id="znF-dj-TV4"/>
                     </connections>
@@ -68,7 +67,6 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="4Ln-YZ-M2C"/>
                     </constraints>
-                    <state key="normal" image="character-e-7"/>
                     <connections>
                         <action selector="editButtonClick:" destination="-1" eventType="touchUpInside" id="43N-Bh-Lav"/>
                     </connections>
@@ -78,7 +76,6 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="45" id="3wB-wT-Uvn"/>
                     </constraints>
-                    <state key="normal" image="dot-more-7"/>
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="3wB-wT-Uvn"/>
@@ -276,9 +273,4 @@
             <point key="canvasLocation" x="26.5" y="51.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="character-e-7" width="30" height="30"/>
-        <image name="dot-more-7" width="30" height="30"/>
-        <image name="update-7" width="30" height="30"/>
-    </resources>
 </document>
