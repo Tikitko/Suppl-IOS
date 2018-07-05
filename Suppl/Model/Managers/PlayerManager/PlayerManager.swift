@@ -244,13 +244,7 @@ final class PlayerManager: NSObject {
         currentTrack = nil
         playlist = nil
         cachedTracksInfo = nil
-        /*nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyTitle] = nil
-        nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtist] = nil
-        nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtwork] = nil
-        nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = nil
-        nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = nil
-        nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = nil*/
-        nowPlayingCenter.nowPlayingInfo = [:]
+        nowPlayingCenter.nowPlayingInfo = nil
         removeRemoteCommands()
     }
     
