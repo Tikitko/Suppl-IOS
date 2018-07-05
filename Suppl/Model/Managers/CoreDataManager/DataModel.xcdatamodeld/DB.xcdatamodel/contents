@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E199" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Track" representedClassName="Track" syncable="YES">
+        <attribute name="duration" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="imageLink" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="performer" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="UserTrack" representedClassName="UserTrack" syncable="YES">
+        <attribute name="position" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="trackId" attributeType="String" syncable="YES"/>
+        <attribute name="userIdentifier" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Track" positionX="-254" positionY="45" width="128" height="118"/>
+        <element name="UserTrack" positionX="-135" positionY="99" width="128" height="90"/>
+    </elements>
+</model>

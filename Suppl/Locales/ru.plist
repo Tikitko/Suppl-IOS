@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>keySent</key>
+	<string>Ключ восстановления отправлен</string>
+	<key>resetTitle</key>
+	<string>Восстановить аккаунт</string>
+	<key>send</key>
+	<string>Отправить</string>
+	<key>loginIn</key>
+	<string>Войти</string>
+	<key>emailButton</key>
+	<string>Установить EMail</string>
+	<key>identifierButton</key>
+	<string>Выйти из аккаунта</string>
+	<key>youIdentifierLabel</key>
+	<string>Ваш идентификатор:</string>
+	<key>youEmailLabel</key>
+	<string>Ваш EMail:</string>
+	<key>filterOK</key>
+	<string>Применить</string>
+	<key>filterSearchP</key>
+	<string>исполнитель:</string>
+	<key>filterSearchT</key>
+	<string>название:</string>
+	<key>filterSearch</key>
+	<string>Поиск:</string>
+	<key>filterTime</key>
+	<string>Время:</string>
+	<key>filterTitle</key>
+	<string>Фильтры</string>
+	<key>searchTracklist</key>
+	<string>Поиск по плейлисту</string>
+	<key>searchMain</key>
+	<string>Поиск музыки</string>
+	<key>tracksCacheRemoved</key>
+	<string>Кэш треков очищен!</string>
+	<key>imagesCacheRemoved</key>
+	<string>Кэш картинок очищен!</string>
+	<key>coreDataLoading</key>
+	<string>Загрузка базы данных...</string>
+	<key>coreDataLoadError</key>
+	<string>Ошибка загрузки базы данных!</string>
+	<key>setting6</key>
+	<string>Очистить кэш треков</string>
+	<key>serverError</key>
+	<string>Ошибка получения данных</string>
+	<key>clear</key>
+	<string>Очистить</string>
+	<key>setting5</key>
+	<string>Очистить кэш картинок</string>
+	<key>off</key>
+	<string>Выкл.</string>
+	<key>on</key>
+	<string>Вкл.</string>
+	<key>setting4</key>
+	<string>Оффлайн режим</string>
+	<key>noInOffline</key>
+	<string>Недоступно в оффлайн режиме</string>
+	<key>noOffline</key>
+	<string>Оффлайн режим недоступен</string>
+	<key>APIError_1</key>
+	<string>Ошибка сервера</string>
+	<key>APIError_5</key>
+	<string>Спам контроль</string>
+	<key>APIError_15</key>
+	<string>Ошибка сервера</string>
+	<key>APIError_16</key>
+	<string>Пользователь не найден</string>
+	<key>APIError_17</key>
+	<string>Неверный идентификатор</string>
+	<key>APIError_18</key>
+	<string>Повторная регистрация невозможна</string>
+	<key>APIError_19</key>
+	<string>E-Mail занят</string>
+	<key>APIError_20</key>
+	<string>E-Mail неверного формата</string>
+	<key>APIError_21</key>
+	<string>Указанный E-Mail не привязан к аккаунту</string>
+	<key>APIError_22</key>
+	<string>Ошибка отправки</string>
+    <key>APIError_23</key>
+    <string>Ключ сброса недействителен</string>
+	<key>playerTitle</key>
+	<string>Плеер</string>
+	<key>del</key>
+	<string>Удалить</string>
+	<key>add</key>
+	<string>Добавить</string>
+	<key>load</key>
+	<string>Загрузка...</string>
+	<key>getInfo</key>
+	<string>Получение информации...</string>
+	<key>auth</key>
+	<string>Авторизация...</string>
+	<key>reg</key>
+	<string>Регистрация...</string>
+	<key>hi</key>
+	<string>Добро пожаловать!</string>
+	<key>inputIdentifier</key>
+	<string>Введите ваш идентификатор</string>
+	<key>checkIdentifier</key>
+	<string>Проверка идентификатора</string>
+	<key>badIdentifier</key>
+	<string>Неверный формат идентификатора</string>
+	<key>notFound</key>
+	<string>Ничего не найдено</string>
+	<key>musicTitle</key>
+	<string>Музыка</string>
+	<key>settingsTitle</key>
+	<string>Настройки</string>
+	<key>emptyTracklist</key>
+	<string>Ваш плейлист пуст</string>
+	<key>tracklistTitle</key>
+	<string>Плейлист</string>
+	<key>titleSMain</key>
+	<string>Основное</string>
+	<key>titleSAccount</key>
+	<string>Аккаунт</string>
+	<key>titleSDesign</key>
+	<string>Дизайн</string>
+	<key>setting0</key>
+	<string>Авто. переключение трека</string>
+	<key>setting1</key>
+	<string>Загружать миниатюры треков</string>
+	<key>setting2</key>
+	<string>Круглые миниатюры</string>
+	<key>setting3</key>
+	<string>Тема приложения</string>
+	<key>install</key>
+	<string>Установка...</string>
+	<key>emailSet</key>
+	<string>EMail установлен!</string>
+	<key>youEmail</key>
+	<string>Ваш EMail</string>
+	<key>addOk</key>
+	<string>Добавлен в плейлист!</string>
+	<key>addError</key>
+	<string>Ошибка добавления в плейлист!</string>
+	<key>removeOk</key>
+	<string>Удален из плейлиста!</string>
+	<key>removeError</key>
+	<string>Ошибка удаления из плейлиста!</string>
+	<key>moveOk</key>
+	<string>Успешно перемещен!</string>
+	<key>moveError</key>
+	<string>Ошибка перемещения!</string>
+</dict>
+</plist>

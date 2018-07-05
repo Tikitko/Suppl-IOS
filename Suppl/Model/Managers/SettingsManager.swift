@@ -1,86 +1,73 @@
 import Foundation
 import SwiftTheme
 
-class SettingsManager {
+final class SettingsManager {
     
-    public static func initialize() {
-        setTheme()
-    }
+    static public let s = SettingsManager()
+    private init() {}
     
-    private static let roundIconsName = "roundIcons"
-    private static let roundIconsDefault = false
-    public static var roundIcons: Bool? {
+    private let roundIconsName = "roundIcons"
+    private let roundIconsDefault = false
+    public var roundIcons: Bool? {
         get {
-            guard let value: Bool? = UserDefaultsManager.keyGet(roundIconsName), let returnValue = value else {
-                UserDefaultsManager.keySet(roundIconsName, value: roundIconsDefault)
+            guard let value: Bool? = UserDefaultsManager.s.keyGet(roundIconsName), let returnValue = value else {
+                UserDefaultsManager.s.keySet(roundIconsName, value: roundIconsDefault)
                 return roundIconsDefault
             }
             return returnValue
         }
         set(value) {
-            UserDefaultsManager.keySet(roundIconsName, value: value)
-            NotificationCenter.default.post(name: .RoundIconsSettingChanged, object: nil, userInfo: nil)
+            UserDefaultsManager.s.keySet(roundIconsName, value: value)
         }
     }
     
-    private static let loadImagesName = "loadImages"
-    private static let loadImagesDefault = true
-    public static var loadImages: Bool? {
+    private let loadImagesName = "loadImages"
+    private let loadImagesDefault = true
+    public var loadImages: Bool? {
         get {
-            guard let value: Bool? = UserDefaultsManager.keyGet(loadImagesName), let returnValue = value else {
-                UserDefaultsManager.keySet(loadImagesName, value: loadImagesDefault)
+            guard let value: Bool? = UserDefaultsManager.s.keyGet(loadImagesName), let returnValue = value else {
+                UserDefaultsManager.s.keySet(loadImagesName, value: loadImagesDefault)
                 return loadImagesDefault
             }
             return returnValue
         }
         set(value) {
-            UserDefaultsManager.keySet(loadImagesName, value: value)
-            NotificationCenter.default.post(name: .LoadImagesSettingChanged, object: nil, userInfo: nil)
+            UserDefaultsManager.s.keySet(loadImagesName, value: value)
         }
     }
     
-    private static let autoNextTrackName = "autoNextTrack"
-    private static let autoNextTrackDefault = true
-    public static var autoNextTrack: Bool? {
+    private let autoNextTrackName = "autoNextTrack"
+    private let autoNextTrackDefault = true
+    public var autoNextTrack: Bool? {
         get {
-            guard let value: Bool? = UserDefaultsManager.keyGet(autoNextTrackName), let returnValue = value else {
-                UserDefaultsManager.keySet(autoNextTrackName, value: autoNextTrackDefault)
+            guard let value: Bool? = UserDefaultsManager.s.keyGet(autoNextTrackName), let returnValue = value else {
+                UserDefaultsManager.s.keySet(autoNextTrackName, value: autoNextTrackDefault)
                 return autoNextTrackDefault
             }
             return returnValue
         }
         set(value) {
-            UserDefaultsManager.keySet(autoNextTrackName, value: value)
-            NotificationCenter.default.post(name: .AutoNextTrackSettingChanged, object: nil, userInfo: nil)
+            UserDefaultsManager.s.keySet(autoNextTrackName, value: value)
         }
     }
     
-    private static let themeName = "theme"
-    private static let themeDefault: Int = 0
-    public static var theme: Int? {
+    private let themeName = "theme"
+    private let themeDefault: Int = 0
+    public var theme: Int? {
         get {
-            guard let value: Int? = UserDefaultsManager.keyGet(themeName), let returnValue = value else {
-                UserDefaultsManager.keySet(themeName, value: themeDefault)
+            guard let value: Int? = UserDefaultsManager.s.keyGet(themeName), let returnValue = value else {
+                UserDefaultsManager.s.keySet(themeName, value: themeDefault)
                 return themeDefault
             }
             return returnValue
         }
         set(value) {
-            UserDefaultsManager.keySet(themeName, value: value)
-            NotificationCenter.default.post(name: .ThemeSettingChanged, object: nil, userInfo: nil)
+            UserDefaultsManager.s.keySet(themeName, value: value)
             setTheme()
         }
     }
     
-    private static func setTheme() {
+    public func setTheme() {
         ThemeManager.setTheme(plistName: AppStaticData.themesList[theme!], path: .mainBundle)
     }
 }
-
-extension Notification.Name {
-    static let RoundIconsSettingChanged = Notification.Name("RoundIconsSettingChanged")
-    static let LoadImagesSettingChanged = Notification.Name("LoadImagesSettingChanged")
-    static let AutoNextTrackSettingChanged = Notification.Name("AutoNextTrackSettingChanged")
-    static let ThemeSettingChanged = Notification.Name("ThemeSettingChanged")
-}
-

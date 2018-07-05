@@ -1,37 +1,45 @@
 import Foundation
 
-class AuthManager {
+final class AuthManager {
     
-    private static var timer: Timer?
+    static public let s = AuthManager()
+    private init() {}
     
-    private static func authCheck(timerIn: Timer) -> Void {
+    private var timer: Timer?
+    
+    private func authCheck(timerIn: Timer) -> Void {
         authCheckRequest()
     }
     
-    private static func authCheckRequest() {
-        guard let (ikey, akey) = getAuthKeys() else { return }
-        APIManager.userGet(ikey: ikey, akey: akey) { error, data in
+    private func authCheckRequest() {
+        guard let keys = getAuthKeys() else { return }
+        APIManager.s.user.get(keys: keys) { error, data in
             guard let _ = error else { return }
             let _ = self.setAuthWindow()
         }
     }
     
-    public static func setAuthWindow(noAuth: Bool = false) -> Void {
-        NotificationCenter.default.post(name: .NeedAuthWindow, object: nil, userInfo: ["noAuth": noAuth])
+    public func setAuthWindow(noAuth: Bool = false) {
+        PlayerItemsManager.s.removeDownloadableItems()
+        PlayerManager.s.clearPlayer()
+        TracklistManager.s.clear()
+        let _ = stopAuthCheck()
+        AuthRouter.setSelf(noAuth: noAuth)
     }
     
-    public static func startAuthCheck(startNow: Bool = false) -> Bool {
+    public func startAuthCheck(startNow: Bool = false) -> Bool {
+        if OfflineModeManager.s.offlineMode { return false }
         if startNow {
             authCheckRequest()
         }
         guard let _ = timer else {
-            timer = Timer.scheduledTimer(withTimeInterval: 60 * 1, repeats: true, block: authCheck)
+            timer = Timer.scheduledTimer(withTimeInterval: 60 * 2, repeats: true, block: authCheck)
             return true
         }
         return false
     }
     
-    public static func stopAuthCheck() -> Bool {
+    public func stopAuthCheck() -> Bool {
         if let _ = timer {
             timer?.invalidate()
             timer = nil
@@ -40,16 +48,46 @@ class AuthManager {
         return false
     }
     
-    public static func getAuthKeys() -> (ikey:Int, akey:Int)? {
-        guard let ikey = UserDefaultsManager.identifierKey, let akey = UserDefaultsManager.accessKey else {
-            setAuthWindow()
+    public func getAuthKeys(setFailAuth: Bool = true) -> KeysPair? {
+        guard let ikey = UserDefaultsManager.s.identifierKey, let akey = UserDefaultsManager.s.accessKey else {
+            if setFailAuth {
+                setAuthWindow()
+            }
             return nil
         }
-        return (ikey, akey)
+        return KeysPair(ikey, akey)
+    }
+    
+    public func authorization(keys: KeysPair? = nil, callback: @escaping (UserData?, NSError?) -> Void) {
+        guard let keys = keys ?? getAuthKeys() else { return }
+        APIManager.s.user.get(keys: keys) { error, data in
+            callback(data, error)
+        }
+    }
+    
+    public func registration(callback: @escaping (UserSecretData?, NSError?) -> Void) {
+        APIManager.s.user.register() { error, data in
+            if let error = error {
+                callback(nil, error)
+                return
+            }
+            UserDefaultsManager.s.identifierKey = data!.identifierKey
+            UserDefaultsManager.s.accessKey = data!.accessKey
+            callback(data, nil)
+        }
+    }
+    
+    public func reset(resetKey: String, callback: @escaping (UserSecretData?, NSError?) -> Void) {
+        APIManager.s.user.reset(resetKey: resetKey) { error, data in
+            if let error = error {
+                callback(nil, error)
+                return
+            }
+            UserDefaultsManager.s.identifierKey = data!.identifierKey
+            UserDefaultsManager.s.accessKey = data!.accessKey
+            callback(data, nil)
+        }
     }
     
 }
 
-extension Notification.Name {
-    static let NeedAuthWindow = Notification.Name("NeedAuthWindow")
-}
