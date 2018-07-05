@@ -45,8 +45,7 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         tracksSearch.isHidden = true
         tracksTable.isHidden = true
         
-        onLabel(text: presenter.getLoadLabel())
-        
+        setLabel(presenter.getLoadLabel())
         presenter.setListener()
         presenter.loadRandomTracks()
     }
@@ -64,16 +63,10 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         searchTest.searchBar.text = query
     }
     
-    func onLabel(text: String) {
-        tracksTableTest.tableView.isHidden = true
+    func setLabel(_ text: String?) {
+        tracksTableTest.tableView.isHidden = text != nil
         infoLabel.text = text
-        infoLabel.isHidden = false
-    }
-    
-    func offLabel() {
-        tracksTableTest.tableView.isHidden = false
-        infoLabel.text = nil
-        infoLabel.isHidden = true
+        infoLabel.isHidden = text == nil
     }
     
     func setOffsetZero() {

@@ -42,24 +42,28 @@ final class PlayerManager: NSObject {
     }
     
     private func addPlayStatusObserver() {
+        if player == nil { return }
         if observerPlayStatusWorking { return }
         observerPlayStatusWorking = true
         player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new, .old], context: nil)
     }
     
     private func removePlayStatusObserver() {
+        if player == nil { return }
         if !observerPlayStatusWorking { return }
         player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
         observerPlayStatusWorking = false
     }
     
     private func addPlayerRateObserver() {
+        if player == nil { return }
         if observerPlayerRateWorking { return }
         observerPlayerRateWorking = true
         player?.addObserver(self, forKeyPath: #keyPath(AVPlayer.rate), options: [.new, .old], context: nil)
     }
     
     private func removePlayerRateObserver() {
+        if player == nil { return }
         if !observerPlayerRateWorking { return }
         player?.removeObserver(self, forKeyPath: #keyPath(AVPlayer.rate))
         observerPlayerRateWorking = false
@@ -85,7 +89,7 @@ final class PlayerManager: NSObject {
                 self.sayToListeners() { delegate in
                     delegate.itemTimeChanged(item, time.seconds)
                 }
-                self.nowPlayingCenter().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
+                self.nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
             }
             sayToListeners() { delegate in
                 delegate.itemReadyToPlay(item, currentTrack?.duration)
@@ -98,12 +102,12 @@ final class PlayerManager: NSObject {
     }
     
     private func observePlayerRate(_ statusNumber: NSNumber) {
-        let rate: Float = statusNumber.floatValue
-        if rate == 1.0 {
+        let rate: Int = statusNumber.intValue
+        if rate == 1 {
             sayToListeners() { delegate in
                 delegate.playerPlay()
             }
-        } else if rate == 0.0 {
+        } else if rate == 0 {
             sayToListeners() { delegate in
                 delegate.playerStop()
             }
@@ -117,32 +121,44 @@ final class PlayerManager: NSObject {
     }
     
     private func addRemoteCommands() {
-        commandCenter().playCommand.addTarget(self, action: #selector(play))
-        commandCenter().pauseCommand.addTarget(self, action: #selector(pause))
-        commandCenter().nextTrackCommand.addTarget(self, action: #selector(nextTrack))
-        commandCenter().previousTrackCommand.addTarget(self, action: #selector(prevTrack))
+        commandCenter.playCommand.addTarget(self, action: #selector(play))
+        commandCenter.pauseCommand.addTarget(self, action: #selector(pause))
+        commandCenter.nextTrackCommand.addTarget(self, action: #selector(nextTrack))
+        commandCenter.previousTrackCommand.addTarget(self, action: #selector(prevTrack))
     }
     
     private func removeRemoteCommands() {
-        commandCenter().playCommand.removeTarget(self)
-        commandCenter().pauseCommand.removeTarget(self)
-        commandCenter().nextTrackCommand.removeTarget(self)
-        commandCenter().previousTrackCommand.removeTarget(self)
+        commandCenter.playCommand.removeTarget(self)
+        commandCenter.pauseCommand.removeTarget(self)
+        commandCenter.nextTrackCommand.removeTarget(self)
+        commandCenter.previousTrackCommand.removeTarget(self)
     }
     
     private func remoteCommands(isEnabled: Bool) {
-        commandCenter().playCommand.isEnabled = isEnabled
-        commandCenter().pauseCommand.isEnabled = isEnabled
+        commandCenter.playCommand.isEnabled = isEnabled
+        commandCenter.pauseCommand.isEnabled = isEnabled
         //commandCenter().nextTrackCommand.isEnabled = isEnabled
         //commandCenter().previousTrackCommand.isEnabled = isEnabled
     }
     
-    private func nowPlayingCenter() -> MPNowPlayingInfoCenter {
-        return MPNowPlayingInfoCenter.default()
+    private var nowPlayingCenter: MPNowPlayingInfoCenter {
+        get { return MPNowPlayingInfoCenter.default() }
     }
     
-    private func commandCenter() -> MPRemoteCommandCenter {
-        return MPRemoteCommandCenter.shared()
+    private var commandCenter: MPRemoteCommandCenter {
+        get { return MPRemoteCommandCenter.shared() }
+    }
+    
+    public var playerRate: Float? {
+        get { return player?.rate }
+    }
+    
+    public var currentItemTime: Double? {
+        get { return player?.currentItem?.currentTime().seconds }
+    }
+    
+    public var itemDuration: Double? {
+        get { return player?.currentItem?.duration.seconds }
     }
     
     private func loadTrackByID(_ trackID: String) {
@@ -202,7 +218,7 @@ final class PlayerManager: NSObject {
             MPMediaItemPropertyPlaybackDuration: track.duration,
             MPNowPlayingInfoPropertyPlaybackRate: NSNumber(value: 1.0 as Float)
         ] as [String: Any]
-        nowPlayingCenter().nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
+        nowPlayingCenter.nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
         guard SettingsManager.s.loadImages! else { return }
         RemoteDataManager.s.getCachedImageAsData(link: track.images.last ?? "") { [weak self] imageData in
             guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
@@ -210,7 +226,7 @@ final class PlayerManager: NSObject {
             self.sayToListeners() { delegate in
                 delegate.trackInfoChanged(self.currentTrack!, imageData as Data)
             }
-            self.nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+            self.nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
         }
     }
     
@@ -228,9 +244,13 @@ final class PlayerManager: NSObject {
         currentTrack = nil
         playlist = nil
         cachedTracksInfo = nil
-        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyTitle] = nil
-        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtist] = nil
-        nowPlayingCenter().nowPlayingInfo?[MPMediaItemPropertyArtwork] = nil
+        /*nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyTitle] = nil
+        nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtist] = nil
+        nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtwork] = nil
+        nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = nil
+        nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = nil
+        nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = nil*/
+        nowPlayingCenter.nowPlayingInfo = [:]
         removeRemoteCommands()
     }
     
@@ -246,22 +266,14 @@ final class PlayerManager: NSObject {
         addRemoteCommands()
         remoteCommands(isEnabled: false)
     }
-   
-    public func getRealCurrentTime() -> Double? {
-        return player?.currentItem?.currentTime().seconds
-    }
-    
-    public func getRealDuration() -> Double? {
-        return player?.currentItem?.duration.seconds
-    }
     
     @objc public func nextTrack() {
-        guard let _ = self.playlist else { return }
+        if playlist == nil { return }
         loadTrackByID(self.playlist!.next())
     }
     
     @objc public func prevTrack() {
-        guard let _ = self.playlist else { return }
+        if playlist == nil { return }
         loadTrackByID(self.playlist!.prev())
     }
     
@@ -288,9 +300,5 @@ final class PlayerManager: NSObject {
         guard let player = player, let currentItem = player.currentItem else { return }
         player.seek(to: CMTimeMake(Int64(withCurrentTime ? currentItem.currentTime().seconds + sec : sec), 1))
     }
-    
-    public func playerRate() -> Float? {
-        return player?.rate
-    }
-    
+
 }

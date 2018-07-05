@@ -12,6 +12,7 @@ final class RootTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
+        tabBar.isTranslucent = false
         
         var controllers: [UIViewController] = [TracklistRouter.setup(), SettingsMainViewController.initial()]
         controllers[0].loadViewIfNeeded()

@@ -82,12 +82,11 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
     
     func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
         view.updateAfterAnimation() { [weak self] context in
-            guard let `self` = self else { return }
             if let imageData = imageData {
-                self.view.setTrackImage(imageData)
+                self?.view.setTrackImage(imageData)
             } else {
-                self.view.clearPlayer()
-                self.view.setTrackInfo(title: track.title, performer: track.performer)
+                self?.view.clearPlayer()
+                self?.view.setTrackInfo(title: track.title, performer: track.performer)
             }
         }
     }

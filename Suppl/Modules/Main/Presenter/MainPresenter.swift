@@ -30,7 +30,7 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     }
     
     func setInfo(_ text: String? = nil) {
-        text != nil ? view.onLabel(text: text!) : view.offLabel()
+        view.setLabel(text)
     }
     
     func searchQuery(_ query: String) {

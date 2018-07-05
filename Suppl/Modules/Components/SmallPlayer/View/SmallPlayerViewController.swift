@@ -151,14 +151,14 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     func startExtraPart(showType: ShowType) {
         if showType == .partOpened {
-            //view.isHidden = false
+            view.isHidden = false
         }
     }
     
     func finalExtraPart(showType: ShowType) {
         if showType == .closed {
             clearPlayer()
-            //view.isHidden = true
+            view.isHidden = true
         }
     }
     
@@ -192,12 +192,6 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         smallPlayerView.theme_backgroundColor = "secondColor"
         progressBar.theme_tintColor = "thirdColor"
         imageViewBig.theme_backgroundColor = "secondColor"
-        /*
-        view.theme_backgroundColor = "secondColor"
-        smallPlayerView.theme_backgroundColor = "secondColor"
-        progressBar.theme_tintColor = "secondColor"
-        imageViewBig.theme_backgroundColor = "thirdColor"
-         */
     }
     
     func setTrackInfo(title: String, performer: String) {

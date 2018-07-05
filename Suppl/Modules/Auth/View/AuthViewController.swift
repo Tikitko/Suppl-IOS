@@ -25,7 +25,6 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        logoLabel.isHidden = true
         initLogo()
         initResetStack()
         repeatButton.setTitle(presenter.getButtonLabel(), for: .normal)
@@ -35,6 +34,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     }
 
     func initLogo() {
+        logoLabel.isHidden = true
         logo = AnimateLogo.init(logoLabel.text ?? "", color: logoLabel.textColor ?? .white, fontName: logoLabel.font.fontName, fontSize: logoLabel.font.pointSize)
         view.addSubview(logo.view)
         let height = logo.view.frame.size.height
@@ -73,7 +73,6 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         view.theme_backgroundColor = "firstColor"
         identifierField.theme_backgroundColor = "secondColor"
         repeatButton.theme_backgroundColor = "secondColor"
-        
         resetEmailField.theme_backgroundColor = "secondColor"
         resetSendButton.theme_backgroundColor = "secondColor"
     }
@@ -121,19 +120,18 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     func startAnim() {
         guard !animInWork else { return }
         animInWork = true
-        logo.startAnim()
+        logo?.startAnim()
     }
     
     func stopAnim() {
         guard animInWork else { return }
         animInWork = false
-        logo.stopAnim()
+        logo?.stopAnim()
     }
     
     @objc func keyboardWillShow(sender: NSNotification) {
-        if let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect {
-            view.frame.origin.y = -keyboardFrame.height / (resetEmailField.isEditing ? 1.1 : 2.3)
-        }
+        guard let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
+        view.frame.origin.y = -keyboardFrame.height / (resetEmailField.isEditing ? 1.1 : 2.3)
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {

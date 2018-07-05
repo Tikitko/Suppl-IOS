@@ -34,7 +34,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        loadCircle = CircleLoad(frame: blurView.bounds, radiusOffset: 10, lineWidth: 5, color: UIColor.white)
+        loadCircle = CircleLoad(frame: blurView.bounds, radiusOffset: 10, lineWidth: 5, color: .white)
         loadCircle.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurView.addSubview(loadCircle)
         loadProgressBar.isHidden = true
@@ -109,7 +109,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
     
     func setSelected(_ value: Bool, instantly: Bool = false) {
-        let result = value ? UIColor(hue: 0.7778, saturation: 0, brightness: 0.96, alpha: 1.0) : nil
+        let result = value ? UIColor(white: 0.96, alpha: 1.0) : nil
         if instantly {
             view.backgroundColor = result
         } else {
@@ -118,9 +118,9 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
 
     func setBackgroundColorWithAnimation(_ color: UIColor?) {
-        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+        UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.backgroundColor = color
-        }, completion: nil)
+        }
     }
     
     func resetInfo() {

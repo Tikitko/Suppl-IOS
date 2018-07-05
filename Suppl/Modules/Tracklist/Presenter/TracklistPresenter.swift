@@ -40,7 +40,7 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
     }
     
     func setInfo(_ text: String? = nil) {
-        text != nil ? view.onLabel(text: text!) : view.offLabel()
+        view.setLabel(text)
     }
 
     func tracklistUpdateResult(status: Bool) {

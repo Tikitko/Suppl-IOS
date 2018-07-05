@@ -6,7 +6,6 @@ protocol TracklistViewControllerProtocol: class {
     func setFilterThenPopover(filterController: UIViewController)
     func offButtons()
     func clearSearch()
-    func onLabel(text: String)
-    func offLabel()
+    func setLabel(_ text: String?)
     func reloadData()
 }

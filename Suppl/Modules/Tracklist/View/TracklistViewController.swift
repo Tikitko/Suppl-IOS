@@ -39,8 +39,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         searchBar.isHidden = true
         tracksTable.isHidden = true
         
-        onLabel(text: presenter.getLoadLabel())
-        
+        setLabel(presenter.getLoadLabel())
         presenter.load()
     }
     
@@ -86,16 +85,10 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         editButton.isEnabled = false
     }
     
-    func onLabel(text: String) {
-        tracksTableTest.tableView.isHidden = true
+    func setLabel(_ text: String?) {
+        tracksTableTest.tableView.isHidden = text != nil
         infoLabel.text = text
-        infoLabel.isHidden = false
-    }
-    
-    func offLabel() {
-        tracksTableTest.tableView.isHidden = false
-        infoLabel.text = nil
-        infoLabel.isHidden = true
+        infoLabel.isHidden = text == nil
     }
     
     func updateButtonIsEnabled(_ value: Bool) {
