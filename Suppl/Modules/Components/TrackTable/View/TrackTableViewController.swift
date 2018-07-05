@@ -38,8 +38,6 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
 
             layer.cornerRadius = 5
             clipsToBounds = true
-            
-            selectionStyle = .none
         }
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -48,20 +46,17 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             super.prepareForReuse()
             myController.presenter.resetCell(name: cellModuleNameId)
         }
-        /*
         override func setSelected(_ selected: Bool, animated: Bool) {
-            if selected { return }
-            UIView.animate(withDuration: animated ? 0.4 : 0) {
-                self.backgroundColor = nil
-            }
+            enableBackground(selected, animated: animated, duration: 0.4)
         }
         override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-            if !highlighted { return }
-            UIView.animate(withDuration: animated ? 0.05 : 0) {
-                self.backgroundColor = UIColor(hue: 0, saturation: 0, brightness: 0.9, alpha: 1.0)
+            enableBackground(highlighted, animated: animated, duration: 0.05)
+        }
+        private func enableBackground(_ isOn: Bool, animated: Bool, duration: TimeInterval) {
+            UIView.animate(withDuration: animated ? duration : 0) {
+                self.backgroundColor = isOn ? UIColor(white: 0.9, alpha: 1.0) : nil
             }
         }
-        */
     }
     
     func relaodData() {
@@ -91,7 +86,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return presenter.canMoveTrack(fromPath: indexPath)
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.numberOfRowsInSection(section)
     }
