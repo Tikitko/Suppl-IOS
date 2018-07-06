@@ -14,7 +14,7 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
         self.forPresent = forPresent
         super.init()
         self.smallPlayerViewController = smallPlayerViewController
-        prepareGestureRecognizer(in: (forPresent ? self.smallPlayerViewController.parentRootTabBarController.view : self.smallPlayerViewController.playerTitleLabelBig!))
+        prepareGestureRecognizer(in: (forPresent ? self.smallPlayerViewController.parentRootTabBarController.view : self.smallPlayerViewController.view!))
     }
     
     private func prepareGestureRecognizer(in view: UIView) {
@@ -23,16 +23,27 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
         view.addGestureRecognizer(gesture)
     }
     
+    var startProgress: CGFloat?
     private func getProgress(gestureRecognizer: UIPanGestureRecognizer) -> CGFloat {
         let spaceSize = smallPlayerViewController.parentRootTabBarController.tabBar.frame.origin.y
         let tapPositionInParent = gestureRecognizer.location(in: smallPlayerViewController.view).y - smallPlayerViewController.parentRootTabBarController.tabBar.frame.height
-        let progress = 1 - CGFloat(fminf(fmaxf(Float((tapPositionInParent / spaceSize) * (!forPresent ? -1 : 1)), 0.0), 1.0))
+        var progress = 1 - CGFloat(fminf(fmaxf(Float((tapPositionInParent / spaceSize) * (!forPresent ? -1 : 1)), 0.0), 1.0))
+        if gestureRecognizer.state == .began || startProgress == 1 {
+            startProgress = progress
+        }
+        let startProgressIn = self.startProgress ?? 0
+        let centerBack = (1 + startProgressIn) / 2
+        progress = progress < centerBack ? ((progress - startProgressIn) / (centerBack - startProgressIn)) * centerBack : progress
+        if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
+            startProgress = nil
+        }
+        print(progress)
         return progress
     }
+
     
     @objc func handleGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
         let progress = getProgress(gestureRecognizer: gestureRecognizer)
-
         switch gestureRecognizer.state {
         case .began:
             interactionInProgress = true
@@ -54,6 +65,7 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
 extension SmallPlayerInteractionController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if smallPlayerViewController.nowShowType != .opened, gestureRecognizer.view == self.smallPlayerViewController.view { return false }
         return smallPlayerViewController.nowShowType != .closed && smallPlayerViewController.view.point(inside: gestureRecognizer.location(in: smallPlayerViewController.view), with: nil)
     }
     
