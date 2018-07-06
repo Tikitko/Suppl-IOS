@@ -37,7 +37,7 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
         if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
             startProgress = nil
         }
-        print(progress)
+        progress = CGFloat(fminf(fmaxf(Float(progress), 0.0), 1.0))
         return progress
     }
 
