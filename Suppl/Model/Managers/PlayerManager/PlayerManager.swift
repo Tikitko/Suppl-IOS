@@ -263,12 +263,12 @@ final class PlayerManager: NSObject {
     
     @objc public func nextTrack() {
         if playlist == nil { return }
-        loadTrackByID(self.playlist!.next())
+        loadTrackByID(playlist!.next())
     }
     
     @objc public func prevTrack() {
         if playlist == nil { return }
-        loadTrackByID(self.playlist!.prev())
+        loadTrackByID(playlist!.prev())
     }
     
     @objc public func play() {
@@ -284,6 +284,11 @@ final class PlayerManager: NSObject {
         guard let player = player, let _ = player.currentItem else { return }
         needPlayingStatus = false
         player.pause()
+    }
+    
+    public func mixAndFirst() {
+        if playlist == nil { return }
+        loadTrackByID(playlist!.randomSortAndFirst())
     }
     
     public func playOrPause() {

@@ -23,8 +23,16 @@ struct Playlist {
         return curr
     }
     
-    public mutating func prev()  -> String {
+    public mutating func prev() -> String {
         current = 0 == current ? IDs.count - 1 : current - 1
+        return curr
+    }
+    
+    public mutating func randomSortAndFirst() -> String {
+        for _ in 0..<IDs.count {
+            IDs.sort { (_,_) in arc4random() < arc4random() }
+        }
+        current = 0
         return curr
     }
 

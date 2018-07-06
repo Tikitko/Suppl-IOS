@@ -51,6 +51,10 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     weak var parentRootTabBarController: RootTabBarController!
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -333,6 +337,10 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     @IBAction func rewindMClicked(_ sender: Any) {
         presenter.rewindM()
+    }
+    
+    @IBAction func mixButtonClicked(_ sender: Any) {
+        presenter.mixButtonClick()
     }
     
 }

@@ -22,6 +22,10 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
     var resetKeyForUse: String?
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()

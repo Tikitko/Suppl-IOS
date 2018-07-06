@@ -24,6 +24,10 @@ class SmallPlayerInteractor: BaseInteractor, SmallPlayerInteractorProtocol {
         PlayerManager.s.prevTrack()
     }
     
+    func callMix() {
+        PlayerManager.s.mixAndFirst()
+    }
+    
     func clearPlayer() {
         PlayerManager.s.clearPlayer()
     }

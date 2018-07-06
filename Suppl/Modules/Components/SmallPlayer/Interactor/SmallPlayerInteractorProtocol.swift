@@ -6,5 +6,6 @@ protocol SmallPlayerInteractorProtocol: class, BaseInteractorProtocol {
     func play()
     func callNextTrack()
     func callPrevTrack()
+    func callMix()
     func clearPlayer()
 }

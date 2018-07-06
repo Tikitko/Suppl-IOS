@@ -32,6 +32,10 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
         interactor.setPlayerCurrentTime(-15, withCurrentTime: true)
     }
     
+    func mixButtonClick() {
+        interactor.callMix()
+    }
+    
     func openBigPlayer() {
         router.openBigPlayer()
     }
