@@ -51,7 +51,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reloadData()
+        presenter.reloadWhenChangingSettings()
     }
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {
@@ -59,7 +59,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         tracksTableTest = table
         searchTest = search
     }
-    
+
     private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -77,7 +77,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     func clearSearch() {
-        searchTest.searchBar.text = ""
+        searchTest.searchBar.text = nil
     }
     
     func offButtons() {
@@ -98,7 +98,6 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     func setFilterThenPopover(filterController: UIViewController){
         filterController.preferredContentSize = CGSize(width: 400, height: 180)
         filterController.modalPresentationStyle = .popover
-
         let pop = filterController.popoverPresentationController
         pop?.delegate = self
         pop?.sourceView = filterButton

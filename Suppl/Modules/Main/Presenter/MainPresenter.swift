@@ -37,6 +37,14 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
         view.setSearchQuery(query)
     }
     
+    func reloadData() {
+        view.reloadData()
+    }
+    
+    func reloadWhenChangingSettings() {
+        interactor.reloadWhenChangingSettings()
+    }
+    
     func loadRandomTracks() {
         interactor.loadRandomTracks()
     }

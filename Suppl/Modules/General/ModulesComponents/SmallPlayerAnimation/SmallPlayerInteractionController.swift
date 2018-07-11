@@ -4,17 +4,18 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
     
     private weak var smallPlayerViewController: SmallPlayerViewController!
     
-    var interactionInProgress = false
-    private var shouldCompleteTransition = false
-    private(set) var gesture: UIPanGestureRecognizer!
-    
     private let forPresent: Bool
+    private(set) var interactionInProgress = false
+    private var shouldCompleteTransition = false
+    private var gesture: UIPanGestureRecognizer!
+    private var startProgress: CGFloat?
     
     init(_ smallPlayerViewController: SmallPlayerViewController, forPresent: Bool) {
         self.forPresent = forPresent
         super.init()
         self.smallPlayerViewController = smallPlayerViewController
-        prepareGestureRecognizer(in: (forPresent ? self.smallPlayerViewController.parentRootTabBarController.view : self.smallPlayerViewController.view!))
+        let toView = forPresent ? self.smallPlayerViewController.parentRootTabBarController.view : self.smallPlayerViewController.view
+        prepareGestureRecognizer(in: toView!)
     }
     
     private func prepareGestureRecognizer(in view: UIView) {
@@ -23,15 +24,14 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
         view.addGestureRecognizer(gesture)
     }
     
-    var startProgress: CGFloat?
     private func getProgress(gestureRecognizer: UIPanGestureRecognizer) -> CGFloat {
-        let spaceSize = smallPlayerViewController.parentRootTabBarController.tabBar.frame.origin.y
-        let tapPositionInParent = gestureRecognizer.location(in: smallPlayerViewController.view).y - smallPlayerViewController.parentRootTabBarController.tabBar.frame.height
-        var progress = 1 - CGFloat(fminf(fmaxf(Float((tapPositionInParent / spaceSize) * (!forPresent ? -1 : 1)), 0.0), 1.0))
+        let prFrame = smallPlayerViewController.parentRootTabBarController.tabBar.frame
+        let tapPositionInParent = gestureRecognizer.location(in: smallPlayerViewController.view).y - prFrame.height
+        var progress = 1 - CGFloat(fminf(fmaxf(Float((tapPositionInParent / prFrame.origin.y) * (!forPresent ? -1 : 1)), 0.0), 1.0))
         if gestureRecognizer.state == .began || startProgress == 1 {
             startProgress = progress
         }
-        let startProgressIn = self.startProgress ?? 0
+        let startProgressIn = startProgress ?? 0
         let centerBack = (1 + startProgressIn) / 2
         progress = progress < centerBack ? ((progress - startProgressIn) / (centerBack - startProgressIn)) * centerBack : progress
         if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
@@ -40,7 +40,6 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
         progress = CGFloat(fminf(fmaxf(Float(progress), 0.0), 1.0))
         return progress
     }
-
     
     @objc func handleGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
         let progress = getProgress(gestureRecognizer: gestureRecognizer)

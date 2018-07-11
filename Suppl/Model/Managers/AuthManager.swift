@@ -49,13 +49,13 @@ final class AuthManager {
     }
     
     public func getAuthKeys(setFailAuth: Bool = true) -> KeysPair? {
-        guard let ikey = UserDefaultsManager.s.identifierKey, let akey = UserDefaultsManager.s.accessKey else {
-            if setFailAuth {
-                setAuthWindow()
-            }
-            return nil
+        if let ikey = UserDefaultsManager.s.identifierKey, let akey = UserDefaultsManager.s.accessKey {
+            return KeysPair(ikey, akey)
         }
-        return KeysPair(ikey, akey)
+        if setFailAuth {
+            setAuthWindow()
+        }
+        return nil
     }
     
     public func authorization(keys: KeysPair? = nil, callback: @escaping (UserData?, NSError?) -> Void) {
@@ -67,25 +67,21 @@ final class AuthManager {
     
     public func registration(callback: @escaping (UserSecretData?, NSError?) -> Void) {
         APIManager.s.user.register() { error, data in
-            if let error = error {
-                callback(nil, error)
-                return
+            if let data = data {
+                UserDefaultsManager.s.identifierKey = data.identifierKey
+                UserDefaultsManager.s.accessKey = data.accessKey
             }
-            UserDefaultsManager.s.identifierKey = data!.identifierKey
-            UserDefaultsManager.s.accessKey = data!.accessKey
-            callback(data, nil)
+            callback(data, error)
         }
     }
     
     public func reset(resetKey: String, callback: @escaping (UserSecretData?, NSError?) -> Void) {
         APIManager.s.user.reset(resetKey: resetKey) { error, data in
-            if let error = error {
-                callback(nil, error)
-                return
+            if let data = data {
+                UserDefaultsManager.s.identifierKey = data.identifierKey
+                UserDefaultsManager.s.accessKey = data.accessKey
             }
-            UserDefaultsManager.s.identifierKey = data!.identifierKey
-            UserDefaultsManager.s.accessKey = data!.accessKey
-            callback(data, nil)
+            callback(data, error)
         }
     }
     

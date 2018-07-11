@@ -77,6 +77,14 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         tracks.append(track)
     }
     
+    func reloadData() {
+        view.reloadData()
+    }
+    
+    func reloadWhenChangingSettings() {
+        interactor.reloadWhenChangingSettings()
+    }
+    
     func setUpdateResult(_ status: LocalesManager.Expression?) {
         if let _ = nowQuery {
             searchNowQuery()

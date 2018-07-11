@@ -5,6 +5,8 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     weak var presenter: MainPresenterProtocolInteractor!
     
     var inSearchWork = false
+    var lastLoadImagesState: Bool?
+    var lastRoundIconsState: Bool?
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
         ModulesCommunicateManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
@@ -25,6 +27,14 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
             guard let `self` = self, let data = data else { return }
             self.presenter.searchResult(query: query, data: data)
         }
+    }
+    
+    func reloadWhenChangingSettings() {
+        if lastLoadImagesState != SettingsManager.s.loadImages! || lastRoundIconsState != SettingsManager.s.roundIcons! {
+            presenter.reloadData()
+        }
+        lastLoadImagesState = SettingsManager.s.loadImages!
+        lastRoundIconsState = SettingsManager.s.roundIcons!
     }
     
 }

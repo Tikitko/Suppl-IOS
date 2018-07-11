@@ -10,7 +10,7 @@ final class SettingsManager {
     private let roundIconsDefault = false
     public var roundIcons: Bool? {
         get {
-            guard let value: Bool? = UserDefaultsManager.s.keyGet(roundIconsName), let returnValue = value else {
+            guard let returnValue = UserDefaultsManager.s.keyGet(roundIconsName) as Bool? else {
                 UserDefaultsManager.s.keySet(roundIconsName, value: roundIconsDefault)
                 return roundIconsDefault
             }
@@ -25,7 +25,7 @@ final class SettingsManager {
     private let loadImagesDefault = true
     public var loadImages: Bool? {
         get {
-            guard let value: Bool? = UserDefaultsManager.s.keyGet(loadImagesName), let returnValue = value else {
+            guard let returnValue = UserDefaultsManager.s.keyGet(loadImagesName) as Bool? else {
                 UserDefaultsManager.s.keySet(loadImagesName, value: loadImagesDefault)
                 return loadImagesDefault
             }
@@ -40,7 +40,7 @@ final class SettingsManager {
     private let autoNextTrackDefault = true
     public var autoNextTrack: Bool? {
         get {
-            guard let value: Bool? = UserDefaultsManager.s.keyGet(autoNextTrackName), let returnValue = value else {
+            guard let returnValue = UserDefaultsManager.s.keyGet(autoNextTrackName) as Bool? else {
                 UserDefaultsManager.s.keySet(autoNextTrackName, value: autoNextTrackDefault)
                 return autoNextTrackDefault
             }
@@ -55,7 +55,7 @@ final class SettingsManager {
     private let themeDefault: Int = 0
     public var theme: Int? {
         get {
-            guard let value: Int? = UserDefaultsManager.s.keyGet(themeName), let returnValue = value else {
+            guard let returnValue = UserDefaultsManager.s.keyGet(themeName) as Int? else {
                 UserDefaultsManager.s.keySet(themeName, value: themeDefault)
                 return themeDefault
             }

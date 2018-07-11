@@ -26,10 +26,7 @@ final class RemoteDataManager {
     }
     
     private func getFromCache(link: String) -> Data? {
-        if let cachedVersion = cache.object(forKey: link as NSString) {
-            return cachedVersion as Data
-        }
-        return nil
+        return cache.object(forKey: link as NSString) as Data?
     }
     
     private func setToCache(link: String, data: Data) {
@@ -37,15 +34,25 @@ final class RemoteDataManager {
     }
     
     public func getCachedImage(link: String, imagesLifetime: Int = 6, callbackImage: @escaping (UIImage) -> ()) {
-        if let cachedVersion = self.getFromCache(link: link), let image = UIImage(data: cachedVersion as Data) {
-            callbackImage(image)
-            return
+        getCachedImageAsData(link: link, imagesLifetime: imagesLifetime, backInMain: false) { data in
+            guard let image = UIImage(data: data) else { return }
+            DispatchQueue.main.async { callbackImage(image) }
         }
-        DispatchQueue.global(qos: .default).async { [weak self] in
+    }
+    
+    public func getCachedImageAsData(link: String, imagesLifetime: Int = 6, backInMain: Bool = true, callbackImageData: @escaping (Data) -> ()) {
+        DispatchQueue.global(qos: .utility).async() { [weak self] in
             guard let `self` = self else { return }
+            let callback: (_ data: Data) -> Void = { data in
+                backInMain ? DispatchQueue.main.async { callbackImageData(data) } : callbackImageData(data)
+            }
+            if let imageDataCache = self.getFromCache(link: link), let _ = UIImage(data: imageDataCache) {
+                callback(imageDataCache)
+                return
+            }
             guard let imageName = URL(string: link)?.path else { return }
             let filename = self.thumbsCacheDirPath.appendingPathComponent(imageName)
-            if FileManager.default.fileExists(atPath: filename.path), let imageData = try? Data(contentsOf: filename), let image = UIImage(data: imageData) {
+            if FileManager.default.fileExists(atPath: filename.path), let imageDataDisk = try? Data(contentsOf: filename), let _ = UIImage(data: imageDataDisk) {
                 var imageAlive = false
                 if let dateAny = try? FileManager.default.attributesOfItem(atPath: filename.path)[FileAttributeKey.modificationDate],
                     let editDate = dateAny as? Date,
@@ -54,11 +61,11 @@ final class RemoteDataManager {
                 {
                     imageAlive = true
                 } else {
-                    imageAlive = OfflineModeManager.s.offlineMode ? true : false
+                    imageAlive = OfflineModeManager.s.offlineMode
                 }
                 if imageAlive {
-                    self.setToCache(link: link, data: imageData)
-                    DispatchQueue.main.async { callbackImage(image) }
+                    self.setToCache(link: link, data: imageDataDisk)
+                    callback(imageDataDisk)
                     return
                 } else {
                     try? FileManager.default.removeItem(atPath: filename.path)
@@ -66,18 +73,11 @@ final class RemoteDataManager {
             }
             if OfflineModeManager.s.offlineMode { return }
             self.getData(link: link, noCache: true, inMainQueue: false) { data in
-                guard let image = UIImage(data: data as Data), let data = UIImageJPEGRepresentation(image, 1.0) else { return }
+                guard let _ = UIImage(data: data) else { return }
                 try? FileManager.default.createDirectory(at: filename.deletingLastPathComponent(), withIntermediateDirectories: true)
                 try? data.write(to: filename, options: [.atomic])
-                DispatchQueue.main.async { callbackImage(image) }
+                callback(data)
             }
-        }
-    }
-    
-    public func getCachedImageAsData(link: String, imagesLifetime: Int = 6, callbackImageData: @escaping (Data) -> ()) {
-        getCachedImage(link: link, imagesLifetime: imagesLifetime) {
-            guard let imageData = UIImageJPEGRepresentation($0, 1.0) else { return }
-            callbackImageData(imageData)
         }
     }
     
@@ -94,7 +94,8 @@ final class RemoteDataManager {
                 let dateAny = try? FileManager.default.attributesOfItem(atPath: imagePath)[FileAttributeKey.modificationDate],
                 let editDate = dateAny as? Date,
                 let hours = Calendar.current.dateComponents([.hour], from: editDate, to: Date()).hour,
-                hours < imagesLifetime { return }
+                hours < imagesLifetime
+            { return }
             try? FileManager.default.removeItem(atPath: imagePath)
         }
     }
@@ -104,15 +105,12 @@ final class RemoteDataManager {
         let fileManager = FileManager.default
         let keys = [URLResourceKey.isDirectoryKey, URLResourceKey.localizedNameKey]
         let options: FileManager.DirectoryEnumerationOptions = [.skipsPackageDescendants, .skipsSubdirectoryDescendants, .skipsHiddenFiles]
-        
         let enumerator = fileManager.enumerator(
             at: pathURL,
             includingPropertiesForKeys: keys,
             options: options,
-            errorHandler: {(url, error) -> Bool in
-                return true
-        })
-        
+            errorHandler: { url, error -> Bool in true }
+        )
         if enumerator != nil {
             while let file = enumerator!.nextObject() {
                 let filePathURL = file as! URL
@@ -123,7 +121,6 @@ final class RemoteDataManager {
                 }
             }
         }
-        
         return imageURLs
     }
  
@@ -136,9 +133,7 @@ final class RemoteDataManager {
     }
     
     public static func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }
     
     public static func directoryExistsAtPath(_ path: URL) -> Bool {
