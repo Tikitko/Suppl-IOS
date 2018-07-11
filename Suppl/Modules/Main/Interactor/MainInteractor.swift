@@ -38,4 +38,3 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     }
     
 }
-

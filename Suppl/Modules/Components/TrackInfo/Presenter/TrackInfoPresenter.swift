@@ -92,8 +92,8 @@ extension TrackInfoPresenter: TrackInfoCommunicateProtocol {
         view.setInfo(title: title, performer: performer, durationString: TrackTime(sec: duration).formatted)
     }
     
-    func setNewImage(imageData: NSData) {
-        guard let image = UIImage(data: imageData as Data) else { return }
+    func setNewImage(imageData: Data) {
+        guard let image = UIImage(data: imageData) else { return }
         view.setImage(image)
     }
     

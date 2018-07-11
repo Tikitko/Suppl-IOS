@@ -33,14 +33,6 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         }
     }
     
-    func reloadWhenChangingSettings() {
-        if lastLoadImagesState != SettingsManager.s.loadImages! || lastRoundIconsState != SettingsManager.s.roundIcons! {
-            presenter.reloadData()
-        }
-        lastLoadImagesState = SettingsManager.s.loadImages!
-        lastRoundIconsState = SettingsManager.s.roundIcons!
-    }
-    
     func loadTracks(tracklist: [String], cachedTracks: [AudioData]? = nil) {
         if OfflineModeManager.s.offlineMode {
             guard let cachedTracks = cachedTracks, cachedTracks.count > 0 else {
@@ -56,6 +48,14 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         } else {
             recursiveTracksLoadNew(cachedTracks: cachedTracks ?? [], tracklist: tracklist)
         }
+    }
+    
+    func reloadWhenChangingSettings() {
+        if lastLoadImagesState != SettingsManager.s.loadImages! || lastRoundIconsState != SettingsManager.s.roundIcons! {
+            presenter.reloadData()
+        }
+        lastLoadImagesState = SettingsManager.s.loadImages!
+        lastRoundIconsState = SettingsManager.s.roundIcons!
     }
     
     @available(*, deprecated)

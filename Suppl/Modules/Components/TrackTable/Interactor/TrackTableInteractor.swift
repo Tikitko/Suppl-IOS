@@ -66,9 +66,9 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         PlayerManager.s.setPlaylist(tracksIDs: tracksIDs, current: trackIndex, cachedTracksInfo: cachedTracksInfo)
     }
     
-    func loadImageData(link: String, callback: @escaping (_ data: NSData) -> Void) {
-        guard SettingsManager.s.loadImages!, link != "" else { return }
-        RemoteDataManager.s.getCachedImageAsData(link: link, callbackImageData: { callback( $0 as NSData ) })
+    func loadImageData(link: String, callback: @escaping (_ data: Data) -> Void) {
+        guard SettingsManager.s.loadImages!, !link.isEmpty else { return }
+        RemoteDataManager.s.getCachedImageAsData(link: link, callbackImageData: callback)
     }
   
 }

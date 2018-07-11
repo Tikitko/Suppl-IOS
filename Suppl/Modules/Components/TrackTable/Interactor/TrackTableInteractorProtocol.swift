@@ -10,5 +10,5 @@ protocol TrackTableInteractorProtocol: class, BaseInteractorProtocol {
     func addTrack(trackId: String, track: AudioData)
     func removeTrack(indexTrack: Int, track: AudioData)
     func moveTrack(from: Int, to: Int, track: AudioData)
-    func loadImageData(link: String, callback: @escaping (_ data: NSData) -> Void)
+    func loadImageData(link: String, callback: @escaping (_ data: Data) -> Void)
 }

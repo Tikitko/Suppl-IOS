@@ -111,14 +111,12 @@ final class RemoteDataManager {
             options: options,
             errorHandler: { url, error -> Bool in true }
         )
-        if enumerator != nil {
-            while let file = enumerator!.nextObject() {
-                let filePathURL = file as! URL
-                if filePathURL.path.hasSuffix(".jpg"){
-                    imageURLs.append(filePathURL.path)
-                } else {
-                    imageURLs += searchJPGImages(pathURL: filePathURL)
-                }
+        while let file = enumerator?.nextObject() {
+            let filePathURL = file as! URL
+            if filePathURL.path.hasSuffix(".jpg"){
+                imageURLs.append(filePathURL.path)
+            } else {
+                imageURLs += searchJPGImages(pathURL: filePathURL)
             }
         }
         return imageURLs
