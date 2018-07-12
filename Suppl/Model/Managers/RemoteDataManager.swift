@@ -3,7 +3,7 @@ import UIKit
 
 final class RemoteDataManager {
     
-    static public let s = RemoteDataManager()
+    static public let shared = RemoteDataManager()
     private init() {
         thumbsCacheDirPath = baseCacheDirPath.appendingPathComponent("thumbs")
     }
@@ -61,7 +61,7 @@ final class RemoteDataManager {
                 {
                     imageAlive = true
                 } else {
-                    imageAlive = OfflineModeManager.s.offlineMode
+                    imageAlive = OfflineModeManager.shared.offlineMode
                 }
                 if imageAlive {
                     self.setToCache(link: link, data: imageDataDisk)
@@ -71,7 +71,7 @@ final class RemoteDataManager {
                     try? FileManager.default.removeItem(atPath: filename.path)
                 }
             }
-            if OfflineModeManager.s.offlineMode { return }
+            if OfflineModeManager.shared.offlineMode { return }
             self.getData(link: link, noCache: true, inMainQueue: false) { data in
                 guard let _ = UIImage(data: data) else { return }
                 try? FileManager.default.createDirectory(at: filename.deletingLastPathComponent(), withIntermediateDirectories: true)
@@ -87,7 +87,7 @@ final class RemoteDataManager {
     }
     
     public func resetOldCachedImages(imagesLifetime: Int = 6) {
-        if OfflineModeManager.s.offlineMode { return }
+        if OfflineModeManager.shared.offlineMode { return }
         let imagesPaths = searchJPGImages(pathURL: thumbsCacheDirPath)
         for imagePath in imagesPaths {
             if FileManager.default.fileExists(atPath: imagePath),

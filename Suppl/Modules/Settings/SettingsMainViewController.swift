@@ -3,7 +3,7 @@ import UIKit
 
 class SettingsMainViewController: UIViewController, ControllerInfoProtocol {
     
-    public let name = LocalesManager.s.get(.settingsTitle)
+    public let name = LocalesManager.shared.get(.settingsTitle)
     public let image = #imageLiteral(resourceName: "icon_186")
     
     @IBOutlet weak var titleLabel: UILabel!

@@ -7,9 +7,9 @@ class APIRequest {
     private let session = CommonRequest()
     
     public func method<T>(_ method: String, query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), externalMethod: @escaping (_ data: ResponseData<T>) -> T?) {
-        if OfflineModeManager.s.offlineMode { return }
-        if !OfflineModeManager.s.isConnectedToNetwork() {
-            OfflineModeManager.s.on()
+        if OfflineModeManager.shared.offlineMode { return }
+        if !OfflineModeManager.shared.isConnectedToNetwork() {
+            OfflineModeManager.shared.on()
             return
         }
         let finalQuery = query.merging(["method": method], uniquingKeysWith: { (_, last) in last })

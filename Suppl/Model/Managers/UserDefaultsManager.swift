@@ -2,7 +2,7 @@ import Foundation
 
 final class UserDefaultsManager {
     
-    static public let s = UserDefaultsManager()
+    static public let shared = UserDefaultsManager()
     private init() {}
 
     public let obj = UserDefaults()

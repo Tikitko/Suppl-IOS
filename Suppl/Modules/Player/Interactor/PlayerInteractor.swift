@@ -5,28 +5,28 @@ class PlayerInteractor: PlayerInteractorProtocol {
     weak var presenter: PlayerPresenterProtocolInteractor!
 
     func setPlayerListener(_ delegate: PlayerListenerDelegate) {
-        PlayerManager.s.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
+        PlayerManager.shared.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
     }
     
     func loadNowTrack() {
-        guard let currentTrack = PlayerManager.s.currentTrack else { return }
-        presenter.setNowTrack(track: currentTrack, status: PlayerManager.s.playerRate, currentTime: PlayerManager.s.currentItemTime)
+        guard let currentTrack = PlayerManager.shared.currentTrack else { return }
+        presenter.setNowTrack(track: currentTrack, status: PlayerManager.shared.playerRate, currentTime: PlayerManager.shared.currentItemTime)
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {
-        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? (PlayerManager.s.currentItemTime ?? 0) + sec : sec)
+        PlayerManager.shared.setPlayerCurrentTime(withCurrentTime ? (PlayerManager.shared.currentItemTime ?? 0) + sec : sec)
     }
     
     func play() {
-        PlayerManager.s.playOrPause()
+        PlayerManager.shared.playOrPause()
     }
     
     func callNextTrack() {
-        PlayerManager.s.nextTrack()
+        PlayerManager.shared.nextTrack()
     }
     
     func callPrevTrack() {
-        PlayerManager.s.prevTrack()
+        PlayerManager.shared.prevTrack()
     }
     
 }

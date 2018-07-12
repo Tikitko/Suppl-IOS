@@ -4,7 +4,7 @@ import SystemConfiguration
 
 final class OfflineModeManager {
     
-    static public let s = OfflineModeManager()
+    static public let shared = OfflineModeManager()
     private init() {
         offlineMode = !isConnectedToNetwork()
     }
@@ -29,13 +29,13 @@ final class OfflineModeManager {
     
     public func on() {
         offlineMode = true
-        AuthManager.s.setAuthWindow()
+        AuthManager.shared.setAuthWindow()
     }
     
     public func off() {
         guard isConnectedToNetwork() else { return }
         offlineMode = false
-        AuthManager.s.setAuthWindow()
+        AuthManager.shared.setAuthWindow()
     }
     
 }

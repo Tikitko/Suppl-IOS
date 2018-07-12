@@ -2,7 +2,7 @@ import Foundation
 
 final class ModulesCommunicateManager {
     
-    static public let s = ModulesCommunicateManager()
+    static public let shared = ModulesCommunicateManager()
     private init() {}
     
     private let mapTableDelegates = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)

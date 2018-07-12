@@ -16,7 +16,7 @@ final class RootTabBarController: UITabBarController {
         
         var controllers: [UIViewController] = [TracklistRouter.setup(), SettingsMainViewController.initial()]
         controllers[0].loadViewIfNeeded()
-        if !OfflineModeManager.s.offlineMode {
+        if !OfflineModeManager.shared.offlineMode {
             controllers.insert(MainRouter.setup(), at: 0)
         }
         setupControllers(controllers)
@@ -30,7 +30,7 @@ final class RootTabBarController: UITabBarController {
         view.clipsToBounds = true
         smallPlayer = SmallPlayerRouter.setup(parentRootTabBarController: self)
         
-        TracklistManager.s.update()
+        TracklistManager.shared.update()
     }
 
     func setTheme() {

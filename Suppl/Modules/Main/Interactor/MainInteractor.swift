@@ -9,7 +9,7 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     var lastRoundIconsState: Bool?
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
-        ModulesCommunicateManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
+        ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func loadRandomTracks() {
@@ -20,9 +20,9 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     }
     
     func searchTracks(_ query: String, offset: Int = 0) {
-        guard !inSearchWork, let keys = AuthManager.s.getAuthKeys() else { return }
+        guard !inSearchWork, let keys = AuthManager.shared.getAuthKeys() else { return }
         inSearchWork = true
-        APIManager.s.audio.search(keys: keys, query: query, offset: offset) { [weak self] error, data in
+        APIManager.shared.audio.search(keys: keys, query: query, offset: offset) { [weak self] error, data in
             defer { self?.inSearchWork = false }
             guard let `self` = self, let data = data else { return }
             self.presenter.searchResult(query: query, data: data)

@@ -2,7 +2,7 @@ import Foundation
 
 final class PListsManager {
     
-    static public let s = PListsManager()
+    static public let shared = PListsManager()
     private init() {}
     
     func loadPList(_ name: String) -> [String:Any]? {

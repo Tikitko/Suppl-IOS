@@ -2,7 +2,7 @@ import Foundation
 
 final class TracklistManager {
     
-    static public let s = TracklistManager()
+    static public let shared = TracklistManager()
     private init() {}
     
     private(set) var inUpdate: Bool = false
@@ -33,7 +33,7 @@ final class TracklistManager {
     
     @available(*, deprecated)
     private func getDBTracklist() -> [String]? {
-        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getForegroundWorker() else { return nil }
+        guard let keys = AuthManager.shared.getAuthKeys(), let coreDataWorker = CoreDataManager.shared.getForegroundWorker() else { return nil }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         guard let tracks = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) else { return nil }
@@ -45,7 +45,7 @@ final class TracklistManager {
     }
     
     private func getDBTracklistBackground(completion: @escaping ([String]?) -> Void) {
-        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getBackgroundWorker() else {
+        guard let keys = AuthManager.shared.getAuthKeys(), let coreDataWorker = CoreDataManager.shared.getBackgroundWorker() else {
             completion(nil)
             return
         }
@@ -65,7 +65,7 @@ final class TracklistManager {
     
     @available(*, deprecated)
     private func setDBTracklist(_ tracklist: [String]?) {
-        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getForegroundWorker() else { return }
+        guard let keys = AuthManager.shared.getAuthKeys(), let coreDataWorker = CoreDataManager.shared.getForegroundWorker() else { return }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         guard let tracklist = tracklist, let tracks = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate) else { return }
         for track in tracks {
@@ -86,7 +86,7 @@ final class TracklistManager {
     }
     
     private func setDBTracklistBackground(_ tracklist: [String]?) {
-        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getBackgroundWorker(), let tracklist = tracklist else { return }
+        guard let keys = AuthManager.shared.getAuthKeys(), let coreDataWorker = CoreDataManager.shared.getBackgroundWorker(), let tracklist = tracklist else { return }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         coreDataWorker.run { inWorker in
             guard let tracks = try? inWorker.fetche(UserTrack.self, predicate: predicate) else { return }
@@ -109,7 +109,7 @@ final class TracklistManager {
     }
     
     public func update(callback: @escaping (Bool) -> () = { _ in }) {
-        if OfflineModeManager.s.offlineMode {
+        if OfflineModeManager.shared.offlineMode {
             getDBTracklistBackground() { [weak self] tracklist in
                 guard let `self` = self else { return }
                 self.tracklist = tracklist
@@ -117,12 +117,12 @@ final class TracklistManager {
             }
             return
         }
-        guard !inUpdate, let keys = AuthManager.s.getAuthKeys() else {
+        guard !inUpdate, let keys = AuthManager.shared.getAuthKeys() else {
             callback(false)
             return
         }
         inUpdate = true
-        APIManager.s.tracklist.get(keys: keys) { [weak self] error, data in
+        APIManager.shared.tracklist.get(keys: keys) { [weak self] error, data in
             guard let `self` = self else {
                 callback(false)
                 return
@@ -149,7 +149,7 @@ final class TracklistManager {
     }
     
     public func add(trackId: String, to: Int = 0, callback: @escaping (Bool) -> () = { _ in }) {
-        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = self.tracklist else {
+        guard let keys = AuthManager.shared.getAuthKeys(), let tracklist = self.tracklist else {
             callback(false)
             return
         }
@@ -157,7 +157,7 @@ final class TracklistManager {
             callback(false)
             return
         }
-        APIManager.s.tracklist.add(keys: keys, trackID: trackId, to: to) { [weak self] error, status in
+        APIManager.shared.tracklist.add(keys: keys, trackID: trackId, to: to) { [weak self] error, status in
             guard let `self` = self, error == nil else {
                 callback(false)
                 return
@@ -168,14 +168,14 @@ final class TracklistManager {
     }
     
     public func remove(from: Int = 0, callback: @escaping (Bool) -> () = { _ in }) {
-        guard let keys = AuthManager.s.getAuthKeys(),
+        guard let keys = AuthManager.shared.getAuthKeys(),
             let tracklist = self.tracklist,
             from <= tracklist.count - 1 else
         {
             callback(false)
             return
         }
-        APIManager.s.tracklist.remove(keys: keys, from: from) { [weak self] error, status in
+        APIManager.shared.tracklist.remove(keys: keys, from: from) { [weak self] error, status in
             guard let `self` = self, error == nil else {
                 callback(false)
                 return
@@ -186,14 +186,14 @@ final class TracklistManager {
     }
     
     public func move(from: Int = 0, to: Int = 0, callback: @escaping (Bool) -> () = { _ in }) {
-        guard let keys = AuthManager.s.getAuthKeys(),
+        guard let keys = AuthManager.shared.getAuthKeys(),
             let tracklist = self.tracklist, from <= tracklist.count - 1,
             to <= tracklist.count else
         {
             callback(false)
             return
         }
-        APIManager.s.tracklist.move(keys: keys, from: from, to: to) { [weak self] error, status in
+        APIManager.shared.tracklist.move(keys: keys, from: from, to: to) { [weak self] error, status in
             guard let `self` = self, error == nil else {
                 callback(false)
                 return

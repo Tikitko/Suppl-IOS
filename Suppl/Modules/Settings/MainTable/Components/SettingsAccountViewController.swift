@@ -16,11 +16,11 @@ class SettingsAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = LocalesManager.s.get(.titleSAccount)
-        identifierLabel.text = LocalesManager.s.get(.youIdentifierLabel)
-        accountOutButton.setTitle(LocalesManager.s.get(.identifierButton), for: .normal)
-        emailLabel.text = LocalesManager.s.get(.youEmailLabel)
-        emailButton.setTitle(LocalesManager.s.get(.emailButton), for: .normal)
+        navigationItem.title = LocalesManager.shared.get(.titleSAccount)
+        identifierLabel.text = LocalesManager.shared.get(.youIdentifierLabel)
+        accountOutButton.setTitle(LocalesManager.shared.get(.identifierButton), for: .normal)
+        emailLabel.text = LocalesManager.shared.get(.youEmailLabel)
+        emailButton.setTitle(LocalesManager.shared.get(.emailButton), for: .normal)
         setTheme()
         getAccount()
         emailField.delegate = self
@@ -33,22 +33,22 @@ class SettingsAccountViewController: UIViewController {
     }
     
     @IBAction func accountOutButtonClick(_ sender: Any) {
-        UserDefaultsManager.s.identifierKey = nil
-        UserDefaultsManager.s.accessKey = nil
-        AuthManager.s.setAuthWindow(noAuth: true)
+        UserDefaultsManager.shared.identifierKey = nil
+        UserDefaultsManager.shared.accessKey = nil
+        AuthManager.shared.setAuthWindow(noAuth: true)
     }
 
     @IBAction func emailButtonClick(_ sender: Any) {
         view.endEditing(true)
-        if OfflineModeManager.s.offlineMode { return }
-        guard let keys = AuthManager.s.getAuthKeys() else { return }
+        if OfflineModeManager.shared.offlineMode { return }
+        guard let keys = AuthManager.shared.getAuthKeys() else { return }
         guard let email = self.emailField.text else { return }
         let lastPlacehilderText = emailField.placeholder
         self.emailField.text = ""
-        self.emailField.placeholder = LocalesManager.s.get(.install)
-        APIManager.s.user.updateEmail(keys: keys, email: email) { [weak self] error, data in
+        self.emailField.placeholder = LocalesManager.shared.get(.install)
+        APIManager.shared.user.updateEmail(keys: keys, email: email) { [weak self] error, data in
             guard let `self` = self else { return }
-            self.emailField.placeholder = error != nil ? LocalesManager.s.get(apiErrorCode: error!.code) : LocalesManager.s.get(.emailSet)
+            self.emailField.placeholder = error != nil ? LocalesManager.shared.get(apiErrorCode: error!.code) : LocalesManager.shared.get(.emailSet)
             let when = DispatchTime.now() + 2
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                 guard let `self` = self else { return }
@@ -64,9 +64,9 @@ class SettingsAccountViewController: UIViewController {
     }
     
     private func getAccount() {
-        guard let keys = AuthManager.s.getAuthKeys() else { return }
-        if OfflineModeManager.s.offlineMode {
-            emailField.text = LocalesManager.s.get(.noInOffline)
+        guard let keys = AuthManager.shared.getAuthKeys() else { return }
+        if OfflineModeManager.shared.offlineMode {
+            emailField.text = LocalesManager.shared.get(.noInOffline)
             identifierField.text = String(keys.identifierKey) + String(keys.accessKey)
             emailButton.isHidden = true
             self.accountOutButton.isEnabled = true
@@ -74,19 +74,19 @@ class SettingsAccountViewController: UIViewController {
             identifierField.isEnabled = false
             return
         }
-        let loadText: String = LocalesManager.s.get(.getInfo)
+        let loadText: String = LocalesManager.shared.get(.getInfo)
         emailField.isEnabled = false
         emailField.text = loadText
         identifierField.text = loadText
-        APIManager.s.user.get(keys: keys) { [weak self] error, data in
+        APIManager.shared.user.get(keys: keys) { [weak self] error, data in
             guard let `self` = self else { return }
             guard let data = data else {
-                AuthManager.s.setAuthWindow()
+                AuthManager.shared.setAuthWindow()
                 return
             }
             self.emailField.isEnabled = true
             self.emailButton.isEnabled = true
-            self.emailField.placeholder = LocalesManager.s.get(.youEmail)
+            self.emailField.placeholder = LocalesManager.shared.get(.youEmail)
             self.emailField.text = data.email ?? ""
             self.accountOutButton.isEnabled = true
             self.identifierField.text = String(keys.identifierKey) + String(keys.accessKey)

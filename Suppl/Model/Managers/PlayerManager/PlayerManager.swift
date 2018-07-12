@@ -5,7 +5,7 @@ import MediaPlayer
 
 final class PlayerManager: NSObject {
     
-    static public let s = PlayerManager()
+    static public let shared = PlayerManager()
     private override init() {
         super.init()
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
@@ -112,7 +112,7 @@ final class PlayerManager: NSObject {
                 delegate.playerStop()
             }
             guard let currentItem = player?.currentItem else { return }
-            if SettingsManager.s.autoNextTrack!, Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) < 1, let _ = playlist {
+            if SettingsManager.shared.autoNextTrack, Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) < 1, let _ = playlist {
                 loadTrackByID(playlist!.next())
             } else if needPlayingStatus {
                 player?.play()
@@ -162,7 +162,7 @@ final class PlayerManager: NSObject {
     }
     
     private func loadTrackByID(_ trackID: String) {
-        guard let keys = AuthManager.s.getAuthKeys() else { return }
+        guard let keys = AuthManager.shared.getAuthKeys() else { return }
         removeTrack()
         currentTrack = nil
         var loadedFromCache = false
@@ -172,11 +172,11 @@ final class PlayerManager: NSObject {
             loadedFromCache = true
             break
         }
-        if let item = PlayerItemsManager.s.getItem(trackID) {
+        if let item = PlayerItemsManager.shared.getItem(trackID) {
             setTrack(item: item)
             return
         }
-        APIManager.s.audio.get(keys: keys, ids: trackID) { [weak self] error, data in
+        APIManager.shared.audio.get(keys: keys, ids: trackID) { [weak self] error, data in
             guard let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? ""), self?.currentTrack?.id == list[0].id else { return }
             if !loadedFromCache {
                 self?.setTrackInfo(list[0])
@@ -219,8 +219,8 @@ final class PlayerManager: NSObject {
             MPNowPlayingInfoPropertyPlaybackRate: NSNumber(value: 1.0 as Float)
         ] as [String: Any]
         nowPlayingCenter.nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
-        guard SettingsManager.s.loadImages! else { return }
-        RemoteDataManager.s.getCachedImageAsData(link: track.images.last ?? "") { [weak self] imageData in
+        guard SettingsManager.shared.loadImages else { return }
+        RemoteDataManager.shared.getCachedImageAsData(link: track.images.last ?? "") { [weak self] imageData in
             guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
             self.currentTrack?.image = image
             self.sayToListeners() { delegate in

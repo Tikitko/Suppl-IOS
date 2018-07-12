@@ -3,7 +3,7 @@ import CoreData
 
 final class CoreDataManager {
     
-    static public let s = CoreDataManager()
+    static public let shared = CoreDataManager()
     private init() {}
     
     public class CoreDataEntity: NSManagedObject {}

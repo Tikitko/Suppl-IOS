@@ -5,31 +5,31 @@ class SmallPlayerInteractor: BaseInteractor, SmallPlayerInteractorProtocol {
     weak var presenter: SmallPlayerPresenterProtocolInteractor!
 
     func setPlayerListener(_ delegate: PlayerListenerDelegate) {
-        PlayerManager.s.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
+        PlayerManager.shared.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {
-        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? (PlayerManager.s.currentItemTime ?? 0) + sec : sec)
+        PlayerManager.shared.setPlayerCurrentTime(withCurrentTime ? (PlayerManager.shared.currentItemTime ?? 0) + sec : sec)
     }
     
     func play() {
-        PlayerManager.s.playOrPause()
+        PlayerManager.shared.playOrPause()
     }
     
     func callNextTrack() {
-        PlayerManager.s.nextTrack()
+        PlayerManager.shared.nextTrack()
     }
     
     func callPrevTrack() {
-        PlayerManager.s.prevTrack()
+        PlayerManager.shared.prevTrack()
     }
     
     func callMix() {
-        PlayerManager.s.mixAndFirst()
+        PlayerManager.shared.mixAndFirst()
     }
     
     func clearPlayer() {
-        PlayerManager.s.clearPlayer()
+        PlayerManager.shared.clearPlayer()
     }
     
 }

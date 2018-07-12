@@ -9,19 +9,19 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     var lastRoundIconsState: Bool?
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
-        ModulesCommunicateManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
+        ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func setTracklistListener(_ delegate: TracklistListenerDelegate) {
-        TracklistManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
+        TracklistManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func requestOfflineStatus() {
-        presenter.offlineStatus(OfflineModeManager.s.offlineMode)
+        presenter.offlineStatus(OfflineModeManager.shared.offlineMode)
     }
     
     func updateTracks() {
-        guard !inSearchWork, let tracklist = TracklistManager.s.tracklist else { return }
+        guard !inSearchWork, let tracklist = TracklistManager.shared.tracklist else { return }
         presenter.clearTracks()
         if tracklist.count == 0 {
             presenter.setUpdateResult(.emptyTracklist)
@@ -34,7 +34,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     func loadTracks(tracklist: [String], cachedTracks: [AudioData]? = nil) {
-        if OfflineModeManager.s.offlineMode {
+        if OfflineModeManager.shared.offlineMode {
             guard let cachedTracks = cachedTracks, cachedTracks.count > 0 else {
                 inSearchWork = false
                 presenter.setUpdateResult(.emptyTracklist)
@@ -52,7 +52,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func setDBTracks(_ tracks: [AudioData]) {
-        guard let coreDataWorker = CoreDataManager.s.getForegroundWorker(),
+        guard let coreDataWorker = CoreDataManager.shared.getForegroundWorker(),
               let tracksDB = try? coreDataWorker.fetche(Track.self),
               let userTracksDB = try? coreDataWorker.fetche(UserTrack.self)
             else { return }
@@ -70,7 +70,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     func setDBTracksBackground(_ tracks: [AudioData]) {
-        guard let coreDataWorker = CoreDataManager.s.getBackgroundWorker() else { return }
+        guard let coreDataWorker = CoreDataManager.shared.getBackgroundWorker() else { return }
         coreDataWorker.run { inWorker in
             guard let tracksDB = try? inWorker.fetche(Track.self),
                   let userTracksDB = try? inWorker.fetche(UserTrack.self)
@@ -95,8 +95,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func getDBTracks() -> [AudioData]? {
-        guard let keys = AuthManager.s.getAuthKeys(),
-              let coreDataWorker = CoreDataManager.s.getForegroundWorker()
+        guard let keys = AuthManager.shared.getAuthKeys(),
+              let coreDataWorker = CoreDataManager.shared.getForegroundWorker()
             else { return nil }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
@@ -112,8 +112,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
  
     func getDBTracksBackground(completion: @escaping ([AudioData]?) -> Void) {
-        guard let keys = AuthManager.s.getAuthKeys(),
-              let coreDataWorker = CoreDataManager.s.getBackgroundWorker()
+        guard let keys = AuthManager.shared.getAuthKeys(),
+              let coreDataWorker = CoreDataManager.shared.getBackgroundWorker()
             else {
             completion(nil)
             return
@@ -137,7 +137,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func recursiveTracksLoad(from: Int = 0, packCount count: Int = 10) {
-        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = TracklistManager.s.tracklist else { return }
+        guard let keys = AuthManager.shared.getAuthKeys(), let tracklist = TracklistManager.shared.tracklist else { return }
         let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
         if partCount * count < from {
             presenter.setUpdateResult(nil)
@@ -145,7 +145,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             return
         }
         let tracklistPart = getTracklistPart(tracklist, from: from, count: count)
-        APIManager.s.audio.get(keys: keys, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
+        APIManager.shared.audio.get(keys: keys, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
             guard let data = data else {
                 self?.inSearchWork = false
                 return
@@ -167,8 +167,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     func recursiveTracksLoadNew(cachedTracks: [AudioData] = [], tracklist: [String]? = nil, from: Int = 0, apiLoadRate: Int = 10) {
-        guard let keys = AuthManager.s.getAuthKeys(),
-              let tracklist = tracklist ?? TracklistManager.s.tracklist
+        guard let keys = AuthManager.shared.getAuthKeys(),
+              let tracklist = tracklist ?? TracklistManager.shared.tracklist
             else { return }
         if from > tracklist.count - 1 {
             presenter.setUpdateResult(nil)
@@ -201,7 +201,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             addTracks([])
             return
         }
-        APIManager.s.audio.get(keys: keys, ids: tracklistPartForLoad.joined(separator: ",")) { [weak self] error, data in
+        APIManager.shared.audio.get(keys: keys, ids: tracklistPartForLoad.joined(separator: ",")) { [weak self] error, data in
             guard let data = data, data.list.count == tracklistPartForLoad.count else {
                 self?.presenter.setUpdateResult(.serverError)
                 self?.inSearchWork = false
@@ -212,7 +212,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     func tracklistUpdate() {
-        TracklistManager.s.update() { [weak self] status in
+        TracklistManager.shared.update() { [weak self] status in
             self?.presenter.tracklistUpdateResult(status: status)
         }
     }

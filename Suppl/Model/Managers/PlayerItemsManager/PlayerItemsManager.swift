@@ -3,9 +3,9 @@ import AVFoundation
 
 final class PlayerItemsManager {
     
-    static public let s = PlayerItemsManager()
+    static public let shared = PlayerItemsManager()
     private init() {
-        tracksCacheDirPath = RemoteDataManager.s.baseCacheDirPath.appendingPathComponent("tracks")
+        tracksCacheDirPath = RemoteDataManager.shared.baseCacheDirPath.appendingPathComponent("tracks")
     }
     
     public enum ItemStatus {
@@ -120,11 +120,11 @@ final class PlayerItemsManager {
     }
     
     public func addItem(_ name: String, completion: @escaping (Bool) -> Void) {
-        guard let keys = AuthManager.s.getAuthKeys() else {
+        guard let keys = AuthManager.shared.getAuthKeys() else {
             completion(false)
             return
         }
-        APIManager.s.audio.get(keys: keys, ids: name) { [weak self] error, data in
+        APIManager.shared.audio.get(keys: keys, ids: name) { [weak self] error, data in
             if let `self` = self, let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? "") {
                 completion(self.addItem(name, trackURL))
             } else {

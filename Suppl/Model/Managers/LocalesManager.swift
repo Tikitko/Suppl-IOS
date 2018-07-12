@@ -12,14 +12,14 @@ final class LocalesManager {
         youEmailLabel, identifierButton, emailButton, loginIn, send, resetTitle, keySent, setting7
     }
     
-    static public let s = LocalesManager()
+    static public let shared = LocalesManager()
     private init() {}
     
     public let locale: [String: String] = {
         let localesList = AppStaticData.locales
         let localeSystem = NSLocale.preferredLanguages.first
         let localePList = localesList.first(where: { $0 == localeSystem }) ?? localesList.first(where: { localeSystem?.hasPrefix($0) ?? false }) ?? localesList.first ?? String()
-        return PListsManager.s.loadPList(localePList) as? [String: String] ?? [:]
+        return PListsManager.shared.loadPList(localePList) as? [String: String] ?? [:]
     }()
 
     public func get(_ expression: Expression) -> String {

@@ -45,6 +45,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func load() {
+        interactor.listenSettings()
         interactor.requestOfflineStatus()
         interactor.loadTracklist()
         interactor.setTracklistListener(self)

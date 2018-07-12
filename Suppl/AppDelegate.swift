@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         ToastManager.shared.isQueueEnabled = true
-        SettingsManager.s.setTheme()
-        AuthManager.s.setAuthWindow()
+        SettingsManager.shared.setTheme()
+        AuthManager.shared.setAuthWindow()
         
         return true
     }
@@ -43,16 +43,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        let _ = AuthManager.s.stopAuthCheck()
+        let _ = AuthManager.shared.stopAuthCheck()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         if UIApplication.topViewController() is AuthViewController { return }
-        let _ = AuthManager.s.startAuthCheck(startNow: true)
+        let _ = AuthManager.shared.startAuthCheck(startNow: true)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        let _ = AuthManager.s.stopAuthCheck()
+        let _ = AuthManager.shared.stopAuthCheck()
     }    
 
 }

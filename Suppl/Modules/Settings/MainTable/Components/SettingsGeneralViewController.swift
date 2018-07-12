@@ -6,50 +6,52 @@ class SettingsGeneralViewController: UIViewController {
     @IBOutlet weak var settingsTable: UITableView!
     
     private lazy var settingsCells: [UITableViewCell] = [
-        SettingTableCell(labelText: LocalesManager.s.get(.setting0), switchValue: SettingsManager.s.autoNextTrack!) { switchElement in
-            SettingsManager.s.autoNextTrack = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting0), switchValue: SettingsManager.shared.autoNextTrack) { switchElement in
+            SettingsManager.shared.autoNextTrack = switchElement.isOn
         },
-        SettingTableCell(labelText: LocalesManager.s.get(.setting1), switchValue: SettingsManager.s.loadImages!) { switchElement in
-            SettingsManager.s.loadImages = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting1), switchValue: SettingsManager.shared.loadImages) { switchElement in
+            SettingsManager.shared.loadImages = switchElement.isOn
         },
-        SettingTableCell(labelText: LocalesManager.s.get(.setting2), switchValue: SettingsManager.s.roundIcons!) { switchElement in
-            SettingsManager.s.roundIcons = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting2), switchValue: SettingsManager.shared.roundIcons) { switchElement in
+            SettingsManager.shared.roundIcons = switchElement.isOn
         },
-        SettingTableCell(labelText: LocalesManager.s.get(.setting7), switchValue: SettingsManager.s.smallCell!) { switchElement in
-            SettingsManager.s.smallCell! = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting7), switchValue: SettingsManager.shared.smallCell) { switchElement in
+            SettingsManager.shared.smallCell = switchElement.isOn
         },
-        SettingTableCell(labelText: LocalesManager.s.get(.setting4), switchValue: OfflineModeManager.s.offlineMode) { switchElement in
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting4), switchValue: OfflineModeManager.shared.offlineMode) { switchElement in
             if switchElement.isOn {
-                OfflineModeManager.s.on()
+                OfflineModeManager.shared.on()
             } else {
-                OfflineModeManager.s.off()
-                if OfflineModeManager.s.offlineMode {
+                OfflineModeManager.shared.off()
+                if OfflineModeManager.shared.offlineMode {
                     switchElement.isOn = true
                 }
             }
         },
         {
             let themes = AppStaticData.themesList
-            var themeId = themes.count > SettingsManager.s.theme! ? SettingsManager.s.theme! : 0
-            return SettingTableCell(labelText: LocalesManager.s.get(.setting3), buttonText: themes[themeId]) { button in
+            var themeId: Int = themes.count > SettingsManager.shared.theme ? SettingsManager.shared.theme : 0
+            return SettingTableCell(labelText: LocalesManager.shared.get(.setting3), buttonText: themes[themeId]) { button in
                 themeId = themes.count > themeId + 1 ? themeId + 1 : 0
                 button.setTitle(themes[themeId], for: .normal)
-                SettingsManager.s.theme = themeId
+                SettingsManager.shared.theme = themeId
             }
         }(),
-        SettingTableCell(labelText: LocalesManager.s.get(.setting5), buttonText: LocalesManager.s.get(.clear)) { [weak self] button in
-            RemoteDataManager.s.resetAllCachedImages()
-            self?.showToast(text: LocalesManager.s.get(.imagesCacheRemoved))
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting5), buttonText: LocalesManager.shared.get(.clear)) { [weak self] button in
+            RemoteDataManager.shared.resetAllCachedImages()
+            NotificationCenter.default.post(name: .imagesCacheRemoved, object: nil, userInfo: nil)
+            self?.showToast(text: LocalesManager.shared.get(.imagesCacheRemoved))
         },
-        SettingTableCell(labelText: LocalesManager.s.get(.setting6), buttonText: LocalesManager.s.get(.clear)) { [weak self] button in
-            PlayerItemsManager.s.resetAllCachedItems()
-            self?.showToast(text: LocalesManager.s.get(.tracksCacheRemoved))
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting6), buttonText: LocalesManager.shared.get(.clear)) { [weak self] button in
+            PlayerItemsManager.shared.resetAllCachedItems()
+            NotificationCenter.default.post(name: .tracksCacheRemoved, object: nil, userInfo: nil)
+            self?.showToast(text: LocalesManager.shared.get(.tracksCacheRemoved))
         }
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = LocalesManager.s.get(.titleSMain)
+        navigationItem.title = LocalesManager.shared.get(.titleSMain)
         settingsTable.allowsSelection = false
         if #available(iOS 11.0, *) {
             let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == "topConstraint" })?.constant ?? 10
@@ -73,4 +75,9 @@ extension SettingsGeneralViewController: UITableViewDataSource {
         return settingsCells[indexPath.row]
     }
     
+}
+
+extension Notification.Name {
+    static let imagesCacheRemoved = Notification.Name("ImagesCacheRemoved")
+    static let tracksCacheRemoved = Notification.Name("TracksCacheRemoved")
 }
