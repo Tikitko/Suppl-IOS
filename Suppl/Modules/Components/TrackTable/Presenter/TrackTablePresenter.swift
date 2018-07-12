@@ -20,8 +20,20 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         tracks = interactor.communicateDelegate?.needTracksForReload() ?? tracks
     }
     
-    func relaodData() {
-        view.relaodData()
+    func setCellSetting(_ value: Bool) {
+        view.smallCell = value
+    }
+    
+    func reloadData() {
+        view.reloadData()
+    }
+    
+    func requestCellSetting() {
+        interactor.requestCellSetting()
+    }
+    
+    func reloadWhenChangingSettings() {
+        interactor.reloadWhenChangingSettings()
     }
     
     func resetCell(name: String) {

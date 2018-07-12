@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>setting7</key>
+	<string>Small cells</string>
 	<key>keySent</key>
 	<string>Recovery key sent</string>
 	<key>resetTitle</key>
@@ -80,8 +82,8 @@
 	<string>The specified E-Mail is not linked to the account</string>
 	<key>APIError_22</key>
 	<string>Failed to send</string>
-    <key>APIError_23</key>
-    <string>Reset key is not valid</string>
+	<key>APIError_23</key>
+	<string>Reset key is not valid</string>
 	<key>playerTitle</key>
 	<string>Player</string>
 	<key>del</key>

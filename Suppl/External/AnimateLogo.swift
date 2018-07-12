@@ -103,7 +103,7 @@ class AnimateLogo {
         
         
         let animationGroup = CAAnimationGroup()
-        animationGroup.duration = 3.5;
+        animationGroup.duration = 3.5
         animationGroup.animations = [closeAnimation, closeColorAnimation, animation, colorAnimation]
         
         return animationGroup

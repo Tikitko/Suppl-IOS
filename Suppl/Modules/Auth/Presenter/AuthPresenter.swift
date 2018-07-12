@@ -75,10 +75,10 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     
     func setRequestResetResult(_ errorId: Int?) {
         if let errorId = errorId {
-            view.showToast(text: interactor.getLocaleString(apiErrorCode: errorId))
+            view.showToast(interactor.getLocaleString(apiErrorCode: errorId))
             view.enableResetForm(true, full: false)
         } else {
-            view.showToast(text: interactor.getLocaleString(.keySent))
+            view.showToast(interactor.getLocaleString(.keySent))
         }
     }
     

@@ -29,12 +29,4 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
         }
     }
     
-    func reloadWhenChangingSettings() {
-        if lastLoadImagesState != SettingsManager.s.loadImages! || lastRoundIconsState != SettingsManager.s.roundIcons! {
-            presenter.reloadData()
-        }
-        lastLoadImagesState = SettingsManager.s.loadImages!
-        lastRoundIconsState = SettingsManager.s.roundIcons!
-    }
-    
 }

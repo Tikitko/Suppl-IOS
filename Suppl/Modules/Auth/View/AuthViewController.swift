@@ -20,7 +20,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     var logo: AnimateLogo!
     var animInWork = false
     
-    var resetKeyForUse: String?
+    var resetKey: String?
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return .lightContent
@@ -59,14 +59,13 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         resetTitleLabel.text = localedStrings.title
         resetSendButton.setTitle(localedStrings.button, for: .normal)
         resetOpenButton.setTitle(localedStrings.title, for: .normal)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startAnim()
-        if let resetKey = resetKeyForUse {
-            resetKeyForUse = nil
+        if let resetKey = resetKey {
+            self.resetKey = nil
             presenter.userResetKey(resetKey)
         } else {
             presenter.firstStartAuth()
@@ -90,7 +89,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         }
     }
     
-    func showToast(text: String) {
+    func showToast(_ text: String) {
         view.makeToast(text, duration: 2.0, position: .center)
     }
     

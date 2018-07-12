@@ -67,6 +67,21 @@ final class SettingsManager {
         }
     }
     
+    private let smallCellName = "smallCell"
+    private let smallCellDefault: Bool = false
+    public var smallCell: Bool? {
+        get {
+            guard let returnValue = UserDefaultsManager.s.keyGet(smallCellName) as Bool? else {
+                UserDefaultsManager.s.keySet(smallCellName, value: smallCellDefault)
+                return smallCellDefault
+            }
+            return returnValue
+        }
+        set(value) {
+            UserDefaultsManager.s.keySet(smallCellName, value: value)
+        }
+    }
+    
     public func setTheme() {
         ThemeManager.setTheme(plistName: AppStaticData.themesList[theme!], path: .mainBundle)
     }

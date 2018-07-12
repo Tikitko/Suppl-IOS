@@ -52,7 +52,7 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.reloadWhenChangingSettings()
+        tracksTableTest.viewWillAppear(animated)
     }
     
     func reloadData() {

@@ -5,6 +5,5 @@ protocol MainPresenterProtocolView: class {
     func getTitle() -> String
     func getLoadLabel() -> String
     func getSearchLabel() -> String
-    func reloadWhenChangingSettings()
     func setListener()
 }

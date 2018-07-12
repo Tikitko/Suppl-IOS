@@ -1,5 +1,6 @@
 import Foundation
 
 protocol TrackTableViewControllerProtocol: class {
-    func relaodData()
+    var smallCell: Bool! { get set }
+    func reloadData()
 }

@@ -51,7 +51,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.reloadWhenChangingSettings()
+        tracksTableTest.viewWillAppear(animated)
     }
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {

@@ -147,6 +147,7 @@
 		8C67F607201B174200333EB2 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FD201B174200333EB2 /* UserData.swift */; };
 		8C67F608201B174200333EB2 /* AudioListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FE201B174200333EB2 /* AudioListData.swift */; };
 		8C67F609201B174200333EB2 /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FF201B174200333EB2 /* AudioData.swift */; };
+		8C691D0D20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C691D0C20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib */; };
 		8C71CE2B2080BE9100AC4BDB /* AuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE2A2080BE9100AC4BDB /* AuthInteractor.swift */; };
 		8C71CE2D2080BECD00AC4BDB /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE2C2080BECD00AC4BDB /* AuthRouter.swift */; };
 		8C71CE312080BF7300AC4BDB /* AuthRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE302080BF7300AC4BDB /* AuthRouterProtocol.swift */; };
@@ -316,6 +317,7 @@
 		8C67F5FD201B174200333EB2 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		8C67F5FE201B174200333EB2 /* AudioListData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioListData.swift; sourceTree = "<group>"; };
 		8C67F5FF201B174200333EB2 /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
+		8C691D0C20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackInfoViewController_small.xib; sourceTree = "<group>"; };
 		8C71CE2A2080BE9100AC4BDB /* AuthInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
 		8C71CE2C2080BECD00AC4BDB /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		8C71CE302080BF7300AC4BDB /* AuthRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouterProtocol.swift; sourceTree = "<group>"; };
@@ -869,6 +871,7 @@
 				0E0F520C2025F3E1000C6DD3 /* TrackInfoViewController.swift */,
 				0E0F520E2025F414000C6DD3 /* TrackInfoViewController.xib */,
 				8C3BB33320B29DD40012E1D7 /* TrackInfoViewControllerProtocol.swift */,
+				8C691D0C20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1216,6 +1219,7 @@
 				8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */,
 				8C32F89620A03B830059C1F4 /* SmallPlayerViewController.xib in Resources */,
 				0E0F520F2025F414000C6DD3 /* TrackInfoViewController.xib in Resources */,
+				8C691D0D20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib in Resources */,
 				0E12FAC520308B3C00EE3422 /* Purple.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

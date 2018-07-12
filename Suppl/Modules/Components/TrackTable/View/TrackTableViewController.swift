@@ -5,6 +5,8 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     var presenter: TrackTablePresenterProtocolView!
     
+    var smallCell: Bool!
+    
     override var isEditing: Bool {
         set(value) {
             if !presenter.canEdit { return }
@@ -26,22 +28,24 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     private class TrackTablePlaceholderCell: UITableViewCell {
         static let identifier = String(describing: TrackTablePlaceholderCell.self)
         weak var myController: TrackTableViewController!
-        let cellModuleNameId: String
-        private let trackInfoController: UIViewController
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-            (cellModuleNameId, trackInfoController) = TrackInfoRouter.setup()
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
-            trackInfoController.view.frame = contentView.bounds
-            trackInfoController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            contentView.addSubview(trackInfoController.view);
+        private(set) var cellModuleNameId: String?
+        private var trackInfoController: UIViewController?
+        private(set) var small: Bool?
+        func initInfoController(small: Bool = false) {
+            trackInfoController?.view.removeFromSuperview()
+            self.small = small
+            let trackInfoBox = TrackInfoRouter.setup(small: small)
+            cellModuleNameId = trackInfoBox.moduleNameId
+            trackInfoController = trackInfoBox.controller
+            trackInfoController!.view.frame = contentView.bounds
+            trackInfoController!.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            contentView.addSubview(trackInfoController!.view)
             layer.cornerRadius = 5
             clipsToBounds = true
         }
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
         override func prepareForReuse() {
             super.prepareForReuse()
+            guard let cellModuleNameId = cellModuleNameId else { return }
             myController.presenter.resetCell(name: cellModuleNameId)
         }
         override func setSelected(_ selected: Bool, animated: Bool) {
@@ -51,24 +55,36 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             enableBackground(highlighted, animated: animated, duration: 0.05)
         }
         private func enableBackground(_ isOn: Bool, animated: Bool, duration: TimeInterval) {
-            UIView.animate(withDuration: animated ? duration : 0) {
-                self.backgroundColor = isOn ? UIColor(white: 0.9, alpha: 1.0) : nil
+            let color = isOn ? UIColor(white: 0.9, alpha: 1.0) : nil
+            if !animated {
+                backgroundColor = color
+                return
+            }
+            UIView.animate(withDuration: duration) {
+                self.backgroundColor = color
             }
         }
     }
     
-    func relaodData() {
+    func reloadData() {
         tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.requestCellSetting()
         let costomTable = UITableViewWithReload()
         costomTable.myController = self
         tableView = costomTable
         tableView.register(TrackTablePlaceholderCell.self, forCellReuseIdentifier: TrackTablePlaceholderCell.identifier)
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         presenter.load()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.requestCellSetting()
+        presenter.reloadWhenChangingSettings()
     }
     
     /*
@@ -94,7 +110,10 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         if cell.myController == nil {
             cell.myController = self
         }
-        presenter.updateCellInfo(trackIndex: indexPath.row, name: cell.cellModuleNameId)
+        if cell.cellModuleNameId == nil || cell.small != smallCell {
+            cell.initInfoController(small: smallCell)
+        }
+        presenter.updateCellInfo(trackIndex: indexPath.row, name: cell.cellModuleNameId!)
         return cell
     }
     
@@ -126,7 +145,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90.5;
+        return smallCell ? 50.5 : 90.5
     }
     
 }

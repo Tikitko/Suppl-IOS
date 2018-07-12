@@ -50,14 +50,6 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         }
     }
     
-    func reloadWhenChangingSettings() {
-        if lastLoadImagesState != SettingsManager.s.loadImages! || lastRoundIconsState != SettingsManager.s.roundIcons! {
-            presenter.reloadData()
-        }
-        lastLoadImagesState = SettingsManager.s.loadImages!
-        lastRoundIconsState = SettingsManager.s.roundIcons!
-    }
-    
     @available(*, deprecated)
     func setDBTracks(_ tracks: [AudioData]) {
         guard let coreDataWorker = CoreDataManager.s.getForegroundWorker(),

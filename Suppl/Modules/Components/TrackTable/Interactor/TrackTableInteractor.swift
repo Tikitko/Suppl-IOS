@@ -4,6 +4,10 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
 
     weak var presenter: TrackTablePresenterProtocolInteractor!
     
+    var lastSmallCellState: Bool?
+    var lastLoadImagesState: Bool?
+    var lastRoundIconsState: Bool?
+    
     let parentModuleNameId: String
     init(parentModuleNameId: String) {
         self.parentModuleNameId = parentModuleNameId
@@ -27,6 +31,22 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     
     func loadTracklist() {
         presenter.setTracklist(TracklistManager.s.tracklist)
+    }
+    
+    func requestCellSetting() {
+        presenter.setCellSetting(SettingsManager.s.smallCell!)
+    }
+    
+    func reloadWhenChangingSettings() {
+        if lastSmallCellState != SettingsManager.s.smallCell! ||
+           lastLoadImagesState != SettingsManager.s.loadImages! ||
+           lastRoundIconsState != SettingsManager.s.roundIcons!
+        {
+            lastSmallCellState = SettingsManager.s.smallCell
+            lastLoadImagesState = SettingsManager.s.loadImages!
+            lastRoundIconsState = SettingsManager.s.roundIcons!
+            presenter.reloadData()
+        }
     }
 
     func addTrack(trackId: String, track: AudioData)  {

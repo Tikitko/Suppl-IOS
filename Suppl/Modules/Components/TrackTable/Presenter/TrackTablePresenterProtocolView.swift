@@ -4,11 +4,13 @@ import UIKit
 protocol TrackTablePresenterProtocolView: class {
     var canEdit: Bool { get }
     func updateTracks()
-    func relaodData()
+    func reloadData()
+    func requestCellSetting()
     func resetCell(name: String)
     func updateCellInfo(trackIndex: Int, name: String)
     func load()
     func createRowActions(indexPath: IndexPath) -> [RowAction]?
+    func reloadWhenChangingSettings()
     func rowEditStatus(indexPath: IndexPath) -> Bool
     func rowEditType(indexPath: IndexPath) -> UITableViewCellEditingStyle
     func openPlayer(trackIndex: Int)

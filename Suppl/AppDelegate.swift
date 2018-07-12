@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         switch url.host {
         case "resetKey":
             if let authVC = UIApplication.topViewController() as? AuthViewController {
-                authVC.resetKeyForUse = url.lastPathComponent
+                authVC.resetKey = url.lastPathComponent
                 authVC.viewDidAppear(false)
             }
             return true

@@ -15,6 +15,9 @@ class SettingsGeneralViewController: UIViewController {
         SettingTableCell(labelText: LocalesManager.s.get(.setting2), switchValue: SettingsManager.s.roundIcons!) { switchElement in
             SettingsManager.s.roundIcons = switchElement.isOn
         },
+        SettingTableCell(labelText: LocalesManager.s.get(.setting7), switchValue: SettingsManager.s.smallCell!) { switchElement in
+            SettingsManager.s.smallCell! = switchElement.isOn
+        },
         SettingTableCell(labelText: LocalesManager.s.get(.setting4), switchValue: OfflineModeManager.s.offlineMode) { switchElement in
             if switchElement.isOn {
                 OfflineModeManager.s.on()

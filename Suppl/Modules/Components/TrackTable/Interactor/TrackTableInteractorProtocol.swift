@@ -6,6 +6,8 @@ protocol TrackTableInteractorProtocol: class, BaseInteractorProtocol {
     func setTracklistListener(_ delegate: TracklistListenerDelegate)
     func requestOfflineStatus()
     func loadTracklist()
+    func requestCellSetting()
+    func reloadWhenChangingSettings()
     func openPlayer(tracksIDs: [String], trackIndex: Int, cachedTracksInfo: [AudioData]?)
     func addTrack(trackId: String, track: AudioData)
     func removeTrack(indexTrack: Int, track: AudioData)

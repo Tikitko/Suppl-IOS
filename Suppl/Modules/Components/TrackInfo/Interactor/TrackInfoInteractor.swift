@@ -36,7 +36,7 @@ class TrackInfoInteractor: BaseInteractor, TrackInfoInteractorProtocol {
             PlayerItemsManager.s.addItem(trackId) { [weak self] status in
                 self?.presenter.controlEnabled(true)
             }
-        default: break;
+        default: break
         }
     }
     
