@@ -18,4 +18,5 @@ protocol TrackTablePresenterProtocolView: class {
     func numberOfRowsInSection(_ section: Int) -> Int
     func moveTrack(fromPath: IndexPath, toPath: IndexPath)
     func canMoveTrack(fromPath: IndexPath) -> Bool
+    func sayThatZonePassed(toTop: Bool)
 }

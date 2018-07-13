@@ -116,6 +116,10 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         router.showToastOnTop(title: interactor.getLocaleString(expressionForTitle), body: "\(track.performer) - \(track.title)", duration: 2.0)
     }
     
+    func sayThatZonePassed(toTop: Bool) {
+        interactor.communicateDelegate?.zoneRangePassed(toTop: toTop)
+    }
+    
 }
 
 extension TrackTablePresenter: TracklistListenerDelegate {

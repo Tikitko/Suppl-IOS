@@ -21,6 +21,8 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     var tracksTableTest: UITableViewController!
     var searchTest: SearchBarViewController!
     
+    lazy var topClearConstraint = tracksTableTest.tableView.topAnchor.constraint(equalTo: searchTest.searchBar.topAnchor, constant: 0)
+    
     var buttonsIsOff = false
     
     override func viewDidLoad() {
@@ -102,6 +104,20 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         pop?.delegate = self
         pop?.sourceView = filterButton
         pop?.sourceRect = filterButton.bounds
+    }
+    
+    func setHideHeader(_ value: Bool) {
+        let alphaValue: CGFloat = value ? 0 : 1
+        guard self.searchTest.searchBar.alpha != alphaValue else { return }
+        UIView.animate(withDuration: 0.2) {
+            self.searchTest.searchBar.alpha = alphaValue
+            self.topClearConstraint.isActive = value
+            self.filterButton.alpha = alphaValue
+            self.updateButton.alpha = alphaValue
+            self.editButton.alpha = alphaValue
+            self.view.layoutIfNeeded()
+            self.tracksTableTest.view.layoutIfNeeded()
+        }
     }
     
     @IBAction func updateButtonClick(_ sender: Any) {

@@ -19,6 +19,8 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     var tracksTableTest: UITableViewController!
     var searchTest: SearchBarViewController!
     
+    lazy var topClearConstraint = tracksTableTest.tableView.topAnchor.constraint(equalTo: searchTest.searchBar.topAnchor, constant: 0)
+    
     convenience init(table: UITableViewController, search: SearchBarViewController) {
         self.init()
         tracksTableTest = table
@@ -71,6 +73,17 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     
     func setOffsetZero() {
         tracksTableTest.tableView.setContentOffset(CGPoint.zero, animated: false)
+    }
+    
+    func setHideHeader(_ value: Bool) {
+        let alphaValue: CGFloat = value ? 0 : 1
+        guard self.searchTest.searchBar.alpha != alphaValue else { return }
+        UIView.animate(withDuration: 0.2) {
+            self.searchTest.searchBar.alpha = alphaValue
+            self.topClearConstraint.isActive = value
+            self.view.layoutIfNeeded()
+            self.tracksTableTest.view.layoutIfNeeded()
+        }
     }
 
 }

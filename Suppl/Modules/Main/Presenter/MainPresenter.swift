@@ -94,6 +94,10 @@ extension MainPresenter: TrackTableCommunicateProtocol {
     
     func moveTrack(from: Int, to: Int) {}
     
+    func zoneRangePassed(toTop: Bool) {
+        view.setHideHeader(!toTop)
+    }
+    
     func cellShowAt(_ indexPath: IndexPath) {
         guard let data = self.searchData else { return }
         if data.list.count - 10 == indexPath.row, data.hasMore {

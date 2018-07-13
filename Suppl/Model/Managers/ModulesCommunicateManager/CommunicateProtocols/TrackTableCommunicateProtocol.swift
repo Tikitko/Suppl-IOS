@@ -6,4 +6,5 @@ protocol TrackTableCommunicateProtocol: CommunicateManagerProtocol {
     func removedTrack(fromIndex: Int)
     func addedTrack(withId: String)
     func moveTrack(from: Int, to: Int)
+    func zoneRangePassed(toTop: Bool)
 }

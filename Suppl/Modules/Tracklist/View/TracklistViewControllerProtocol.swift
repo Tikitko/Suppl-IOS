@@ -8,4 +8,5 @@ protocol TracklistViewControllerProtocol: class {
     func clearSearch()
     func setLabel(_ text: String?)
     func reloadData()
+    func setHideHeader(_ value: Bool)
 }

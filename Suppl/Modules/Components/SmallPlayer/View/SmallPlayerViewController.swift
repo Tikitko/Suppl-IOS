@@ -154,15 +154,28 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func startExtraPart(showType: ShowType) {
-        if showType == .partOpened {
+        switch showType {
+        case .partOpened:
             view.isHidden = false
+        case .closed:
+            if #available(iOS 11.0, *) {
+                parentRootTabBarController.additionalSafeAreaInsets.bottom = 0
+            }
+        default: break
         }
     }
     
     func finalExtraPart(showType: ShowType) {
-        if showType == .closed {
+        switch showType {
+        case .partOpened:
+            if #available(iOS 11.0, *) {
+                let additionalSafeArea = parentRootTabBarController.tabBar.frame.height + smallPlayerView.frame.height
+                parentRootTabBarController.additionalSafeAreaInsets.bottom = additionalSafeArea
+            }
+        case .closed:
             clearPlayer()
             view.isHidden = true
+        default: break
         }
     }
     

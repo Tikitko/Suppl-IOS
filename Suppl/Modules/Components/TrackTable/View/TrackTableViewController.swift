@@ -6,6 +6,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     var presenter: TrackTablePresenterProtocolView!
     
     var smallCell: Bool!
+    var startContentOffset: CGFloat?
     
     override var isEditing: Bool {
         set(value) {
@@ -146,6 +147,27 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return smallCell ? 50.5 : 90.5
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let startContentOffset = startContentOffset else { return }
+        let range: CGFloat = 150
+        if startContentOffset > scrollView.contentOffset.y + range {
+            presenter.sayThatZonePassed(toTop: true)
+            scrollViewWillBeginDragging(scrollView)
+        }
+        if startContentOffset < scrollView.contentOffset.y - range {
+            presenter.sayThatZonePassed(toTop: false)
+            scrollViewWillBeginDragging(scrollView)
+        }
+    }
+    
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        startContentOffset = scrollView.contentOffset.y
+    }
+    
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        startContentOffset = nil
     }
     
 }
