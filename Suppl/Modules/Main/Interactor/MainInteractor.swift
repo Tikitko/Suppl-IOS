@@ -5,8 +5,6 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     weak var presenter: MainPresenterProtocolInteractor!
     
     var inSearchWork = false
-    var lastLoadImagesState: Bool?
-    var lastRoundIconsState: Bool?
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
         ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
@@ -27,6 +25,14 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
             guard let `self` = self, let data = data else { return }
             self.presenter.searchResult(query: query, data: data)
         }
+    }
+    
+    func listenSettings() {
+        NotificationCenter.default.addObserver(self, selector: #selector(requestHideLogoSetting), name: .hideLogoSettingChanged, object: nil)
+    }
+    
+    @objc func requestHideLogoSetting() {
+        presenter.canHideLogo = SettingsManager.shared.hideLogo
     }
     
 }

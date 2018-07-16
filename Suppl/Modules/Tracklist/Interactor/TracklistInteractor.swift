@@ -5,8 +5,6 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     weak var presenter: TracklistPresenterProtocolInteractor!
     
     var inSearchWork = false
-    var lastLoadImagesState: Bool?
-    var lastRoundIconsState: Bool?
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
         ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
@@ -18,6 +16,14 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     func requestOfflineStatus() {
         presenter.offlineStatus(OfflineModeManager.shared.offlineMode)
+    }
+    
+    func listenSettings() {
+        NotificationCenter.default.addObserver(self, selector: #selector(requestHideLogoSetting), name: .hideLogoSettingChanged, object: nil)
+    }
+    
+    @objc func requestHideLogoSetting() {
+        presenter.canHideLogo = SettingsManager.shared.hideLogo
     }
     
     func updateTracks() {

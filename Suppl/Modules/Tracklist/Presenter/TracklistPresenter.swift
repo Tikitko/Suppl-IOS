@@ -20,6 +20,13 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         get { return router.moduleNameId }
     }
     
+    var canHideLogo: Bool? {
+        didSet {
+            if canHideLogo == nil { return }
+            view.setHideHeader(false, animated: false)
+        }
+    }
+    
     func getTitle() -> String {
         return interactor.getLocaleString(.tracklistTitle)
     }
@@ -36,6 +43,8 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         interactor.requestOfflineStatus()
         interactor.setListener(self)
         interactor.setTracklistListener(self)
+        interactor.listenSettings()
+        interactor.requestHideLogoSetting()
         interactor.updateTracks()
     }
     
@@ -206,6 +215,7 @@ extension TracklistPresenter: TrackTableCommunicateProtocol {
     func cellShowAt(_ indexPath: IndexPath) {}
     
     func zoneRangePassed(toTop: Bool) {
+        guard canHideLogo ?? false else { return }
         view.setHideHeader(!toTop, animated: true)
     }
 

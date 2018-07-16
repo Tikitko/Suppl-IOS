@@ -21,7 +21,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     var tracksTableModule: UITableViewController!
     var searchModule: SearchBarViewController!
     
-    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: searchModule.searchBar.topAnchor, constant: 5)
+    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 0)
     
     var buttonsIsOff = false
     
@@ -116,6 +116,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
             self.filterButton.alpha = alphaValue
             self.updateButton.alpha = alphaValue
             self.editButton.alpha = alphaValue
+            self.titleLabel.alpha = alphaValue
             self.view.layoutIfNeeded()
             self.tracksTableModule.view.layoutIfNeeded()
         }

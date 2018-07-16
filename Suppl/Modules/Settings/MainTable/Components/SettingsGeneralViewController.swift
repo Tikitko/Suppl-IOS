@@ -18,6 +18,9 @@ class SettingsGeneralViewController: UIViewController {
         SettingTableCell(labelText: LocalesManager.shared.get(.setting7), switchValue: SettingsManager.shared.smallCell) { switchElement in
             SettingsManager.shared.smallCell = switchElement.isOn
         },
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting8), switchValue: SettingsManager.shared.hideLogo) { switchElement in
+            SettingsManager.shared.hideLogo = switchElement.isOn
+        },
         SettingTableCell(labelText: LocalesManager.shared.get(.setting4), switchValue: OfflineModeManager.shared.offlineMode) { switchElement in
             if switchElement.isOn {
                 OfflineModeManager.shared.on()

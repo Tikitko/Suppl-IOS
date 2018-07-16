@@ -87,6 +87,22 @@ final class SettingsManager {
         }
     }
     
+    private let hideLogoName = "hideLogo"
+    private let hideLogoDefault: Bool = false
+    public var hideLogo: Bool! {
+        get {
+            guard let returnValue: Bool = UserDefaultsManager.shared.keyGet(hideLogoName) else {
+                UserDefaultsManager.shared.keySet(hideLogoName, value: hideLogoDefault)
+                return hideLogoDefault
+            }
+            return returnValue
+        }
+        set(value) {
+            UserDefaultsManager.shared.keySet(hideLogoName, value: value)
+            NotificationCenter.default.post(name: .hideLogoSettingChanged, object: nil, userInfo: nil)
+        }
+    }
+    
     public func setTheme() {
         ThemeManager.setTheme(plistName: AppStaticData.themesList[theme], path: .mainBundle)
     }
@@ -99,5 +115,6 @@ extension Notification.Name {
     static let autoNextTrackSettingChanged = Notification.Name("AutoNextTrackSettingChanged")
     static let themeSettingChanged = Notification.Name("ThemeSettingChanged")
     static let smallCellSettingChanged = Notification.Name("SmallCellSettingChanged")
+    static let hideLogoSettingChanged = Notification.Name("HideLogoSettingChanged")
 }
 

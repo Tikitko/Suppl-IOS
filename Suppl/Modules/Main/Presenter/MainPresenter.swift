@@ -13,6 +13,13 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
         get { return router.moduleNameId }
     }
     
+    var canHideLogo: Bool? {
+        didSet {
+            if canHideLogo == nil { return }
+            view.setHideHeader(false, animated: false)
+        }
+    }
+    
     func getTitle() -> String {
         return interactor.getLocaleString(.musicTitle)
     }
@@ -25,10 +32,6 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
         return interactor.getLocaleString(.searchMain)
     }
     
-    func setListener() {
-        interactor.setListener(self)
-    }
-    
     func setInfo(_ text: String? = nil) {
         view.setLabel(text)
     }
@@ -37,7 +40,10 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
         view.setSearchQuery(query)
     }
     
-    func loadRandomTracks() {
+    func load() {
+        interactor.setListener(self)
+        interactor.listenSettings()
+        interactor.requestHideLogoSetting()
         interactor.loadRandomTracks()
     }
     
@@ -95,6 +101,7 @@ extension MainPresenter: TrackTableCommunicateProtocol {
     func moveTrack(from: Int, to: Int) {}
     
     func zoneRangePassed(toTop: Bool) {
+        guard canHideLogo ?? false else { return }
         view.setHideHeader(!toTop, animated: true)
     }
     

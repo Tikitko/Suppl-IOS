@@ -19,7 +19,7 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     var tracksTableModule: UITableViewController!
     var searchModule: SearchBarViewController!
     
-    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: searchModule.searchBar.topAnchor, constant: 5)
+    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 0)
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {
         self.init()
@@ -48,8 +48,7 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         tracksTable.isHidden = true
         
         setLabel(presenter.getLoadLabel())
-        presenter.setListener()
-        presenter.loadRandomTracks()
+        presenter.load()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -78,9 +77,10 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     
     func setHideHeader(_ value: Bool, animated: Bool = false) {
         let alphaValue: CGFloat = value ? 0 : 1
-        guard self.searchModule.searchBar.alpha != alphaValue else { return }
+        guard searchModule.searchBar.alpha != alphaValue else { return }
         let changes = {
             self.searchModule.searchBar.alpha = alphaValue
+            self.titleLabel.alpha = alphaValue
             self.topClearConstraint.isActive = value
             self.view.layoutIfNeeded()
         }
