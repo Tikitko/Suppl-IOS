@@ -206,7 +206,7 @@ extension TracklistPresenter: TrackTableCommunicateProtocol {
     func cellShowAt(_ indexPath: IndexPath) {}
     
     func zoneRangePassed(toTop: Bool) {
-        view.setHideHeader(!toTop)
+        view.setHideHeader(!toTop, animated: true)
     }
 
 }

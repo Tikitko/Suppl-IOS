@@ -45,19 +45,20 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             clipsToBounds = true
         }
         override func prepareForReuse() {
+            if let cellModuleNameId = cellModuleNameId {
+                myController.presenter.resetCell(name: cellModuleNameId)
+            }
             super.prepareForReuse()
-            guard let cellModuleNameId = cellModuleNameId else { return }
-            myController.presenter.resetCell(name: cellModuleNameId)
         }
         override func setSelected(_ selected: Bool, animated: Bool) {
-            enableBackground(selected, animated: animated, duration: 0.4)
+            enableBackground(selected, duration: 0.4)
         }
         override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-            enableBackground(highlighted, animated: animated, duration: 0.05)
+            enableBackground(highlighted, duration: 0.05)
         }
-        private func enableBackground(_ isOn: Bool, animated: Bool, duration: TimeInterval) {
+        private func enableBackground(_ isOn: Bool, duration: TimeInterval? = nil) {
             let color = isOn ? UIColor(white: 0.9, alpha: 1.0) : nil
-            if !animated {
+            guard let duration = duration else {
                 backgroundColor = color
                 return
             }
@@ -151,8 +152,8 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let startContentOffset = startContentOffset else { return }
-        let range: CGFloat = 150
-        if startContentOffset > scrollView.contentOffset.y + range {
+        let range: CGFloat = 100
+        if startContentOffset > scrollView.contentOffset.y + range || scrollView.contentOffset.y <= 0  {
             presenter.sayThatZonePassed(toTop: true)
             scrollViewWillBeginDragging(scrollView)
         }

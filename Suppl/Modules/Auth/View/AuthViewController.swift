@@ -35,6 +35,9 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         presenter.setLoadLabel()
+        identifierField.isHidden = true
+        repeatButton.isHidden = true
+        enableResetForm(false, full: true)
     }
 
     func initLogo() {
@@ -110,14 +113,12 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         if resetStackView.isHidden {
             resetOpenButton.isHidden = false
         }
-        stopAnim()
     }
     
     func disableButtons() {
         identifierField.isEnabled = false
         repeatButton.isEnabled = false
         resetOpenButton.isEnabled = false
-        startAnim()
     }
     
     func startAnim() {
@@ -134,7 +135,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
     @objc func keyboardWillShow(sender: NSNotification) {
         guard let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
-        view.frame.origin.y = -keyboardFrame.height / (resetEmailField.isEditing ? 1.1 : 2.3)
+        view.frame.origin.y = -keyboardFrame.height / (resetEmailField.isEditing ? 1.1 : 1.5)
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {

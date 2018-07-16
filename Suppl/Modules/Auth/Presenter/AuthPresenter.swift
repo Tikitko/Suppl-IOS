@@ -66,6 +66,7 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
             QueueTemplate.continueAfter(showDelay) { [weak self] in
                 self?.setLabel(expression: .inputIdentifier)
                 self?.view.enableButtons()
+                self?.view.stopAnim()
             }
         } else {
             setLabel(expression: .coreDataLoading)
@@ -105,6 +106,7 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     func repeatButtonClick(identifierText: String?) {
         guard let identifierText = identifierText else { return }
         view.disableButtons()
+        view.startAnim()
         setLabel(expression: .checkIdentifier)
         startAuth(fromString: identifierText)
     }

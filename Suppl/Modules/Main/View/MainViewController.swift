@@ -16,15 +16,15 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     
-    var tracksTableTest: UITableViewController!
-    var searchTest: SearchBarViewController!
+    var tracksTableModule: UITableViewController!
+    var searchModule: SearchBarViewController!
     
-    lazy var topClearConstraint = tracksTableTest.tableView.topAnchor.constraint(equalTo: searchTest.searchBar.topAnchor, constant: 0)
+    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: searchModule.searchBar.topAnchor, constant: 5)
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {
         self.init()
-        tracksTableTest = table
-        searchTest = search
+        tracksTableModule = table
+        searchModule = search
     }
     
     private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -40,10 +40,10 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         navigationItem.title = name
         titleLabel.text = name
 
-        ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
-        ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: tracksSearch, includeParent: view)
+        ViewIncludeTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable, includeParent: view)
+        ViewIncludeTemplate.inside(child: searchModule.searchBar, parent: tracksSearch, includeParent: view)
         
-        searchTest.searchBar.placeholder = presenter.getSearchLabel()
+        searchModule.searchBar.placeholder = presenter.getSearchLabel()
         tracksSearch.isHidden = true
         tracksTable.isHidden = true
         
@@ -54,35 +54,40 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tracksTableTest.viewWillAppear(animated)
+        tracksTableModule.viewWillAppear(animated)
+        //setHideHeader(false, animated: false)
     }
     
     func reloadData() {
-        tracksTableTest.tableView.reloadData()
+        tracksTableModule.tableView.reloadData()
     }
     
     func setSearchQuery(_ query: String) {
-        searchTest.searchBar.text = query
+        searchModule.searchBar.text = query
     }
     
     func setLabel(_ text: String?) {
-        tracksTableTest.tableView.isHidden = text != nil
+        tracksTableModule.tableView.isHidden = text != nil
         infoLabel.text = text
         infoLabel.isHidden = text == nil
     }
     
     func setOffsetZero() {
-        tracksTableTest.tableView.setContentOffset(CGPoint.zero, animated: false)
+        tracksTableModule.tableView.setContentOffset(.zero, animated: false)
     }
     
-    func setHideHeader(_ value: Bool) {
+    func setHideHeader(_ value: Bool, animated: Bool = false) {
         let alphaValue: CGFloat = value ? 0 : 1
-        guard self.searchTest.searchBar.alpha != alphaValue else { return }
-        UIView.animate(withDuration: 0.2) {
-            self.searchTest.searchBar.alpha = alphaValue
+        guard self.searchModule.searchBar.alpha != alphaValue else { return }
+        let changes = {
+            self.searchModule.searchBar.alpha = alphaValue
             self.topClearConstraint.isActive = value
             self.view.layoutIfNeeded()
-            self.tracksTableTest.view.layoutIfNeeded()
+        }
+        if animated {
+            UIView.animate(withDuration: 0.2, animations: changes)
+        } else {
+            changes()
         }
     }
 

@@ -95,7 +95,7 @@ extension MainPresenter: TrackTableCommunicateProtocol {
     func moveTrack(from: Int, to: Int) {}
     
     func zoneRangePassed(toTop: Bool) {
-        view.setHideHeader(!toTop)
+        view.setHideHeader(!toTop, animated: true)
     }
     
     func cellShowAt(_ indexPath: IndexPath) {
@@ -104,6 +104,5 @@ extension MainPresenter: TrackTableCommunicateProtocol {
             interactor.searchTracks(thisQuery, offset: data.nextOffset)
         }
     }
-
     
 }

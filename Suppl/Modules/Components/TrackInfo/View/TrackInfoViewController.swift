@@ -45,9 +45,9 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         view.clipsToBounds = true
         trackImage.clipsToBounds = true
         blurView.clipsToBounds = true
-        resetInfo()
         presenter.setListeners()
         presenter.requestOfflineMode()
+        resetInfo()
     }
     
     func setTheme() {
@@ -118,8 +118,8 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
 
     func setBackgroundColorWithAnimation(_ color: UIColor?) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.view.backgroundColor = color
+        UIView.animate(withDuration: 0.3) {
+            self.view.backgroundColor = color
         }
     }
     

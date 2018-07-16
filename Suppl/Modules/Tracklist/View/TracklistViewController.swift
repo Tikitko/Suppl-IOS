@@ -18,10 +18,10 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     
-    var tracksTableTest: UITableViewController!
-    var searchTest: SearchBarViewController!
+    var tracksTableModule: UITableViewController!
+    var searchModule: SearchBarViewController!
     
-    lazy var topClearConstraint = tracksTableTest.tableView.topAnchor.constraint(equalTo: searchTest.searchBar.topAnchor, constant: 0)
+    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: searchModule.searchBar.topAnchor, constant: 5)
     
     var buttonsIsOff = false
     
@@ -35,9 +35,9 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         navigationItem.title = name
         titleLabel.text = name
         
-        ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
-        ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: searchBar, includeParent: view)
-        searchTest.searchBar.placeholder = presenter.getSearchLabel()
+        ViewIncludeTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable, includeParent: view)
+        ViewIncludeTemplate.inside(child: searchModule.searchBar, parent: searchBar, includeParent: view)
+        searchModule.searchBar.placeholder = presenter.getSearchLabel()
         searchBar.isHidden = true
         tracksTable.isHidden = true
         
@@ -53,13 +53,14 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tracksTableTest.viewWillAppear(animated)
+        tracksTableModule.viewWillAppear(animated)
+        //setHideHeader(false, animated: false)
     }
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {
         self.init()
-        tracksTableTest = table
-        searchTest = search
+        tracksTableModule = table
+        searchModule = search
     }
 
     private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -72,14 +73,14 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     
     func reloadData() {
         editButton.isEnabled = presenter.getEditPermission() && !buttonsIsOff
-        if !editButton.isEnabled, tracksTableTest.isEditing {
-            tracksTableTest.setEditing(false, animated: true)
+        if !editButton.isEnabled, tracksTableModule.isEditing {
+            tracksTableModule.setEditing(false, animated: true)
         }
-        tracksTableTest.tableView.reloadData()
+        tracksTableModule.tableView.reloadData()
     }
     
     func clearSearch() {
-        searchTest.searchBar.text = nil
+        searchModule.searchBar.text = nil
     }
     
     func offButtons() {
@@ -88,7 +89,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     func setLabel(_ text: String?) {
-        tracksTableTest.tableView.isHidden = text != nil
+        tracksTableModule.tableView.isHidden = text != nil
         infoLabel.text = text
         infoLabel.isHidden = text == nil
     }
@@ -106,17 +107,22 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         pop?.sourceRect = filterButton.bounds
     }
     
-    func setHideHeader(_ value: Bool) {
+    func setHideHeader(_ value: Bool, animated: Bool = false) {
         let alphaValue: CGFloat = value ? 0 : 1
-        guard self.searchTest.searchBar.alpha != alphaValue else { return }
-        UIView.animate(withDuration: 0.2) {
-            self.searchTest.searchBar.alpha = alphaValue
+        guard self.searchModule.searchBar.alpha != alphaValue else { return }
+        let changes = {
+            self.searchModule.searchBar.alpha = alphaValue
             self.topClearConstraint.isActive = value
             self.filterButton.alpha = alphaValue
             self.updateButton.alpha = alphaValue
             self.editButton.alpha = alphaValue
             self.view.layoutIfNeeded()
-            self.tracksTableTest.view.layoutIfNeeded()
+            self.tracksTableModule.view.layoutIfNeeded()
+        }
+        if animated {
+            UIView.animate(withDuration: 0.2, animations: changes)
+        } else {
+            changes()
         }
     }
     
@@ -129,7 +135,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     @IBAction func editButtonClick(_ sender: Any) {
-        tracksTableTest.setEditing(!tracksTableTest.isEditing, animated: true)
+        tracksTableModule.setEditing(!tracksTableModule.isEditing, animated: true)
     }
     
 }

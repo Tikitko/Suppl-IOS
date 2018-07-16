@@ -9,4 +9,6 @@ protocol AuthViewControllerProtocol: class {
     func showToast(_ text: String)
     func enableButtons()
     func disableButtons()
+    func startAnim()
+    func stopAnim()
 }
