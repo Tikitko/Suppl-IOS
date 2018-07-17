@@ -38,7 +38,6 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
         loadCircle.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurView.addSubview(loadCircle)
         loadProgressBar.isHidden = true
-        
         blurView.layer.cornerRadius = 5
         blurView.clipsToBounds = true
         view.layer.cornerRadius = 5
@@ -67,6 +66,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     func turnLoadButton(_ isOn: Bool) {
         if isOn, !allowDownloadButton { return }
         loadButton.isHidden = !isOn
+        loadButton.alpha = isOn ? 1 : 0
         loadButton.isEnabled = !presenter.isOffline && isOn
     }
     

@@ -51,20 +51,14 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             super.prepareForReuse()
         }
         override func setSelected(_ selected: Bool, animated: Bool) {
-            enableBackground(selected, duration: 0.4)
+            enableBackground(selected, duration: animated ? 0.4 : nil)
         }
         override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-            enableBackground(highlighted, duration: 0.05)
+            enableBackground(highlighted, duration: animated ? 0.05 : nil)
         }
         private func enableBackground(_ isOn: Bool, duration: TimeInterval? = nil) {
-            let color = isOn ? UIColor(white: 0.9, alpha: 1.0) : nil
-            guard let duration = duration else {
-                backgroundColor = color
-                return
-            }
-            UIView.animate(withDuration: duration) {
-                self.backgroundColor = color
-            }
+            let changes = { self.backgroundColor = isOn ? UIColor(white: 0.9, alpha: 1.0) : nil }
+            duration != nil ? UIView.animate(withDuration: duration!, animations: changes) : changes()
         }
     }
     
@@ -72,6 +66,18 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         tableView.reloadData()
     }
     
+    /*
+    func loadMoreCells(inBottom value: Bool, _ count: Int = 3) {
+        guard let lastCell = value ? tableView.visibleCells.last : tableView.visibleCells.first, let lastCellIndex = tableView.indexPath(for: lastCell) else { return }
+        let rowsCount = tableView(tableView, numberOfRowsInSection: 0)
+        let to = value ? 1 : -1
+        for index in stride(from: lastCellIndex.row, to: lastCellIndex.row + (count * to), by: to) {
+            if index >= rowsCount || index < 0 { break }
+            let _ = tableView(tableView, cellForRowAt: IndexPath(row: index, section: 0))
+        }
+    }
+    */
+
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.requestCellSetting()
@@ -151,8 +157,11 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let startContentOffset = startContentOffset else { return }
         let range: CGFloat = 100
+        guard let startContentOffset = startContentOffset,
+              scrollView.contentSize.height + range > scrollView.frame.height,
+              scrollView.contentOffset.y + scrollView.frame.height < scrollView.contentSize.height
+            else { return }
         if startContentOffset > scrollView.contentOffset.y + range || scrollView.contentOffset.y <= 0  {
             presenter.sayThatZonePassed(toTop: true)
             scrollViewWillBeginDragging(scrollView)

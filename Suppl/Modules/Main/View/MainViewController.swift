@@ -19,7 +19,7 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     var tracksTableModule: UITableViewController!
     var searchModule: SearchBarViewController!
     
-    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 0)
+    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: tracksSearch.topAnchor, constant: 0)
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {
         self.init()
@@ -57,6 +57,17 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         //setHideHeader(false, animated: false)
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        switch traitCollection.verticalSizeClass {
+        case .regular:
+            topClearConstraint.constant = 5
+        case .compact:
+            topClearConstraint.constant = 0
+        default: break
+        }
+    }
+    
     func reloadData() {
         tracksTableModule.tableView.reloadData()
     }
@@ -80,15 +91,10 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         guard searchModule.searchBar.alpha != alphaValue else { return }
         let changes = {
             self.searchModule.searchBar.alpha = alphaValue
-            self.titleLabel.alpha = alphaValue
             self.topClearConstraint.isActive = value
             self.view.layoutIfNeeded()
         }
-        if animated {
-            UIView.animate(withDuration: 0.2, animations: changes)
-        } else {
-            changes()
-        }
+        animated ? UIView.animate(withDuration: 0.2, animations: changes) : changes()
     }
 
 }

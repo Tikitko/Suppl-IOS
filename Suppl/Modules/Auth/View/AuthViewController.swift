@@ -35,6 +35,10 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         presenter.setLoadLabel()
+        repeatButton.layer.cornerRadius = 4
+        repeatButton.clipsToBounds = true
+        resetSendButton.layer.cornerRadius = 4
+        resetSendButton.clipsToBounds = true
         identifierField.isHidden = true
         repeatButton.isHidden = true
         enableResetForm(false, full: true)

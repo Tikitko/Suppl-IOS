@@ -21,7 +21,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     var tracksTableModule: UITableViewController!
     var searchModule: SearchBarViewController!
     
-    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 0)
+    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: searchBar.topAnchor, constant: 0)
     
     var buttonsIsOff = false
     
@@ -55,6 +55,17 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         super.viewWillAppear(animated)
         tracksTableModule.viewWillAppear(animated)
         //setHideHeader(false, animated: false)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        switch traitCollection.verticalSizeClass {
+        case .regular:
+            topClearConstraint.constant = 5
+        case .compact:
+            topClearConstraint.constant = 0
+        default: break
+        }
     }
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {
@@ -116,15 +127,10 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
             self.filterButton.alpha = alphaValue
             self.updateButton.alpha = alphaValue
             self.editButton.alpha = alphaValue
-            self.titleLabel.alpha = alphaValue
             self.view.layoutIfNeeded()
             self.tracksTableModule.view.layoutIfNeeded()
         }
-        if animated {
-            UIView.animate(withDuration: 0.2, animations: changes)
-        } else {
-            changes()
-        }
+        animated ? UIView.animate(withDuration: 0.2, animations: changes) : changes()
     }
     
     @IBAction func updateButtonClick(_ sender: Any) {

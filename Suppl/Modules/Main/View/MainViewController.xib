@@ -121,6 +121,9 @@
                     <exclude reference="Qxf-v5-wYV"/>
                     <exclude reference="f2r-6D-mij"/>
                     <exclude reference="fJ5-LQ-G9W"/>
+                    <exclude reference="7ht-aU-meW"/>
+                    <exclude reference="S0O-Bd-3l7"/>
+                    <exclude reference="YXZ-ts-8df"/>
                     <exclude reference="CUV-Oe-WEc"/>
                     <exclude reference="ODU-Lx-WKx"/>
                     <exclude reference="eKr-S0-7Xv"/>
@@ -129,9 +132,6 @@
                     <exclude reference="0IM-Ne-RzK"/>
                     <exclude reference="fR2-rI-IjA"/>
                     <exclude reference="w4U-4v-4tY"/>
-                    <exclude reference="7ht-aU-meW"/>
-                    <exclude reference="S0O-Bd-3l7"/>
-                    <exclude reference="YXZ-ts-8df"/>
                 </mask>
             </variation>
             <variation key="heightClass=compact">
@@ -143,12 +143,12 @@
                     <include reference="9y2-Lf-Osy"/>
                     <include reference="CPK-iW-kOQ"/>
                     <include reference="f2r-6D-mij"/>
+                    <include reference="S0O-Bd-3l7"/>
+                    <include reference="YXZ-ts-8df"/>
                     <include reference="CUV-Oe-WEc"/>
                     <include reference="0IM-Ne-RzK"/>
                     <include reference="fR2-rI-IjA"/>
                     <include reference="w4U-4v-4tY"/>
-                    <include reference="S0O-Bd-3l7"/>
-                    <include reference="YXZ-ts-8df"/>
                 </mask>
             </variation>
             <variation key="heightClass=regular">
@@ -160,11 +160,11 @@
                     <include reference="MiT-qh-2tz"/>
                     <include reference="Qxf-v5-wYV"/>
                     <include reference="fJ5-LQ-G9W"/>
+                    <include reference="7ht-aU-meW"/>
                     <include reference="ODU-Lx-WKx"/>
                     <include reference="eKr-S0-7Xv"/>
                     <include reference="fXE-xo-uO8"/>
                     <include reference="rem-lM-J5u"/>
-                    <include reference="7ht-aU-meW"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="26" y="51"/>
