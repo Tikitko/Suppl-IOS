@@ -35,7 +35,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         func initInfoController(small: Bool = false) {
             trackInfoController?.view.removeFromSuperview()
             self.small = small
-            let trackInfoBox = TrackInfoRouter.setup(small: small)
+            let trackInfoBox = myController.presenter.getCell(small: small)
             cellModuleNameId = trackInfoBox.moduleNameId
             trackInfoController = trackInfoBox.controller
             trackInfoController!.view.frame = contentView.bounds

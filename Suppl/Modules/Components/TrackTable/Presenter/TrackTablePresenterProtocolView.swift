@@ -19,4 +19,5 @@ protocol TrackTablePresenterProtocolView: class {
     func moveTrack(fromPath: IndexPath, toPath: IndexPath)
     func canMoveTrack(fromPath: IndexPath) -> Bool
     func sayThatZonePassed(toTop: Bool)
+    func getCell(small: Bool) -> (moduleNameId: String, controller: UIViewController)
 }

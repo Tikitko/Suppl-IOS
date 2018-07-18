@@ -120,6 +120,10 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         interactor.communicateDelegate?.zoneRangePassed(toTop: toTop)
     }
     
+    func getCell(small: Bool) -> (moduleNameId: String, controller: UIViewController) {
+        return router.createCell(small: small)
+    }
+    
 }
 
 extension TrackTablePresenter: TracklistListenerDelegate {

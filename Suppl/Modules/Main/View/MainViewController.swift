@@ -60,10 +60,8 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         switch traitCollection.verticalSizeClass {
-        case .regular:
-            topClearConstraint.constant = 5
-        case .compact:
-            topClearConstraint.constant = 0
+        case .regular: topClearConstraint.constant = 5
+        case .compact: topClearConstraint.constant = 0
         default: break
         }
     }
