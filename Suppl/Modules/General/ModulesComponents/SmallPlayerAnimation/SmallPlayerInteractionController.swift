@@ -66,7 +66,7 @@ extension SmallPlayerInteractionController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if (smallPlayerViewController.nowShowType != .opened &&
            gestureRecognizer.view == smallPlayerViewController.view) ||
-           (smallPlayerViewController.view.point(inside: gestureRecognizer.location(in: smallPlayerViewController.tracksTableModule.view), with: nil) &&
+           (smallPlayerViewController.tracksTableModule.view.point(inside: gestureRecognizer.location(in: smallPlayerViewController.tracksTableModule.view), with: nil) &&
            !(smallPlayerViewController.tracksTableModule.view.alpha == 0))
         { return false }
         return smallPlayerViewController.nowShowType != .closed && smallPlayerViewController.view.point(inside: gestureRecognizer.location(in: smallPlayerViewController.view), with: nil)
