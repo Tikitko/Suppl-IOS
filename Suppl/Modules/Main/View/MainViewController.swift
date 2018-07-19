@@ -40,8 +40,10 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         navigationItem.title = name
         titleLabel.text = name
 
-        ViewIncludeTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable, includeParent: view)
-        ViewIncludeTemplate.inside(child: searchModule.searchBar, parent: tracksSearch, includeParent: view)
+        view.addSubview(tracksTableModule.tableView)
+        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable)
+        view.addSubview(searchModule.searchBar)
+        ViewIncludeConstraintsTemplate.inside(child: searchModule.searchBar, parent: tracksSearch)
         
         searchModule.searchBar.placeholder = presenter.getSearchLabel()
         tracksSearch.isHidden = true

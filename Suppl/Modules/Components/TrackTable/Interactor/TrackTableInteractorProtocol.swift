@@ -4,6 +4,7 @@ protocol TrackTableInteractorProtocol: class, BaseInteractorProtocol {
     var communicateDelegate: TrackTableCommunicateProtocol? { get }
     func getCellDelegate(name: String) -> TrackInfoCommunicateProtocol?
     func setTracklistListener(_ delegate: TracklistListenerDelegate)
+    func setPlayerListener(_ delegate: PlayerListenerDelegate)
     func listenSettings()
     func requestOfflineStatus()
     func loadTracklist()

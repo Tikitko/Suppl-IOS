@@ -19,6 +19,10 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         return ModulesCommunicateManager.shared.getListener(name: name) as? TrackInfoCommunicateProtocol
     }
     
+    func setPlayerListener(_ delegate: PlayerListenerDelegate) {
+        PlayerManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
+    }
+    
     func setTracklistListener(_ delegate: TracklistListenerDelegate) {
         TracklistManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
@@ -29,10 +33,16 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .smallCellSettingChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .imagesCacheRemoved, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .tracksCacheRemoved, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .themeSettingChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(needReloadData), name: .themeSettingChanged, object: nil)
     }
     
     @objc func settingsChangedSet() {
         settingsChanged = true
+    }
+    
+    @objc func needReloadData() {
+        presenter.reloadData()
     }
     
     func requestOfflineStatus() {
@@ -40,7 +50,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     }
     
     func loadTracklist() {
-        presenter.setTracklist(TracklistManager.shared.tracklist)
+        presenter.frashTracklist = TracklistManager.shared.tracklist
     }
     
     func requestCellSetting() {

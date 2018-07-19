@@ -1,6 +1,9 @@
 import Foundation
 
 protocol TrackTableViewControllerProtocol: class {
-    var smallCell: Bool! { get set }
+    func setSmallCells(_ value: Bool, forAlways: Bool)
+    var allowDownloadButton: Bool { get set }
+    var useLightStyle: Bool { get set }
+    func followToIndex(_ index: Int, inVisibilityZone: Bool)
     func reloadData()
 }

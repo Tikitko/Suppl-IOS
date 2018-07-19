@@ -86,6 +86,11 @@ extension TrackInfoPresenter: PlayerListenerDelegate {
 
 extension TrackInfoPresenter: TrackInfoCommunicateProtocol {
     
+    func setSetup(light: Bool, downloadButton: Bool) {
+        view.allowDownloadButton = downloadButton
+        view.lightStyle = light
+    }
+
     func setNewData(id: String, title: String, performer: String, duration: Int) {
         trackId = id
         interactor.requestAdditionalInfo(thisTrackId: id, delegate: self)

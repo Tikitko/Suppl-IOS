@@ -202,6 +202,10 @@ extension TracklistPresenter: TrackFilterCommunicateProtocol {
 
 extension TracklistPresenter: TrackTableCommunicateProtocol {
     
+    func requestConfigure() -> TableConfigure {
+        return TableConfigure(light: false, smallCells: nil, downloadButtons: true, followTrack: (false, false))
+    }
+    
     func needTracksForReload() -> [AudioData] {
         return foundTracks ?? tracks
     }

@@ -8,7 +8,21 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     var interactor: SmallPlayerInteractorProtocol!
     weak var view: SmallPlayerViewControllerProtocol!
     
+    var playlist: [AudioData] = [] {
+        willSet {
+            view.setZeroTableOffset()
+        }
+        didSet {
+            view.reloadTableData()
+        }
+    }
+    
+    var moduleNameId: String {
+        get { return router.moduleNameId }
+    }
+    
     func setListener() {
+        interactor.setListener(self)
         interactor.setPlayerListener(self)
     }
     
@@ -49,10 +63,14 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
 extension SmallPlayerPresenter: PlayerListenerDelegate {
     
     func playlistAdded(_ playlist: Playlist) {
+        interactor.requestPlaylist()
+        if view.nowShowType == .opened { return }
         view.setPlayerShowAnimated(type: .partOpened)
     }
     
     func playlistRemoved() {
+        playlist = []
+        if view.nowShowType == .opened { return }
         view.setPlayerShowAnimated(type: .closed)
     }
     
@@ -91,4 +109,20 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
         }
     }
 
+}
+
+extension SmallPlayerPresenter: TrackTableCommunicateProtocol {
+    
+    func requestConfigure() -> TableConfigure {
+        return TableConfigure(light: true, smallCells: true, downloadButtons: false, followTrack: (true, false))
+    }
+    func needTracksForReload() -> [AudioData] {
+        return playlist 
+    }
+    func removedTrack(fromIndex: Int) {}
+    func addedTrack(withId: String) {}
+    func moveTrack(from: Int, to: Int) {}
+    func cellShowAt(_ indexPath: IndexPath) {}
+    func zoneRangePassed(toTop: Bool) {}
+    
 }

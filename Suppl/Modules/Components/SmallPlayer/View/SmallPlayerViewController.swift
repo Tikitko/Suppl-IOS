@@ -21,7 +21,6 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
-    
     @IBOutlet weak var playerTitleLabelBig: UILabel!
     @IBOutlet weak var titleLabelBig: UILabel!
     @IBOutlet weak var performerLabelBig: UILabel!
@@ -34,11 +33,16 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     @IBOutlet weak var progressSliderBig: UISlider!
     @IBOutlet weak var backButtonBig: UIButton!
     @IBOutlet weak var nextButtonBig: UIButton!
+    @IBOutlet weak var playlistButtonBig: UIButton!
     
-    var marginsUpdating = false
+    weak var parentRootTabBarController: RootTabBarController!
+    
+    var tracksTableModule: UITableViewController!
     
     var interactionControllerPresent: SmallPlayerInteractionController?
     var interactionControllerDismiss: SmallPlayerInteractionController?
+    
+    var marginsUpdating = false
     
     let safeAreaMarginIdentifier = "safeAreaMargin"
     var baseMargin: CGFloat = 0
@@ -49,7 +53,18 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     var useOldAnimation = false
     
-    weak var parentRootTabBarController: RootTabBarController!
+    convenience init(table: UITableViewController) {
+        self.init()
+        tracksTableModule = table
+    }
+    
+    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return .lightContent
@@ -57,7 +72,6 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         transitioningDelegate = self
         if useOldAnimation {
             playerTitleLabelBig.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
@@ -66,24 +80,32 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
             interactionControllerPresent = SmallPlayerInteractionController(self, forPresent: true)
             interactionControllerDismiss = SmallPlayerInteractionController(self, forPresent: false)
         }
-        
         playerTitleLabelBig.text = presenter.getTitle()
-        
+        view.insertSubview(tracksTableModule.view, belowSubview: playlistButtonBig)
+        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.view, parent: imageViewBig)
         if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) {
             baseMargin = view.constraints[safeAreaMarginConstraintIndex].constant
         }
         presenter.setListener()
         setTheme()
         clearPlayer()
+        tracksTableModule.tableView.layer.cornerRadius = 10
+        tracksTableModule.tableView.clipsToBounds = true
         imageViewBig.layer.cornerRadius = 10
         imageViewBig.clipsToBounds = true
         smallPlayerView.isOpaque = true
         parentRootTabBarController.tabBar.isOpaque = true
+        turnPlaylist(false, duration: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setPlayerShow(type: nowShowType)
+    }
+    
+    func turnPlaylist(_ isOn: Bool, duration: TimeInterval?) {
+        let changes = { self.tracksTableModule.view.alpha = isOn ? 0.95 : 0 }
+        duration != nil ? UIView.animate(withDuration: duration!, animations: changes) : changes()
     }
     
     func setInParent(initi: Bool = true) {
@@ -96,9 +118,8 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     func updateTopMargin(rootSelf: Bool = false, _ margin: CGFloat? = nil, withBase: Bool = true) {
         guard let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) else { return }
-        let safeAreaMargin: CGFloat?
-        
         let rootViewController = rootSelf ? self : parentRootTabBarController
+        let safeAreaMargin: CGFloat?
         if #available(iOS 11.0, *) {
             safeAreaMargin = rootViewController.view.safeAreaInsets.top
         } else {
@@ -113,10 +134,10 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     func setPlayerShowAnimated(type: ShowType) {
         startExtraPart(showType: type)
-        UIView.animate(withDuration: 0.4, animations: { [weak self] in
-            self?.setPlayerShow(type: type, needExtraPart: false)
-        }) { [weak self] status in
-            self?.finalExtraPart(showType: type)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.setPlayerShow(type: type, needExtraPart: false)
+        }) { status in
+            self.finalExtraPart(showType: type)
         }
     }
     
@@ -274,7 +295,14 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         rewindMButtonBig.isEnabled = false
         rewindPButtonBig.isEnabled = false
         progressSliderBig.isEnabled = false
-
+    }
+    
+    func reloadTableData() {
+        tracksTableModule.tableView.reloadData()
+    }
+    
+    func setZeroTableOffset() {
+        tracksTableModule.tableView.setContentOffset(.zero, animated: false)
     }
     
     func setPlayButtonImage(_ image: UIImage) {
@@ -354,6 +382,11 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     @IBAction func mixButtonClicked(_ sender: Any) {
         presenter.mixButtonClick()
+    }
+    
+    @IBAction func playlistButtonClicked(_ sender: Any) {
+        playlistButtonBig.setImage(tracksTableModule.view.alpha == 0 ? #imageLiteral(resourceName: "icon_187") : #imageLiteral(resourceName: "icon_065"), for: .normal)
+        turnPlaylist(tracksTableModule.view.alpha == 0, duration: 0.2)
     }
     
 }

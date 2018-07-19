@@ -3,6 +3,7 @@ import UIKit
 
 protocol TrackTablePresenterProtocolView: class {
     var canEdit: Bool { get }
+    func loadConfigure()
     func updateTracks()
     func reloadData()
     func requestCellSetting()
@@ -19,5 +20,6 @@ protocol TrackTablePresenterProtocolView: class {
     func moveTrack(fromPath: IndexPath, toPath: IndexPath)
     func canMoveTrack(fromPath: IndexPath) -> Bool
     func sayThatZonePassed(toTop: Bool)
+    func setCellSetup(name: String, light: Bool, downloadButton: Bool)
     func getCell(small: Bool) -> (moduleNameId: String, controller: UIViewController)
 }

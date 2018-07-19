@@ -11,17 +11,21 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     var frashTracklist: [String]?
     
     var canEdit = false
+    var configureLoaded = false
+    
+    var followCurrentTrack: (Bool, inVisibilityZone: Bool) = (false, false)
     
     var moduleNameId: String {
         get { return router.moduleNameId }
     }
     
     func updateTracks() {
-        tracks = interactor.communicateDelegate?.needTracksForReload() ?? tracks
+        guard let tracks = interactor.communicateDelegate?.needTracksForReload() else { return }
+        self.tracks = tracks
     }
     
     func setCellSetting(_ value: Bool) {
-        view.smallCell = value
+        view.setSmallCells(value, forAlways: false)
     }
     
     func reloadData() {
@@ -39,9 +43,9 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     func resetCell(name: String) {
         interactor.getCellDelegate(name: name)?.needReset()
     }
-
-    func setTracklist(_ tracklist: [String]?) {
-        frashTracklist = tracklist
+    
+    func setCellSetup(name: String, light: Bool, downloadButton: Bool) {
+        interactor.getCellDelegate(name: name)?.setSetup(light: light, downloadButton: downloadButton)
     }
     
     func load() {
@@ -49,6 +53,18 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         interactor.requestOfflineStatus()
         interactor.loadTracklist()
         interactor.setTracklistListener(self)
+        interactor.setPlayerListener(self)
+    }
+    
+    func loadConfigure() {
+        guard !configureLoaded, let configureBox = interactor.communicateDelegate?.requestConfigure() else { return }
+        view.allowDownloadButton = configureBox.downloadButtons
+        view.useLightStyle = configureBox.light
+        followCurrentTrack = configureBox.followTrack
+        if configureBox.smallCells != nil {
+            view.setSmallCells(configureBox.smallCells!, forAlways: true)
+        }
+        configureLoaded = true
     }
     
     func updateCellInfo(trackIndex: Int, name: String) {
@@ -129,7 +145,16 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
 extension TrackTablePresenter: TracklistListenerDelegate {
     
     func tracklistUpdated(_ tracklist: [String]?) {
-        setTracklist(tracklist)
+        frashTracklist = tracklist
+    }
+    
+}
+
+extension TrackTablePresenter: PlayerListenerDelegate {
+    
+    func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
+        guard imageData == nil, followCurrentTrack.0, let index = tracks.index(where: { $0.id == track.id }) else { return }
+        view.followToIndex(index, inVisibilityZone: followCurrentTrack.inVisibilityZone)
     }
     
 }

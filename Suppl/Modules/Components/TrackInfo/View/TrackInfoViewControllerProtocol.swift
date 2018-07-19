@@ -2,6 +2,8 @@ import Foundation
 import UIKit
 
 protocol TrackInfoViewControllerProtocol: class {
+    var allowDownloadButton: Bool { get set }
+    var lightStyle: Bool { get set }
     func setSelected(_ value: Bool, instantly: Bool)
     func setRoundImage(_ value: Bool)
     func setImage(_ image: UIImage)

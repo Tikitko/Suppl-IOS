@@ -90,6 +90,10 @@ extension MainPresenter: SearchCommunicateProtocol {
 
 extension MainPresenter: TrackTableCommunicateProtocol {
     
+    func requestConfigure() -> TableConfigure {
+        return TableConfigure(light: false, smallCells: nil, downloadButtons: false, followTrack: (false, false))
+    }
+    
     func needTracksForReload() -> [AudioData] {
         return searchData?.list ?? []
     }

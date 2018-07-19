@@ -1,22 +1,10 @@
 import Foundation
 import UIKit
+import SwiftTheme
 
 final class TrackTableViewController: UITableViewController, TrackTableViewControllerProtocol {
     
     var presenter: TrackTablePresenterProtocolView!
-    
-    var smallCell: Bool!
-    var startContentOffset: CGFloat?
-    
-    override var isEditing: Bool {
-        set(value) {
-            if !presenter.canEdit { return }
-            super.isEditing = value
-        }
-        get {
-            return super.isEditing
-        }
-    }
     
     private class UITableViewWithReload: UITableView {
         weak var myController: TrackTableViewController!
@@ -57,18 +45,66 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             enableBackground(highlighted, duration: animated ? 0.05 : nil)
         }
         private func enableBackground(_ isOn: Bool, duration: TimeInterval? = nil) {
-            let changes = { self.backgroundColor = isOn ? UIColor(white: 0.9, alpha: 1.0) : nil }
+            let changes = {
+                self.backgroundColor = isOn ? !self.myController.useLightStyle ? UIColor(white: 0.9, alpha: 1.0) : ThemeManager.color(for: "firstColor") : nil
+            }
             duration != nil ? UIView.animate(withDuration: duration!, animations: changes) : changes()
         }
+    }
+    
+    override var isEditing: Bool {
+        set(value) {
+            if !presenter.canEdit { return }
+            super.isEditing = value
+        }
+        get { return super.isEditing }
+    }
+    
+    var startContentOffset: CGFloat?
+    
+    var claimSmallCells = false
+    var smallCells: Bool = false
+    var allowDownloadButton: Bool = false
+    var useLightStyle: Bool = false {
+        didSet {
+            tableView.backgroundColor = useLightStyle ? .clear : .white
+            tableView.theme_backgroundColor = useLightStyle ? "thirdColor" : ["#FFF"]
+        }
+    }
+    var cellSize: CGFloat {
+        get { return smallCells ? 50.5 : 90.5 }
+    }
+    
+    func setSmallCells(_ value: Bool, forAlways: Bool = false) {
+        if claimSmallCells { return }
+        smallCells = value
+        claimSmallCells = forAlways
     }
     
     func reloadData() {
         tableView.reloadData()
     }
     
-    /*
+    func followToIndex(_ index: Int, inVisibilityZone: Bool) {
+        let offset: CGFloat = 20
+        let indexPath = IndexPath(row: index, section: 0)
+        let cell = tableView.cellForRow(at: indexPath)
+        let cellRect = tableView.rectForRow(at: indexPath)
+        if inVisibilityZone {
+            guard let cell = cell, tableView.visibleCells.contains(cell) else { return }
+        }
+        let freeSpace = tableView.contentSize.height - cellRect.origin.y - offset
+        let firstOffset = tableView.contentSize.height - tableView.frame.height
+        let secondOffset = cellRect.origin.y - (cellRect.origin.y < offset ? 0 : offset)
+        let point = CGPoint(x: 0, y: freeSpace < tableView.frame.height ? firstOffset : secondOffset)
+        tableView.setContentOffset(point, animated: true)
+    }
+    
+    @available(*, deprecated)
     func loadMoreCells(inBottom value: Bool, _ count: Int = 3) {
-        guard let lastCell = value ? tableView.visibleCells.last : tableView.visibleCells.first, let lastCellIndex = tableView.indexPath(for: lastCell) else { return }
+        guard let lastCell = value ? tableView.visibleCells.last : tableView.visibleCells.first,
+              let lastCellIndex = tableView.indexPath(for: lastCell)
+            else { return }
         let rowsCount = tableView(tableView, numberOfRowsInSection: 0)
         let to = value ? 1 : -1
         for index in stride(from: lastCellIndex.row, to: lastCellIndex.row + (count * to), by: to) {
@@ -76,7 +112,6 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
             let _ = tableView(tableView, cellForRowAt: IndexPath(row: index, section: 0))
         }
     }
-    */
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,12 +120,13 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         costomTable.myController = self
         tableView = costomTable
         tableView.register(TrackTablePlaceholderCell.self, forCellReuseIdentifier: TrackTablePlaceholderCell.identifier)
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         presenter.load()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        presenter.loadConfigure()
         presenter.requestCellSetting()
         presenter.reloadWhenChangingSettings()
     }
@@ -118,8 +154,9 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         if cell.myController == nil {
             cell.myController = self
         }
-        if cell.cellModuleNameId == nil || cell.small != smallCell {
-            cell.initInfoController(small: smallCell)
+        if cell.cellModuleNameId == nil || cell.small != smallCells {
+            cell.initInfoController(small: smallCells)
+            presenter.setCellSetup(name: cell.cellModuleNameId!, light: useLightStyle, downloadButton: allowDownloadButton)
         }
         presenter.updateCellInfo(trackIndex: indexPath.row, name: cell.cellModuleNameId!)
         return cell
@@ -153,7 +190,11 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return smallCell ? 50.5 : 90.5
+        return cellSize
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellSize
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -2,7 +2,7 @@ import Foundation
 
 struct Playlist {
     
-    private var IDs: [String]
+    private(set) var IDs: [String]
     private var current: Int
     
     public init?(IDs: [String], current: Int = 0) {

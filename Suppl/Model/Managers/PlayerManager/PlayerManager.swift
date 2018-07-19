@@ -161,6 +161,16 @@ final class PlayerManager: NSObject {
         get { return player?.currentItem?.duration.seconds }
     }
     
+    public func getPlaylistAsAudioData() -> [AudioData]? {
+        guard let playlist = playlist, let cachedTracksInfo = cachedTracksInfo else { return nil }
+        var tracklist: [AudioData] = []
+        for ID in playlist.IDs {
+            guard let track = cachedTracksInfo.first(where: { $0.id == ID }) else { return nil }
+            tracklist.append(track)
+        }
+        return tracklist
+    }
+    
     private func loadTrackByID(_ trackID: String) {
         guard let keys = AuthManager.shared.getAuthKeys() else { return }
         removeTrack()
@@ -252,13 +262,13 @@ final class PlayerManager: NSObject {
         guard let playlistNew = Playlist(IDs: tracksIDs, current: current), self.playlist?.curr != tracksIDs[current] else { return }
         playlist = playlistNew
         self.cachedTracksInfo = cachedTracksInfo
-        loadTrackByID(playlist!.curr)
         sayToListeners() { delegate in
             guard let playlist = playlist else { return }
             delegate.playlistAdded(playlist)
         }
         addRemoteCommands()
         remoteCommands(isEnabled: false)
+        loadTrackByID(playlist!.curr)
     }
     
     @objc public func nextTrack() {
@@ -288,7 +298,12 @@ final class PlayerManager: NSObject {
     
     public func mixAndFirst() {
         if playlist == nil { return }
-        loadTrackByID(playlist!.randomSortAndFirst())
+        let trackOfNewPlaylist = playlist!.randomSortAndFirst()
+        sayToListeners() { delegate in
+            guard let playlist = playlist else { return }
+            delegate.playlistAdded(playlist)
+        }
+        loadTrackByID(trackOfNewPlaylist)
     }
     
     public func playOrPause() {

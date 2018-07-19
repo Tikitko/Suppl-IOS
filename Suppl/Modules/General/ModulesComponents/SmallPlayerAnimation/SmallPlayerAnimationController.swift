@@ -20,6 +20,11 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
         forPresent ? present(using: transitionContext) : dismiss(using: transitionContext)
     }
     
+    private func stopTable() {
+        let table = smallPlayerViewController.tracksTableModule.tableView
+        table?.setContentOffset(table!.contentOffset, animated: false)
+    }
+    
     func present(using transitionContext: UIViewControllerContextTransitioning) {
         guard let _ = transitionContext.viewController(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to),
@@ -32,6 +37,8 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
         tabBarSnapshot.frame = smallPlayerViewController.parentRootTabBarController.tabBar.frame
         containerView.addSubview(toVC.view)
         containerView.addSubview(tabBarSnapshot)
+        
+        stopTable()
         
         UIView.animateKeyframes(
             withDuration: duration,
@@ -73,6 +80,8 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
         containerView.addSubview(tabBarSnapshot)
         
         let duration = transitionDuration(using: transitionContext)
+        
+        stopTable()
         
         UIView.animateKeyframes(
             withDuration: duration,

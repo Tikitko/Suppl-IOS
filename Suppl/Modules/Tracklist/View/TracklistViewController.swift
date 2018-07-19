@@ -35,8 +35,10 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         navigationItem.title = name
         titleLabel.text = name
         
-        ViewIncludeTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable, includeParent: view)
-        ViewIncludeTemplate.inside(child: searchModule.searchBar, parent: searchBar, includeParent: view)
+        view.addSubview(tracksTableModule.tableView)
+        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable)
+        view.addSubview(searchModule.searchBar)
+        ViewIncludeConstraintsTemplate.inside(child: searchModule.searchBar, parent: searchBar)
         searchModule.searchBar.placeholder = presenter.getSearchLabel()
         searchBar.isHidden = true
         tracksTable.isHidden = true
@@ -60,10 +62,8 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         switch traitCollection.verticalSizeClass {
-        case .regular:
-            topClearConstraint.constant = 5
-        case .compact:
-            topClearConstraint.constant = 0
+        case .regular: topClearConstraint.constant = 5
+        case .compact: topClearConstraint.constant = 0
         default: break
         }
     }

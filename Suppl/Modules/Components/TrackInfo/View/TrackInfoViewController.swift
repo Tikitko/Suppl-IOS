@@ -1,4 +1,6 @@
+import Foundation
 import UIKit
+import SwiftTheme
 
 class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol {
 
@@ -16,7 +18,16 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     var loadCircle: CircleLoad!
     
     var baseImage = true
-    let allowDownloadButton = UIApplication.topViewController() is TracklistViewController
+    
+    var allowDownloadButton: Bool = false
+    var lightStyle: Bool = false {
+        didSet {
+            let color: UIColor = lightStyle ? .white : .black
+            trackTitle.textColor = color
+            trackPerformer.textColor = color
+            trackDuration.textColor = color
+        }
+    }
     
     enum LoadButtonType {
         case download
@@ -109,18 +120,13 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
     
     func setSelected(_ value: Bool, instantly: Bool = false) {
-        let result = value ? UIColor(white: 0.96, alpha: 1.0) : nil
-        if instantly {
-            view.backgroundColor = result
-        } else {
-            setBackgroundColorWithAnimation(result)
-        }
+        let result = value ? (!lightStyle ? UIColor(white: 0.96, alpha: 1.0) : ThemeManager.color(for: "secondColor")) : nil
+        setBackgroundColor(result, duration: !instantly ? 0.3 : nil)
     }
-
-    func setBackgroundColorWithAnimation(_ color: UIColor?) {
-        UIView.animate(withDuration: 0.3) {
-            self.view.backgroundColor = color
-        }
+    
+    func setBackgroundColor(_ color: UIColor?, duration: TimeInterval?) {
+        let changes = { self.view.backgroundColor = color }
+        duration != nil ? UIView.animate(withDuration: duration!, animations: changes) : changes()
     }
     
     func resetInfo() {
