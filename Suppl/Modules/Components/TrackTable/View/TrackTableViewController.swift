@@ -46,8 +46,8 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         private func enableBackground(_ isOn: Bool, duration: TimeInterval? = nil) {
             guard let parent = myController else { return }
             let changes = {
-                let firstColor = UIColor(white: 0.9, alpha: 1.0)
-                let secondColor = parent.presenter.getCellSelectColor()
+                let firstColor = parent.presenter.getCellSelectColor()
+                let secondColor = UIColor(white: 0.9, alpha: 1.0)
                 self.backgroundColor = isOn ? (parent.useLightStyle ? firstColor : secondColor) : nil
             }
             duration != nil ? UIView.animate(withDuration: duration!, animations: changes) : changes()
