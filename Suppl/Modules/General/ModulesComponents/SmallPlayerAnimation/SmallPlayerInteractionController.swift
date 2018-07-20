@@ -64,12 +64,13 @@ class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
 extension SmallPlayerInteractionController: UIGestureRecognizerDelegate {
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if (smallPlayerViewController.nowShowType != .opened &&
-           gestureRecognizer.view == smallPlayerViewController.view) ||
-           (smallPlayerViewController.tracksTableModule.view.point(inside: gestureRecognizer.location(in: smallPlayerViewController.tracksTableModule.view), with: nil) &&
-           !(smallPlayerViewController.tracksTableModule.view.alpha == 0))
-        { return false }
-        return smallPlayerViewController.nowShowType != .closed && smallPlayerViewController.view.point(inside: gestureRecognizer.location(in: smallPlayerViewController.view), with: nil)
+        let sp = smallPlayerViewController!
+        return !((sp.nowShowType != .opened &&
+        gestureRecognizer.view == sp.view) ||
+        (sp.tracksTableModule.view.point(inside: gestureRecognizer.location(in: sp.tracksTableModule.view), with: nil) &&
+        !(sp.tracksTableModule.view.alpha == 0))) &&
+        (sp.nowShowType != .closed &&
+        sp.view.point(inside: gestureRecognizer.location(in: sp.view), with: nil))
     }
     
 }

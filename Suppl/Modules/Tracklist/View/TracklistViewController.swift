@@ -31,10 +31,8 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         updateButton.setImage(#imageLiteral(resourceName: "icon_020").withRenderingMode(.alwaysTemplate), for: .normal)
         filterButton.setImage(#imageLiteral(resourceName: "icon_141").withRenderingMode(.alwaysTemplate), for: .normal)
         editButton.setImage(#imageLiteral(resourceName: "icon_166").withRenderingMode(.alwaysTemplate), for: .normal)
-        
         navigationItem.title = name
         titleLabel.text = name
-        
         view.addSubview(tracksTableModule.tableView)
         ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable)
         view.addSubview(searchModule.searchBar)
@@ -42,7 +40,6 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         searchModule.searchBar.placeholder = presenter.getSearchLabel()
         searchBar.isHidden = true
         tracksTable.isHidden = true
-        
         setLabel(presenter.getLoadLabel())
         presenter.load()
     }
@@ -54,8 +51,8 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         tracksTableModule.viewWillAppear(animated)
+        super.viewWillAppear(animated)
         //setHideHeader(false, animated: false)
     }
     

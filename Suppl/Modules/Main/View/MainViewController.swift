@@ -39,23 +39,20 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         super.viewDidLoad()
         navigationItem.title = name
         titleLabel.text = name
-
         view.addSubview(tracksTableModule.tableView)
         ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable)
         view.addSubview(searchModule.searchBar)
         ViewIncludeConstraintsTemplate.inside(child: searchModule.searchBar, parent: tracksSearch)
-        
         searchModule.searchBar.placeholder = presenter.getSearchLabel()
         tracksSearch.isHidden = true
         tracksTable.isHidden = true
-        
         setLabel(presenter.getLoadLabel())
         presenter.load()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         tracksTableModule.viewWillAppear(animated)
+        super.viewWillAppear(animated)
         //setHideHeader(false, animated: false)
     }
     

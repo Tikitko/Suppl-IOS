@@ -36,7 +36,7 @@ final class RootTabBarController: UITabBarController {
     func setTheme() {
         tabBar.theme_barTintColor = "secondColor"
         tabBar.theme_tintColor = ["#FFF"]
-        tabBar.unselectedItemTintColor = UIColor.lightGray
+        tabBar.unselectedItemTintColor = .lightGray
     }
     
     private func setupControllers(_ controllers: [UIViewController]) {
@@ -63,9 +63,8 @@ final class RootTabBarController: UITabBarController {
     }
     
     @objc func tapAndHideKeyboard(_ gesture: UITapGestureRecognizer) {
-        if gesture.state == UIGestureRecognizerState.ended {
-            view.endEditing(true)
-        }
+        guard gesture.state == UIGestureRecognizerState.ended else { return }
+        view.endEditing(true)
     }
     
     @objc func keyboardWillShow() {
