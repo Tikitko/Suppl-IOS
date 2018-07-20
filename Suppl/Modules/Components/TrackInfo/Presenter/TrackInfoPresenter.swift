@@ -70,6 +70,10 @@ class TrackInfoPresenter: TrackInfoPresenterProtocolInteractor, TrackInfoPresent
         interactor.playerItemDoAction(trackId: trackId, statusWorking: downloadStatusWorking)
     }
     
+    func getCellSelectColor() -> UIColor {
+        return UIColor(rgba: interactor.getThemeColorHash(.second))
+    }
+    
 }
 
 extension TrackInfoPresenter: PlayerListenerDelegate {

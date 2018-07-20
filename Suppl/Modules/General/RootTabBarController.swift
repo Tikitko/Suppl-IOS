@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import SwiftTheme
 
 final class RootTabBarController: UITabBarController {
     
@@ -22,10 +21,10 @@ final class RootTabBarController: UITabBarController {
         setupControllers(controllers)
         
         if #available(iOS 11.0, *) {
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange), name: .UIKeyboardWillChangeFrame, object: nil)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
 
         view.clipsToBounds = true
         smallPlayer = SmallPlayerRouter.setup(parentRootTabBarController: self)
@@ -68,6 +67,7 @@ final class RootTabBarController: UITabBarController {
     }
     
     @objc func keyboardWillShow() {
+        guard tapGestureRecognizer == nil else { return }
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAndHideKeyboard(_:)))
         view.addGestureRecognizer(tapGestureRecognizer!)
     }

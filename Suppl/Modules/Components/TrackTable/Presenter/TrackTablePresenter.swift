@@ -136,6 +136,10 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         interactor.communicateDelegate?.zoneRangePassed(toTop: toTop)
     }
     
+    func getCellSelectColor() -> UIColor {
+        return UIColor(rgba: interactor.getThemeColorHash(.first))
+    }
+    
     func getCell(small: Bool) -> (moduleNameId: String, controller: UIViewController) {
         return router.createCell(small: small)
     }

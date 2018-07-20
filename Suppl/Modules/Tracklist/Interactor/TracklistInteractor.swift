@@ -23,7 +23,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     @objc func requestHideLogoSetting() {
-        presenter.canHideLogo = SettingsManager.shared.hideLogo
+        presenter.canHideLogo = SettingsManager.shared.hideLogo.value
     }
     
     func updateTracks() {

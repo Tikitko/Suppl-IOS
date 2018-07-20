@@ -21,5 +21,6 @@ protocol TrackTablePresenterProtocolView: class {
     func canMoveTrack(fromPath: IndexPath) -> Bool
     func sayThatZonePassed(toTop: Bool)
     func setCellSetup(name: String, light: Bool, downloadButton: Bool)
+    func getCellSelectColor() -> UIColor
     func getCell(small: Bool) -> (moduleNameId: String, controller: UIViewController)
 }

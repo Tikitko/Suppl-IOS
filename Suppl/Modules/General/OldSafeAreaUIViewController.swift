@@ -36,4 +36,5 @@ class OldSafeAreaUIViewController: UIViewController {
         if #available(iOS 11, *) { return }
         fixSafeArea()
     }
+    
 }

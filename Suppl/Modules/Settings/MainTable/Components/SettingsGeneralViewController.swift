@@ -6,20 +6,20 @@ class SettingsGeneralViewController: UIViewController {
     @IBOutlet weak var settingsTable: UITableView!
     
     private lazy var settingsCells: [UITableViewCell] = [
-        SettingTableCell(labelText: LocalesManager.shared.get(.setting0), switchValue: SettingsManager.shared.autoNextTrack) { switchElement in
-            SettingsManager.shared.autoNextTrack = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting0), switchValue: SettingsManager.shared.autoNextTrack.value) { switchElement in
+            SettingsManager.shared.autoNextTrack.value = switchElement.isOn
         },
-        SettingTableCell(labelText: LocalesManager.shared.get(.setting1), switchValue: SettingsManager.shared.loadImages) { switchElement in
-            SettingsManager.shared.loadImages = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting1), switchValue: SettingsManager.shared.loadImages.value) { switchElement in
+            SettingsManager.shared.loadImages.value = switchElement.isOn
         },
-        SettingTableCell(labelText: LocalesManager.shared.get(.setting2), switchValue: SettingsManager.shared.roundIcons) { switchElement in
-            SettingsManager.shared.roundIcons = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting2), switchValue: SettingsManager.shared.roundIcons.value) { switchElement in
+            SettingsManager.shared.roundIcons.value = switchElement.isOn
         },
-        SettingTableCell(labelText: LocalesManager.shared.get(.setting7), switchValue: SettingsManager.shared.smallCell) { switchElement in
-            SettingsManager.shared.smallCell = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting7), switchValue: SettingsManager.shared.smallCell.value) { switchElement in
+            SettingsManager.shared.smallCell.value = switchElement.isOn
         },
-        SettingTableCell(labelText: LocalesManager.shared.get(.setting8), switchValue: SettingsManager.shared.hideLogo) { switchElement in
-            SettingsManager.shared.hideLogo = switchElement.isOn
+        SettingTableCell(labelText: LocalesManager.shared.get(.setting8), switchValue: SettingsManager.shared.hideLogo.value) { switchElement in
+            SettingsManager.shared.hideLogo.value = switchElement.isOn
         },
         SettingTableCell(labelText: LocalesManager.shared.get(.setting4), switchValue: OfflineModeManager.shared.offlineMode) { switchElement in
             if switchElement.isOn {
@@ -33,11 +33,11 @@ class SettingsGeneralViewController: UIViewController {
         },
         {
             let themes = AppStaticData.themesList
-            var themeId: Int = themes.count > SettingsManager.shared.theme ? SettingsManager.shared.theme : 0
+            var themeId: Int = themes.count > SettingsManager.shared.theme.value ? SettingsManager.shared.theme.value : 0
             return SettingTableCell(labelText: LocalesManager.shared.get(.setting3), buttonText: themes[themeId]) { button in
                 themeId = themes.count > themeId + 1 ? themeId + 1 : 0
                 button.setTitle(themes[themeId], for: .normal)
-                SettingsManager.shared.theme = themeId
+                SettingsManager.shared.theme.value = themeId
             }
         }(),
         SettingTableCell(labelText: LocalesManager.shared.get(.setting5), buttonText: LocalesManager.shared.get(.clear)) { [weak self] button in

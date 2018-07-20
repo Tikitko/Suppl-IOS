@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import SwiftTheme
 
 class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol {
 
@@ -120,7 +119,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
     
     func setSelected(_ value: Bool, instantly: Bool = false) {
-        let result = value ? (!lightStyle ? UIColor(white: 0.96, alpha: 1.0) : ThemeManager.color(for: "secondColor")) : nil
+        let result = value ? (!lightStyle ? UIColor(white: 0.96, alpha: 1.0) : presenter.getCellSelectColor()) : nil
         setBackgroundColor(result, duration: !instantly ? 0.3 : nil)
     }
     

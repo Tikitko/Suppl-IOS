@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 import SystemConfiguration
 
 final class OfflineModeManager {

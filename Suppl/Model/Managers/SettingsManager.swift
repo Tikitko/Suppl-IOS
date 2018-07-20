@@ -1,111 +1,40 @@
 import Foundation
-import SwiftTheme
 
 final class SettingsManager {
     
     static public let shared = SettingsManager()
     private init() {}
     
-    private let roundIconsName = "roundIcons"
-    private let roundIconsDefault = false
-    public var roundIcons: Bool! {
-        get {
-            guard let returnValue: Bool = UserDefaultsManager.shared.keyGet(roundIconsName) else {
-                UserDefaultsManager.shared.keySet(roundIconsName, value: roundIconsDefault)
-                return roundIconsDefault
+    final class Setting<T> {
+        public let name: String
+        public let `default`: T
+        public let notification: Notification.Name
+        public var value: T! {
+            get {
+                guard let returnValue: T = UserDefaultsManager.shared.keyGet(name) else {
+                    UserDefaultsManager.shared.keySet(name, value: `default`)
+                    return `default`
+                }
+                return returnValue
             }
-            return returnValue
+            set(value) {
+                UserDefaultsManager.shared.keySet(name, value: value)
+                NotificationCenter.default.post(name: notification, object: nil, userInfo: nil)
+            }
         }
-        set(value) {
-            UserDefaultsManager.shared.keySet(roundIconsName, value: value)
-            NotificationCenter.default.post(name: .roundIconsSettingChanged, object: nil, userInfo: nil)
+        fileprivate init(_ name: String, _ default: T, _ notification: Notification.Name) {
+            self.name = name
+            self.default = `default`
+            self.notification = notification
         }
     }
     
-    private let loadImagesName = "loadImages"
-    private let loadImagesDefault = true
-    public var loadImages: Bool! {
-        get {
-            guard let returnValue: Bool = UserDefaultsManager.shared.keyGet(loadImagesName) else {
-                UserDefaultsManager.shared.keySet(loadImagesName, value: loadImagesDefault)
-                return loadImagesDefault
-            }
-            return returnValue
-        }
-        set(value) {
-            UserDefaultsManager.shared.keySet(loadImagesName, value: value)
-            NotificationCenter.default.post(name: .loadImagesSettingChanged, object: nil, userInfo: nil)
-        }
-    }
-    
-    private let autoNextTrackName = "autoNextTrack"
-    private let autoNextTrackDefault = true
-    public var autoNextTrack: Bool! {
-        get {
-            guard let returnValue: Bool = UserDefaultsManager.shared.keyGet(autoNextTrackName) else {
-                UserDefaultsManager.shared.keySet(autoNextTrackName, value: autoNextTrackDefault)
-                return autoNextTrackDefault
-            }
-            return returnValue
-        }
-        set(value) {
-            UserDefaultsManager.shared.keySet(autoNextTrackName, value: value)
-            NotificationCenter.default.post(name: .autoNextTrackSettingChanged, object: nil, userInfo: nil)
-        }
-    }
-    
-    private let themeName = "theme"
-    private let themeDefault: Int = 0
-    public var theme: Int! {
-        get {
-            guard let returnValue: Int = UserDefaultsManager.shared.keyGet(themeName) else {
-                UserDefaultsManager.shared.keySet(themeName, value: themeDefault)
-                return themeDefault
-            }
-            return returnValue
-        }
-        set(value) {
-            UserDefaultsManager.shared.keySet(themeName, value: value)
-            NotificationCenter.default.post(name: .themeSettingChanged, object: nil, userInfo: nil)
-            setTheme()
-        }
-    }
-    
-    private let smallCellName = "smallCell"
-    private let smallCellDefault: Bool = false
-    public var smallCell: Bool! {
-        get {
-            guard let returnValue: Bool = UserDefaultsManager.shared.keyGet(smallCellName) else {
-                UserDefaultsManager.shared.keySet(smallCellName, value: smallCellDefault)
-                return smallCellDefault
-            }
-            return returnValue
-        }
-        set(value) {
-            UserDefaultsManager.shared.keySet(smallCellName, value: value)
-            NotificationCenter.default.post(name: .smallCellSettingChanged, object: nil, userInfo: nil)
-        }
-    }
-    
-    private let hideLogoName = "hideLogo"
-    private let hideLogoDefault: Bool = false
-    public var hideLogo: Bool! {
-        get {
-            guard let returnValue: Bool = UserDefaultsManager.shared.keyGet(hideLogoName) else {
-                UserDefaultsManager.shared.keySet(hideLogoName, value: hideLogoDefault)
-                return hideLogoDefault
-            }
-            return returnValue
-        }
-        set(value) {
-            UserDefaultsManager.shared.keySet(hideLogoName, value: value)
-            NotificationCenter.default.post(name: .hideLogoSettingChanged, object: nil, userInfo: nil)
-        }
-    }
-    
-    public func setTheme() {
-        ThemeManager.setTheme(plistName: AppStaticData.themesList[theme], path: .mainBundle)
-    }
+    let roundIcons = Setting<Bool>("roundIcons", false, .roundIconsSettingChanged)
+    let loadImages = Setting<Bool>("loadImages", true, .loadImagesSettingChanged)
+    let autoNextTrack = Setting<Bool>("autoNextTrack", true, .autoNextTrackSettingChanged)
+    let smallCell = Setting<Bool>("smallCell", false, .smallCellSettingChanged)
+    let hideLogo = Setting<Bool>("hideLogo", false, .hideLogoSettingChanged)
+    let theme = Setting<Int>("theme", 0, .themeSettingChanged)
     
 }
 

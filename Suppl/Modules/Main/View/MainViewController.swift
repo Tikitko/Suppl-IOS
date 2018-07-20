@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import SwiftTheme
 
 class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtocol, ControllerInfoProtocol {
     

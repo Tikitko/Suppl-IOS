@@ -32,7 +32,7 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     }
     
     @objc func requestHideLogoSetting() {
-        presenter.canHideLogo = SettingsManager.shared.hideLogo
+        presenter.canHideLogo = SettingsManager.shared.hideLogo.value
     }
     
 }

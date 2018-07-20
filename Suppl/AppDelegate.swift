@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         ToastManager.shared.isQueueEnabled = true
-        SettingsManager.shared.setTheme()
+        ThemeMainManager.shared.set()
         AuthManager.shared.setAuthWindow()
         
         return true

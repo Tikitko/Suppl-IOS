@@ -14,7 +14,7 @@ class TrackInfoInteractor: BaseInteractor, TrackInfoInteractorProtocol {
     
     func requestAdditionalInfo(thisTrackId id: String, delegate: PlayerItemDelegate) {
         addTrackDelegate(thisTrackId: id, delegate: delegate)
-        presenter.additionalInfo(currentPlayingId: PlayerManager.shared.currentTrack?.id, roundImage: SettingsManager.shared.roundIcons, downloadedStatus: PlayerItemsManager.shared.getItemStatus(id), lastLoadPercentages: PlayerItemsManager.shared.getItemLastLoadPercentages(id))
+        presenter.additionalInfo(currentPlayingId: PlayerManager.shared.currentTrack?.id, roundImage: SettingsManager.shared.roundIcons.value, downloadedStatus: PlayerItemsManager.shared.getItemStatus(id), lastLoadPercentages: PlayerItemsManager.shared.getItemLastLoadPercentages(id))
     }
     
     func addTrackDelegate(thisTrackId id: String, delegate: PlayerItemDelegate) {

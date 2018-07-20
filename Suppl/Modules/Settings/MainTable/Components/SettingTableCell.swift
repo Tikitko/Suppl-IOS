@@ -1,5 +1,4 @@
 import UIKit
-import SwiftTheme
 
 class SettingTableCell: UITableViewCell {
     

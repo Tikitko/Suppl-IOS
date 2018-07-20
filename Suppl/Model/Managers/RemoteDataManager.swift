@@ -52,9 +52,12 @@ final class RemoteDataManager {
             }
             guard let imageName = URL(string: link)?.path else { return }
             let filename = self.thumbsCacheDirPath.appendingPathComponent(imageName)
-            if FileManager.default.fileExists(atPath: filename.path), let imageDataDisk = try? Data(contentsOf: filename), let _ = UIImage(data: imageDataDisk) {
+            if FileManager.default.fileExists(atPath: filename.path),
+               let imageDataDisk = try? Data(contentsOf: filename),
+               let _ = UIImage(data: imageDataDisk)
+            {
                 var imageAlive = false
-                if let dateAny = try? FileManager.default.attributesOfItem(atPath: filename.path)[FileAttributeKey.modificationDate],
+                if let dateAny = try? FileManager.default.attributesOfItem(atPath: filename.path)[.modificationDate],
                     let editDate = dateAny as? Date,
                     let hours = Calendar.current.dateComponents([.hour], from: editDate, to: Date()).hour,
                     hours < imagesLifetime
@@ -91,7 +94,7 @@ final class RemoteDataManager {
         let imagesPaths = searchJPGImages(pathURL: thumbsCacheDirPath)
         for imagePath in imagesPaths {
             if FileManager.default.fileExists(atPath: imagePath),
-                let dateAny = try? FileManager.default.attributesOfItem(atPath: imagePath)[FileAttributeKey.modificationDate],
+                let dateAny = try? FileManager.default.attributesOfItem(atPath: imagePath)[.modificationDate],
                 let editDate = dateAny as? Date,
                 let hours = Calendar.current.dateComponents([.hour], from: editDate, to: Date()).hour,
                 hours < imagesLifetime
@@ -101,9 +104,9 @@ final class RemoteDataManager {
     }
     
     private func searchJPGImages(pathURL: URL) -> [String] {
-        var imageURLs = [String]()
+        var imageURLs: [String] = []
         let fileManager = FileManager.default
-        let keys = [URLResourceKey.isDirectoryKey, URLResourceKey.localizedNameKey]
+        let keys: [URLResourceKey] = [.isDirectoryKey, .localizedNameKey]
         let options: FileManager.DirectoryEnumerationOptions = [.skipsPackageDescendants, .skipsSubdirectoryDescendants, .skipsHiddenFiles]
         let enumerator = fileManager.enumerator(
             at: pathURL,
@@ -113,7 +116,7 @@ final class RemoteDataManager {
         )
         while let file = enumerator?.nextObject() {
             let filePathURL = file as! URL
-            if filePathURL.path.hasSuffix(".jpg"){
+            if filePathURL.path.hasSuffix(".jpg") {
                 imageURLs.append(filePathURL.path)
             } else {
                 imageURLs += searchJPGImages(pathURL: filePathURL)

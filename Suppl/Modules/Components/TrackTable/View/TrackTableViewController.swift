@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import SwiftTheme
 
 final class TrackTableViewController: UITableViewController, TrackTableViewControllerProtocol {
     
@@ -16,14 +15,14 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     
     private class TrackTablePlaceholderCell: UITableViewCell {
         static let identifier = String(describing: TrackTablePlaceholderCell.self)
-        weak var myController: TrackTableViewController!
+        weak var myController: TrackTableViewController?
         private(set) var cellModuleNameId: String?
         private var trackInfoController: UIViewController?
         private(set) var small: Bool?
         func initInfoController(small: Bool = false) {
             trackInfoController?.view.removeFromSuperview()
             self.small = small
-            let trackInfoBox = myController.presenter.getCell(small: small)
+            let trackInfoBox = myController!.presenter.getCell(small: small)
             cellModuleNameId = trackInfoBox.moduleNameId
             trackInfoController = trackInfoBox.controller
             trackInfoController!.view.frame = contentView.bounds
@@ -34,19 +33,22 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         }
         override func prepareForReuse() {
             if let cellModuleNameId = cellModuleNameId {
-                myController.presenter.resetCell(name: cellModuleNameId)
+                myController?.presenter.resetCell(name: cellModuleNameId)
             }
             super.prepareForReuse()
         }
         override func setSelected(_ selected: Bool, animated: Bool) {
-            enableBackground(selected, duration: animated ? 0.4 : nil)
+            enableBackground(selected, duration: animated ? 0.3 : nil)
         }
         override func setHighlighted(_ highlighted: Bool, animated: Bool) {
             enableBackground(highlighted, duration: animated ? 0.05 : nil)
         }
         private func enableBackground(_ isOn: Bool, duration: TimeInterval? = nil) {
+            guard let parent = myController else { return }
             let changes = {
-                self.backgroundColor = isOn ? !self.myController.useLightStyle ? UIColor(white: 0.9, alpha: 1.0) : ThemeManager.color(for: "firstColor") : nil
+                let firstColor = UIColor(white: 0.9, alpha: 1.0)
+                let secondColor = parent.presenter.getCellSelectColor()
+                self.backgroundColor = isOn ? (parent.useLightStyle ? firstColor : secondColor) : nil
             }
             duration != nil ? UIView.animate(withDuration: duration!, animations: changes) : changes()
         }

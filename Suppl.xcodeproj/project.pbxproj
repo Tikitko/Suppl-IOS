@@ -154,6 +154,7 @@
 		8CA4F90B20B802E200C1A81B /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA4F90A20B802E200C1A81B /* Toast.swift */; };
 		8CB2615E20CFF4010094E4A3 /* CircleLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */; };
 		8CBDFD642023001700BED743 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBDFD632023001700BED743 /* AuthManager.swift */; };
+		8CC4F80A2101F5FB001B1700 /* ThemeMainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4F8092101F5FB001B1700 /* ThemeMainManager.swift */; };
 		8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */; };
 		8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC59520205D5C00D91687 /* RootTabBarController.swift */; };
 		8CCAC5992020600E00D91687 /* SettingsMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC5982020600E00D91687 /* SettingsMainViewController.swift */; };
@@ -315,6 +316,7 @@
 		8CA4F90A20B802E200C1A81B /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleLoad.swift; sourceTree = "<group>"; };
 		8CBDFD632023001700BED743 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		8CC4F8092101F5FB001B1700 /* ThemeMainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMainManager.swift; sourceTree = "<group>"; };
 		8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		8CCAC59520205D5C00D91687 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		8CCAC5982020600E00D91687 /* SettingsMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMainViewController.swift; sourceTree = "<group>"; };
@@ -1028,6 +1030,7 @@
 				8C0E1B8F2091BCA100CE5C12 /* PListsManager.swift */,
 				8C0E1B952091C74400CE5C12 /* LocalesManager.swift */,
 				8C95706D20BFE8A900A3EF3A /* OfflineModeManager.swift */,
+				8CC4F8092101F5FB001B1700 /* ThemeMainManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1202,6 +1205,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CC4F80A2101F5FB001B1700 /* ThemeMainManager.swift in Sources */,
 				8C3B74EC209077B300D0AF3E /* SearchBarViewControllerProtocol.swift in Sources */,
 				8C71CE312080BF7300AC4BDB /* AuthRouterProtocol.swift in Sources */,
 				8C0E1B902091BCA100CE5C12 /* PListsManager.swift in Sources */,

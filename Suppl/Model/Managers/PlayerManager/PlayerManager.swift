@@ -112,7 +112,7 @@ final class PlayerManager: NSObject {
                 delegate.playerStop()
             }
             guard let currentItem = player?.currentItem else { return }
-            if SettingsManager.shared.autoNextTrack, Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) < 1, let _ = playlist {
+            if SettingsManager.shared.autoNextTrack.value, Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) < 1, let _ = playlist {
                 loadTrackByID(playlist!.next())
             } else if needPlayingStatus {
                 player?.play()
@@ -229,7 +229,7 @@ final class PlayerManager: NSObject {
             MPNowPlayingInfoPropertyPlaybackRate: NSNumber(value: 1.0 as Float)
         ] as [String: Any]
         nowPlayingCenter.nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
-        guard SettingsManager.shared.loadImages else { return }
+        guard SettingsManager.shared.loadImages.value else { return }
         RemoteDataManager.shared.getCachedImageAsData(link: track.images.last ?? "") { [weak self] imageData in
             guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
             self.currentTrack?.image = image

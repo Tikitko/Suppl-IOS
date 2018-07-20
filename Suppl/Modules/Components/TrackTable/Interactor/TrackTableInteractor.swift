@@ -54,7 +54,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     }
     
     func requestCellSetting() {
-        presenter.setCellSetting(SettingsManager.shared.smallCell)
+        presenter.setCellSetting(SettingsManager.shared.smallCell.value)
     }
     
     func reloadWhenChangingSettings() {
@@ -102,7 +102,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     }
     
     func loadImageData(link: String, callback: @escaping (_ data: Data) -> Void) {
-        guard SettingsManager.shared.loadImages, !link.isEmpty else { return }
+        guard SettingsManager.shared.loadImages.value, !link.isEmpty else { return }
         RemoteDataManager.shared.getCachedImageAsData(link: link, callbackImageData: callback)
     }
   
