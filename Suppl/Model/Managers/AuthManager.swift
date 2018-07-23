@@ -33,7 +33,7 @@ final class AuthManager {
             authCheckRequest()
         }
         guard let _ = timer else {
-            timer = Timer.scheduledTimer(withTimeInterval: 60 * 2, repeats: true, block: authCheck)
+            timer = .scheduledTimer(withTimeInterval: 60 * 2, repeats: true, block: authCheck)
             return true
         }
         return false
@@ -58,30 +58,28 @@ final class AuthManager {
         return nil
     }
     
-    public func authorization(keys: KeysPair? = nil, callback: @escaping (UserData?, NSError?) -> Void) {
+    public func authorization(keys: KeysPair? = nil, callback: @escaping (NSError?, UserData?) -> Void) {
         guard let keys = keys ?? getAuthKeys() else { return }
-        APIManager.shared.user.get(keys: keys) { error, data in
-            callback(data, error)
-        }
+        APIManager.shared.user.get(keys: keys, dataReport: callback)
     }
     
-    public func registration(callback: @escaping (UserSecretData?, NSError?) -> Void) {
+    public func registration(callback: @escaping (NSError?, UserSecretData?) -> Void) {
         APIManager.shared.user.register() { error, data in
             if let data = data {
                 UserDefaultsManager.shared.identifierKey = data.identifierKey
                 UserDefaultsManager.shared.accessKey = data.accessKey
             }
-            callback(data, error)
+            callback(error, data)
         }
     }
     
-    public func reset(resetKey: String, callback: @escaping (UserSecretData?, NSError?) -> Void) {
+    public func reset(resetKey: String, callback: @escaping (NSError?, UserSecretData?) -> Void) {
         APIManager.shared.user.reset(resetKey: resetKey) { error, data in
             if let data = data {
                 UserDefaultsManager.shared.identifierKey = data.identifierKey
                 UserDefaultsManager.shared.accessKey = data.accessKey
             }
-            callback(data, error)
+            callback(error, data)
         }
     }
     

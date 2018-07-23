@@ -8,7 +8,7 @@ class APIRequest {
     
     public func method<T>(_ method: String, query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), externalMethod: @escaping (_ data: ResponseData<T>) -> T?) {
         if OfflineModeManager.shared.offlineMode { return }
-        if !OfflineModeManager.shared.isConnectedToNetwork() {
+        if !OfflineModeManager.shared.isConnectedToNetwork {
             OfflineModeManager.shared.on()
             return
         }

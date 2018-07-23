@@ -8,13 +8,11 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     var interactor: SmallPlayerInteractorProtocol!
     weak var view: SmallPlayerViewControllerProtocol!
     
+    let rewindCount: Double = 15
+    
     var playlist: [AudioData] = [] {
-        willSet {
-            view.setZeroTableOffset()
-        }
-        didSet {
-            view.reloadTableData()
-        }
+        willSet { view.setZeroTableOffset() }
+        didSet { view.reloadTableData() }
     }
     
     var moduleNameId: String {
@@ -39,11 +37,11 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     }
     
     func rewindP() {
-        interactor.setPlayerCurrentTime(15, withCurrentTime: true)
+        interactor.setPlayerCurrentTime(rewindCount, withCurrentTime: true)
     }
     
     func rewindM() {
-        interactor.setPlayerCurrentTime(-15, withCurrentTime: true)
+        interactor.setPlayerCurrentTime(rewindCount * -1, withCurrentTime: true)
     }
     
     func mixButtonClick() {
@@ -76,13 +74,15 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
     
     func itemReadyToPlay(_ item: AVPlayerItem, _ duration: Int?) {
         view.updateAfterAnimation() { [weak self] context in
-            self?.view.openPlayer(duration: !item.duration.seconds.isNaN ? item.duration.seconds : Double(duration ?? 0))
+            let resultDuration = !item.duration.seconds.isNaN ? item.duration.seconds : Double(duration ?? 0)
+            self?.view.openPlayer(duration: resultDuration)
         }
     }
 
     func itemTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
         view.updateAfterAnimation() { [weak self] context in
-            self?.view.updatePlayerProgress(percentages: Float(sec / item.duration.seconds), currentTime: sec)
+            let resultPercentages = Float(sec / item.duration.seconds)
+            self?.view.updatePlayerProgress(percentages: resultPercentages, currentTime: sec)
         }
     }
     
@@ -114,15 +114,16 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
 extension SmallPlayerPresenter: TrackTableCommunicateProtocol {
     
     func requestConfigure() -> TableConfigure {
-        return TableConfigure(light: true, smallCells: true, downloadButtons: false, followTrack: (true, false))
+        return TableConfigure(
+            light: true,
+            smallCells: true,
+            downloadButtons: false,
+            followTrack: (true, false)
+        )
     }
+    
     func needTracksForReload() -> [AudioData] {
-        return playlist 
+        return playlist
     }
-    func removedTrack(fromIndex: Int) {}
-    func addedTrack(withId: String) {}
-    func moveTrack(from: Int, to: Int) {}
-    func cellShowAt(_ indexPath: IndexPath) {}
-    func zoneRangePassed(toTop: Bool) {}
     
 }

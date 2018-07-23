@@ -19,8 +19,8 @@ final class RemoteDataManager {
             return
         }
         session.request(url: link, inMainQueue: inMainQueue) { [weak self] error, response, data in
-            guard let data = data else { return }
-            self?.setToCache(link: link, data: data)
+            guard let `self` = self, let data = data else { return }
+            self.setToCache(link: link, data: data)
             callbackData(data)
         }
     }

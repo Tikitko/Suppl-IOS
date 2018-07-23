@@ -37,7 +37,7 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
         }
         if let resetKey = resetKey {
             presenter.setAuthStarted(isReg: false)
-            AuthManager.shared.reset(resetKey: resetKey) { [weak self] data, error in
+            AuthManager.shared.reset(resetKey: resetKey) { [weak self] error, data in
                 if let data = data {
                     self?.presenter.setIdentifier(KeysPair(data.identifierKey, data.accessKey).string)
                 }
@@ -45,12 +45,12 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
             }
         } else if let keys = AuthManager.shared.getAuthKeys(setFailAuth: false) {
             presenter.setAuthStarted(isReg: false)
-            AuthManager.shared.authorization(keys: keys) { [weak self] data, error in
+            AuthManager.shared.authorization(keys: keys) { [weak self] error, data in
                 self?.sendAuthResult(error)
             }
         } else {
             presenter.setAuthStarted(isReg: true)
-            AuthManager.shared.registration() { [weak self] data, error in
+            AuthManager.shared.registration() { [weak self] error, data in
                 self?.sendAuthResult(error)
             }
         }

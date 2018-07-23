@@ -31,8 +31,8 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         initLogo()
         initResetStack()
         repeatButton.setTitle(presenter.getButtonLabel(), for: .normal)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: .UIKeyboardWillHide, object: nil)
         presenter.setLoadLabel()
         repeatButton.layer.cornerRadius = 4
         repeatButton.clipsToBounds = true
@@ -61,7 +61,10 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         enableResetForm(false)
         resetOpenButton.isHidden = true
         resetEmailField.text = String()
-        resetEmailField.attributedPlaceholder = NSAttributedString(string: localedStrings.field, attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)])
+        resetEmailField.attributedPlaceholder = NSAttributedString(
+            string: localedStrings.field,
+            attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)]
+        )
         resetTitleLabel.text = localedStrings.title
         resetSendButton.setTitle(localedStrings.button, for: .normal)
         resetOpenButton.setTitle(localedStrings.title, for: .normal)

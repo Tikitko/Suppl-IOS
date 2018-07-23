@@ -203,20 +203,17 @@ extension TracklistPresenter: TrackFilterCommunicateProtocol {
 extension TracklistPresenter: TrackTableCommunicateProtocol {
     
     func requestConfigure() -> TableConfigure {
-        return TableConfigure(light: false, smallCells: nil, downloadButtons: true, followTrack: (false, false))
+        return TableConfigure(
+            light: false,
+            smallCells: nil,
+            downloadButtons: true,
+            followTrack: (false, false)
+        )
     }
     
     func needTracksForReload() -> [AudioData] {
         return foundTracks ?? tracks
     }
-    
-    func removedTrack(fromIndex: Int) {}
-    
-    func addedTrack(withId: String) {}
-    
-    func moveTrack(from: Int, to: Int) {}
-    
-    func cellShowAt(_ indexPath: IndexPath) {}
     
     func zoneRangePassed(toTop: Bool) {
         guard canHideLogo ?? false else { return }

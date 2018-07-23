@@ -107,7 +107,11 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         guard let tracksDB = try? coreDataWorker.fetche(Track.self),
-              let userTracksDB = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor])
+              let userTracksDB = try? coreDataWorker.fetche(
+                UserTrack.self,
+                predicate: predicate,
+                sortDescriptors: [sortDescriptor]
+              )
             else { return nil }
         var tracks: [AudioData] = []
         for userTrack in userTracksDB {
@@ -129,7 +133,11 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         coreDataWorker.run { inWorker in
             var tracks: [AudioData]? = nil
             if let tracksDB = try? inWorker.fetche(Track.self),
-               let userTracksDB = try? inWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor])
+               let userTracksDB = try? inWorker.fetche(
+                 UserTrack.self,
+                 predicate: predicate,
+                 sortDescriptors: [sortDescriptor]
+               )
             {
                 tracks = []
                 for userTrack in userTracksDB {
@@ -143,7 +151,9 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func recursiveTracksLoad(from: Int = 0, packCount count: Int = 10) {
-        guard let keys = AuthManager.shared.getAuthKeys(), let tracklist = TracklistManager.shared.tracklist else { return }
+        guard let keys = AuthManager.shared.getAuthKeys(),
+              let tracklist = TracklistManager.shared.tracklist
+            else { return }
         let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
         if partCount * count < from {
             presenter.setUpdateResult(nil)
@@ -151,7 +161,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             return
         }
         let tracklistPart = getTracklistPart(tracklist, from: from, count: count)
-        APIManager.shared.audio.get(keys: keys, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
+        let idsString = tracklistPart.joined(separator: ",")
+        APIManager.shared.audio.get(keys: keys, ids: idsString) { [weak self] error, data in
             guard let data = data else {
                 self?.inSearchWork = false
                 return
@@ -207,7 +218,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             addTracks([])
             return
         }
-        APIManager.shared.audio.get(keys: keys, ids: tracklistPartForLoad.joined(separator: ",")) { [weak self] error, data in
+        let idsString = tracklistPartForLoad.joined(separator: ",")
+        APIManager.shared.audio.get(keys: keys, ids: idsString) { [weak self] error, data in
             guard let data = data, data.list.count == tracklistPartForLoad.count else {
                 self?.presenter.setUpdateResult(.serverError)
                 self?.inSearchWork = false

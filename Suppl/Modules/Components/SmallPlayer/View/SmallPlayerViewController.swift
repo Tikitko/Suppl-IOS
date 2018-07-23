@@ -74,8 +74,12 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         super.viewDidLoad()
         transitioningDelegate = self
         if useOldAnimation {
-            playerTitleLabelBig.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
-            infoStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
+            playerTitleLabelBig.addGestureRecognizer(
+                UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:)))
+            )
+            infoStackView.addGestureRecognizer(
+                UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:)))
+            )
         } else {
             interactionControllerPresent = SmallPlayerInteractionController(self, forPresent: true)
             interactionControllerDismiss = SmallPlayerInteractionController(self, forPresent: false)
@@ -134,11 +138,11 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     func setPlayerShowAnimated(type: ShowType) {
         startExtraPart(showType: type)
-        UIView.animate(withDuration: 0.3, animations: {
-            self.setPlayerShow(type: type, needExtraPart: false)
-        }) { status in
-            self.finalExtraPart(showType: type)
-        }
+        UIView.animate(
+            withDuration: 0.3,
+            animations: { self.setPlayerShow(type: type, needExtraPart: false)},
+            completion: { status in self.finalExtraPart(showType: type) }
+        )
     }
     
     func setPlayerShow(type: ShowType, needExtraPart: Bool = true, rootSelf: Bool = false) {
@@ -206,10 +210,10 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animate(alongsideTransition: { [weak self] _ in
-            self?.parentRootTabBarController.view.setNeedsLayout()
-            self?.parentRootTabBarController.view.layoutIfNeeded()
-            self?.updateMargins(rootSelf: true)
+        coordinator.animate(alongsideTransition: { _ in
+            self.parentRootTabBarController.view.setNeedsLayout()
+            self.parentRootTabBarController.view.layoutIfNeeded()
+            self.updateMargins(rootSelf: true)
         })
         super.viewWillTransition(to: size, with: coordinator)
     }
@@ -271,9 +275,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     func updateAfterAnimation(block: @escaping (UIViewControllerTransitionCoordinatorContext?) -> Void) {
         if let transitionCoordinator = transitionCoordinator {
             transitionCoordinator.animate(alongsideTransition: nil, completion: block)
-        } else {
-            block(nil)
-        }
+        } else { block(nil) }
     }
     
     func clearPlayer() {
@@ -328,7 +330,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         let parent = player.parentRootTabBarController!
         guard let playerSnapshot = player.view.snapshotView(afterScreenUpdates: true),
               let tabBarSnapshot = parent.tabBar.snapshotView(afterScreenUpdates: true)
-              else { return }
+            else { return }
         playerSnapshot.frame = player.view.frame
         tabBarSnapshot.frame = parent.tabBar.frame
         parent.view.addSubview(playerSnapshot)
@@ -385,8 +387,9 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     @IBAction func playlistButtonClicked(_ sender: Any) {
-        playlistButtonBig.setImage(tracksTableModule.view.alpha == 0 ? #imageLiteral(resourceName: "icon_187") : #imageLiteral(resourceName: "icon_065"), for: .normal)
-        turnPlaylist(tracksTableModule.view.alpha == 0, duration: 0.2)
+        let alpha = tracksTableModule.view.alpha == 0
+        playlistButtonBig.setImage(alpha ? #imageLiteral(resourceName: "icon_187") : #imageLiteral(resourceName: "icon_065"), for: .normal)
+        turnPlaylist(alpha, duration: 0.2)
     }
     
 }

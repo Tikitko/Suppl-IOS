@@ -26,15 +26,16 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
     }
     
     func present(using transitionContext: UIViewControllerContextTransitioning) {
+        let tabBar = smallPlayerViewController.parentRootTabBarController.tabBar
         guard let _ = transitionContext.viewController(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to),
-            let tabBarSnapshot = smallPlayerViewController.parentRootTabBarController.tabBar.snapshotView(afterScreenUpdates: true)
+              let toVC = transitionContext.viewController(forKey: .to),
+              let tabBarSnapshot = tabBar.snapshotView(afterScreenUpdates: true)
             else { return }
         
         let containerView = transitionContext.containerView
         let duration = transitionDuration(using: transitionContext)
         
-        tabBarSnapshot.frame = smallPlayerViewController.parentRootTabBarController.tabBar.frame
+        tabBarSnapshot.frame = tabBar.frame
         containerView.addSubview(toVC.view)
         containerView.addSubview(tabBarSnapshot)
         
@@ -47,13 +48,13 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
             animations: {
                 UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0) {
                     self.smallPlayerViewController.setPlayerShow(type: .opened)
-                    tabBarSnapshot.alpha = self.smallPlayerViewController.parentRootTabBarController.tabBar.alpha
+                    tabBarSnapshot.alpha = tabBar.alpha
                 }
             },
             completion: { _ in
                 if transitionContext.transitionWasCancelled {
                     self.smallPlayerViewController.setPlayerShow(type: .partOpened)
-                    tabBarSnapshot.alpha = self.smallPlayerViewController.parentRootTabBarController.tabBar.alpha
+                    tabBarSnapshot.alpha = tabBar.alpha
                 } else {
                     tabBarSnapshot.removeFromSuperview()
                 }
@@ -63,17 +64,18 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
     }
     
     func dismiss(using transitionContext: UIViewControllerContextTransitioning) {
+        let tabBar = smallPlayerViewController.parentRootTabBarController.tabBar
         guard let _ = transitionContext.viewController(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to)
+              let toVC = transitionContext.viewController(forKey: .to)
             else { return }
         
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         
-        smallPlayerViewController.parentRootTabBarController.tabBar.alpha = 1
-        let tabBarSnapshot: UIView = smallPlayerViewController.parentRootTabBarController.tabBar.snapshotView(afterScreenUpdates: true)!
-        smallPlayerViewController.parentRootTabBarController.tabBar.alpha = 0
+        tabBar.alpha = 1
+        let tabBarSnapshot: UIView = tabBar.snapshotView(afterScreenUpdates: true)!
+        tabBar.alpha = 0
         tabBarSnapshot.alpha = 0
-        tabBarSnapshot.frame = smallPlayerViewController.parentRootTabBarController.tabBar.frame
+        tabBarSnapshot.frame = tabBar.frame
         
         let containerView = transitionContext.containerView
         containerView.insertSubview(toVC.view, at: 0)
@@ -90,14 +92,14 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
             animations: {
                 UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1) {
                     self.smallPlayerViewController.setPlayerShow(type: .partOpened, rootSelf: true)
-                    tabBarSnapshot.alpha = self.smallPlayerViewController.parentRootTabBarController.tabBar.alpha
+                    tabBarSnapshot.alpha = tabBar.alpha
                 }
             },
             completion: { _ in
                 tabBarSnapshot.removeFromSuperview()
                 if transitionContext.transitionWasCancelled {
                     self.smallPlayerViewController.setPlayerShow(type: .opened)
-                    tabBarSnapshot.alpha = self.smallPlayerViewController.parentRootTabBarController.tabBar.alpha
+                    tabBarSnapshot.alpha = tabBar.alpha
                 } else {
                     toVC.view.removeFromSuperview()
                 }

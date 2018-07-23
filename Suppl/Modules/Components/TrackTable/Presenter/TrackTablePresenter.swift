@@ -45,7 +45,10 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func setCellSetup(name: String, light: Bool, downloadButton: Bool) {
-        interactor.getCellDelegate(name: name)?.setSetup(light: light, downloadButton: downloadButton)
+        interactor.getCellDelegate(name: name)?.setSetup(
+            light: light,
+            downloadButton: downloadButton
+        )
     }
     
     func load() {
@@ -57,7 +60,9 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func loadConfigure() {
-        guard !configureLoaded, let configureBox = interactor.communicateDelegate?.requestConfigure() else { return }
+        guard !configureLoaded,
+              let configureBox = interactor.communicateDelegate?.requestConfigure()
+            else { return }
         view.allowDownloadButton = configureBox.downloadButtons
         view.useLightStyle = configureBox.light
         followCurrentTrack = configureBox.followTrack
@@ -70,7 +75,12 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     func updateCellInfo(trackIndex: Int, name: String) {
         guard tracks.count > trackIndex else { return }
         let track = tracks[trackIndex]
-        interactor.getCellDelegate(name: name)?.setNewData(id: track.id, title: track.title, performer: track.performer, duration: track.duration)
+        interactor.getCellDelegate(name: name)?.setNewData(
+            id: track.id,
+            title: track.title,
+            performer: track.performer,
+            duration: track.duration
+        )
         guard let imageLink = tracks[trackIndex].images.last else { return }
         interactor.loadImageData(link: imageLink) { [weak self] imageData in
             self?.interactor.getCellDelegate(name: name)?.setNewImage(imageData: imageData)
@@ -117,7 +127,11 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         for val in tracks {
             tracksIDs.append(val.id)
         }
-        interactor.openPlayer(tracksIDs: tracksIDs, trackIndex: trackIndex, cachedTracksInfo: tracks)
+        interactor.openPlayer(
+            tracksIDs: tracksIDs,
+            trackIndex: trackIndex,
+            cachedTracksInfo: tracks
+        )
     }
     
     func willDisplayCellForRowAt(_ indexPath: IndexPath) {
@@ -129,7 +143,11 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData) {
-        router.showToastOnTop(title: interactor.getLocaleString(expressionForTitle), body: "\(track.performer) - \(track.title)", duration: 2.0)
+        router.showToastOnTop(
+            title: interactor.getLocaleString(expressionForTitle),
+            body: "\(track.performer) - \(track.title)",
+            duration: 2.0
+        )
     }
     
     func sayThatZonePassed(toTop: Bool) {
@@ -157,7 +175,10 @@ extension TrackTablePresenter: TracklistListenerDelegate {
 extension TrackTablePresenter: PlayerListenerDelegate {
     
     func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
-        guard imageData == nil, followCurrentTrack.0, let index = tracks.index(where: { $0.id == track.id }) else { return }
+        guard imageData == nil,
+              followCurrentTrack.0,
+              let index = tracks.index(where: { $0.id == track.id })
+            else { return }
         view.followToIndex(index, inVisibilityZone: followCurrentTrack.inVisibilityZone)
     }
     

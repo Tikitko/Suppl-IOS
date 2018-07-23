@@ -91,18 +91,17 @@ extension MainPresenter: SearchCommunicateProtocol {
 extension MainPresenter: TrackTableCommunicateProtocol {
     
     func requestConfigure() -> TableConfigure {
-        return TableConfigure(light: false, smallCells: nil, downloadButtons: false, followTrack: (false, false))
+        return TableConfigure(
+            light: false,
+            smallCells: nil,
+            downloadButtons: false,
+            followTrack: (false, false)
+        )
     }
     
     func needTracksForReload() -> [AudioData] {
         return searchData?.list ?? []
     }
-    
-    func removedTrack(fromIndex: Int) {}
-    
-    func addedTrack(withId: String) {}
-    
-    func moveTrack(from: Int, to: Int) {}
     
     func zoneRangePassed(toTop: Bool) {
         guard canHideLogo ?? false else { return }
@@ -110,7 +109,7 @@ extension MainPresenter: TrackTableCommunicateProtocol {
     }
     
     func cellShowAt(_ indexPath: IndexPath) {
-        guard let data = self.searchData else { return }
+        guard let data = searchData else { return }
         if data.list.count - 10 == indexPath.row, data.hasMore {
             interactor.searchTracks(thisQuery, offset: data.nextOffset)
         }

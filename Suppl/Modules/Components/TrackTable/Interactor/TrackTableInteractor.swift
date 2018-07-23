@@ -28,13 +28,14 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     }
     
     func listenSettings() {
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .roundIconsSettingChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .loadImagesSettingChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .smallCellSettingChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .imagesCacheRemoved, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .tracksCacheRemoved, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsChangedSet), name: .themeSettingChanged, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(needReloadData), name: .themeSettingChanged, object: nil)
+        let NC = NotificationCenter.default
+        NC.addObserver(self, selector: #selector(settingsChangedSet), name: .roundIconsSettingChanged, object: nil)
+        NC.addObserver(self, selector: #selector(settingsChangedSet), name: .loadImagesSettingChanged, object: nil)
+        NC.addObserver(self, selector: #selector(settingsChangedSet), name: .smallCellSettingChanged, object: nil)
+        NC.addObserver(self, selector: #selector(settingsChangedSet), name: .imagesCacheRemoved, object: nil)
+        NC.addObserver(self, selector: #selector(settingsChangedSet), name: .tracksCacheRemoved, object: nil)
+        NC.addObserver(self, selector: #selector(settingsChangedSet), name: .themeSettingChanged, object: nil)
+        NC.addObserver(self, selector: #selector(needReloadData), name: .themeSettingChanged, object: nil)
     }
     
     @objc func settingsChangedSet() {

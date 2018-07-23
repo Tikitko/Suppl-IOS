@@ -44,7 +44,12 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        loadCircle = CircleLoad(frame: blurView.bounds, radiusOffset: 10, lineWidth: 5, color: .white)
+        loadCircle = CircleLoad(
+            frame: blurView.bounds,
+            radiusOffset: 10,
+            lineWidth: 5,
+            color: .white
+        )
         loadCircle.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurView.addSubview(loadCircle)
         loadProgressBar.isHidden = true

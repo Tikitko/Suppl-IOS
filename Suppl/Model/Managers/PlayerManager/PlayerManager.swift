@@ -24,7 +24,7 @@ final class PlayerManager: NSObject {
     
     private var cachedTracksInfo: [AudioData]?
     
-    private let mapTableDelegates = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
+    private let mapTableDelegates = NSMapTable<NSString, AnyObject>(keyOptions: .strongMemory, valueOptions: .weakMemory)
     
     public func setListener(name: String, delegate: PlayerListenerDelegate) {
         mapTableDelegates.setObject(delegate, forKey: name as NSString)
@@ -84,16 +84,12 @@ final class PlayerManager: NSObject {
         switch status {
         case .readyToPlay:
             guard let player = player, let item = player.currentItem else { return }
-            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: DispatchQueue.main) { [weak self] (time) -> Void in
+            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: .main) { [weak self] (time) -> Void in
                 guard let `self` = self, item.status == .readyToPlay else { return }
-                self.sayToListeners() { delegate in
-                    delegate.itemTimeChanged(item, time.seconds)
-                }
+                self.sayToListeners({ $0.itemTimeChanged(item, time.seconds) })
                 self.nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
             }
-            sayToListeners() { delegate in
-                delegate.itemReadyToPlay(item, currentTrack?.duration)
-            }
+            sayToListeners({ $0.itemReadyToPlay(item, currentTrack?.duration) })
             remoteCommands(isEnabled: true)
             play()
         case .failed: break
@@ -104,15 +100,14 @@ final class PlayerManager: NSObject {
     private func observePlayerRate(_ statusNumber: NSNumber) {
         let rate: Int = statusNumber.intValue
         if rate == 1 {
-            sayToListeners() { delegate in
-                delegate.playerPlay()
-            }
+            sayToListeners({ $0.playerPlay() })
         } else if rate == 0 {
-            sayToListeners() { delegate in
-                delegate.playerStop()
-            }
+            sayToListeners({ $0.playerStop() })
             guard let currentItem = player?.currentItem else { return }
-            if SettingsManager.shared.autoNextTrack.value, Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) < 1, let _ = playlist {
+            if SettingsManager.shared.autoNextTrack.value,
+               Int(currentItem.duration.seconds - round(currentItem.currentTime().seconds)) < 1,
+               let _ = playlist
+            {
                 loadTrackByID(playlist!.next())
             } else if needPlayingStatus {
                 player?.play()
@@ -187,7 +182,11 @@ final class PlayerManager: NSObject {
             return
         }
         APIManager.shared.audio.get(keys: keys, ids: trackID) { [weak self] error, data in
-            guard let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? ""), self?.currentTrack?.id == list[0].id else { return }
+            guard let list = data?.list,
+                  list.count > 0,
+                  let trackURL = URL(string: list[0].track ?? ""),
+                  self?.currentTrack?.id == list[0].id
+                else { return }
             if !loadedFromCache {
                 self?.setTrackInfo(list[0])
             }
@@ -218,10 +217,14 @@ final class PlayerManager: NSObject {
     }
     
     private func setTrackInfo(_ track: AudioData) {
-        currentTrack = CurrentTrack(id: track.id, title: track.title, performer: track.performer, duration: track.duration, image: nil)
-        sayToListeners() { delegate in
-            delegate.trackInfoChanged(currentTrack!, nil)
-        }
+        currentTrack = CurrentTrack(
+            id: track.id,
+            title: track.title,
+            performer: track.performer,
+            duration: track.duration,
+            image: nil
+        )
+        sayToListeners({ $0.trackInfoChanged(currentTrack!, nil) })
         let nowPlayingInfo = [
             MPMediaItemPropertyTitle: track.title,
             MPMediaItemPropertyArtist: track.performer,
@@ -231,19 +234,17 @@ final class PlayerManager: NSObject {
         nowPlayingCenter.nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
         guard SettingsManager.shared.loadImages.value else { return }
         RemoteDataManager.shared.getCachedImageAsData(link: track.images.last ?? "") { [weak self] imageData in
-            guard let `self` = self, track.id == self.currentTrack?.id, let image = UIImage(data: imageData as Data) else { return }
+            guard let `self` = self,
+                  track.id == self.currentTrack?.id,
+                  let image = UIImage(data: imageData as Data)
+                else { return }
             self.currentTrack?.image = image
-            self.sayToListeners() { delegate in
-                delegate.trackInfoChanged(self.currentTrack!, imageData as Data)
-            }
+            self.sayToListeners({ $0.trackInfoChanged(self.currentTrack!, imageData as Data) })
             self.nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
         }
     }
     
     public func clearPlayer() {
-        sayToListeners() { delegate in
-            delegate.playlistRemoved()
-        }
         removePlayStatusObserver()
         removePlayerRateObserver()
         if let timeObserver = timeObserver {
@@ -254,17 +255,20 @@ final class PlayerManager: NSObject {
         currentTrack = nil
         playlist = nil
         cachedTracksInfo = nil
+        sayToListeners({ $0.playlistRemoved() })
         nowPlayingCenter.nowPlayingInfo = nil
         removeRemoteCommands()
     }
     
     public func setPlaylist(tracksIDs: [String], current: Int = 0, cachedTracksInfo: [AudioData]? = nil) {
-        guard let playlistNew = Playlist(IDs: tracksIDs, current: current), self.playlist?.curr != tracksIDs[current] else { return }
+        guard let playlistNew = Playlist(IDs: tracksIDs, current: current),
+              self.playlist?.curr != tracksIDs[current]
+            else { return }
         playlist = playlistNew
         self.cachedTracksInfo = cachedTracksInfo
-        sayToListeners() { delegate in
+        sayToListeners() {
             guard let playlist = playlist else { return }
-            delegate.playlistAdded(playlist)
+            $0.playlistAdded(playlist)
         }
         addRemoteCommands()
         remoteCommands(isEnabled: false)
@@ -283,7 +287,8 @@ final class PlayerManager: NSObject {
     
     @objc public func play() {
         guard let player = player, let currentItem = player.currentItem else { return }
-        if !currentItem.duration.seconds.isNaN, Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0 {
+        let isEnd = Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0
+        if !currentItem.duration.seconds.isNaN, isEnd {
             setPlayerCurrentTime(0)
         }
         needPlayingStatus = true
@@ -299,9 +304,9 @@ final class PlayerManager: NSObject {
     public func mixAndFirst() {
         if playlist == nil { return }
         let trackOfNewPlaylist = playlist!.randomSortAndFirst()
-        sayToListeners() { delegate in
+        sayToListeners() {
             guard let playlist = playlist else { return }
-            delegate.playlistAdded(playlist)
+            $0.playlistAdded(playlist)
         }
         loadTrackByID(trackOfNewPlaylist)
     }
@@ -312,7 +317,8 @@ final class PlayerManager: NSObject {
     
     public func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool = false) {
         guard let player = player, let currentItem = player.currentItem else { return }
-        player.seek(to: CMTimeMake(Int64(withCurrentTime ? currentItem.currentTime().seconds + sec : sec), 1))
+        let setTime = Int64(withCurrentTime ? currentItem.currentTime().seconds + sec : sec)
+        player.seek(to: CMTimeMake(setTime, 1))
     }
 
 }

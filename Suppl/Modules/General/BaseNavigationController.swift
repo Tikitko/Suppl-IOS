@@ -16,7 +16,9 @@ final class BaseNavigationController: UINavigationController {
     func setTheme() {
         navigationBar.theme_barTintColor = "secondColor"
         navigationBar.theme_tintColor = ["#FFF"]
-        navigationBar.theme_titleTextAttributes = ThemeMainManager.shared.pickerWithAttributes([[NSAttributedStringKey.foregroundColor: UIColor.white]])
+        navigationBar.theme_titleTextAttributes = ThemeMainManager.shared.pickerWithAttributes(
+            [[NSAttributedStringKey.foregroundColor: UIColor.white]]
+        )
     }
     
     override func popToRootViewController(animated: Bool) -> [UIViewController]? {
