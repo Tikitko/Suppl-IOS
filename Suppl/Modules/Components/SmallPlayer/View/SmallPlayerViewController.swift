@@ -222,7 +222,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         if marginsUpdating { return }
         marginsUpdating = true
         let tabBarHeight: CGFloat = parentRootTabBarController.tabBar.frame.height
-        closed = (view.superview?.frame.height ?? view.frame.height) - tabBarHeight
+        closed = (view.superview ?? view).frame.height - tabBarHeight
         partOpened = closed - smallPlayerView.frame.height
         opened = view.superview?.frame.origin.y ?? 0
         setPlayerShow(type: nowShowType, rootSelf: rootSelf)

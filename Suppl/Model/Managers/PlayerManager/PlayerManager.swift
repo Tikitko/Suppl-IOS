@@ -45,13 +45,21 @@ final class PlayerManager: NSObject {
         if player == nil { return }
         if observerPlayStatusWorking { return }
         observerPlayStatusWorking = true
-        player?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new, .old], context: nil)
+        player?.currentItem?.addObserver(
+            self,
+            forKeyPath: #keyPath(AVPlayerItem.status),
+            options: [.new, .old],
+            context: nil
+        )
     }
     
     private func removePlayStatusObserver() {
         if player == nil { return }
         if !observerPlayStatusWorking { return }
-        player?.currentItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
+        player?.currentItem?.removeObserver(
+            self,
+            forKeyPath: #keyPath(AVPlayerItem.status)
+        )
         observerPlayStatusWorking = false
     }
     
@@ -59,18 +67,28 @@ final class PlayerManager: NSObject {
         if player == nil { return }
         if observerPlayerRateWorking { return }
         observerPlayerRateWorking = true
-        player?.addObserver(self, forKeyPath: #keyPath(AVPlayer.rate), options: [.new, .old], context: nil)
+        player?.addObserver(
+            self,
+            forKeyPath: #keyPath(AVPlayer.rate),
+            options: [.new, .old],
+            context: nil
+        )
     }
     
     private func removePlayerRateObserver() {
         if player == nil { return }
         if !observerPlayerRateWorking { return }
-        player?.removeObserver(self, forKeyPath: #keyPath(AVPlayer.rate))
+        player?.removeObserver(
+            self,
+            forKeyPath: #keyPath(AVPlayer.rate)
+        )
         observerPlayerRateWorking = false
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard let keyPath = keyPath, let statusNumber = change?[.newKey] as? NSNumber else { return }
+        guard let keyPath = keyPath,
+              let statusNumber = change?[.newKey] as? NSNumber
+            else { return }
         switch keyPath {
         case #keyPath(AVPlayerItem.status): observePlayerItemStatus(statusNumber)
         case #keyPath(AVPlayer.rate): observePlayerRate(statusNumber)
@@ -84,7 +102,7 @@ final class PlayerManager: NSObject {
         switch status {
         case .readyToPlay:
             guard let player = player, let item = player.currentItem else { return }
-            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: .main) { [weak self] (time) -> Void in
+            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: .main) { [weak self] time in
                 guard let `self` = self, item.status == .readyToPlay else { return }
                 self.sayToListeners({ $0.itemTimeChanged(item, time.seconds) })
                 self.nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
@@ -132,8 +150,6 @@ final class PlayerManager: NSObject {
     private func remoteCommands(isEnabled: Bool) {
         commandCenter.playCommand.isEnabled = isEnabled
         commandCenter.pauseCommand.isEnabled = isEnabled
-        //commandCenter().nextTrackCommand.isEnabled = isEnabled
-        //commandCenter().previousTrackCommand.isEnabled = isEnabled
     }
     
     private var nowPlayingCenter: MPNowPlayingInfoCenter {
@@ -157,7 +173,9 @@ final class PlayerManager: NSObject {
     }
     
     public func getPlaylistAsAudioData() -> [AudioData]? {
-        guard let playlist = playlist, let cachedTracksInfo = cachedTracksInfo else { return nil }
+        guard let playlist = playlist,
+              let cachedTracksInfo = cachedTracksInfo
+            else { return nil }
         var tracklist: [AudioData] = []
         for ID in playlist.IDs {
             guard let track = cachedTracksInfo.first(where: { $0.id == ID }) else { return nil }
@@ -240,7 +258,8 @@ final class PlayerManager: NSObject {
                 else { return }
             self.currentTrack?.image = image
             self.sayToListeners({ $0.trackInfoChanged(self.currentTrack!, imageData as Data) })
-            self.nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+            let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { _ in image })
+            self.nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
         }
     }
     
@@ -288,9 +307,7 @@ final class PlayerManager: NSObject {
     @objc public func play() {
         guard let player = player, let currentItem = player.currentItem else { return }
         let isEnd = Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0
-        if !currentItem.duration.seconds.isNaN, isEnd {
-            setPlayerCurrentTime(0)
-        }
+        if !currentItem.duration.seconds.isNaN, isEnd { setPlayerCurrentTime(0) }
         needPlayingStatus = true
         player.play()
     }
@@ -303,12 +320,12 @@ final class PlayerManager: NSObject {
     
     public func mixAndFirst() {
         if playlist == nil { return }
-        let trackOfNewPlaylist = playlist!.randomSortAndFirst()
-        sayToListeners() {
-            guard let playlist = playlist else { return }
-            $0.playlistAdded(playlist)
-        }
-        loadTrackByID(trackOfNewPlaylist)
+        var newPlaylist = playlist!
+        let _ = newPlaylist.randomSortAndFirst()
+        setPlaylist(
+            tracksIDs: newPlaylist.IDs,
+            cachedTracksInfo: cachedTracksInfo
+        )
     }
     
     public func playOrPause() {
