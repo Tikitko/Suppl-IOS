@@ -96,28 +96,49 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         }
     }
     
+    //
+    //       @@@@          @@@@
+    //     @@@@@@@@      @@@@@@@@
+    //    @@@@@@@@@@    @@@@@@@@@@
+    //   @@@@@@@@@@@@  @@@@@@@@@@@@
+    //   @@@@@@@@@@@@@@@@@@@@@@@@@@
+    //   @@@@@@@@@@@@@@@@@@@@@@@@@@
+    //     @@@@@@@@@@@@@@@@@@@@@@
+    //       @@@@@@@@@@@@@@@@@@
+    //         @@@@@@@@@@@@@@
+    //           @@@@@@@@@@
+    //             @@@@@@
+    //              @@@@
+    //               @@
+    //
+    //  ANN
+    
     func createRowActions(indexPath: IndexPath) -> [RowAction]? {
-        guard tracks.count > indexPath.row, let tracklist = frashTracklist else { return nil }
+        guard tracks.count > indexPath.row,
+              let tracklist = frashTracklist
+            else { return nil }
         var actions: [RowAction] = []
         let thisTrack = tracks[indexPath.row]
-        if let indexTrack = tracklist.index(of: thisTrack.id) {
-            let action: (IndexPath) -> Void = { [weak self] _ in
-                self?.interactor.removeTrack(indexTrack: indexTrack, track: self!.tracks[indexPath.row])
+        if canEdit {
+            if let indexTrack = tracklist.index(of: thisTrack.id) {
+                let action: (IndexPath) -> Void = { [weak self] _ in
+                    self?.interactor.removeTrack(indexTrack: indexTrack, track: self!.tracks[indexPath.row])
+                }
+                actions.append(RowAction(
+                    color: ActionColorHash.redOne.rawValue,
+                    title: interactor.getLocaleString(.del),
+                    action: action
+                ))
+            } else {
+                let action: (IndexPath) -> Void = { [weak self] _ in
+                    self?.interactor.addTrack(trackId: thisTrack.id, track: self!.tracks[indexPath.row])
+                }
+                actions.append(RowAction(
+                    color: ActionColorHash.greenOne.rawValue,
+                    title: interactor.getLocaleString(.add),
+                    action: action
+                ))
             }
-            actions.append(RowAction(
-                color: ActionColorHash.redOne.rawValue,
-                title: interactor.getLocaleString(.del),
-                action: action
-            ))
-        } else {
-            let action: (IndexPath) -> Void = { [weak self] _ in
-                self?.interactor.addTrack(trackId: thisTrack.id, track: self!.tracks[indexPath.row])
-            }
-            actions.append(RowAction(
-                color: ActionColorHash.greenOne.rawValue,
-                title: interactor.getLocaleString(.add),
-                action: action
-            ))
         }
         
         let playlist = frashPlaylist
@@ -155,7 +176,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     }
     
     func rowEditStatus(indexPath: IndexPath) -> Bool {
-        return canEdit
+        return true
     }
     
     func rowEditType(indexPath: IndexPath) -> UITableViewCellEditingStyle {

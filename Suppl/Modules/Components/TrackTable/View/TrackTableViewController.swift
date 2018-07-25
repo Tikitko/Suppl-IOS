@@ -140,11 +140,9 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         isEditing = false
     }
     
-    /*
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return presenter.rowEditType(indexPath: indexPath)
-    }
-    */
+    // override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    //     return presenter.rowEditType(indexPath: indexPath)
+    // }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         presenter.moveTrack(fromPath: sourceIndexPath, toPath: destinationIndexPath)
