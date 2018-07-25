@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>removeFromPlaylist</key>
+	<string>Remove from current playlist</string>
+	<key>insertInPlaylist</key>
+	<string>Add to current playlist</string>
 	<key>setting8</key>
 	<string>Hide header</string>
 	<key>setting7</key>

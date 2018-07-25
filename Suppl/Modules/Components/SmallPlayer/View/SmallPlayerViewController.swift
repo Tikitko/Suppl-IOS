@@ -103,6 +103,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        tracksTableModule.viewWillAppear(animated)
         super.viewWillAppear(animated)
         setPlayerShow(type: nowShowType)
     }
@@ -325,7 +326,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         setPlayerShowAnimated(type: nowShowType == .opened ? .partOpened : .opened)
     }
     
-    func openFullPlayer() {
+    func openFullPlayer(completion: @escaping () -> Void = {}) {
         let player = self
         let parent = player.parentRootTabBarController!
         guard let playerSnapshot = player.view.snapshotView(afterScreenUpdates: true),
@@ -339,17 +340,20 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         parent.present(player, animated: true) {
             playerSnapshot.removeFromSuperview()
             tabBarSnapshot.removeFromSuperview()
-            if UIApplication.topViewController() != self {
+            if parent.presentedViewController != self {
                 player.setInParent(initi: false)
             }
+            completion()
         }
     }
     
-    func closeFullPlayer() {
+    func closeFullPlayer(completion: @escaping () -> Void = {}) {
         let player = self
+        let parent = player.parentRootTabBarController!
         dismiss(animated: true) {
-            if UIApplication.topViewController() != self {
+            if parent.presentedViewController != self {
                 player.setInParent(initi: false)
+                completion()
             }
         }
     }

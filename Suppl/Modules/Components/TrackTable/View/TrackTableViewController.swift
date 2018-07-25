@@ -95,10 +95,12 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         if inVisibilityZone {
             guard let cell = cell, tableView.visibleCells.contains(cell) else { return }
         }
-        let freeSpace = tableView.contentSize.height - cellRect.origin.y - offset
-        let firstOffset = tableView.contentSize.height - tableView.frame.height
+        let contentSize = tableView.contentSize.height
+        let tableSize = tableView.frame.height
+        let freeSpace = contentSize - cellRect.origin.y - offset
+        let firstOffset = tableSize < contentSize ? contentSize - tableSize : 0
         let secondOffset = cellRect.origin.y - (cellRect.origin.y < offset ? 0 : offset)
-        let point = CGPoint(x: 0, y: freeSpace < tableView.frame.height ? firstOffset : secondOffset)
+        let point = CGPoint(x: 0, y: freeSpace < tableSize ? firstOffset : secondOffset)
         tableView.setContentOffset(point, animated: true)
     }
     
@@ -131,6 +133,11 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         presenter.loadConfigure()
         presenter.requestCellSetting()
         presenter.reloadWhenChangingSettings()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isEditing = false
     }
     
     /*

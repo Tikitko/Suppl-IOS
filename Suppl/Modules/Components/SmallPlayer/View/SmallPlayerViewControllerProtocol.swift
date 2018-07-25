@@ -13,5 +13,7 @@ protocol SmallPlayerViewControllerProtocol: class {
     func updatePlayerProgress(percentages: Float, currentTime: Double)
     func openPlayer(duration: Double)
     func setPlayImage()
-    func setPauseImage() 
+    func setPauseImage()
+    func openFullPlayer(completion: @escaping () -> Void)
+    func closeFullPlayer(completion: @escaping () -> Void)
 }

@@ -9,9 +9,8 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     weak var view: SmallPlayerViewControllerProtocol!
     
     let rewindCount: Double = 15
-    
+
     var playlist: [AudioData] = [] {
-        willSet { view.setZeroTableOffset() }
         didSet { view.reloadTableData() }
     }
     
@@ -56,9 +55,21 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
         interactor.clearPlayer()
     }
     
+    func inStart() {
+        view.setZeroTableOffset()
+    }
+    
 }
 
 extension SmallPlayerPresenter: PlayerListenerDelegate {
+    
+    func playlistTrackInserted(_ inserted: AudioData, _ at: Int, _ playlist: Playlist) {
+        self.playlist.insert(inserted, at: at)
+    }
+    
+    func playlistTrackRemoved(_ removed: AudioData, _ at: Int, _ playlist: Playlist) {
+        self.playlist.remove(at: at)
+    }
     
     func playlistAdded(_ playlist: Playlist) {
         interactor.requestPlaylist()
@@ -68,8 +79,8 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
     
     func playlistRemoved() {
         playlist = []
-        if view.nowShowType == .opened { return }
-        view.setPlayerShowAnimated(type: .closed)
+        let completion: () -> Void = { [weak self] in self?.view.setPlayerShowAnimated(type: .closed) }
+        view.nowShowType == .opened ? view.closeFullPlayer(completion: completion) : completion()
     }
     
     func itemReadyToPlay(_ item: AVPlayerItem, _ duration: Int?) {

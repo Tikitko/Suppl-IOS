@@ -19,7 +19,9 @@ final class PlayerManager: NSObject {
     private var observerPlayerRateWorking = false
     private var timeObserver: Any?
     
-    private var playlist: Playlist?
+    private(set) var playlist: Playlist? {
+        didSet { sayToListeners({ $0.playlistChanged(playlist) }) }
+    }
     private(set) var currentTrack: CurrentTrack?
     
     private var cachedTracksInfo: [AudioData]?
@@ -306,8 +308,9 @@ final class PlayerManager: NSObject {
     
     @objc public func play() {
         guard let player = player, let currentItem = player.currentItem else { return }
-        let isEnd = Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0
-        if !currentItem.duration.seconds.isNaN, isEnd { setPlayerCurrentTime(0) }
+        if !currentItem.duration.seconds.isNaN,
+            Int(currentItem.duration.seconds - currentItem.currentTime().seconds) == 0
+        { setPlayerCurrentTime(0) }
         needPlayingStatus = true
         player.play()
     }
@@ -326,6 +329,37 @@ final class PlayerManager: NSObject {
             tracksIDs: newPlaylist.IDs,
             cachedTracksInfo: cachedTracksInfo
         )
+    }
+    
+    public func insert(_ id: String, at: Int? = nil, cachedTrackInfo: AudioData? = nil) {
+        if playlist == nil { return }
+        guard let cachedTrackInfo = cachedTrackInfo else { return }
+        let atFinal = at ?? playlist!.IDs.count
+        guard let newCurrent = playlist!.insert(id, at: atFinal) else { return }
+        if !(cachedTracksInfo?.contains(cachedTrackInfo) ?? true) {
+            cachedTracksInfo?.append(cachedTrackInfo)
+        }
+        sayToListeners() {
+            guard let playlist = playlist else { return }
+            $0.playlistTrackInserted(cachedTrackInfo, atFinal, playlist)
+        }
+        if newCurrent != currentTrack?.id {
+            loadTrackByID(newCurrent)
+        }
+    }
+    
+    public func remove(at: Int) {
+        if playlist == nil { return }
+        guard let trackId = cachedTracksInfo?.index(where: { $0.id == playlist!.IDs[at] }) else { return }
+        guard let newCurrent = playlist!.remove(at: at) else { return }
+        let removedTrack = cachedTracksInfo!.remove(at: trackId)
+        sayToListeners() {
+            guard let playlist = playlist else { return }
+            $0.playlistTrackRemoved(removedTrack, at, playlist)
+        }
+        if newCurrent != currentTrack?.id {
+            loadTrackByID(newCurrent)
+        }
     }
     
     public func playOrPause() {

@@ -29,7 +29,12 @@ class TrackTableRouter: BaseRouter, TrackTableRouterProtocol {
     }
     
     func showToastOnTop(title: String, body: String, duration: Double = 2.0) {
-        UIApplication.topViewController()?.view.makeToast(body, duration: duration, position: .top, title: title)
+        viewController.view.superview?.makeToast(
+            body,
+            duration: duration,
+            position: .top,
+            title: title
+        )
     }
     
 }

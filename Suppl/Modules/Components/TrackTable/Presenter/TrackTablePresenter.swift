@@ -7,8 +7,17 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     var interactor: TrackTableInteractorProtocol!
     weak var view: TrackTableViewControllerProtocol!
 
+    enum ActionColorHash: String {
+        case redOne = "#FF0000"
+        case greenOne = "#4FAB5B"
+        case redTwo = "#900101"
+        case greenTwo = "#819D13"
+    }
+    
     var tracks: [AudioData] = []
+    
     var frashTracklist: [String]?
+    var frashPlaylist: Playlist?
     
     var canEdit = false
     var configureLoaded = false
@@ -90,16 +99,48 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     func createRowActions(indexPath: IndexPath) -> [RowAction]? {
         guard tracks.count > indexPath.row, let tracklist = frashTracklist else { return nil }
         var actions: [RowAction] = []
-        let thisTrack = tracks[indexPath.row].id
-        if let indexTrack = tracklist.index(of: thisTrack) {
-            actions.append(RowAction(color: "#FF0000", title: interactor.getLocaleString(.del)) { [weak self] index in
+        let thisTrack = tracks[indexPath.row]
+        if let indexTrack = tracklist.index(of: thisTrack.id) {
+            let action: (IndexPath) -> Void = { [weak self] _ in
                 self?.interactor.removeTrack(indexTrack: indexTrack, track: self!.tracks[indexPath.row])
-            })
+            }
+            actions.append(RowAction(
+                color: ActionColorHash.redOne.rawValue,
+                title: interactor.getLocaleString(.del),
+                action: action
+            ))
         } else {
-            actions.append(RowAction(color: "#4FAB5B", title: interactor.getLocaleString(.add)) { [weak self] index in
-                self?.interactor.addTrack(trackId: thisTrack, track: self!.tracks[indexPath.row])
-            })
+            let action: (IndexPath) -> Void = { [weak self] _ in
+                self?.interactor.addTrack(trackId: thisTrack.id, track: self!.tracks[indexPath.row])
+            }
+            actions.append(RowAction(
+                color: ActionColorHash.greenOne.rawValue,
+                title: interactor.getLocaleString(.add),
+                action: action
+            ))
         }
+        
+        let playlist = frashPlaylist
+        if let indexTracklist = playlist?.IDs.index(where: { $0 == thisTrack.id }) {
+            let action: (IndexPath) -> Void = { [weak self] _ in
+                self?.interactor.removeFromPlaylist(at: indexTracklist)
+            }
+            actions.append(RowAction(
+                color: ActionColorHash.redTwo.rawValue,
+                title: interactor.getLocaleString(.removeFromPlaylist),
+                action: action
+            ))
+        } else {
+            let action: (IndexPath) -> Void = { [weak self] _ in
+                self?.interactor.insertInPlaylist(track: thisTrack)
+            }
+            actions.append(RowAction(
+                color: ActionColorHash.greenTwo.rawValue,
+                title: interactor.getLocaleString(.insertInPlaylist),
+                action: action
+            ))
+        }
+        
         return actions
     }
     
@@ -173,6 +214,10 @@ extension TrackTablePresenter: TracklistListenerDelegate {
 }
 
 extension TrackTablePresenter: PlayerListenerDelegate {
+    
+    func playlistChanged(_ playlist: Playlist?) {
+        frashPlaylist = playlist
+    }
     
     func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
         guard imageData == nil,

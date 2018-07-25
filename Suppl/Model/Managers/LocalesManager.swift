@@ -3,7 +3,7 @@ import Foundation
 final class LocalesManager {
     
     public enum Expression: String {
-        case playerTitle, del, add, load, getInfo, auth, reg, hi, inputIdentifier, checkIdentifier, badIdentifier, notFound, musicTitle, settingsTitle, emptyTracklist, tracklistTitle, titleSMain, titleSAccount, titleSDesign, setting0, setting1, setting2, setting3, install, emailSet, youEmail, addOk, addError, removeOk, removeError, moveOk, moveError, noOffline, noInOffline, setting4, on, off, setting5, clear, serverError, setting6, coreDataLoadError, coreDataLoading, imagesCacheRemoved, tracksCacheRemoved, searchTracklist, searchMain, filterTitle, filterTime, filterSearch, filterSearchT, filterSearchP, filterOK, youIdentifierLabel, youEmailLabel, identifierButton, emailButton, loginIn, send, resetTitle, keySent, setting7, setting8
+        case playerTitle, del, add, load, getInfo, auth, reg, hi, inputIdentifier, checkIdentifier, badIdentifier, notFound, musicTitle, settingsTitle, emptyTracklist, tracklistTitle, titleSMain, titleSAccount, titleSDesign, setting0, setting1, setting2, setting3, install, emailSet, youEmail, addOk, addError, removeOk, removeError, moveOk, moveError, noOffline, noInOffline, setting4, on, off, setting5, clear, serverError, setting6, coreDataLoadError, coreDataLoading, imagesCacheRemoved, tracksCacheRemoved, searchTracklist, searchMain, filterTitle, filterTime, filterSearch, filterSearchT, filterSearchP, filterOK, youIdentifierLabel, youEmailLabel, identifierButton, emailButton, loginIn, send, resetTitle, keySent, setting7, setting8, insertInPlaylist, removeFromPlaylist
     }
     
     static public let shared = LocalesManager()

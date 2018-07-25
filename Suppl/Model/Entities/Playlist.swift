@@ -24,7 +24,21 @@ struct Playlist {
     }
     
     public mutating func prev() -> String {
-        current = 0 == current ? IDs.count - 1 : current - 1
+        current = (0 == current ? IDs.count : current) - 1
+        return curr
+    }
+    
+    public mutating func insert(_ id: String, at: Int) -> String? {
+        if IDs.contains(id) || at > IDs.count { return nil }
+        if at <= current { current += 1 }
+        IDs.insert(id, at: at)
+        return curr
+    }
+    
+    public mutating func remove(at: Int) -> String? {
+        if !(at < IDs.count) || IDs.count == 1 { return nil }
+        if at <= current, current != 0 { current -= 1 }
+        IDs.remove(at: at)
         return curr
     }
     

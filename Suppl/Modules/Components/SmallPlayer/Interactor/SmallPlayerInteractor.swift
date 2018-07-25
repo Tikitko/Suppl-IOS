@@ -21,6 +21,7 @@ class SmallPlayerInteractor: BaseInteractor, SmallPlayerInteractorProtocol {
         guard let newPlaylist = PlayerManager.shared.getPlaylistAsAudioData(),
               presenter.playlist != newPlaylist
             else { return }
+        presenter.inStart()
         presenter.playlist = newPlaylist
     }
     

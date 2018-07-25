@@ -15,4 +15,6 @@ protocol TrackTableInteractorProtocol: class, BaseInteractorProtocol {
     func removeTrack(indexTrack: Int, track: AudioData)
     func moveTrack(from: Int, to: Int, track: AudioData)
     func loadImageData(link: String, callback: @escaping (_ data: Data) -> Void)
+    func removeFromPlaylist(at: Int)
+    func insertInPlaylist(track: AudioData)
 }

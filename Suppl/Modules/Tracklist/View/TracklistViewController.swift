@@ -53,9 +53,8 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     override func viewWillAppear(_ animated: Bool) {
         tracksTableModule.viewWillAppear(animated)
         super.viewWillAppear(animated)
-        //setHideHeader(false, animated: false)
     }
-    
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         switch traitCollection.verticalSizeClass {

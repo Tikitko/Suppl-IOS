@@ -98,6 +98,22 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
         }
     }
     
+    func removeFromPlaylist(at: Int) {
+        if PlayerManager.shared.playlist?.IDs.count == 1 {
+            PlayerManager.shared.clearPlayer()
+        } else {
+            PlayerManager.shared.remove(at: at)
+        }
+    }
+    
+    func insertInPlaylist(track: AudioData) {
+        if PlayerManager.shared.playlist == nil {
+            PlayerManager.shared.setPlaylist(tracksIDs: [track.id], current: 0, cachedTracksInfo: [track])
+        } else {
+            PlayerManager.shared.insert(track.id, cachedTrackInfo: track)
+        }
+    }
+    
     func openPlayer(tracksIDs: [String], trackIndex: Int, cachedTracksInfo: [AudioData]? = nil) {
         PlayerManager.shared.setPlaylist(tracksIDs: tracksIDs, current: trackIndex, cachedTracksInfo: cachedTracksInfo)
     }
