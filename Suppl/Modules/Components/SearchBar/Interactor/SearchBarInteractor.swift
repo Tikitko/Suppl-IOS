@@ -10,7 +10,7 @@ class SearchBarInteractor: SearchBarInteractorProtocol {
     }
     
     var communicateDelegate: SearchCommunicateProtocol? {
-        get { return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? SearchCommunicateProtocol }
+        get { return ModulesCommunicateManager.shared.getListener(name: parentModuleNameId) as? SearchCommunicateProtocol }
     }
     
 }

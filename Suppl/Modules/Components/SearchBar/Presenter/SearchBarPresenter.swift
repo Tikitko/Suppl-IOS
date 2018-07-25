@@ -6,8 +6,7 @@ class SearchBarPresenter: SearchBarPresenterProtocolInteractor, SearchBarPresent
     var interactor: SearchBarInteractorProtocol!
     weak var view: SearchBarViewControllerProtocol!
     
-    func searchButtonClicked(query: String?) {
-        guard let query = query else { return }
+    func searchButtonClicked(query: String) {
         interactor.communicateDelegate?.searchButtonClicked(query: query)
     }
 }

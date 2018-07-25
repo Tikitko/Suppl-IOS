@@ -3,7 +3,7 @@ import CoreData
 
 final class CoreDataManager {
     
-    static public let s = CoreDataManager()
+    static public let shared = CoreDataManager()
     private init() {}
     
     public class CoreDataEntity: NSManagedObject {}
@@ -60,9 +60,7 @@ final class CoreDataManager {
         }
         
         public func saveContext(completion: @escaping () -> Void) {
-            run { inWorker in
-                inWorker.saveContext()
-            }
+            run { $0.saveContext() }
         }
         
         public func fetche<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, fetchLimit: Int? = nil, completion: @escaping ([ENTITY]?, Error?) -> Void) {
@@ -70,7 +68,12 @@ final class CoreDataManager {
                 var entitiesOut: [ENTITY]? = nil
                 var errorOut: Error? = nil
                 do {
-                    entitiesOut = try inWorker.fetche(type, predicate: predicate, sortDescriptors: sortDescriptors, fetchLimit: fetchLimit)
+                    entitiesOut = try inWorker.fetche(
+                        type,
+                        predicate: predicate,
+                        sortDescriptors: sortDescriptors,
+                        fetchLimit: fetchLimit
+                    )
                 } catch {
                     errorOut = error
                 }
@@ -79,14 +82,12 @@ final class CoreDataManager {
         }
         
         public func create<ENTITY: CoreDataEntity>(_ type: ENTITY.Type, completion: @escaping (ENTITY) -> Void) {
-            run { inWorker in
-                completion(inWorker.create(type))
-            }
+            run { completion($0.create(type)) }
         }
         
         public func delete<ENTITY: CoreDataEntity>(_ entity: ENTITY, completion: @escaping () -> Void) {
-            run { inWorker in
-                inWorker.delete(entity)
+            run {
+                $0.delete(entity)
                 completion()
             }
         }

@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         ToastManager.shared.isQueueEnabled = true
-        SettingsManager.s.setTheme()
-        AuthManager.s.setAuthWindow()
+        ThemeMainManager.shared.set()
+        AuthManager.shared.setAuthWindow()
         
         return true
     }
@@ -33,8 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         switch url.host {
         case "resetKey":
-            if let authVC = UIApplication.topViewController() as? AuthViewController {
-                authVC.resetKeyForUse = url.lastPathComponent
+            if let authVC = UIApplication.shared.keyWindow?.rootViewController as? AuthViewController {
+                authVC.resetKey = url.lastPathComponent
                 authVC.viewDidAppear(false)
             }
             return true
@@ -43,31 +43,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        let _ = AuthManager.s.stopAuthCheck()
+        let _ = AuthManager.shared.stopAuthCheck()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        if UIApplication.topViewController() is AuthViewController { return }
-        let _ = AuthManager.s.startAuthCheck(startNow: true)
+        if UIApplication.shared.keyWindow?.rootViewController is AuthViewController { return }
+        let _ = AuthManager.shared.startAuthCheck(startNow: true)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        let _ = AuthManager.s.stopAuthCheck()
+        let _ = AuthManager.shared.stopAuthCheck()
     }    
 
-}
-
-extension UIApplication {
-    class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let navigationController = controller as? UINavigationController {
-            return topViewController(controller: navigationController.visibleViewController)
-        }
-        if let selectedInTabBarController = (controller as? UITabBarController)?.selectedViewController {
-            return topViewController(controller: selectedInTabBarController)
-        }
-        if let presented = controller?.presentedViewController {
-            return topViewController(controller: presented)
-        }
-        return controller
-    }
 }

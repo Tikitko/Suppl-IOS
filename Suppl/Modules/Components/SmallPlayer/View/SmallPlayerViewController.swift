@@ -21,7 +21,6 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     
-    
     @IBOutlet weak var playerTitleLabelBig: UILabel!
     @IBOutlet weak var titleLabelBig: UILabel!
     @IBOutlet weak var performerLabelBig: UILabel!
@@ -34,11 +33,16 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     @IBOutlet weak var progressSliderBig: UISlider!
     @IBOutlet weak var backButtonBig: UIButton!
     @IBOutlet weak var nextButtonBig: UIButton!
+    @IBOutlet weak var playlistButtonBig: UIButton!
     
-    var marginsUpdating = false
+    weak var parentRootTabBarController: RootTabBarController!
+    
+    var tracksTableModule: UITableViewController!
     
     var interactionControllerPresent: SmallPlayerInteractionController?
     var interactionControllerDismiss: SmallPlayerInteractionController?
+    
+    var marginsUpdating = false
     
     let safeAreaMarginIdentifier = "safeAreaMargin"
     var baseMargin: CGFloat = 0
@@ -49,37 +53,64 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     var useOldAnimation = false
     
-    weak var parentRootTabBarController: RootTabBarController!
+    convenience init(table: UITableViewController) {
+        self.init()
+        tracksTableModule = table
+    }
+    
+    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         transitioningDelegate = self
         if useOldAnimation {
-            playerTitleLabelBig.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
-            infoStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:))))
+            playerTitleLabelBig.addGestureRecognizer(
+                UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:)))
+            )
+            infoStackView.addGestureRecognizer(
+                UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:)))
+            )
         } else {
             interactionControllerPresent = SmallPlayerInteractionController(self, forPresent: true)
             interactionControllerDismiss = SmallPlayerInteractionController(self, forPresent: false)
         }
-        
         playerTitleLabelBig.text = presenter.getTitle()
-        
+        view.insertSubview(tracksTableModule.view, belowSubview: playlistButtonBig)
+        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.view, parent: imageViewBig)
         if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) {
             baseMargin = view.constraints[safeAreaMarginConstraintIndex].constant
         }
         presenter.setListener()
         setTheme()
         clearPlayer()
+        tracksTableModule.tableView.layer.cornerRadius = 10
+        tracksTableModule.tableView.clipsToBounds = true
         imageViewBig.layer.cornerRadius = 10
         imageViewBig.clipsToBounds = true
         smallPlayerView.isOpaque = true
         parentRootTabBarController.tabBar.isOpaque = true
+        turnPlaylist(false, duration: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        tracksTableModule.viewWillAppear(animated)
         super.viewWillAppear(animated)
         setPlayerShow(type: nowShowType)
+    }
+    
+    func turnPlaylist(_ isOn: Bool, duration: TimeInterval?) {
+        let changes = { self.tracksTableModule.view.alpha = isOn ? 0.95 : 0 }
+        duration != nil ? UIView.animate(withDuration: duration!, animations: changes) : changes()
     }
     
     func setInParent(initi: Bool = true) {
@@ -92,9 +123,8 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     func updateTopMargin(rootSelf: Bool = false, _ margin: CGFloat? = nil, withBase: Bool = true) {
         guard let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) else { return }
-        let safeAreaMargin: CGFloat?
-        
         let rootViewController = rootSelf ? self : parentRootTabBarController
+        let safeAreaMargin: CGFloat?
         if #available(iOS 11.0, *) {
             safeAreaMargin = rootViewController.view.safeAreaInsets.top
         } else {
@@ -109,11 +139,11 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     func setPlayerShowAnimated(type: ShowType) {
         startExtraPart(showType: type)
-        UIView.animate(withDuration: 0.4, animations: { [weak self] in
-            self?.setPlayerShow(type: type, needExtraPart: false)
-        }) { [weak self] status in
-            self?.finalExtraPart(showType: type)
-        }
+        UIView.animate(
+            withDuration: 0.3,
+            animations: { self.setPlayerShow(type: type, needExtraPart: false)},
+            completion: { status in self.finalExtraPart(showType: type) }
+        )
     }
     
     func setPlayerShow(type: ShowType, needExtraPart: Bool = true, rootSelf: Bool = false) {
@@ -150,15 +180,28 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func startExtraPart(showType: ShowType) {
-        if showType == .partOpened {
+        switch showType {
+        case .partOpened:
             view.isHidden = false
+        case .closed:
+            if #available(iOS 11.0, *) {
+                parentRootTabBarController.additionalSafeAreaInsets.bottom = 0
+            }
+        default: break
         }
     }
     
     func finalExtraPart(showType: ShowType) {
-        if showType == .closed {
+        switch showType {
+        case .partOpened:
+            if #available(iOS 11.0, *) {
+                let additionalSafeArea = parentRootTabBarController.tabBar.frame.height + smallPlayerView.frame.height
+                parentRootTabBarController.additionalSafeAreaInsets.bottom = additionalSafeArea
+            }
+        case .closed:
             clearPlayer()
             view.isHidden = true
+        default: break
         }
     }
     
@@ -168,10 +211,10 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animate(alongsideTransition: { [weak self] _ in
-            self?.parentRootTabBarController.view.setNeedsLayout()
-            self?.parentRootTabBarController.view.layoutIfNeeded()
-            self?.updateMargins(rootSelf: true)
+        coordinator.animate(alongsideTransition: { _ in
+            self.parentRootTabBarController.view.setNeedsLayout()
+            self.parentRootTabBarController.view.layoutIfNeeded()
+            self.updateMargins(rootSelf: true)
         })
         super.viewWillTransition(to: size, with: coordinator)
     }
@@ -180,7 +223,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         if marginsUpdating { return }
         marginsUpdating = true
         let tabBarHeight: CGFloat = parentRootTabBarController.tabBar.frame.height
-        closed = (view.superview?.frame.height ?? view.frame.height) - tabBarHeight
+        closed = (view.superview ?? view).frame.height - tabBarHeight
         partOpened = closed - smallPlayerView.frame.height
         opened = view.superview?.frame.origin.y ?? 0
         setPlayerShow(type: nowShowType, rootSelf: rootSelf)
@@ -233,9 +276,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     func updateAfterAnimation(block: @escaping (UIViewControllerTransitionCoordinatorContext?) -> Void) {
         if let transitionCoordinator = transitionCoordinator {
             transitionCoordinator.animate(alongsideTransition: nil, completion: block)
-        } else {
-            block(nil)
-        }
+        } else { block(nil) }
     }
     
     func clearPlayer() {
@@ -257,7 +298,14 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         rewindMButtonBig.isEnabled = false
         rewindPButtonBig.isEnabled = false
         progressSliderBig.isEnabled = false
-
+    }
+    
+    func reloadTableData() {
+        tracksTableModule.tableView.reloadData()
+    }
+    
+    func setZeroTableOffset() {
+        tracksTableModule.tableView.setContentOffset(.zero, animated: false)
     }
     
     func setPlayButtonImage(_ image: UIImage) {
@@ -278,12 +326,12 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         setPlayerShowAnimated(type: nowShowType == .opened ? .partOpened : .opened)
     }
     
-    func openFullPlayer() {
+    func openFullPlayer(completion: @escaping () -> Void = {}) {
         let player = self
         let parent = player.parentRootTabBarController!
         guard let playerSnapshot = player.view.snapshotView(afterScreenUpdates: true),
               let tabBarSnapshot = parent.tabBar.snapshotView(afterScreenUpdates: true)
-              else { return }
+            else { return }
         playerSnapshot.frame = player.view.frame
         tabBarSnapshot.frame = parent.tabBar.frame
         parent.view.addSubview(playerSnapshot)
@@ -292,17 +340,20 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         parent.present(player, animated: true) {
             playerSnapshot.removeFromSuperview()
             tabBarSnapshot.removeFromSuperview()
-            if UIApplication.topViewController() != self {
+            if parent.presentedViewController != self {
                 player.setInParent(initi: false)
             }
+            completion()
         }
     }
     
-    func closeFullPlayer() {
+    func closeFullPlayer(completion: @escaping () -> Void = {}) {
         let player = self
+        let parent = player.parentRootTabBarController!
         dismiss(animated: true) {
-            if UIApplication.topViewController() != self {
+            if parent.presentedViewController != self {
                 player.setInParent(initi: false)
+                completion()
             }
         }
     }
@@ -333,6 +384,16 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     @IBAction func rewindMClicked(_ sender: Any) {
         presenter.rewindM()
+    }
+    
+    @IBAction func mixButtonClicked(_ sender: Any) {
+        presenter.mixButtonClick()
+    }
+    
+    @IBAction func playlistButtonClicked(_ sender: Any) {
+        let alpha = tracksTableModule.view.alpha == 0
+        playlistButtonBig.setImage(alpha ? #imageLiteral(resourceName: "icon_187") : #imageLiteral(resourceName: "icon_065"), for: .normal)
+        turnPlaylist(alpha, duration: 0.2)
     }
     
 }

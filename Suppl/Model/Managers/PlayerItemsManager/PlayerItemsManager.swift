@@ -3,9 +3,9 @@ import AVFoundation
 
 final class PlayerItemsManager {
     
-    static public let s = PlayerItemsManager()
+    static public let shared = PlayerItemsManager()
     private init() {
-        tracksCacheDirPath = RemoteDataManager.s.baseCacheDirPath.appendingPathComponent("tracks")
+        tracksCacheDirPath = RemoteDataManager.shared.baseCacheDirPath.appendingPathComponent("tracks")
     }
     
     public enum ItemStatus {
@@ -33,7 +33,7 @@ final class PlayerItemsManager {
         init(name: String, item: CachingPlayerItem, delegates: NSMapTable<NSString, AnyObject>?) {
             self.name = name
             self.item = item
-            self.delegates = delegates ?? NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
+            self.delegates = delegates ?? NSMapTable<NSString, AnyObject>(keyOptions: .strongMemory, valueOptions: .weakMemory)
         }
         
         public func setListener(_ name: String, delegate: PlayerItemDelegate) {
@@ -81,7 +81,7 @@ final class PlayerItemsManager {
             downloadQueueItems[index].setListener(listenerName, delegate: delegate)
         } else {
             if waitingDelegates.index(forKey: itemName) == nil {
-                waitingDelegates[itemName] = NSMapTable<NSString, AnyObject>(keyOptions: NSPointerFunctions.Options.strongMemory, valueOptions: NSPointerFunctions.Options.weakMemory)
+                waitingDelegates[itemName] = NSMapTable<NSString, AnyObject>(keyOptions: .strongMemory, valueOptions: .weakMemory)
             }
             waitingDelegates[itemName]?.setObject(delegate, forKey: listenerName as NSString)
         }
@@ -120,24 +120,23 @@ final class PlayerItemsManager {
     }
     
     public func addItem(_ name: String, completion: @escaping (Bool) -> Void) {
-        guard let keys = AuthManager.s.getAuthKeys() else {
+        guard let keys = AuthManager.shared.getAuthKeys() else {
             completion(false)
             return
         }
-        APIManager.s.audio.get(keys: keys, ids: name) { [weak self] error, data in
-            if let `self` = self, let list = data?.list, list.count > 0, let trackURL = URL(string: list[0].track ?? "") {
-                completion(self.addItem(name, trackURL))
-            } else {
-                completion(false)
-            }
+        APIManager.shared.audio.get(keys: keys, ids: name) { [weak self] error, data in
+            if let `self` = self,
+               let list = data?.list,
+               list.count > 0,
+               let trackURL = URL(string: list[0].track ?? "")
+            { completion(self.addItem(name, trackURL)) }
+            else { completion(false) }
         }
     }
 
     public func removeActiveItem(_ name: String) -> Bool {
         guard let index = downloadQueueItems.index(where: { $0.name == name }) else { return false }
-        downloadQueueItems[index].sayToListeners() { delegate in
-            delegate.itemStatusChanged(name, .cancel)
-        }
+        downloadQueueItems[index].sayToListeners({ $0.itemStatusChanged(name, .cancel) })
         waitingDelegates[name] = downloadQueueItems[index].getAllListeners()
         downloadQueueItems[index].item.delegate = nil
         let item = downloadQueueItems[index].item
@@ -228,9 +227,7 @@ final class PlayerItemsManager {
         if let item = downloadQueueItems.first, nowDownloading == nil {
             nowDownloading = item.item
             item.item.download()
-            item.sayToListeners() { delegate in
-                delegate.itemStatusChanged(item.name, .downloading)
-            }
+            item.sayToListeners({ $0.itemStatusChanged(item.name, .downloading) })
         }
     }
     
@@ -239,9 +236,7 @@ final class PlayerItemsManager {
             playerItem.delegate = nil
             let item = downloadQueueItems[index]
             let result = data != nil && saveFileInCacheDir(data: data!, name: item.name)
-            item.sayToListeners() { delegate in
-                delegate.itemStatusChanged(item.name, result ? .savedReceived : .errorReceived)
-            }
+            item.sayToListeners({ $0.itemStatusChanged(item.name, result ? .savedReceived : .errorReceived) })
             waitingDelegates[item.name] = downloadQueueItems[index].getAllListeners()
             downloadQueueItems.remove(at: index)
             nowDownloading = nil
@@ -253,9 +248,7 @@ final class PlayerItemsManager {
         if let index = downloadQueueItems.index(where: { $0.item == playerItem }) {
             let percentage = (bytesDownloaded * 100) / bytesExpected
             downloadQueueItems[index].lastLoadPercentages = percentage
-            downloadQueueItems[index].sayToListeners() { delegate in
-                delegate.itemDownloadingProgressChanged(downloadQueueItems[index].name, percentage)
-            }
+            downloadQueueItems[index].sayToListeners({ $0.itemDownloadingProgressChanged(downloadQueueItems[index].name, percentage) })
         }
     }
     

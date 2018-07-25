@@ -3,7 +3,9 @@ import UIKit
 
 protocol TrackTablePresenterProtocolInteractor: class {
     var canEdit: Bool { get set }
+    var frashTracklist: [String]? { get set }
     var moduleNameId: String { get }
-    func setTracklist(_ tracklist: [String]?)
+    func setCellSetting(_ value: Bool)
+    func reloadData()
     func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData)
 }

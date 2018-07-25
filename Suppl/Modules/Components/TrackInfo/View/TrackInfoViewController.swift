@@ -1,3 +1,4 @@
+import Foundation
 import UIKit
 
 class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol {
@@ -16,7 +17,16 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     var loadCircle: CircleLoad!
     
     var baseImage = true
-    let allowDownloadButton = UIApplication.topViewController() is TracklistViewController
+    
+    var allowDownloadButton: Bool = false
+    var lightStyle: Bool = false {
+        didSet {
+            let color: UIColor = lightStyle ? .white : .black
+            trackTitle.textColor = color
+            trackPerformer.textColor = color
+            trackDuration.textColor = color
+        }
+    }
     
     enum LoadButtonType {
         case download
@@ -34,20 +44,24 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
-        loadCircle = CircleLoad(frame: blurView.bounds, radiusOffset: 10, lineWidth: 5, color: .white)
+        loadCircle = CircleLoad(
+            frame: blurView.bounds,
+            radiusOffset: 10,
+            lineWidth: 5,
+            color: .white
+        )
         loadCircle.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurView.addSubview(loadCircle)
         loadProgressBar.isHidden = true
-        
         blurView.layer.cornerRadius = 5
         blurView.clipsToBounds = true
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         trackImage.clipsToBounds = true
         blurView.clipsToBounds = true
-        resetInfo()
         presenter.setListeners()
         presenter.requestOfflineMode()
+        resetInfo()
     }
     
     func setTheme() {
@@ -67,6 +81,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     func turnLoadButton(_ isOn: Bool) {
         if isOn, !allowDownloadButton { return }
         loadButton.isHidden = !isOn
+        loadButton.alpha = isOn ? 1 : 0
         loadButton.isEnabled = !presenter.isOffline && isOn
     }
     
@@ -109,18 +124,13 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
     
     func setSelected(_ value: Bool, instantly: Bool = false) {
-        let result = value ? UIColor(white: 0.96, alpha: 1.0) : nil
-        if instantly {
-            view.backgroundColor = result
-        } else {
-            setBackgroundColorWithAnimation(result)
-        }
+        let result = value ? (!lightStyle ? UIColor(white: 0.96, alpha: 1.0) : presenter.getCellSelectColor()) : nil
+        setBackgroundColor(result, duration: !instantly ? 0.3 : nil)
     }
-
-    func setBackgroundColorWithAnimation(_ color: UIColor?) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.view.backgroundColor = color
-        }
+    
+    func setBackgroundColor(_ color: UIColor?, duration: TimeInterval?) {
+        let changes = { self.view.backgroundColor = color }
+        duration != nil ? UIView.animate(withDuration: duration!, animations: changes) : changes()
     }
     
     func resetInfo() {

@@ -8,7 +8,18 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     var interactor: SmallPlayerInteractorProtocol!
     weak var view: SmallPlayerViewControllerProtocol!
     
+    let rewindCount: Double = 15
+
+    var playlist: [AudioData] = [] {
+        didSet { view.reloadTableData() }
+    }
+    
+    var moduleNameId: String {
+        get { return router.moduleNameId }
+    }
+    
     func setListener() {
+        interactor.setListener(self)
         interactor.setPlayerListener(self)
     }
     
@@ -25,15 +36,15 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     }
     
     func rewindP() {
-        interactor.setPlayerCurrentTime(15, withCurrentTime: true)
+        interactor.setPlayerCurrentTime(rewindCount, withCurrentTime: true)
     }
     
     func rewindM() {
-        interactor.setPlayerCurrentTime(-15, withCurrentTime: true)
+        interactor.setPlayerCurrentTime(rewindCount * -1, withCurrentTime: true)
     }
     
-    func openBigPlayer() {
-        router.openBigPlayer()
+    func mixButtonClick() {
+        interactor.callMix()
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool = false) {
@@ -44,27 +55,45 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
         interactor.clearPlayer()
     }
     
+    func inStart() {
+        view.setZeroTableOffset()
+    }
+    
 }
 
 extension SmallPlayerPresenter: PlayerListenerDelegate {
     
+    func playlistTrackInserted(_ inserted: AudioData, _ at: Int, _ playlist: Playlist) {
+        self.playlist.insert(inserted, at: at)
+    }
+    
+    func playlistTrackRemoved(_ removed: AudioData, _ at: Int, _ playlist: Playlist) {
+        self.playlist.remove(at: at)
+    }
+    
     func playlistAdded(_ playlist: Playlist) {
+        interactor.requestPlaylist()
+        if view.nowShowType == .opened { return }
         view.setPlayerShowAnimated(type: .partOpened)
     }
     
     func playlistRemoved() {
-        view.setPlayerShowAnimated(type: .closed)
+        playlist = []
+        let completion: () -> Void = { [weak self] in self?.view.setPlayerShowAnimated(type: .closed) }
+        view.nowShowType == .opened ? view.closeFullPlayer(completion: completion) : completion()
     }
     
     func itemReadyToPlay(_ item: AVPlayerItem, _ duration: Int?) {
         view.updateAfterAnimation() { [weak self] context in
-            self?.view.openPlayer(duration: !item.duration.seconds.isNaN ? item.duration.seconds : Double(duration ?? 0))
+            let resultDuration = !item.duration.seconds.isNaN ? item.duration.seconds : Double(duration ?? 0)
+            self?.view.openPlayer(duration: resultDuration)
         }
     }
 
     func itemTimeChanged(_ item: AVPlayerItem, _ sec: Double) {
         view.updateAfterAnimation() { [weak self] context in
-            self?.view.updatePlayerProgress(percentages: Float(sec / item.duration.seconds), currentTime: sec)
+            let resultPercentages = Float(sec / item.duration.seconds)
+            self?.view.updatePlayerProgress(percentages: resultPercentages, currentTime: sec)
         }
     }
     
@@ -91,4 +120,21 @@ extension SmallPlayerPresenter: PlayerListenerDelegate {
         }
     }
 
+}
+
+extension SmallPlayerPresenter: TrackTableCommunicateProtocol {
+    
+    func requestConfigure() -> TableConfigure {
+        return TableConfigure(
+            light: true,
+            smallCells: true,
+            downloadButtons: false,
+            followTrack: (true, false)
+        )
+    }
+    
+    func needTracksForReload() -> [AudioData] {
+        return playlist
+    }
+    
 }

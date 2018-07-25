@@ -9,7 +9,8 @@ class SmallPlayerRouter: BaseRouter, SmallPlayerRouterProtocol {
         let router = SmallPlayerRouter()
         let interactor = SmallPlayerInteractor()
         let presenter = SmallPlayerPresenter()
-        let viewController = SmallPlayerViewController()
+        let table = TrackTableRouter.setup(parentModuleNameId: router.moduleNameId)
+        let viewController = SmallPlayerViewController(table: table)
         
         presenter.interactor = interactor
         presenter.router = router
@@ -29,11 +30,6 @@ class SmallPlayerRouter: BaseRouter, SmallPlayerRouterProtocol {
         player.parentRootTabBarController = parentRootTabBarController
         player.setInParent()
         return player
-    }
-    
-    @available(*, deprecated)
-    func openBigPlayer() {
-        UIApplication.topViewController()?.present(PlayerRouter.setup(), animated: true, completion: nil)
     }
     
 }

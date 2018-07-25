@@ -1,73 +1,49 @@
 import Foundation
-import SwiftTheme
 
 final class SettingsManager {
     
-    static public let s = SettingsManager()
+    static public let shared = SettingsManager()
     private init() {}
     
-    private let roundIconsName = "roundIcons"
-    private let roundIconsDefault = false
-    public var roundIcons: Bool? {
-        get {
-            guard let value: Bool? = UserDefaultsManager.s.keyGet(roundIconsName), let returnValue = value else {
-                UserDefaultsManager.s.keySet(roundIconsName, value: roundIconsDefault)
-                return roundIconsDefault
+    final class Setting<T> {
+        public let name: String
+        public let `default`: T
+        public let notification: Notification.Name
+        public var value: T! {
+            get {
+                guard let returnValue: T = UserDefaultsManager.shared.keyGet(name) else {
+                    UserDefaultsManager.shared.keySet(name, value: `default`)
+                    return `default`
+                }
+                return returnValue
             }
-            return returnValue
+            set(value) {
+                UserDefaultsManager.shared.keySet(name, value: value)
+                NotificationCenter.default.post(name: notification, object: nil, userInfo: nil)
+            }
         }
-        set(value) {
-            UserDefaultsManager.s.keySet(roundIconsName, value: value)
+        fileprivate init(_ name: String, _ default: T, _ notification: Notification.Name) {
+            self.name = name
+            self.default = `default`
+            self.notification = notification
         }
     }
     
-    private let loadImagesName = "loadImages"
-    private let loadImagesDefault = true
-    public var loadImages: Bool? {
-        get {
-            guard let value: Bool? = UserDefaultsManager.s.keyGet(loadImagesName), let returnValue = value else {
-                UserDefaultsManager.s.keySet(loadImagesName, value: loadImagesDefault)
-                return loadImagesDefault
-            }
-            return returnValue
-        }
-        set(value) {
-            UserDefaultsManager.s.keySet(loadImagesName, value: value)
-        }
-    }
+    let roundIcons = Setting<Bool>("roundIcons", false, .roundIconsSettingChanged)
+    let loadImages = Setting<Bool>("loadImages", true, .loadImagesSettingChanged)
+    let autoNextTrack = Setting<Bool>("autoNextTrack", true, .autoNextTrackSettingChanged)
+    let smallCell = Setting<Bool>("smallCell", false, .smallCellSettingChanged)
+    let hideLogo = Setting<Bool>("hideLogo", false, .hideLogoSettingChanged)
+    let theme = Setting<Int>("theme", 0, .themeSettingChanged)
     
-    private let autoNextTrackName = "autoNextTrack"
-    private let autoNextTrackDefault = true
-    public var autoNextTrack: Bool? {
-        get {
-            guard let value: Bool? = UserDefaultsManager.s.keyGet(autoNextTrackName), let returnValue = value else {
-                UserDefaultsManager.s.keySet(autoNextTrackName, value: autoNextTrackDefault)
-                return autoNextTrackDefault
-            }
-            return returnValue
-        }
-        set(value) {
-            UserDefaultsManager.s.keySet(autoNextTrackName, value: value)
-        }
-    }
-    
-    private let themeName = "theme"
-    private let themeDefault: Int = 0
-    public var theme: Int? {
-        get {
-            guard let value: Int? = UserDefaultsManager.s.keyGet(themeName), let returnValue = value else {
-                UserDefaultsManager.s.keySet(themeName, value: themeDefault)
-                return themeDefault
-            }
-            return returnValue
-        }
-        set(value) {
-            UserDefaultsManager.s.keySet(themeName, value: value)
-            setTheme()
-        }
-    }
-    
-    public func setTheme() {
-        ThemeManager.setTheme(plistName: AppStaticData.themesList[theme!], path: .mainBundle)
-    }
 }
+
+extension Notification.Name {
+    static let roundIconsSettingChanged = Notification.Name("RoundIconsSettingChanged")
+    static let loadImagesSettingChanged = Notification.Name("LoadImagesSettingChanged")
+    static let autoNextTrackSettingChanged = Notification.Name("AutoNextTrackSettingChanged")
+    static let themeSettingChanged = Notification.Name("ThemeSettingChanged")
+    static let smallCellSettingChanged = Notification.Name("SmallCellSettingChanged")
+    static let hideLogoSettingChanged = Notification.Name("HideLogoSettingChanged")
+}
+

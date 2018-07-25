@@ -1,8 +1,11 @@
 import Foundation
 import UIKit
-import SwiftTheme
 
 final class BaseNavigationController: UINavigationController {
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,7 +16,9 @@ final class BaseNavigationController: UINavigationController {
     func setTheme() {
         navigationBar.theme_barTintColor = "secondColor"
         navigationBar.theme_tintColor = ["#FFF"]
-        navigationBar.theme_titleTextAttributes = ThemeDictionaryPicker.pickerWithAttributes([[NSAttributedStringKey.foregroundColor: UIColor.white]])
+        navigationBar.theme_titleTextAttributes = ThemeMainManager.shared.pickerWithAttributes(
+            [[NSAttributedStringKey.foregroundColor: UIColor.white]]
+        )
     }
     
     override func popToRootViewController(animated: Bool) -> [UIViewController]? {
@@ -43,4 +48,5 @@ final class BaseNavigationController: UINavigationController {
         }
         return delViewController
     }
+    
 }

@@ -4,28 +4,45 @@ class SmallPlayerInteractor: BaseInteractor, SmallPlayerInteractorProtocol {
     
     weak var presenter: SmallPlayerPresenterProtocolInteractor!
 
+    func setListener(_ delegate: CommunicateManagerProtocol) {
+        ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
+    }
+    
     func setPlayerListener(_ delegate: PlayerListenerDelegate) {
-        PlayerManager.s.setListener(name: NSStringFromClass(type(of: self)), delegate: delegate)
+        PlayerManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool) {
-        PlayerManager.s.setPlayerCurrentTime(withCurrentTime ? (PlayerManager.s.currentItemTime ?? 0) + sec : sec)
+        let resultSec = withCurrentTime ? (PlayerManager.shared.currentItemTime ?? 0) + sec : sec
+        PlayerManager.shared.setPlayerCurrentTime(resultSec)
+    }
+    
+    func requestPlaylist() {
+        guard let newPlaylist = PlayerManager.shared.getPlaylistAsAudioData(),
+              presenter.playlist != newPlaylist
+            else { return }
+        presenter.inStart()
+        presenter.playlist = newPlaylist
     }
     
     func play() {
-        PlayerManager.s.playOrPause()
+        PlayerManager.shared.playOrPause()
     }
     
     func callNextTrack() {
-        PlayerManager.s.nextTrack()
+        PlayerManager.shared.nextTrack()
     }
     
     func callPrevTrack() {
-        PlayerManager.s.prevTrack()
+        PlayerManager.shared.prevTrack()
+    }
+    
+    func callMix() {
+        PlayerManager.shared.mixAndFirst()
     }
     
     func clearPlayer() {
-        PlayerManager.s.clearPlayer()
+        PlayerManager.shared.clearPlayer()
     }
     
 }

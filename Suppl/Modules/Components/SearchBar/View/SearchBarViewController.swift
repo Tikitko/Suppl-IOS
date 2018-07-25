@@ -11,14 +11,14 @@ class SearchBarViewController: UIViewController, SearchBarViewControllerProtocol
         super.viewDidLoad()
         searchBar.frame = view.bounds
         searchBar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(searchBar);
+        view.addSubview(searchBar)
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         searchBar.searchBarStyle = .minimal
         searchBar.isTranslucent = false
-        searchBar.backgroundColor = UIColor.white
+        searchBar.backgroundColor = .white
         searchBar.delegate = self
     }
     
@@ -31,7 +31,7 @@ extension SearchBarViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
-        presenter.searchButtonClicked(query: searchBar.text)
+        presenter.searchButtonClicked(query: searchBar.text ?? "")
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {

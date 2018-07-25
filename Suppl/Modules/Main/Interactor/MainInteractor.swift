@@ -7,7 +7,7 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     var inSearchWork = false
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
-        ModulesCommunicateManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
+        ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func loadRandomTracks() {
@@ -18,14 +18,21 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     }
     
     func searchTracks(_ query: String, offset: Int = 0) {
-        guard !inSearchWork, let keys = AuthManager.s.getAuthKeys() else { return }
+        guard !inSearchWork, let keys = AuthManager.shared.getAuthKeys() else { return }
         inSearchWork = true
-        APIManager.s.audio.search(keys: keys, query: query, offset: offset) { [weak self] error, data in
+        APIManager.shared.audio.search(keys: keys, query: query, offset: offset) { [weak self] error, data in
             defer { self?.inSearchWork = false }
             guard let `self` = self, let data = data else { return }
             self.presenter.searchResult(query: query, data: data)
         }
     }
     
+    func listenSettings() {
+        NotificationCenter.default.addObserver(self, selector: #selector(requestHideLogoSetting), name: .hideLogoSettingChanged, object: nil)
+    }
+    
+    @objc func requestHideLogoSetting() {
+        presenter.canHideLogo = SettingsManager.shared.hideLogo.value
+    }
+    
 }
-

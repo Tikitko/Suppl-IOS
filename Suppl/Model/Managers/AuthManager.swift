@@ -2,7 +2,7 @@ import Foundation
 
 final class AuthManager {
     
-    static public let s = AuthManager()
+    static public let shared = AuthManager()
     private init() {}
     
     private var timer: Timer?
@@ -13,27 +13,27 @@ final class AuthManager {
     
     private func authCheckRequest() {
         guard let keys = getAuthKeys() else { return }
-        APIManager.s.user.get(keys: keys) { error, data in
+        APIManager.shared.user.get(keys: keys) { error, data in
             guard let _ = error else { return }
             let _ = self.setAuthWindow()
         }
     }
     
     public func setAuthWindow(noAuth: Bool = false) {
-        PlayerItemsManager.s.removeDownloadableItems()
-        PlayerManager.s.clearPlayer()
-        TracklistManager.s.clear()
+        PlayerItemsManager.shared.removeDownloadableItems()
+        PlayerManager.shared.clearPlayer()
+        TracklistManager.shared.clear()
         let _ = stopAuthCheck()
         AuthRouter.setSelf(noAuth: noAuth)
     }
     
     public func startAuthCheck(startNow: Bool = false) -> Bool {
-        if OfflineModeManager.s.offlineMode { return false }
+        if OfflineModeManager.shared.offlineMode { return false }
         if startNow {
             authCheckRequest()
         }
         guard let _ = timer else {
-            timer = Timer.scheduledTimer(withTimeInterval: 60 * 2, repeats: true, block: authCheck)
+            timer = .scheduledTimer(withTimeInterval: 60 * 2, repeats: true, block: authCheck)
             return true
         }
         return false
@@ -49,43 +49,37 @@ final class AuthManager {
     }
     
     public func getAuthKeys(setFailAuth: Bool = true) -> KeysPair? {
-        guard let ikey = UserDefaultsManager.s.identifierKey, let akey = UserDefaultsManager.s.accessKey else {
-            if setFailAuth {
-                setAuthWindow()
-            }
-            return nil
+        if let ikey = UserDefaultsManager.shared.identifierKey, let akey = UserDefaultsManager.shared.accessKey {
+            return KeysPair(ikey, akey)
         }
-        return KeysPair(ikey, akey)
+        if setFailAuth {
+            setAuthWindow()
+        }
+        return nil
     }
     
-    public func authorization(keys: KeysPair? = nil, callback: @escaping (UserData?, NSError?) -> Void) {
+    public func authorization(keys: KeysPair? = nil, callback: @escaping (NSError?, UserData?) -> Void) {
         guard let keys = keys ?? getAuthKeys() else { return }
-        APIManager.s.user.get(keys: keys) { error, data in
-            callback(data, error)
+        APIManager.shared.user.get(keys: keys, dataReport: callback)
+    }
+    
+    public func registration(callback: @escaping (NSError?, UserSecretData?) -> Void) {
+        APIManager.shared.user.register() { error, data in
+            if let data = data {
+                UserDefaultsManager.shared.identifierKey = data.identifierKey
+                UserDefaultsManager.shared.accessKey = data.accessKey
+            }
+            callback(error, data)
         }
     }
     
-    public func registration(callback: @escaping (UserSecretData?, NSError?) -> Void) {
-        APIManager.s.user.register() { error, data in
-            if let error = error {
-                callback(nil, error)
-                return
+    public func reset(resetKey: String, callback: @escaping (NSError?, UserSecretData?) -> Void) {
+        APIManager.shared.user.reset(resetKey: resetKey) { error, data in
+            if let data = data {
+                UserDefaultsManager.shared.identifierKey = data.identifierKey
+                UserDefaultsManager.shared.accessKey = data.accessKey
             }
-            UserDefaultsManager.s.identifierKey = data!.identifierKey
-            UserDefaultsManager.s.accessKey = data!.accessKey
-            callback(data, nil)
-        }
-    }
-    
-    public func reset(resetKey: String, callback: @escaping (UserSecretData?, NSError?) -> Void) {
-        APIManager.s.user.reset(resetKey: resetKey) { error, data in
-            if let error = error {
-                callback(nil, error)
-                return
-            }
-            UserDefaultsManager.s.identifierKey = data!.identifierKey
-            UserDefaultsManager.s.accessKey = data!.accessKey
-            callback(data, nil)
+            callback(error, data)
         }
     }
     

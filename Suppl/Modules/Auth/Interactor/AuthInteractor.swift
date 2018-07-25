@@ -5,16 +5,16 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
     weak var presenter: AuthPresenterProtocolInteractor!
     
     func startAuthCheck() {
-        let _ = AuthManager.s.startAuthCheck()
+        let _ = AuthManager.shared.startAuthCheck()
     }
     
     func requestIdentifierString() {
-        presenter.setIdentifier(AuthManager.s.getAuthKeys(setFailAuth: false)?.string ?? "")
+        presenter.setIdentifier(AuthManager.shared.getAuthKeys(setFailAuth: false)?.string ?? "")
     }
 
     func startAuth(fromString input: String? = nil, resetKey: String? = nil, onlyInfo: Bool = false) {
-        if OfflineModeManager.s.offlineMode {
-            if let _ = AuthManager.s.getAuthKeys(setFailAuth: false) {
+        if OfflineModeManager.shared.offlineMode {
+            if let _ = AuthManager.shared.getAuthKeys(setFailAuth: false) {
                 presenter.setAuthResult(nil, blockOnError: false)
             } else {
                 presenter.setAuthResult(.noOffline, blockOnError: true)
@@ -28,8 +28,8 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
         if let text = input {
             if let _ = Int(text), text.count % 2 == 0 {
                 let half: Int = text.count / 2
-                UserDefaultsManager.s.identifierKey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
-                UserDefaultsManager.s.accessKey = Int(text[text.index(text.startIndex, offsetBy: half)..<text.endIndex])
+                UserDefaultsManager.shared.identifierKey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
+                UserDefaultsManager.shared.accessKey = Int(text[text.index(text.startIndex, offsetBy: half)..<text.endIndex])
             } else {
                 presenter.setAuthResult(.badIdentifier, blockOnError: false)
                 return
@@ -37,33 +37,33 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
         }
         if let resetKey = resetKey {
             presenter.setAuthStarted(isReg: false)
-            AuthManager.s.reset(resetKey: resetKey) { [weak self] data, error in
+            AuthManager.shared.reset(resetKey: resetKey) { [weak self] error, data in
                 if let data = data {
                     self?.presenter.setIdentifier(KeysPair(data.identifierKey, data.accessKey).string)
                 }
                 self?.sendAuthResult(error)
             }
-        } else if let keys = AuthManager.s.getAuthKeys(setFailAuth: false) {
+        } else if let keys = AuthManager.shared.getAuthKeys(setFailAuth: false) {
             presenter.setAuthStarted(isReg: false)
-            AuthManager.s.authorization(keys: keys) { [weak self] data, error in
+            AuthManager.shared.authorization(keys: keys) { [weak self] error, data in
                 self?.sendAuthResult(error)
             }
         } else {
             presenter.setAuthStarted(isReg: true)
-            AuthManager.s.registration() { [weak self] data, error in
+            AuthManager.shared.registration() { [weak self] error, data in
                 self?.sendAuthResult(error)
             }
         }
     }
     
     func requestResetKey(forEmail email: String) {
-        APIManager.s.user.sendResetKey(email: email) { [weak self] error, status in
+        APIManager.shared.user.sendResetKey(email: email) { [weak self] error, status in
             self?.presenter.setRequestResetResult(error?.code)
         }
     }
     
     func loadCoreData() {
-        CoreDataManager.s.initStack() { [weak self] error in
+        CoreDataManager.shared.initStack() { [weak self] error in
             if let _ = error {
                 self?.presenter.setAuthResult(.coreDataLoadError, blockOnError: true)
             } else {

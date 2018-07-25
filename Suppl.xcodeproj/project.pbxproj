@@ -17,8 +17,6 @@
 		0E12FAC520308B3C00EE3422 /* Purple.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E12FAC420308B3C00EE3422 /* Purple.plist */; };
 		0E12FAC72030973500EE3422 /* Blue.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E12FAC62030973500EE3422 /* Blue.plist */; };
 		0E12FACA2030A3D400EE3422 /* SettingTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E12FAC92030A3D400EE3422 /* SettingTableCell.swift */; };
-		0E29CBD9202A025900BE5975 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E29CBD8202A025900BE5975 /* PlayerViewController.swift */; };
-		0E29CBDB202A2C0D00BE5975 /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */; };
 		0E466276201F87A30037FD0E /* TracklistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466275201F87A30037FD0E /* TracklistData.swift */; };
 		0E466278201F88890037FD0E /* TracklistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466277201F88890037FD0E /* TracklistService.swift */; };
 		0E6454D2203575C300D881BD /* AppStaticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6454D1203575C300D881BD /* AppStaticData.swift */; };
@@ -54,6 +52,7 @@
 		8C0E1B962091C74400CE5C12 /* LocalesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B952091C74400CE5C12 /* LocalesManager.swift */; };
 		8C0E1B9A2091E66000CE5C12 /* ModulesCommunicateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */; };
 		8C0E1B9C2091E6A300CE5C12 /* SearchCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */; };
+		8C0FBC3F2100729300828E14 /* TableConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0FBC3E2100729300828E14 /* TableConfigure.swift */; };
 		8C1BE68020AF129000E2425A /* TrackInfoCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1BE67F20AF129000E2425A /* TrackInfoCommunicateProtocol.swift */; };
 		8C1E99EA20D3DDC400D0743E /* OldSafeAreaUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1E99E920D3DDC400D0743E /* OldSafeAreaUIViewController.swift */; };
 		8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C20889B2089D7F0000505F9 /* Playlist.swift */; };
@@ -73,13 +72,6 @@
 		8C2A6E8620D7BCC60047A1A0 /* SettingsMainTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A6E8520D7BCC60047A1A0 /* SettingsMainTableCell.swift */; };
 		8C2D6F7520C1196900F49D6D /* CachingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D6F7420C1196800F49D6D /* CachingPlayerItem.swift */; };
 		8C2D6F7720C1202500F49D6D /* PlayerItemsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2D6F7620C1202500F49D6D /* PlayerItemsManager.swift */; };
-		8C316CB8208710BF00BD891B /* PlayerViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CB7208710BF00BD891B /* PlayerViewControllerProtocol.swift */; };
-		8C316CBB208710E800BD891B /* PlayerInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CBA208710E800BD891B /* PlayerInteractorProtocol.swift */; };
-		8C316CBD208710F600BD891B /* PlayerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CBC208710F600BD891B /* PlayerInteractor.swift */; };
-		8C316CC02087111B00BD891B /* PlayerRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CBF2087111B00BD891B /* PlayerRouterProtocol.swift */; };
-		8C316CC22087112500BD891B /* PlayerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CC12087112500BD891B /* PlayerRouter.swift */; };
-		8C316CC52087115200BD891B /* PlayerPresenterProtocolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CC42087115200BD891B /* PlayerPresenterProtocolView.swift */; };
-		8C316CC72087116900BD891B /* PlayerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C316CC62087116900BD891B /* PlayerPresenter.swift */; };
 		8C32F88520A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88420A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift */; };
 		8C32F88720A03A820059C1F4 /* SmallPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88620A03A820059C1F4 /* SmallPlayerViewController.swift */; };
 		8C32F88920A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C32F88820A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift */; };
@@ -95,7 +87,7 @@
 		8C3594D520BD904800E5E0DB /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3594D420BD904800E5E0DB /* CoreDataManager.swift */; };
 		8C3594D820BD90CE00E5E0DB /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3594D720BD90CE00E5E0DB /* Track.swift */; };
 		8C3B74E22090495400D0AF3E /* TrackFilterCommunicateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E12090495300D0AF3E /* TrackFilterCommunicateProtocol.swift */; };
-		8C3B74E42090725700D0AF3E /* ViewIncludeTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E32090725700D0AF3E /* ViewIncludeTemplate.swift */; };
+		8C3B74E42090725700D0AF3E /* ViewIncludeConstraintsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E32090725700D0AF3E /* ViewIncludeConstraintsTemplate.swift */; };
 		8C3B74EA2090776800D0AF3E /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74E92090776800D0AF3E /* SearchBarViewController.swift */; };
 		8C3B74EC209077B300D0AF3E /* SearchBarViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74EB209077B300D0AF3E /* SearchBarViewControllerProtocol.swift */; };
 		8C3B74EE2090780600D0AF3E /* SearchBarRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3B74ED2090780600D0AF3E /* SearchBarRouterProtocol.swift */; };
@@ -124,7 +116,6 @@
 		8C4B1339202463C0004A997E /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */; };
 		8C4B133C20248961004A997E /* SettingsGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */; };
 		8C4B133E2024899A004A997E /* SettingsAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */; };
-		8C4C043220C962D3006CC269 /* PlayerPresenterProtocolInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C043120C962D3006CC269 /* PlayerPresenterProtocolInteractor.swift */; };
 		8C4C043420C9635D006CC269 /* SmallPlayerPresenterProtocolInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C043320C9635D006CC269 /* SmallPlayerPresenterProtocolInteractor.swift */; };
 		8C4C043620C963A5006CC269 /* SearchBarPresenterProtocolInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C043520C963A5006CC269 /* SearchBarPresenterProtocolInteractor.swift */; };
 		8C4C043820C963ED006CC269 /* TrackTablePresenterProtocolInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C043720C963ED006CC269 /* TrackTablePresenterProtocolInteractor.swift */; };
@@ -147,6 +138,7 @@
 		8C67F607201B174200333EB2 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FD201B174200333EB2 /* UserData.swift */; };
 		8C67F608201B174200333EB2 /* AudioListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FE201B174200333EB2 /* AudioListData.swift */; };
 		8C67F609201B174200333EB2 /* AudioData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FF201B174200333EB2 /* AudioData.swift */; };
+		8C691D0D20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C691D0C20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib */; };
 		8C71CE2B2080BE9100AC4BDB /* AuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE2A2080BE9100AC4BDB /* AuthInteractor.swift */; };
 		8C71CE2D2080BECD00AC4BDB /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE2C2080BECD00AC4BDB /* AuthRouter.swift */; };
 		8C71CE312080BF7300AC4BDB /* AuthRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C71CE302080BF7300AC4BDB /* AuthRouterProtocol.swift */; };
@@ -162,6 +154,7 @@
 		8CA4F90B20B802E200C1A81B /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA4F90A20B802E200C1A81B /* Toast.swift */; };
 		8CB2615E20CFF4010094E4A3 /* CircleLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */; };
 		8CBDFD642023001700BED743 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBDFD632023001700BED743 /* AuthManager.swift */; };
+		8CC4F80A2101F5FB001B1700 /* ThemeMainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4F8092101F5FB001B1700 /* ThemeMainManager.swift */; };
 		8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */; };
 		8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC59520205D5C00D91687 /* RootTabBarController.swift */; };
 		8CCAC5992020600E00D91687 /* SettingsMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCAC5982020600E00D91687 /* SettingsMainViewController.swift */; };
@@ -183,8 +176,6 @@
 		0E12FAC62030973500EE3422 /* Blue.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Blue.plist; sourceTree = "<group>"; };
 		0E12FAC92030A3D400EE3422 /* SettingTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableCell.swift; sourceTree = "<group>"; };
 		0E12FACD2030E97A00EE3422 /* Suppl-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Suppl-Bridging-Header.h"; sourceTree = "<group>"; };
-		0E29CBD8202A025900BE5975 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
-		0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		0E466275201F87A30037FD0E /* TracklistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistData.swift; sourceTree = "<group>"; };
 		0E466277201F88890037FD0E /* TracklistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistService.swift; sourceTree = "<group>"; };
 		0E6454D1203575C300D881BD /* AppStaticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStaticData.swift; sourceTree = "<group>"; };
@@ -221,6 +212,7 @@
 		8C0E1B952091C74400CE5C12 /* LocalesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalesManager.swift; sourceTree = "<group>"; };
 		8C0E1B992091E66000CE5C12 /* ModulesCommunicateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesCommunicateManager.swift; sourceTree = "<group>"; };
 		8C0E1B9B2091E6A300CE5C12 /* SearchCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCommunicateProtocol.swift; sourceTree = "<group>"; };
+		8C0FBC3E2100729300828E14 /* TableConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableConfigure.swift; sourceTree = "<group>"; };
 		8C1BE67F20AF129000E2425A /* TrackInfoCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInfoCommunicateProtocol.swift; sourceTree = "<group>"; };
 		8C1E99E920D3DDC400D0743E /* OldSafeAreaUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSafeAreaUIViewController.swift; sourceTree = "<group>"; };
 		8C20889B2089D7F0000505F9 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
@@ -240,13 +232,6 @@
 		8C2A6E8520D7BCC60047A1A0 /* SettingsMainTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMainTableCell.swift; sourceTree = "<group>"; };
 		8C2D6F7420C1196800F49D6D /* CachingPlayerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingPlayerItem.swift; sourceTree = "<group>"; };
 		8C2D6F7620C1202500F49D6D /* PlayerItemsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerItemsManager.swift; sourceTree = "<group>"; };
-		8C316CB7208710BF00BD891B /* PlayerViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewControllerProtocol.swift; sourceTree = "<group>"; };
-		8C316CBA208710E800BD891B /* PlayerInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInteractorProtocol.swift; sourceTree = "<group>"; };
-		8C316CBC208710F600BD891B /* PlayerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInteractor.swift; sourceTree = "<group>"; };
-		8C316CBF2087111B00BD891B /* PlayerRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRouterProtocol.swift; sourceTree = "<group>"; };
-		8C316CC12087112500BD891B /* PlayerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRouter.swift; sourceTree = "<group>"; };
-		8C316CC42087115200BD891B /* PlayerPresenterProtocolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPresenterProtocolView.swift; sourceTree = "<group>"; };
-		8C316CC62087116900BD891B /* PlayerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPresenter.swift; sourceTree = "<group>"; };
 		8C32F88420A03A580059C1F4 /* SmallPlayerViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerViewControllerProtocol.swift; sourceTree = "<group>"; };
 		8C32F88620A03A820059C1F4 /* SmallPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerViewController.swift; sourceTree = "<group>"; };
 		8C32F88820A03A9C0059C1F4 /* SmallPlayerInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerInteractorProtocol.swift; sourceTree = "<group>"; };
@@ -262,7 +247,7 @@
 		8C3594D420BD904800E5E0DB /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		8C3594D720BD90CE00E5E0DB /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		8C3B74E12090495300D0AF3E /* TrackFilterCommunicateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterCommunicateProtocol.swift; sourceTree = "<group>"; };
-		8C3B74E32090725700D0AF3E /* ViewIncludeTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIncludeTemplate.swift; sourceTree = "<group>"; };
+		8C3B74E32090725700D0AF3E /* ViewIncludeConstraintsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewIncludeConstraintsTemplate.swift; sourceTree = "<group>"; };
 		8C3B74E92090776800D0AF3E /* SearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
 		8C3B74EB209077B300D0AF3E /* SearchBarViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewControllerProtocol.swift; sourceTree = "<group>"; };
 		8C3B74ED2090780600D0AF3E /* SearchBarRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarRouterProtocol.swift; sourceTree = "<group>"; };
@@ -291,7 +276,6 @@
 		8C4B1338202463C0004A997E /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
 		8C4B133B20248961004A997E /* SettingsGeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralViewController.swift; sourceTree = "<group>"; };
 		8C4B133D2024899A004A997E /* SettingsAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAccountViewController.swift; sourceTree = "<group>"; };
-		8C4C043120C962D3006CC269 /* PlayerPresenterProtocolInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPresenterProtocolInteractor.swift; sourceTree = "<group>"; };
 		8C4C043320C9635D006CC269 /* SmallPlayerPresenterProtocolInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlayerPresenterProtocolInteractor.swift; sourceTree = "<group>"; };
 		8C4C043520C963A5006CC269 /* SearchBarPresenterProtocolInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarPresenterProtocolInteractor.swift; sourceTree = "<group>"; };
 		8C4C043720C963ED006CC269 /* TrackTablePresenterProtocolInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTablePresenterProtocolInteractor.swift; sourceTree = "<group>"; };
@@ -316,6 +300,7 @@
 		8C67F5FD201B174200333EB2 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		8C67F5FE201B174200333EB2 /* AudioListData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioListData.swift; sourceTree = "<group>"; };
 		8C67F5FF201B174200333EB2 /* AudioData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioData.swift; sourceTree = "<group>"; };
+		8C691D0C20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackInfoViewController_small.xib; sourceTree = "<group>"; };
 		8C71CE2A2080BE9100AC4BDB /* AuthInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
 		8C71CE2C2080BECD00AC4BDB /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		8C71CE302080BF7300AC4BDB /* AuthRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouterProtocol.swift; sourceTree = "<group>"; };
@@ -331,6 +316,7 @@
 		8CA4F90A20B802E200C1A81B /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleLoad.swift; sourceTree = "<group>"; };
 		8CBDFD632023001700BED743 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		8CC4F8092101F5FB001B1700 /* ThemeMainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMainManager.swift; sourceTree = "<group>"; };
 		8CCAC58E2020566F00D91687 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		8CCAC59520205D5C00D91687 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		8CCAC5982020600E00D91687 /* SettingsMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMainViewController.swift; sourceTree = "<group>"; };
@@ -395,17 +381,6 @@
 				8C44FFBE203432C3008C50D0 /* Black.plist */,
 			);
 			path = Themes;
-			sourceTree = "<group>";
-		};
-		0E29CBD52029FFD700BE5975 /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				8C316CC32087114100BD891B /* Presenter */,
-				8C316CBE2087110D00BD891B /* Router */,
-				8C316CB9208710D700BD891B /* Interactor */,
-				8C316CB6208710A000BD891B /* View */,
-			);
-			path = Player;
 			sourceTree = "<group>";
 		};
 		0EEC5A95202119690028694E /* General */ = {
@@ -571,6 +546,7 @@
 				8C20889F2089DBEF000505F9 /* TrackTime.swift */,
 				8C0E1B8D2091A76D00CE5C12 /* KeysPair.swift */,
 				8C479665209C6888009F5623 /* CurrentTrack.swift */,
+				8C0FBC3E2100729300828E14 /* TableConfigure.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -657,50 +633,12 @@
 			children = (
 				8C265D3720DB8AAF00D35A29 /* AnimateLogo.swift */,
 				8C75D09C20A9694200DB0F0D /* QueueTemplate.swift */,
-				8C3B74E32090725700D0AF3E /* ViewIncludeTemplate.swift */,
+				8C3B74E32090725700D0AF3E /* ViewIncludeConstraintsTemplate.swift */,
 				8C2D6F7420C1196800F49D6D /* CachingPlayerItem.swift */,
 				8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */,
 				8CA4F90A20B802E200C1A81B /* Toast.swift */,
 			);
 			path = External;
-			sourceTree = "<group>";
-		};
-		8C316CB6208710A000BD891B /* View */ = {
-			isa = PBXGroup;
-			children = (
-				0E29CBD8202A025900BE5975 /* PlayerViewController.swift */,
-				0E29CBDA202A2C0D00BE5975 /* PlayerViewController.xib */,
-				8C316CB7208710BF00BD891B /* PlayerViewControllerProtocol.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		8C316CB9208710D700BD891B /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				8C316CBA208710E800BD891B /* PlayerInteractorProtocol.swift */,
-				8C316CBC208710F600BD891B /* PlayerInteractor.swift */,
-			);
-			path = Interactor;
-			sourceTree = "<group>";
-		};
-		8C316CBE2087110D00BD891B /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				8C316CBF2087111B00BD891B /* PlayerRouterProtocol.swift */,
-				8C316CC12087112500BD891B /* PlayerRouter.swift */,
-			);
-			path = Router;
-			sourceTree = "<group>";
-		};
-		8C316CC32087114100BD891B /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				8C316CC42087115200BD891B /* PlayerPresenterProtocolView.swift */,
-				8C316CC62087116900BD891B /* PlayerPresenter.swift */,
-				8C4C043120C962D3006CC269 /* PlayerPresenterProtocolInteractor.swift */,
-			);
-			path = Presenter;
 			sourceTree = "<group>";
 		};
 		8C32F87F20A039740059C1F4 /* SmallPlayer */ = {
@@ -756,7 +694,6 @@
 			isa = PBXGroup;
 			children = (
 				0EEC5A95202119690028694E /* General */,
-				0E29CBD52029FFD700BE5975 /* Player */,
 				0E0F520B2025F374000C6DD3 /* Components */,
 				8C3301F12021BB6300446945 /* Auth */,
 				8CCAC59C2020655A00D91687 /* Main */,
@@ -869,6 +806,7 @@
 				0E0F520C2025F3E1000C6DD3 /* TrackInfoViewController.swift */,
 				0E0F520E2025F414000C6DD3 /* TrackInfoViewController.xib */,
 				8C3BB33320B29DD40012E1D7 /* TrackInfoViewControllerProtocol.swift */,
+				8C691D0C20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1092,6 +1030,7 @@
 				8C0E1B8F2091BCA100CE5C12 /* PListsManager.swift */,
 				8C0E1B952091C74400CE5C12 /* LocalesManager.swift */,
 				8C95706D20BFE8A900A3EF3A /* OfflineModeManager.swift */,
+				8CC4F8092101F5FB001B1700 /* ThemeMainManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1212,10 +1151,10 @@
 				8C67F5EA201B153100333EB2 /* LaunchScreen.storyboard in Resources */,
 				8C67F5E7201B153100333EB2 /* Assets.xcassets in Resources */,
 				8CCAC5A0202065B300D91687 /* MainViewController.xib in Resources */,
-				0E29CBDB202A2C0D00BE5975 /* PlayerViewController.xib in Resources */,
 				8C3301F52021BB8600446945 /* AuthViewController.xib in Resources */,
 				8C32F89620A03B830059C1F4 /* SmallPlayerViewController.xib in Resources */,
 				0E0F520F2025F414000C6DD3 /* TrackInfoViewController.xib in Resources */,
+				8C691D0D20F73E0E00B5FDF0 /* TrackInfoViewController_small.xib in Resources */,
 				0E12FAC520308B3C00EE3422 /* Purple.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1266,6 +1205,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CC4F80A2101F5FB001B1700 /* ThemeMainManager.swift in Sources */,
 				8C3B74EC209077B300D0AF3E /* SearchBarViewControllerProtocol.swift in Sources */,
 				8C71CE312080BF7300AC4BDB /* AuthRouterProtocol.swift in Sources */,
 				8C0E1B902091BCA100CE5C12 /* PListsManager.swift in Sources */,
@@ -1279,7 +1219,6 @@
 				8C3C6B3B20931BAA00272018 /* TrackTableCommunicateProtocol.swift in Sources */,
 				8C3BB34020B2A1E20012E1D7 /* TrackInfoInteractor.swift in Sources */,
 				8C71CE332080BF9C00AC4BDB /* AuthInteractorProtocol.swift in Sources */,
-				8C316CBB208710E800BD891B /* PlayerInteractorProtocol.swift in Sources */,
 				8C3BB33820B2A1980012E1D7 /* TrackInfoRouter.swift in Sources */,
 				8C479664209C51E1009F5623 /* PlayerManager.swift in Sources */,
 				8C3301F32021BB7500446945 /* AuthViewController.swift in Sources */,
@@ -1300,7 +1239,6 @@
 				8C4C043820C963ED006CC269 /* TrackTablePresenterProtocolInteractor.swift in Sources */,
 				0E466278201F88890037FD0E /* TracklistService.swift in Sources */,
 				8C95706E20BFE8A900A3EF3A /* OfflineModeManager.swift in Sources */,
-				8C316CC02087111B00BD891B /* PlayerRouterProtocol.swift in Sources */,
 				8C0CB611208DCD6500456A68 /* MainRouter.swift in Sources */,
 				8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */,
 				8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */,
@@ -1326,7 +1264,6 @@
 				8C3C6B312092F5EA00272018 /* SearchBarInteractorProtocol.swift in Sources */,
 				8C3BB33420B29DD40012E1D7 /* TrackInfoViewControllerProtocol.swift in Sources */,
 				8C0CB60B208DCD2B00456A68 /* MainInteractorProtocol.swift in Sources */,
-				8C316CBD208710F600BD891B /* PlayerInteractor.swift in Sources */,
 				8C3B74E22090495400D0AF3E /* TrackFilterCommunicateProtocol.swift in Sources */,
 				8C0CB61C208DDAD000456A68 /* TracklistViewControllerProtocol.swift in Sources */,
 				8C2D6F7720C1202500F49D6D /* PlayerItemsManager.swift in Sources */,
@@ -1337,7 +1274,6 @@
 				8C4C043A20C9641E006CC269 /* TrackFilterPresenterProtocolInteractor.swift in Sources */,
 				8C0CB60D208DCD3400456A68 /* MainInteractor.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
-				8C316CC72087116900BD891B /* PlayerPresenter.swift in Sources */,
 				8C3C6B332092F5F700272018 /* SearchBarInteractor.swift in Sources */,
 				8C3B74F02090781200D0AF3E /* SearchBarRouter.swift in Sources */,
 				8C0E1B9A2091E66000CE5C12 /* ModulesCommunicateManager.swift in Sources */,
@@ -1349,6 +1285,7 @@
 				8C3BB33E20B2A1D70012E1D7 /* TrackInfoInteractorProtocol.swift in Sources */,
 				8C0E1B962091C74400CE5C12 /* LocalesManager.swift in Sources */,
 				8C71CE352080BFCB00AC4BDB /* AuthPresenter.swift in Sources */,
+				8C0FBC3F2100729300828E14 /* TableConfigure.swift in Sources */,
 				8C2A6E8620D7BCC60047A1A0 /* SettingsMainTableCell.swift in Sources */,
 				8C1BE68020AF129000E2425A /* TrackInfoCommunicateProtocol.swift in Sources */,
 				0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */,
@@ -1371,11 +1308,8 @@
 				8C32F88B20A03AA80059C1F4 /* SmallPlayerInteractor.swift in Sources */,
 				0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */,
 				8CCAC59620205D5C00D91687 /* RootTabBarController.swift in Sources */,
-				8C316CC22087112500BD891B /* PlayerRouter.swift in Sources */,
-				8C316CB8208710BF00BD891B /* PlayerViewControllerProtocol.swift in Sources */,
 				8C67F602201B174200333EB2 /* AudioService.swift in Sources */,
 				8C32F89120A03ADA0059C1F4 /* SmallPlayerPresenterProtocolView.swift in Sources */,
-				8C4C043220C962D3006CC269 /* PlayerPresenterProtocolInteractor.swift in Sources */,
 				0E12FACA2030A3D400EE3422 /* SettingTableCell.swift in Sources */,
 				8C32F88720A03A820059C1F4 /* SmallPlayerViewController.swift in Sources */,
 				8C3C6B372093103C00272018 /* TrackFilterInteractorProtocol.swift in Sources */,
@@ -1386,7 +1320,7 @@
 				8C3594D820BD90CE00E5E0DB /* Track.swift in Sources */,
 				8C2088A02089DBEF000505F9 /* TrackTime.swift in Sources */,
 				8C2A6E8020D7AA8A0047A1A0 /* SettingsMainTableViewController.swift in Sources */,
-				8C3B74E42090725700D0AF3E /* ViewIncludeTemplate.swift in Sources */,
+				8C3B74E42090725700D0AF3E /* ViewIncludeConstraintsTemplate.swift in Sources */,
 				8C0CB624208DDB4200456A68 /* TracklistRouter.swift in Sources */,
 				8C3B74F22090785400D0AF3E /* SearchBarPresenterProtocolView.swift in Sources */,
 				8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */,
@@ -1402,9 +1336,7 @@
 				8C67F604201B174200333EB2 /* APIRequest.swift in Sources */,
 				8C0CB622208DDB3900456A68 /* TracklistRouterProtocol.swift in Sources */,
 				8CCAC59E202065AA00D91687 /* MainViewController.swift in Sources */,
-				0E29CBD9202A025900BE5975 /* PlayerViewController.swift in Sources */,
 				8C0CB602208DA8D200456A68 /* TrackFilterPresenter.swift in Sources */,
-				8C316CC52087115200BD891B /* PlayerPresenterProtocolView.swift in Sources */,
 				8C32F88F20A03AC80059C1F4 /* SmallPlayerRouter.swift in Sources */,
 				8C479669209C760E009F5623 /* PlayerListenerDelegate.swift in Sources */,
 				8C3BB33C20B2A1B60012E1D7 /* TrackInfoPresenter.swift in Sources */,

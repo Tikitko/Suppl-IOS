@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import SwiftTheme
 
 class TrackFilterViewController: UIViewController, TrackFilterViewControllerProtocol {
     

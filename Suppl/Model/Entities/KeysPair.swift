@@ -1,7 +1,7 @@
 import Foundation
 
 struct KeysPair {
-    
+
     let identifierKey: Int
     let accessKey: Int
     
@@ -21,8 +21,7 @@ struct KeysPair {
     
     func addToQuery(_ query: Dictionary<String, String>) -> Dictionary<String, String> {
         var tempQuery = query
-        tempQuery["identifier_key"] = String(identifierKey)
-        tempQuery["access_key"] = String(accessKey)
+        addToQuery(&tempQuery)
         return tempQuery
     }
     

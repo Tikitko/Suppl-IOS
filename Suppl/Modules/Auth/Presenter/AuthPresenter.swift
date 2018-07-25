@@ -66,6 +66,7 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
             QueueTemplate.continueAfter(showDelay) { [weak self] in
                 self?.setLabel(expression: .inputIdentifier)
                 self?.view.enableButtons()
+                self?.view.stopAnim()
             }
         } else {
             setLabel(expression: .coreDataLoading)
@@ -75,10 +76,10 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     
     func setRequestResetResult(_ errorId: Int?) {
         if let errorId = errorId {
-            view.showToast(text: interactor.getLocaleString(apiErrorCode: errorId))
+            view.showToast(interactor.getLocaleString(apiErrorCode: errorId))
             view.enableResetForm(true, full: false)
         } else {
-            view.showToast(text: interactor.getLocaleString(.keySent))
+            view.showToast(interactor.getLocaleString(.keySent))
         }
     }
     
@@ -105,6 +106,7 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     func repeatButtonClick(identifierText: String?) {
         guard let identifierText = identifierText else { return }
         view.disableButtons()
+        view.startAnim()
         setLabel(expression: .checkIdentifier)
         startAuth(fromString: identifierText)
     }

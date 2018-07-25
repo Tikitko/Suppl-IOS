@@ -5,11 +5,11 @@ class TrackInfoRouter: BaseRouter, TrackInfoRouterProtocol {
     
     weak var viewController: UIViewController!
     
-    static func setup() -> (moduleNameId: String, controller: UIViewController) {
+    static func setup(small: Bool = false) -> (moduleNameId: String, controller: UIViewController) {
         let router = TrackInfoRouter()
         let interactor = TrackInfoInteractor()
         let presenter = TrackInfoPresenter()
-        let viewController = TrackInfoViewController()
+        let viewController = TrackInfoViewController(nibName: small ? "TrackInfoViewController_small" : "TrackInfoViewController", bundle: nil)
         
         presenter.interactor = interactor
         presenter.router = router

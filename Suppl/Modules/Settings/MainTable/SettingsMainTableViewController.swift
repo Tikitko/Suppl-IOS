@@ -10,8 +10,8 @@ class SettingsMainTableViewController: UITableViewController {
     }
     
     private lazy var sectionCellConfigurations: [CellConfig] = [
-        CellConfig(title: LocalesManager.s.get(.titleSMain), image: #imageLiteral(resourceName: "icon_247"), segueIdentifier: "Settings1"),
-        CellConfig(title: LocalesManager.s.get(.titleSAccount), image: #imageLiteral(resourceName: "icon_266"), segueIdentifier: "Settings2")
+        CellConfig(title: LocalesManager.shared.get(.titleSMain), image: #imageLiteral(resourceName: "icon_247"), segueIdentifier: "Settings1"),
+        CellConfig(title: LocalesManager.shared.get(.titleSAccount), image: #imageLiteral(resourceName: "icon_266"), segueIdentifier: "Settings2")
     ]
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -30,7 +30,7 @@ class SettingsMainTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120;
+        return 120
     }
 }
 

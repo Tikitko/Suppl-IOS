@@ -18,8 +18,10 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     
-    var tracksTableTest: UITableViewController!
-    var searchTest: SearchBarViewController!
+    var tracksTableModule: UITableViewController!
+    var searchModule: SearchBarViewController!
+    
+    lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: searchBar.topAnchor, constant: 0)
     
     var buttonsIsOff = false
     
@@ -29,16 +31,15 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         updateButton.setImage(#imageLiteral(resourceName: "icon_020").withRenderingMode(.alwaysTemplate), for: .normal)
         filterButton.setImage(#imageLiteral(resourceName: "icon_141").withRenderingMode(.alwaysTemplate), for: .normal)
         editButton.setImage(#imageLiteral(resourceName: "icon_166").withRenderingMode(.alwaysTemplate), for: .normal)
-        
         navigationItem.title = name
         titleLabel.text = name
-        
-        ViewIncludeTemplate.inside(child: tracksTableTest.tableView, parent: tracksTable, includeParent: view)
-        ViewIncludeTemplate.inside(child: searchTest.searchBar, parent: searchBar, includeParent: view)
-        searchTest.searchBar.placeholder = presenter.getSearchLabel()
+        view.addSubview(tracksTableModule.tableView)
+        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable)
+        view.addSubview(searchModule.searchBar)
+        ViewIncludeConstraintsTemplate.inside(child: searchModule.searchBar, parent: searchBar)
+        searchModule.searchBar.placeholder = presenter.getSearchLabel()
         searchBar.isHidden = true
         tracksTable.isHidden = true
-        
         setLabel(presenter.getLoadLabel())
         presenter.load()
     }
@@ -50,16 +51,25 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        tracksTableModule.viewWillAppear(animated)
         super.viewWillAppear(animated)
-        reloadData()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        switch traitCollection.verticalSizeClass {
+        case .regular: topClearConstraint.constant = 5
+        case .compact: topClearConstraint.constant = 0
+        default: break
+        }
     }
     
     convenience init(table: UITableViewController, search: SearchBarViewController) {
         self.init()
-        tracksTableTest = table
-        searchTest = search
+        tracksTableModule = table
+        searchModule = search
     }
-    
+
     private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -70,14 +80,14 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     
     func reloadData() {
         editButton.isEnabled = presenter.getEditPermission() && !buttonsIsOff
-        if !editButton.isEnabled, tracksTableTest.isEditing {
-            tracksTableTest.setEditing(false, animated: true)
+        if !editButton.isEnabled, tracksTableModule.isEditing {
+            tracksTableModule.setEditing(false, animated: true)
         }
-        tracksTableTest.tableView.reloadData()
+        tracksTableModule.tableView.reloadData()
     }
     
     func clearSearch() {
-        searchTest.searchBar.text = ""
+        searchModule.searchBar.text = nil
     }
     
     func offButtons() {
@@ -86,7 +96,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     func setLabel(_ text: String?) {
-        tracksTableTest.tableView.isHidden = text != nil
+        tracksTableModule.tableView.isHidden = text != nil
         infoLabel.text = text
         infoLabel.isHidden = text == nil
     }
@@ -98,11 +108,25 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     func setFilterThenPopover(filterController: UIViewController){
         filterController.preferredContentSize = CGSize(width: 400, height: 180)
         filterController.modalPresentationStyle = .popover
-
         let pop = filterController.popoverPresentationController
         pop?.delegate = self
         pop?.sourceView = filterButton
         pop?.sourceRect = filterButton.bounds
+    }
+    
+    func setHideHeader(_ value: Bool, animated: Bool = false) {
+        let alphaValue: CGFloat = value ? 0 : 1
+        guard self.searchModule.searchBar.alpha != alphaValue else { return }
+        let changes = {
+            self.searchModule.searchBar.alpha = alphaValue
+            self.topClearConstraint.isActive = value
+            self.filterButton.alpha = alphaValue
+            self.updateButton.alpha = alphaValue
+            self.editButton.alpha = alphaValue
+            self.view.layoutIfNeeded()
+            self.tracksTableModule.view.layoutIfNeeded()
+        }
+        animated ? UIView.animate(withDuration: 0.2, animations: changes) : changes()
     }
     
     @IBAction func updateButtonClick(_ sender: Any) {
@@ -114,7 +138,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     @IBAction func editButtonClick(_ sender: Any) {
-        tracksTableTest.setEditing(!tracksTableTest.isEditing, animated: true)
+        tracksTableModule.setEditing(!tracksTableModule.isEditing, animated: true)
     }
     
 }

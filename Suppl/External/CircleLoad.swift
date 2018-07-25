@@ -44,7 +44,13 @@ class CircleLoad: UIView {
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         let path = CGMutablePath()
-        context.addArc(center: CGPoint(x: centerX, y: centerY), radius: radius, startAngle: -CGFloat(Double.pi/2), endAngle: CGFloat(GLKMathDegreesToRadians(_currentAngle)), clockwise: false)
+        context.addArc(
+            center: CGPoint(x: centerX, y: centerY),
+            radius: radius,
+            startAngle: -CGFloat(Double.pi/2),
+            endAngle: CGFloat(GLKMathDegreesToRadians(_currentAngle)),
+            clockwise: false
+        )
         context.addPath(path)
         context.setStrokeColor(color)
         context.setLineWidth(lineWidth)

@@ -9,6 +9,6 @@ protocol SmallPlayerPresenterProtocolView: class {
     func play()
     func rewindP()
     func rewindM()
-    func openBigPlayer()
+    func mixButtonClick()
     func removePlayer()
 }

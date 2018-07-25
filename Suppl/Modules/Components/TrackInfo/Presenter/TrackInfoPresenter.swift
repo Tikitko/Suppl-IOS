@@ -70,6 +70,10 @@ class TrackInfoPresenter: TrackInfoPresenterProtocolInteractor, TrackInfoPresent
         interactor.playerItemDoAction(trackId: trackId, statusWorking: downloadStatusWorking)
     }
     
+    func getCellSelectColor() -> UIColor {
+        return UIColor(rgba: interactor.getThemeColorHash(.second))
+    }
+    
 }
 
 extension TrackInfoPresenter: PlayerListenerDelegate {
@@ -86,14 +90,19 @@ extension TrackInfoPresenter: PlayerListenerDelegate {
 
 extension TrackInfoPresenter: TrackInfoCommunicateProtocol {
     
+    func setSetup(light: Bool, downloadButton: Bool) {
+        view.allowDownloadButton = downloadButton
+        view.lightStyle = light
+    }
+
     func setNewData(id: String, title: String, performer: String, duration: Int) {
         trackId = id
         interactor.requestAdditionalInfo(thisTrackId: id, delegate: self)
         view.setInfo(title: title, performer: performer, durationString: TrackTime(sec: duration).formatted)
     }
     
-    func setNewImage(imageData: NSData) {
-        guard let image = UIImage(data: imageData as Data) else { return }
+    func setNewImage(imageData: Data) {
+        guard let image = UIImage(data: imageData) else { return }
         view.setImage(image)
     }
     

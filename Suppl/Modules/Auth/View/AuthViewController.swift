@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import SwiftTheme
 
 class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
@@ -20,7 +19,11 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     var logo: AnimateLogo!
     var animInWork = false
     
-    var resetKeyForUse: String?
+    var resetKey: String?
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +31,16 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         initLogo()
         initResetStack()
         repeatButton.setTitle(presenter.getButtonLabel(), for: .normal)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: .UIKeyboardWillHide, object: nil)
         presenter.setLoadLabel()
+        repeatButton.layer.cornerRadius = 4
+        repeatButton.clipsToBounds = true
+        resetSendButton.layer.cornerRadius = 4
+        resetSendButton.clipsToBounds = true
+        identifierField.isHidden = true
+        repeatButton.isHidden = true
+        enableResetForm(false, full: true)
     }
 
     func initLogo() {
@@ -51,18 +61,20 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         enableResetForm(false)
         resetOpenButton.isHidden = true
         resetEmailField.text = String()
-        resetEmailField.attributedPlaceholder = NSAttributedString(string: localedStrings.field, attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)])
+        resetEmailField.attributedPlaceholder = NSAttributedString(
+            string: localedStrings.field,
+            attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)]
+        )
         resetTitleLabel.text = localedStrings.title
         resetSendButton.setTitle(localedStrings.button, for: .normal)
         resetOpenButton.setTitle(localedStrings.title, for: .normal)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startAnim()
-        if let resetKey = resetKeyForUse {
-            resetKeyForUse = nil
+        if let resetKey = resetKey {
+            self.resetKey = nil
             presenter.userResetKey(resetKey)
         } else {
             presenter.firstStartAuth()
@@ -86,7 +98,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         }
     }
     
-    func showToast(text: String) {
+    func showToast(_ text: String) {
         view.makeToast(text, duration: 2.0, position: .center)
     }
     
@@ -107,14 +119,12 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         if resetStackView.isHidden {
             resetOpenButton.isHidden = false
         }
-        stopAnim()
     }
     
     func disableButtons() {
         identifierField.isEnabled = false
         repeatButton.isEnabled = false
         resetOpenButton.isEnabled = false
-        startAnim()
     }
     
     func startAnim() {
@@ -131,7 +141,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
     @objc func keyboardWillShow(sender: NSNotification) {
         guard let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
-        view.frame.origin.y = -keyboardFrame.height / (resetEmailField.isEditing ? 1.1 : 2.3)
+        view.frame.origin.y = -keyboardFrame.height / (resetEmailField.isEditing ? 1.1 : 1.5)
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {

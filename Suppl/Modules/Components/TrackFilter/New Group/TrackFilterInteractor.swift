@@ -10,7 +10,7 @@ class TrackFilterInteractor: BaseInteractor, TrackFilterInteractorProtocol {
     }
     
     var communicateDelegate: TrackFilterCommunicateProtocol? {
-        get { return ModulesCommunicateManager.s.getListener(name: parentModuleNameId) as? TrackFilterCommunicateProtocol }
+        get { return ModulesCommunicateManager.shared.getListener(name: parentModuleNameId) as? TrackFilterCommunicateProtocol }
     }
 
 }

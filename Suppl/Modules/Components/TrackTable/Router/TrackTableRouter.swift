@@ -24,8 +24,17 @@ class TrackTableRouter: BaseRouter, TrackTableRouterProtocol {
         return viewController
     }
     
+    func createCell(small: Bool) -> (moduleNameId: String, controller: UIViewController) {
+        return TrackInfoRouter.setup(small: small)
+    }
+    
     func showToastOnTop(title: String, body: String, duration: Double = 2.0) {
-        UIApplication.topViewController()?.view.makeToast(body, duration: 2.0, position: .top, title: title)
+        viewController.view.superview?.makeToast(
+            body,
+            duration: duration,
+            position: .top,
+            title: title
+        )
     }
     
 }

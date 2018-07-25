@@ -57,7 +57,7 @@ class AnimateLogo {
         layer.fillColor = color.cgColor
         
         let pathBounds = wordBezierPath.cgPath.boundingBoxOfPath
-        let view = UIView(frame: CGRect(origin: CGPoint.zero, size: pathBounds.size))
+        let view = UIView(frame: CGRect(origin: .zero, size: pathBounds.size))
         layer.position = CGPoint(x: -pathBounds.origin.x, y: -pathBounds.origin.y)
         view.layer.addSublayer(layer)
         
@@ -103,7 +103,7 @@ class AnimateLogo {
         
         
         let animationGroup = CAAnimationGroup()
-        animationGroup.duration = 3.5;
+        animationGroup.duration = 3.5
         animationGroup.animations = [closeAnimation, closeColorAnimation, animation, colorAnimation]
         
         return animationGroup

@@ -7,19 +7,27 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     var inSearchWork = false
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
-        ModulesCommunicateManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
+        ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func setTracklistListener(_ delegate: TracklistListenerDelegate) {
-        TracklistManager.s.setListener(name: presenter.moduleNameId, delegate: delegate)
+        TracklistManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)
     }
     
     func requestOfflineStatus() {
-        presenter.offlineStatus(OfflineModeManager.s.offlineMode)
+        presenter.offlineStatus(OfflineModeManager.shared.offlineMode)
+    }
+    
+    func listenSettings() {
+        NotificationCenter.default.addObserver(self, selector: #selector(requestHideLogoSetting), name: .hideLogoSettingChanged, object: nil)
+    }
+    
+    @objc func requestHideLogoSetting() {
+        presenter.canHideLogo = SettingsManager.shared.hideLogo.value
     }
     
     func updateTracks() {
-        guard !inSearchWork, let tracklist = TracklistManager.s.tracklist else { return }
+        guard !inSearchWork, let tracklist = TracklistManager.shared.tracklist else { return }
         presenter.clearTracks()
         if tracklist.count == 0 {
             presenter.setUpdateResult(.emptyTracklist)
@@ -32,7 +40,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     func loadTracks(tracklist: [String], cachedTracks: [AudioData]? = nil) {
-        if OfflineModeManager.s.offlineMode {
+        if OfflineModeManager.shared.offlineMode {
             guard let cachedTracks = cachedTracks, cachedTracks.count > 0 else {
                 inSearchWork = false
                 presenter.setUpdateResult(.emptyTracklist)
@@ -50,9 +58,14 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func setDBTracks(_ tracks: [AudioData]) {
-        guard let coreDataWorker = CoreDataManager.s.getForegroundWorker(), let tracksDB = try? coreDataWorker.fetche(Track.self), let userTracksDB = try? coreDataWorker.fetche(UserTrack.self) else { return }
+        guard let coreDataWorker = CoreDataManager.shared.getForegroundWorker(),
+              let tracksDB = try? coreDataWorker.fetche(Track.self),
+              let userTracksDB = try? coreDataWorker.fetche(UserTrack.self)
+            else { return }
         for trackDB in tracksDB {
-            guard !tracks.contains(where: { $0.id == trackDB.id as String }), !userTracksDB.contains(where: { $0.trackId == trackDB }) else { continue }
+            guard !tracks.contains(where: { $0.id == trackDB.id as String }),
+                  !userTracksDB.contains(where: { $0.trackId == trackDB })
+                else { continue }
             coreDataWorker.delete(trackDB)
         }
         for track in tracks {
@@ -63,11 +76,15 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     func setDBTracksBackground(_ tracks: [AudioData]) {
-        guard let coreDataWorker = CoreDataManager.s.getBackgroundWorker() else { return }
+        guard let coreDataWorker = CoreDataManager.shared.getBackgroundWorker() else { return }
         coreDataWorker.run { inWorker in
-            guard let tracksDB = try? inWorker.fetche(Track.self), let userTracksDB = try? inWorker.fetche(UserTrack.self) else { return }
+            guard let tracksDB = try? inWorker.fetche(Track.self),
+                  let userTracksDB = try? inWorker.fetche(UserTrack.self)
+                else { return }
             for trackDB in tracksDB {
-                guard !tracks.contains(where: { $0.id == trackDB.id as String }), !userTracksDB.contains(where: { $0.trackId == trackDB }) else { continue }
+                guard !tracks.contains(where: { $0.id == trackDB.id as String }),
+                      !userTracksDB.contains(where: { $0.trackId == trackDB })
+                    else { continue }
                 inWorker.delete(trackDB)
             }
             for track in tracks {
@@ -84,11 +101,19 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func getDBTracks() -> [AudioData]? {
-        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getForegroundWorker() else { return nil }
+        guard let keys = AuthManager.shared.getAuthKeys(),
+              let coreDataWorker = CoreDataManager.shared.getForegroundWorker()
+            else { return nil }
         let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        guard let tracksDB = try? coreDataWorker.fetche(Track.self), let userTracksDB = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) else { return nil }
-        var tracks = [AudioData]()
+        guard let tracksDB = try? coreDataWorker.fetche(Track.self),
+              let userTracksDB = try? coreDataWorker.fetche(
+                UserTrack.self,
+                predicate: predicate,
+                sortDescriptors: [sortDescriptor]
+              )
+            else { return nil }
+        var tracks: [AudioData] = []
         for userTrack in userTracksDB {
             guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
             tracks.append(AudioData(track: tracksDB[trackIndex]))
@@ -97,7 +122,9 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
  
     func getDBTracksBackground(completion: @escaping ([AudioData]?) -> Void) {
-        guard let keys = AuthManager.s.getAuthKeys(), let coreDataWorker = CoreDataManager.s.getBackgroundWorker() else {
+        guard let keys = AuthManager.shared.getAuthKeys(),
+              let coreDataWorker = CoreDataManager.shared.getBackgroundWorker()
+            else {
             completion(nil)
             return
         }
@@ -105,7 +132,13 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         coreDataWorker.run { inWorker in
             var tracks: [AudioData]? = nil
-            if let tracksDB = try? inWorker.fetche(Track.self), let userTracksDB = try? inWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) {
+            if let tracksDB = try? inWorker.fetche(Track.self),
+               let userTracksDB = try? inWorker.fetche(
+                 UserTrack.self,
+                 predicate: predicate,
+                 sortDescriptors: [sortDescriptor]
+               )
+            {
                 tracks = []
                 for userTrack in userTracksDB {
                     guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
@@ -118,7 +151,9 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     @available(*, deprecated)
     func recursiveTracksLoad(from: Int = 0, packCount count: Int = 10) {
-        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = TracklistManager.s.tracklist else { return }
+        guard let keys = AuthManager.shared.getAuthKeys(),
+              let tracklist = TracklistManager.shared.tracklist
+            else { return }
         let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
         if partCount * count < from {
             presenter.setUpdateResult(nil)
@@ -126,7 +161,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             return
         }
         let tracklistPart = getTracklistPart(tracklist, from: from, count: count)
-        APIManager.s.audio.get(keys: keys, ids: tracklistPart.joined(separator: ",")) { [weak self] error, data in
+        let idsString = tracklistPart.joined(separator: ",")
+        APIManager.shared.audio.get(keys: keys, ids: idsString) { [weak self] error, data in
             guard let data = data else {
                 self?.inSearchWork = false
                 return
@@ -140,7 +176,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     
     func getTracklistPart(_ tracklist: [String], from: Int, count: Int) -> [String] {
         var tracklistPart: [String] = []
-        for key in from...from+count-1 {
+        for key in from...from + count - 1 {
             guard key < tracklist.count else { break }
             tracklistPart.append(tracklist[key])
         }
@@ -148,7 +184,9 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     func recursiveTracksLoadNew(cachedTracks: [AudioData] = [], tracklist: [String]? = nil, from: Int = 0, apiLoadRate: Int = 10) {
-        guard let keys = AuthManager.s.getAuthKeys(), let tracklist = tracklist ?? TracklistManager.s.tracklist else { return }
+        guard let keys = AuthManager.shared.getAuthKeys(),
+              let tracklist = tracklist ?? TracklistManager.shared.tracklist
+            else { return }
         if from > tracklist.count - 1 {
             presenter.setUpdateResult(nil)
             inSearchWork = false
@@ -180,7 +218,8 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             addTracks([])
             return
         }
-        APIManager.s.audio.get(keys: keys, ids: tracklistPartForLoad.joined(separator: ",")) { [weak self] error, data in
+        let idsString = tracklistPartForLoad.joined(separator: ",")
+        APIManager.shared.audio.get(keys: keys, ids: idsString) { [weak self] error, data in
             guard let data = data, data.list.count == tracklistPartForLoad.count else {
                 self?.presenter.setUpdateResult(.serverError)
                 self?.inSearchWork = false
@@ -191,7 +230,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
     }
     
     func tracklistUpdate() {
-        TracklistManager.s.update() { [weak self] status in
+        TracklistManager.shared.update() { [weak self] status in
             self?.presenter.tracklistUpdateResult(status: status)
         }
     }

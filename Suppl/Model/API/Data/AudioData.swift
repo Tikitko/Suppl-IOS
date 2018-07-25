@@ -15,3 +15,9 @@ struct AudioData: Codable {
         images = track.imageLink != nil ? [track.imageLink! as String] : []
     }
 }
+
+extension AudioData: Equatable {
+    static func == (lhs: AudioData, rhs: AudioData) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
