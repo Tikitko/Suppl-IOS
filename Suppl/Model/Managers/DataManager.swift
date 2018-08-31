@@ -1,36 +1,39 @@
 import Foundation
 import UIKit
 
-final class RemoteDataManager {
+final class DataManager {
     
-    static public let shared = RemoteDataManager()
+    static public let shared = DataManager()
     private init() {
-        thumbsCacheDirPath = baseCacheDirPath.appendingPathComponent("thumbs")
+        thumbsCacheDirPath = baseCacheDirPath.appendingPathComponent(AppStaticData.Consts.thumbsDirName)
     }
     
+    public static var documentsDirectory: URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
     private var cache = NSCache<NSString, NSData>()
-    private let session = CommonRequest()
-    public let baseCacheDirPath = RemoteDataManager.getDocumentsDirectory().appendingPathComponent(AppStaticData.cacheDir)
+    private let session = CommonSession()
+    public let baseCacheDirPath = DataManager.documentsDirectory.appendingPathComponent(AppStaticData.Consts.cacheDir)
     private let thumbsCacheDirPath: URL
     
     public func getData(link: String, noCache: Bool = false, inMainQueue: Bool = true, callbackData: @escaping (Data) -> ()) {
-        if !noCache, let cachedVersion = getFromCache(link: link) {
+        if !noCache, let cachedVersion = getFromCache(link) {
             callbackData(cachedVersion)
             return
         }
         session.request(url: link, inMainQueue: inMainQueue) { [weak self] error, response, data in
             guard let `self` = self, let data = data else { return }
-            self.setToCache(link: link, data: data)
+            self.setToCache(link, data: data)
             callbackData(data)
         }
     }
     
-    private func getFromCache(link: String) -> Data? {
-        return cache.object(forKey: link as NSString) as Data?
+    private func getFromCache(_ key: String) -> Data? {
+        return cache.object(forKey: key as NSString) as Data?
     }
     
-    private func setToCache(link: String, data: Data) {
-        cache.setObject(data as NSData, forKey: link as NSString)
+    private func setToCache(_ key: String, data: Data) {
+        cache.setObject(data as NSData, forKey: key as NSString)
     }
     
     public func getCachedImage(link: String, imagesLifetime: Int = 6, callbackImage: @escaping (UIImage) -> ()) {
@@ -46,7 +49,7 @@ final class RemoteDataManager {
             let callback: (_ data: Data) -> Void = { data in
                 backInMain ? DispatchQueue.main.async { callbackImageData(data) } : callbackImageData(data)
             }
-            if let imageDataCache = self.getFromCache(link: link), let _ = UIImage(data: imageDataCache) {
+            if let imageDataCache = self.getFromCache(link), let _ = UIImage(data: imageDataCache) {
                 callback(imageDataCache)
                 return
             }
@@ -67,7 +70,7 @@ final class RemoteDataManager {
                     imageAlive = OfflineModeManager.shared.offlineMode
                 }
                 if imageAlive {
-                    self.setToCache(link: link, data: imageDataDisk)
+                    self.setToCache(link, data: imageDataDisk)
                     callback(imageDataDisk)
                     return
                 } else {
@@ -116,7 +119,7 @@ final class RemoteDataManager {
         )
         while let file = enumerator?.nextObject() {
             let filePathURL = file as! URL
-            if filePathURL.path.hasSuffix(".jpg") {
+            if filePathURL.path.hasSuffix(AppStaticData.Consts.fullJPGType) {
                 imageURLs.append(filePathURL.path)
             } else {
                 imageURLs += searchJPGImages(pathURL: filePathURL)
@@ -129,12 +132,8 @@ final class RemoteDataManager {
         cache.removeAllObjects()
     }
     
-    public func removeFromCache(link: String) {
-        cache.removeObject(forKey: link as NSString)
-    }
-    
-    public static func getDocumentsDirectory() -> URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    public func removeFromCache(_ key: String) {
+        cache.removeObject(forKey: key as NSString)
     }
     
     public static func directoryExistsAtPath(_ path: URL) -> Bool {
@@ -145,7 +144,7 @@ final class RemoteDataManager {
     
     public static func saveFile(data: Data, name: String, path: URL) -> Bool {
         do {
-            if !RemoteDataManager.directoryExistsAtPath(path) {
+            if !DataManager.directoryExistsAtPath(path) {
                 try FileManager.default.createDirectory(at: path, withIntermediateDirectories: true)
             }
             try data.write(to: path.appendingPathComponent(name), options: [.atomic])

@@ -120,7 +120,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     
     func loadImageData(link: String, callback: @escaping (_ data: Data) -> Void) {
         guard SettingsManager.shared.loadImages.value, !link.isEmpty else { return }
-        RemoteDataManager.shared.getCachedImageAsData(link: link, callbackImageData: callback)
+        DataManager.shared.getCachedImageAsData(link: link, callbackImageData: callback)
     }
   
 }

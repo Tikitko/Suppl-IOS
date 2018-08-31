@@ -104,7 +104,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         guard let keys = AuthManager.shared.getAuthKeys(),
               let coreDataWorker = CoreDataManager.shared.getForegroundWorker()
             else { return nil }
-        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         guard let tracksDB = try? coreDataWorker.fetche(Track.self),
               let userTracksDB = try? coreDataWorker.fetche(
@@ -128,7 +128,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             completion(nil)
             return
         }
-        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         coreDataWorker.run { inWorker in
             var tracks: [AudioData]? = nil
@@ -161,8 +161,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             return
         }
         let tracklistPart = getTracklistPart(tracklist, from: from, count: count)
-        let idsString = tracklistPart.joined(separator: ",")
-        APIManager.shared.audio.get(keys: keys, ids: idsString) { [weak self] error, data in
+        APIManager.shared.audio.get(keys: keys, ids: tracklistPart) { [weak self] error, data in
             guard let data = data else {
                 self?.inSearchWork = false
                 return
@@ -218,8 +217,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             addTracks([])
             return
         }
-        let idsString = tracklistPartForLoad.joined(separator: ",")
-        APIManager.shared.audio.get(keys: keys, ids: idsString) { [weak self] error, data in
+        APIManager.shared.audio.get(keys: keys, ids: tracklistPartForLoad) { [weak self] error, data in
             guard let data = data, data.list.count == tracklistPartForLoad.count else {
                 self?.presenter.setUpdateResult(.serverError)
                 self?.inSearchWork = false

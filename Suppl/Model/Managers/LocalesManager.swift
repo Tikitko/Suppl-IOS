@@ -25,7 +25,7 @@ final class LocalesManager {
     }
     
     public func get(apiErrorCode code: Int) -> String {
-        let keyString = "APIError_\(code)"
+        let keyString = code >= 0 ? "APIError_\(code)" : "APIRequestError_\(code * -1)"
         return locale[keyString] ?? keyString
     }
     

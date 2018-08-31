@@ -45,9 +45,9 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     func setTheme() {
-        updateButton.theme_tintColor = "secondColor"
-        filterButton.theme_tintColor = "secondColor"
-        editButton.theme_tintColor = "secondColor"
+        updateButton.theme_tintColor = ThemeColor.second.picker
+        filterButton.theme_tintColor = ThemeColor.second.picker
+        editButton.theme_tintColor = ThemeColor.second.picker
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,7 +75,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppStaticData.Consts.initCoderNotImplemented)
     }
     
     func reloadData() {

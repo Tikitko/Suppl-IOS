@@ -126,10 +126,9 @@ final class CoreDataManager {
         
     }
     
-    private let modelName = "DataModel"
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator?
     private lazy var managedObjectModel: NSManagedObjectModel = {
-        let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd")!
+        let modelURL = Bundle.main.url(forResource: AppStaticData.Consts.coreDataMainModel, withExtension: AppStaticData.Consts.fullMomdType)!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
@@ -142,7 +141,7 @@ final class CoreDataManager {
             return
         }
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!.appendingPathComponent(modelName + ".sqlite")
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!.appendingPathComponent(AppStaticData.Consts.coreDataMainModel + AppStaticData.Consts.fullSQliteType)
         DispatchQueue.global(qos: .default).async { [weak self] in
             var errorOut: Error? = nil
             do {

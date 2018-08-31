@@ -201,10 +201,10 @@ final class PlayerManager: NSObject {
             setTrack(item: item)
             return
         }
-        APIManager.shared.audio.get(keys: keys, ids: trackID) { [weak self] error, data in
+        APIManager.shared.audio.get(keys: keys, ids: [trackID]) { [weak self] error, data in
             guard let list = data?.list,
                   list.count > 0,
-                  let trackURL = URL(string: list[0].track ?? ""),
+                  let trackURL = URL(string: list[0].track ?? String()),
                   self?.currentTrack?.id == list[0].id
                 else { return }
             if !loadedFromCache {
@@ -253,7 +253,7 @@ final class PlayerManager: NSObject {
         ] as [String: Any]
         nowPlayingCenter.nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
         guard SettingsManager.shared.loadImages.value else { return }
-        RemoteDataManager.shared.getCachedImageAsData(link: track.images.last ?? "") { [weak self] imageData in
+        DataManager.shared.getCachedImageAsData(link: track.images.last ?? String()) { [weak self] imageData in
             guard let `self` = self,
                   track.id == self.currentTrack?.id,
                   let image = UIImage(data: imageData as Data)

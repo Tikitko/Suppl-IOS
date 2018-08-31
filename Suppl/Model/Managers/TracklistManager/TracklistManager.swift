@@ -36,7 +36,7 @@ final class TracklistManager {
         guard let keys = AuthManager.shared.getAuthKeys(),
               let coreDataWorker = CoreDataManager.shared.getForegroundWorker()
             else { return nil }
-        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         guard let tracks = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor])
             else { return nil }
@@ -54,7 +54,7 @@ final class TracklistManager {
             completion(nil)
             return
         }
-        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         coreDataWorker.fetche(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) { tracks, error in
             var tracklist: [String]? = nil
@@ -73,7 +73,7 @@ final class TracklistManager {
         guard let keys = AuthManager.shared.getAuthKeys(),
               let coreDataWorker = CoreDataManager.shared.getForegroundWorker()
             else { return }
-        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         guard let tracklist = tracklist,
               let tracks = try? coreDataWorker.fetche(UserTrack.self, predicate: predicate)
             else { return }
@@ -99,7 +99,7 @@ final class TracklistManager {
               let coreDataWorker = CoreDataManager.shared.getBackgroundWorker(),
               let tracklist = tracklist
             else { return }
-        let predicate = NSPredicate(format: "userIdentifier = \(keys.identifierKey)")
+        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         coreDataWorker.run { inWorker in
             guard let tracks = try? inWorker.fetche(UserTrack.self, predicate: predicate) else { return }
             for track in tracks {
@@ -123,7 +123,10 @@ final class TracklistManager {
     public func update(callback: @escaping (Bool) -> () = { _ in }) {
         if OfflineModeManager.shared.offlineMode {
             getDBTracklistBackground() { [weak self] tracklist in
-                guard let `self` = self else { return }
+                guard let `self` = self else {
+                    callback(false)
+                    return
+                }
                 self.tracklist = tracklist
                 callback(true)
             }

@@ -7,7 +7,7 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     weak var view: MainViewControllerProtocol!
     
     var searchData: AudioSearchData?
-    var thisQuery = ""
+    var thisQuery = String()
     
     var moduleNameId: String {
         get { return router.moduleNameId }
@@ -49,7 +49,7 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     
     func clearData(withReload: Bool = true) {
         searchData = nil
-        thisQuery = ""
+        thisQuery = String()
         if withReload {
             view.reloadData()
         }

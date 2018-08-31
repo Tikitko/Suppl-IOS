@@ -9,7 +9,7 @@ class SettingsMainViewController: UIViewController, ControllerInfoProtocol {
     @IBOutlet weak var titleLabel: UILabel!
     
     static func initial() -> SettingsMainViewController {
-        let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
+        let storyboard = UIStoryboard(name: AppStaticData.Consts.settingsStoryboardName, bundle: nil)
         return storyboard.instantiateInitialViewController() as! SettingsMainViewController
     }
     

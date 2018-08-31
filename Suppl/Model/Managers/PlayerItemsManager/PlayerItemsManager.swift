@@ -4,9 +4,7 @@ import AVFoundation
 final class PlayerItemsManager {
     
     static public let shared = PlayerItemsManager()
-    private init() {
-        tracksCacheDirPath = RemoteDataManager.shared.baseCacheDirPath.appendingPathComponent("tracks")
-    }
+    private init() {}
     
     public enum ItemStatus {
         case downloading
@@ -64,16 +62,16 @@ final class PlayerItemsManager {
         }
     }
     
-    private let itemMimeType = "audio/mpeg"
-    private let itemFileExtension = "mp3"
+    private let itemMimeType = AppStaticData.Consts.MP3MimeType
+    private let itemFileExtension = AppStaticData.Consts.MP3FileExtension
     
-    private var tracksCacheDirPath: URL
+    private let tracksCacheDirPath = DataManager.shared.baseCacheDirPath.appendingPathComponent(AppStaticData.Consts.tracksDirName)
     private var downloadQueueItems: [NamedItem] = []
     private var waitingDelegates: [String: NSMapTable<NSString, AnyObject>] = [:]
     private weak var nowDownloading: CachingPlayerItem? = nil
     
     private func saveFileInCacheDir(data: Data, name: String) -> Bool {
-        return RemoteDataManager.saveFile(data: data, name: name, path: tracksCacheDirPath)
+        return DataManager.saveFile(data: data, name: name, path: tracksCacheDirPath)
     }
     
     public func setListener(itemName: String, listenerName: String, delegate: PlayerItemDelegate) {
@@ -124,11 +122,11 @@ final class PlayerItemsManager {
             completion(false)
             return
         }
-        APIManager.shared.audio.get(keys: keys, ids: name) { [weak self] error, data in
+        APIManager.shared.audio.get(keys: keys, ids: [name]) { [weak self] error, data in
             if let `self` = self,
                let list = data?.list,
                list.count > 0,
-               let trackURL = URL(string: list[0].track ?? "")
+               let trackURL = URL(string: list[0].track ?? String())
             { completion(self.addItem(name, trackURL)) }
             else { completion(false) }
         }
@@ -257,19 +255,19 @@ final class PlayerItemsManager {
 extension PlayerItemsManager: CachingPlayerItemDelegate {
     
     func playerItem(_ playerItem: CachingPlayerItem, didFinishDownloadingData data: Data) {
-        DispatchQueue.main.sync { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.endDownload(forItem: playerItem, data: data)
         }
     }
 
     func playerItem(_ playerItem: CachingPlayerItem, didDownloadBytesSoFar bytesDownloaded: Int, outOf bytesExpected: Int) {
-        DispatchQueue.main.sync { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.changedProgress(forItem: playerItem, didDownloadBytesSoFar: bytesDownloaded, outOf: bytesExpected)
         }
     }
 
     func playerItem(_ playerItem: CachingPlayerItem, downloadingFailedWith error: Error) {
-        DispatchQueue.main.sync { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.endDownload(forItem: playerItem, data: nil)
         }
     }

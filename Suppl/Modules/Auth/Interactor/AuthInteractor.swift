@@ -9,7 +9,7 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
     }
     
     func requestIdentifierString() {
-        presenter.setIdentifier(AuthManager.shared.getAuthKeys(setFailAuth: false)?.string ?? "")
+        presenter.setIdentifier(AuthManager.shared.getAuthKeys(setFailAuth: false)?.string ?? String())
     }
 
     func startAuth(fromString input: String? = nil, resetKey: String? = nil, onlyInfo: Bool = false) {

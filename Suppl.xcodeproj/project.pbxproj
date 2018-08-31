@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E0641A020273A8900998D8A /* RemoteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E06419F20273A8900998D8A /* RemoteDataManager.swift */; };
+		0E0641A020273A8900998D8A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E06419F20273A8900998D8A /* DataManager.swift */; };
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
 		0E0A98412033141600E91922 /* TrackFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A983F2033141500E91922 /* TrackFilterViewController.swift */; };
 		0E0A98422033141600E91922 /* TrackFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A98402033141500E91922 /* TrackFilterViewController.xib */; };
@@ -26,6 +26,7 @@
 		0EEC5AAB202135B50028694E /* TracklistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC5AAA202135B50028694E /* TracklistViewController.xib */; };
 		0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF1AFB2201F9E44006B2761 /* ResponseData.swift */; };
 		4C501C538AB7351FFAA0F3A7 /* Pods_Suppl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC594A90A504837522D11FA5 /* Pods_Suppl.framework */; };
+		8C0369C2213951870091800E /* ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0369C1213951870091800E /* ThemeColor.swift */; };
 		8C05DCCE20BEAF5D00AD67F4 /* UserTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C05DCCD20BEAF5D00AD67F4 /* UserTrack.swift */; };
 		8C0CB5F6208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5F5208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift */; };
 		8C0CB5FC208DA87100456A68 /* TrackFilterRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5FB208DA87100456A68 /* TrackFilterRouterProtocol.swift */; };
@@ -131,7 +132,7 @@
 		8C67F600201B174200333EB2 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F3201B174200333EB2 /* APIManager.swift */; };
 		8C67F601201B174200333EB2 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F5201B174200333EB2 /* UserService.swift */; };
 		8C67F602201B174200333EB2 /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F6201B174200333EB2 /* AudioService.swift */; };
-		8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F8201B174200333EB2 /* CommonRequest.swift */; };
+		8C67F603201B174200333EB2 /* CommonSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F8201B174200333EB2 /* CommonSession.swift */; };
 		8C67F604201B174200333EB2 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5F9201B174200333EB2 /* APIRequest.swift */; };
 		8C67F605201B174200333EB2 /* UserSecretData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FB201B174200333EB2 /* UserSecretData.swift */; };
 		8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C67F5FC201B174200333EB2 /* AudioSearchData.swift */; };
@@ -165,7 +166,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E06419F20273A8900998D8A /* RemoteDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteDataManager.swift; sourceTree = "<group>"; };
+		0E06419F20273A8900998D8A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
 		0E0A983F2033141500E91922 /* TrackFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackFilterViewController.swift; sourceTree = "<group>"; };
 		0E0A98402033141500E91922 /* TrackFilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackFilterViewController.xib; sourceTree = "<group>"; };
@@ -186,6 +187,7 @@
 		0EF1AFB2201F9E44006B2761 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
 		27028F1F091779E3391AF02A /* Pods-Suppl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Suppl.release.xcconfig"; path = "Pods/Target Support Files/Pods-Suppl/Pods-Suppl.release.xcconfig"; sourceTree = "<group>"; };
 		574C548F0169B641AE8964C1 /* Pods-Suppl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Suppl.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Suppl/Pods-Suppl.debug.xcconfig"; sourceTree = "<group>"; };
+		8C0369C1213951870091800E /* ThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColor.swift; sourceTree = "<group>"; };
 		8C05DCCD20BEAF5D00AD67F4 /* UserTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTrack.swift; sourceTree = "<group>"; };
 		8C0CB5F5208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterViewControllerProtocol.swift; sourceTree = "<group>"; };
 		8C0CB5FB208DA87100456A68 /* TrackFilterRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackFilterRouterProtocol.swift; sourceTree = "<group>"; };
@@ -293,7 +295,7 @@
 		8C67F5F3201B174200333EB2 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		8C67F5F5201B174200333EB2 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		8C67F5F6201B174200333EB2 /* AudioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
-		8C67F5F8201B174200333EB2 /* CommonRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonRequest.swift; sourceTree = "<group>"; };
+		8C67F5F8201B174200333EB2 /* CommonSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonSession.swift; sourceTree = "<group>"; };
 		8C67F5F9201B174200333EB2 /* APIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		8C67F5FB201B174200333EB2 /* UserSecretData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSecretData.swift; sourceTree = "<group>"; };
 		8C67F5FC201B174200333EB2 /* AudioSearchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSearchData.swift; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 				8C0E1B8D2091A76D00CE5C12 /* KeysPair.swift */,
 				8C479665209C6888009F5623 /* CurrentTrack.swift */,
 				8C0FBC3E2100729300828E14 /* TableConfigure.swift */,
+				8C0369C1213951870091800E /* ThemeColor.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -938,7 +941,7 @@
 		8C67F5F7201B174200333EB2 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				8C67F5F8201B174200333EB2 /* CommonRequest.swift */,
+				8C67F5F8201B174200333EB2 /* CommonSession.swift */,
 				8C67F5F9201B174200333EB2 /* APIRequest.swift */,
 			);
 			path = Requests;
@@ -1025,7 +1028,7 @@
 				0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */,
 				8C67F5F3201B174200333EB2 /* APIManager.swift */,
 				8CBDFD632023001700BED743 /* AuthManager.swift */,
-				0E06419F20273A8900998D8A /* RemoteDataManager.swift */,
+				0E06419F20273A8900998D8A /* DataManager.swift */,
 				0E12FABD2030604200EE3422 /* SettingsManager.swift */,
 				8C0E1B8F2091BCA100CE5C12 /* PListsManager.swift */,
 				8C0E1B952091C74400CE5C12 /* LocalesManager.swift */,
@@ -1242,7 +1245,7 @@
 				8C0CB611208DCD6500456A68 /* MainRouter.swift in Sources */,
 				8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */,
 				8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */,
-				8C67F603201B174200333EB2 /* CommonRequest.swift in Sources */,
+				8C67F603201B174200333EB2 /* CommonSession.swift in Sources */,
 				8C75D09D20A9694200DB0F0D /* QueueTemplate.swift in Sources */,
 				8C4C043420C9635D006CC269 /* SmallPlayerPresenterProtocolInteractor.swift in Sources */,
 				8C285F7520888173007427E7 /* TrackTableRouterProtocol.swift in Sources */,
@@ -1294,12 +1297,13 @@
 				8CA4F90B20B802E200C1A81B /* Toast.swift in Sources */,
 				8C0CB5FC208DA87100456A68 /* TrackFilterRouterProtocol.swift in Sources */,
 				8C4C043C20C9644C006CC269 /* TrackInfoPresenterProtocolInteractor.swift in Sources */,
+				8C0369C2213951870091800E /* ThemeColor.swift in Sources */,
 				8C4C043620C963A5006CC269 /* SearchBarPresenterProtocolInteractor.swift in Sources */,
 				8C0CB5FE208DA87E00456A68 /* TrackFilterRouter.swift in Sources */,
 				8C95DEC120B596880081C477 /* BaseRouterProtocol.swift in Sources */,
 				8C0CB628208DDB8300456A68 /* TracklistPresenter.swift in Sources */,
 				8C5A27C220AC5BE1009DBA98 /* BaseInteractor.swift in Sources */,
-				0E0641A020273A8900998D8A /* RemoteDataManager.swift in Sources */,
+				0E0641A020273A8900998D8A /* DataManager.swift in Sources */,
 				8C3B74EA2090776800D0AF3E /* SearchBarViewController.swift in Sources */,
 				8C479666209C6888009F5623 /* CurrentTrack.swift in Sources */,
 				8C67F609201B174200333EB2 /* AudioData.swift in Sources */,

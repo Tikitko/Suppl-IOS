@@ -3,17 +3,14 @@ import UIKit
 
 class OldSafeAreaUIViewController: UIViewController {
     
-    private let topSafeAreaConstraint = "topSafeAreaConstraint"
-    private let bottomSafeAreaConstraint = "bottomSafeAreaConstraint"
-    
     private var safeAreaFixLoaded = false
     
     private var topSafeAreaMargin: CGFloat?
     private var bottomSafeAreaMargin: CGFloat?
     
     private func fixSafeArea() {
-        let tIndex = view.constraints.index(where: { $0.identifier == topSafeAreaConstraint })
-        let bIndex = view.constraints.index(where: { $0.identifier == bottomSafeAreaConstraint })
+        let tIndex = view.constraints.index(where: { $0.identifier == AppStaticData.Consts.topSafeAreaConstraintIdentifier })
+        let bIndex = view.constraints.index(where: { $0.identifier == AppStaticData.Consts.bottomSafeAreaConstraintIdentifier })
         if !safeAreaFixLoaded {
             safeAreaFixLoaded = true
             if let tIndex = tIndex {

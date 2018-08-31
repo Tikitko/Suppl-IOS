@@ -28,14 +28,14 @@ class SettingTableCell: UITableViewCell {
         case .button:
             let settingButton = settingControl as! UIButton
             settingButton.addTarget(self, action: #selector(settingControlCallback(_:)), for: .touchUpInside)
-            settingButton.theme_tintColor = "secondColor"
+            settingButton.theme_tintColor = ThemeColor.second.picker
             settingButton.translatesAutoresizingMaskIntoConstraints = false
             settingButton.titleLabel?.lineBreakMode = .byTruncatingTail
             addSubview(settingButton)
         case .switch:
             let settingSwitch = settingControl as! UISwitch
             settingSwitch.addTarget(self, action: #selector(settingControlCallback(_:)), for: .valueChanged)
-            settingSwitch.theme_onTintColor = "secondColor"
+            settingSwitch.theme_onTintColor = ThemeColor.second.picker
             settingSwitch.translatesAutoresizingMaskIntoConstraints = false
             addSubview(settingSwitch)
         }
@@ -56,7 +56,7 @@ class SettingTableCell: UITableViewCell {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppStaticData.Consts.initCoderNotImplemented)
     }
     
     @objc private func settingControlCallback(_ control: UIControl) {

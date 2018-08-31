@@ -9,11 +9,11 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
     
     var tracks: [AudioData] = []
     
-    var nowQuery: String? = nil
+    var nowQuery: String?
     var foundTracks: [AudioData]?
     var searchByTitle = true
     var searchByPerformer = true
-    var searchTimeRate: Float = 1.0
+    var searchTimeRate: Float = 1
     var updateTrysCount = 0
     
     var moduleNameId: String {

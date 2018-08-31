@@ -4,7 +4,7 @@ class APIRequest {
     
     public static let API_URL = "https://wioz.su/suppl/api/0.2.1/"
     
-    private let session = CommonRequest()
+    private let session = CommonSession()
     
     public func method<T>(_ method: String, query: Dictionary<String, String>, dataReport: @escaping (NSError?, T?) -> (), externalMethod: @escaping (_ data: ResponseData<T>) -> T?) {
         if OfflineModeManager.shared.offlineMode { return }
@@ -25,7 +25,7 @@ class APIRequest {
                     returnData = externalMethod(dataObj)
                 }
             } else {
-                returnError = NSError(domain: "get_data_error", code: -3)
+                returnError = NSError(domain: AppStaticData.Consts.dataProcessingErrorText, code: -1)
             }
             DispatchQueue.main.async { dataReport(returnError, returnData) }
         }

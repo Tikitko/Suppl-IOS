@@ -46,7 +46,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         private func enableBackground(_ isOn: Bool, duration: TimeInterval? = nil) {
             guard let parent = myController else { return }
             let changes = {
-                let firstColor = parent.presenter.getCellSelectColor()
+                let firstColor = ThemeColor.first.color
                 let secondColor = UIColor(white: 0.9, alpha: 1.0)
                 self.backgroundColor = isOn ? (parent.useLightStyle ? firstColor : secondColor) : nil
             }
@@ -70,7 +70,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     var useLightStyle: Bool = false {
         didSet {
             tableView.backgroundColor = useLightStyle ? .clear : .white
-            tableView.theme_backgroundColor = useLightStyle ? "thirdColor" : ["#FFF"]
+            tableView.theme_backgroundColor = useLightStyle ? ThemeColor.third.picker : [AppStaticData.Consts.widthColorHash]
         }
     }
     var cellSize: CGFloat {

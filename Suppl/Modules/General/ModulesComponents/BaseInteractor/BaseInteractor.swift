@@ -18,8 +18,4 @@ class BaseInteractor {
         return LocalesManager.shared.get(apiErrorCode: code)
     }
     
-    func getThemeColorHash(_ themeColor: ThemeMainManager.Color) -> String {
-        return ThemeMainManager.shared.getColorHash(themeColor)
-    }
-    
 }

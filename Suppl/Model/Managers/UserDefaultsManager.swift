@@ -15,16 +15,14 @@ final class UserDefaultsManager {
         obj.set(value, forKey: key)
     }
     
-    private let ikey = "identifierKey"
     public var identifierKey: Int? {
-        get { return keyGet(ikey) }
-        set(value) { keySet(ikey, value: value) }
+        get { return keyGet(AppStaticData.Consts.ikey) }
+        set(value) { keySet(AppStaticData.Consts.ikey, value: value) }
     }
     
-    private let akey = "accessKey"
     public var accessKey: Int? {
-        get { return keyGet(akey) }
-        set(value) { keySet(akey, value: value) }
+        get { return keyGet(AppStaticData.Consts.akey) }
+        set(value) { keySet(AppStaticData.Consts.akey, value: value) }
     }
     
 }

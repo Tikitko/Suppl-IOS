@@ -62,7 +62,7 @@ class SettingsGeneralViewController: UIViewController {
             labelText: LocalesManager.shared.get(.setting5),
             buttonText: LocalesManager.shared.get(.clear),
             buttonCallback: { [weak self] button in
-                RemoteDataManager.shared.resetAllCachedImages()
+                DataManager.shared.resetAllCachedImages()
                 NotificationCenter.default.post(name: .imagesCacheRemoved, object: nil, userInfo: nil)
                 self?.showToast(text: LocalesManager.shared.get(.imagesCacheRemoved))
             }
@@ -83,7 +83,7 @@ class SettingsGeneralViewController: UIViewController {
         navigationItem.title = LocalesManager.shared.get(.titleSMain)
         settingsTable.allowsSelection = false
         if #available(iOS 11.0, *) {
-            let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == "topConstraint" })?.constant ?? 10
+            let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == AppStaticData.Consts.topConstraintIdentifier })?.constant ?? 10
             settingsTable.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + offset, 0, bottomLayoutGuide.length + offset, 0)
         }
     }

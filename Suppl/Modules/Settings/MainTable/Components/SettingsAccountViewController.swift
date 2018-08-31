@@ -43,7 +43,7 @@ class SettingsAccountViewController: UIViewController {
         guard let keys = AuthManager.shared.getAuthKeys() else { return }
         guard let email = self.emailField.text else { return }
         let lastPlacehilderText = emailField.placeholder
-        self.emailField.text = ""
+        self.emailField.text = String()
         self.emailField.placeholder = LocalesManager.shared.get(.install)
         APIManager.shared.user.updateEmail(keys: keys, email: email) { [weak self] error, data in
             guard let `self` = self else { return }
@@ -58,8 +58,8 @@ class SettingsAccountViewController: UIViewController {
     }
     
     func setTheme() {
-        emailButton.theme_backgroundColor = "secondColor"
-        accountOutButton.theme_backgroundColor = "secondColor"
+        emailButton.theme_backgroundColor = ThemeColor.second.picker
+        accountOutButton.theme_backgroundColor = ThemeColor.second.picker
     }
     
     private func getAccount() {
@@ -86,7 +86,7 @@ class SettingsAccountViewController: UIViewController {
             self.emailField.isEnabled = true
             self.emailButton.isEnabled = true
             self.emailField.placeholder = LocalesManager.shared.get(.youEmail)
-            self.emailField.text = data.email ?? ""
+            self.emailField.text = data.email ?? String()
             self.accountOutButton.isEnabled = true
             self.identifierField.text = String(keys.identifierKey) + String(keys.accessKey)
         }

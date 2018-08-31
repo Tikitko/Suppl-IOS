@@ -31,7 +31,7 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppStaticData.Consts.initCoderNotImplemented)
     }
     
     override func viewDidLoad() {

@@ -41,10 +41,10 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
     }
     
     func setTheme() {
-        okButton.theme_tintColor = "secondColor"
-        searchTitleSwitch.theme_onTintColor = "secondColor"
-        searchPerformerSwitch.theme_onTintColor = "secondColor"
-        timeSlider.theme_tintColor = "secondColor"
+        okButton.theme_tintColor = ThemeColor.second.picker
+        searchTitleSwitch.theme_onTintColor = ThemeColor.second.picker
+        searchPerformerSwitch.theme_onTintColor = ThemeColor.second.picker
+        timeSlider.theme_tintColor = ThemeColor.second.picker
     }
     
     @IBAction func timeChange(_ sender: Any) {
