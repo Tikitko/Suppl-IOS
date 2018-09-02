@@ -19,7 +19,7 @@ final class AppStaticData {
         static let deeplinkResetKey = "resetKey"
         static let plistType = "plist"
         static let fullJPGType = ".jpg"
-        static let fullSQliteType = ".jpg"
+        static let fullSQliteType = ".sqlite"
         static let fullMomdType = "momd"
         static let thumbsDirName = "thumbs"
         static let tracksDirName = "tracks"
