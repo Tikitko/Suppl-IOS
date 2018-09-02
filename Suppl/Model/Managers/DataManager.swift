@@ -13,7 +13,7 @@ final class DataManager {
     }
     private var cache = NSCache<NSString, NSData>()
     private let session = CommonSession()
-    public let baseCacheDirPath = DataManager.documentsDirectory.appendingPathComponent(AppStaticData.Consts.cacheDir)
+    public let baseCacheDirPath = DataManager.documentsDirectory.appendingPathComponent(AppStaticData.Consts.cacheDirName)
     private let thumbsCacheDirPath: URL
     
     public func getData(link: String, noCache: Bool = false, inMainQueue: Bool = true, callbackData: @escaping (Data) -> ()) {

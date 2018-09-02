@@ -128,7 +128,7 @@ final class CoreDataManager {
     
     private var persistentStoreCoordinator: NSPersistentStoreCoordinator?
     private lazy var managedObjectModel: NSManagedObjectModel = {
-        let modelURL = Bundle.main.url(forResource: AppStaticData.Consts.coreDataMainModel, withExtension: AppStaticData.Consts.fullMomdType)!
+        let modelURL = Bundle.main.url(forResource: AppStaticData.Consts.coreDataMainModel, withExtension: AppStaticData.Consts.momdType)!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     

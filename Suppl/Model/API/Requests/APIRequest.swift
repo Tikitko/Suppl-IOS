@@ -25,7 +25,7 @@ class APIRequest {
                     returnData = externalMethod(dataObj)
                 }
             } else {
-                returnError = NSError(domain: AppStaticData.Consts.dataProcessingErrorText, code: -1)
+                returnError = NSError(domain: "data_processing_error", code: -1)
             }
             DispatchQueue.main.async { dataReport(returnError, returnData) }
         }
