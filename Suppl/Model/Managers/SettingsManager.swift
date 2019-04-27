@@ -33,7 +33,7 @@ final class SettingsManager {
     let loadImages = Setting<Bool>("loadImages", true, .loadImagesSettingChanged)
     let autoNextTrack = Setting<Bool>("autoNextTrack", true, .autoNextTrackSettingChanged)
     let smallCell = Setting<Bool>("smallCell", false, .smallCellSettingChanged)
-    let hideLogo = Setting<Bool>("hideLogo", false, .hideLogoSettingChanged)
+    let hideLogo = Setting<Bool>("hideLogo", true, .hideLogoSettingChanged)
     let theme = Setting<Int>("theme", 0, .themeSettingChanged)
     
 }
