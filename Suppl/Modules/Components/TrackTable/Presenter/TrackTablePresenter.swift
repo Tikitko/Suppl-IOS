@@ -113,7 +113,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         var actions: [RowAction] = []
         let thisTrack = tracks[indexPath.row]
         if canEdit {
-            if let indexTrack = tracklist.index(of: thisTrack.id) {
+            if let indexTrack = tracklist.firstIndex(of: thisTrack.id) {
                 let action: (IndexPath) -> Void = { [weak self] _ in
                     self?.interactor.removeTrack(indexTrack: indexTrack, track: self!.tracks[indexPath.row])
                 }
@@ -135,7 +135,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         }
         
         let playlist = frashPlaylist
-        if let indexTracklist = playlist?.IDs.index(where: { $0 == thisTrack.id }) {
+        if let indexTracklist = playlist?.IDs.firstIndex(where: { $0 == thisTrack.id }) {
             let action: (IndexPath) -> Void = { [weak self] _ in
                 self?.interactor.removeFromPlaylist(at: indexTracklist)
             }
@@ -172,9 +172,9 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         return true
     }
     
-    func rowEditType(indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    func rowEditType(indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         guard tracks.count > indexPath.row, let tracklist = frashTracklist else { return .none }
-        return tracklist.index(of: tracks[indexPath.row].id) != nil ? .delete : .insert
+        return tracklist.firstIndex(of: tracks[indexPath.row].id) != nil ? .delete : .insert
     }
     
     func openPlayer(trackIndex: Int) {
@@ -232,7 +232,7 @@ extension TrackTablePresenter: PlayerListenerDelegate {
     func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
         guard imageData == nil,
               followCurrentTrack.0,
-              let index = tracks.index(where: { $0.id == track.id })
+              let index = tracks.firstIndex(where: { $0.id == track.id })
             else { return }
         view.followToIndex(index, inVisibilityZone: followCurrentTrack.inVisibilityZone)
     }

@@ -75,7 +75,7 @@ final class PlayerItemsManager {
     }
     
     public func setListener(itemName: String, listenerName: String, delegate: PlayerItemDelegate) {
-        if let index = downloadQueueItems.index(where: { $0.name == itemName }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.name == itemName }) {
             downloadQueueItems[index].setListener(listenerName, delegate: delegate)
         } else {
             if waitingDelegates.index(forKey: itemName) == nil {
@@ -86,7 +86,7 @@ final class PlayerItemsManager {
     }
     
     public func removeListener(itemName: String, listenerName: String) {
-        if let index = downloadQueueItems.index(where: { $0.name == itemName }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.name == itemName }) {
             downloadQueueItems[index].removeListener(listenerName)
         }
         if waitingDelegates.index(forKey: itemName) != nil {
@@ -133,7 +133,7 @@ final class PlayerItemsManager {
     }
 
     public func removeActiveItem(_ name: String) -> Bool {
-        guard let index = downloadQueueItems.index(where: { $0.name == name }) else { return false }
+        guard let index = downloadQueueItems.firstIndex(where: { $0.name == name }) else { return false }
         downloadQueueItems[index].sayToListeners({ $0.itemStatusChanged(name, .cancel) })
         waitingDelegates[name] = downloadQueueItems[index].getAllListeners()
         downloadQueueItems[index].item.delegate = nil
@@ -170,7 +170,7 @@ final class PlayerItemsManager {
 
     public func getItem(_ name: String) -> AVPlayerItem? {
         var item: AVPlayerItem? = nil
-        if let index = downloadQueueItems.index(where: { $0.name == name }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.name == name }) {
             item = downloadQueueItems[index].item.copy() as? AVPlayerItem
         } else if let data = FileManager.default.contents(atPath: tracksCacheDirPath.appendingPathComponent(name).path) {
             item = CachingPlayerItem(data: data, mimeType: itemMimeType, fileExtension: itemFileExtension) as AVPlayerItem
@@ -196,7 +196,7 @@ final class PlayerItemsManager {
     
     public func getItemStatus(_ name: String) -> ItemStatus {
         if itemIsLoading(name) {
-            let index = downloadQueueItems.index(where: { $0.name == name })!
+            let index = downloadQueueItems.firstIndex(where: { $0.name == name })!
             return downloadQueueItems[index].item == nowDownloading ? .downloading : .inQueue
         }
         if itemIsSaved(name) {
@@ -206,7 +206,7 @@ final class PlayerItemsManager {
     }
     
     public func getItemLastLoadPercentages(_ name: String) -> Int? {
-        if let index = downloadQueueItems.index(where: { $0.name == name }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.name == name }) {
             return downloadQueueItems[index].lastLoadPercentages
         }
         return nil
@@ -230,7 +230,7 @@ final class PlayerItemsManager {
     }
     
     private func endDownload(forItem playerItem: CachingPlayerItem, data: Data?) {
-        if let index = downloadQueueItems.index(where: { $0.item == playerItem }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.item == playerItem }) {
             playerItem.delegate = nil
             let item = downloadQueueItems[index]
             let result = data != nil && saveFileInCacheDir(data: data!, name: item.name)
@@ -243,7 +243,7 @@ final class PlayerItemsManager {
     }
     
     private func changedProgress(forItem playerItem: CachingPlayerItem, didDownloadBytesSoFar bytesDownloaded: Int, outOf bytesExpected: Int) {
-        if let index = downloadQueueItems.index(where: { $0.item == playerItem }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.item == playerItem }) {
             let percentage = (bytesDownloaded * 100) / bytesExpected
             downloadQueueItems[index].lastLoadPercentages = percentage
             downloadQueueItems[index].sayToListeners({ $0.itemDownloadingProgressChanged(downloadQueueItems[index].name, percentage) })

@@ -9,8 +9,8 @@ class OldSafeAreaUIViewController: UIViewController {
     private var bottomSafeAreaMargin: CGFloat?
     
     private func fixSafeArea() {
-        let tIndex = view.constraints.index(where: { $0.identifier == AppStaticData.Consts.topSafeAreaConstraintIdentifier })
-        let bIndex = view.constraints.index(where: { $0.identifier == AppStaticData.Consts.bottomSafeAreaConstraintIdentifier })
+        let tIndex = view.constraints.firstIndex(where: { $0.identifier == AppStaticData.Consts.topSafeAreaConstraintIdentifier })
+        let bIndex = view.constraints.firstIndex(where: { $0.identifier == AppStaticData.Consts.bottomSafeAreaConstraintIdentifier })
         if !safeAreaFixLoaded {
             safeAreaFixLoaded = true
             if let tIndex = tIndex {

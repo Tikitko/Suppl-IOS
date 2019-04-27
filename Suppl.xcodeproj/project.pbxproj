@@ -152,7 +152,6 @@
 		8C95706E20BFE8A900A3EF3A /* OfflineModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95706D20BFE8A900A3EF3A /* OfflineModeManager.swift */; };
 		8C95DEC120B596880081C477 /* BaseRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95DEC020B596880081C477 /* BaseRouterProtocol.swift */; };
 		8C95DEC420B596E50081C477 /* BaseInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95DEC320B596E50081C477 /* BaseInteractorProtocol.swift */; };
-		8CA4F90B20B802E200C1A81B /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA4F90A20B802E200C1A81B /* Toast.swift */; };
 		8CB2615E20CFF4010094E4A3 /* CircleLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */; };
 		8CBDFD642023001700BED743 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBDFD632023001700BED743 /* AuthManager.swift */; };
 		8CC4F80A2101F5FB001B1700 /* ThemeMainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4F8092101F5FB001B1700 /* ThemeMainManager.swift */; };
@@ -315,7 +314,6 @@
 		8C95706D20BFE8A900A3EF3A /* OfflineModeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineModeManager.swift; sourceTree = "<group>"; };
 		8C95DEC020B596880081C477 /* BaseRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRouterProtocol.swift; sourceTree = "<group>"; };
 		8C95DEC320B596E50081C477 /* BaseInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInteractorProtocol.swift; sourceTree = "<group>"; };
-		8CA4F90A20B802E200C1A81B /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleLoad.swift; sourceTree = "<group>"; };
 		8CBDFD632023001700BED743 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		8CC4F8092101F5FB001B1700 /* ThemeMainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMainManager.swift; sourceTree = "<group>"; };
@@ -639,7 +637,6 @@
 				8C3B74E32090725700D0AF3E /* ViewIncludeConstraintsTemplate.swift */,
 				8C2D6F7420C1196800F49D6D /* CachingPlayerItem.swift */,
 				8CB2615D20CFF4010094E4A3 /* CircleLoad.swift */,
-				8CA4F90A20B802E200C1A81B /* Toast.swift */,
 			);
 			path = External;
 			sourceTree = "<group>";
@@ -1111,7 +1108,7 @@
 				TargetAttributes = {
 					8C67F5DB201B153100333EB2 = {
 						CreatedOnToolsVersion = 9.2;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1171,16 +1168,18 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Suppl/Pods-Suppl-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Suppl/Pods-Suppl-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SwiftTheme/SwiftTheme.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftTheme.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Suppl/Pods-Suppl-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Suppl/Pods-Suppl-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E30719740956BA1CB90AC9B6 /* [CP] Check Pods Manifest.lock */ = {
@@ -1294,7 +1293,6 @@
 				0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */,
 				8CE38E4720CAAC6C007768BC /* PlayerItemDelegate.swift in Sources */,
 				8C285F79208881B5007427E7 /* TrackTablePresenterProtocolView.swift in Sources */,
-				8CA4F90B20B802E200C1A81B /* Toast.swift in Sources */,
 				8C0CB5FC208DA87100456A68 /* TrackFilterRouterProtocol.swift in Sources */,
 				8C4C043C20C9644C006CC269 /* TrackInfoPresenterProtocolInteractor.swift in Sources */,
 				8C0369C2213951870091800E /* ThemeColor.swift in Sources */,
@@ -1493,7 +1491,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Suppl/Suppl-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1512,7 +1510,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Tikitko.Suppl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Suppl/Suppl-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

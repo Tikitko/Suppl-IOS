@@ -65,7 +65,7 @@ class AnimateLogo {
     }
     
     private func createAnim() -> CAAnimation {
-        let easeOut = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        let easeOut = CAMediaTimingFunction(name: .easeOut)
         
         let closeAnimation = CABasicAnimation(keyPath: "strokeStart")
         closeAnimation.fromValue = 0
@@ -77,7 +77,7 @@ class AnimateLogo {
         let closeColorAnimation = CABasicAnimation(keyPath: "fillColor")
         closeColorAnimation.fromValue = color.cgColor
         closeColorAnimation.toValue = UIColor.clear.cgColor
-        closeColorAnimation.fillMode = kCAFillModeForwards
+        closeColorAnimation.fillMode =  .forwards
         closeColorAnimation.isRemovedOnCompletion = false
         closeColorAnimation.beginTime = 0
         closeColorAnimation.duration = 0.2
@@ -88,14 +88,14 @@ class AnimateLogo {
         animation.toValue = 1
         animation.beginTime = 0.5
         animation.duration = 1.5
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = .forwards
         animation.isRemovedOnCompletion = false
         animation.timingFunction = easeOut
         
         let colorAnimation = CABasicAnimation(keyPath: "fillColor")
         colorAnimation.fromValue = UIColor.clear.cgColor
         colorAnimation.toValue = color.cgColor
-        colorAnimation.fillMode = kCAFillModeForwards
+        colorAnimation.fillMode = .forwards
         colorAnimation.isRemovedOnCompletion = false
         colorAnimation.beginTime = 2
         colorAnimation.duration = 0.2

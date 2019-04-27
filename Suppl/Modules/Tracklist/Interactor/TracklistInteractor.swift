@@ -69,7 +69,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             coreDataWorker.delete(trackDB)
         }
         for track in tracks {
-            if tracksDB.index(where: { $0.id as String == track.id }) != nil { continue }
+            if tracksDB.firstIndex(where: { $0.id as String == track.id }) != nil { continue }
             coreDataWorker.create(Track.self).fromAudioData(track)
         }
         coreDataWorker.saveContext()
@@ -88,7 +88,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
                 inWorker.delete(trackDB)
             }
             for track in tracks {
-                if tracksDB.index(where: { $0.id as String == track.id }) != nil { continue }
+                if tracksDB.firstIndex(where: { $0.id as String == track.id }) != nil { continue }
                 inWorker.create(Track.self).fromAudioData(track)
             }
             inWorker.saveContext()
@@ -115,7 +115,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             else { return nil }
         var tracks: [AudioData] = []
         for userTrack in userTracksDB {
-            guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
+            guard let trackIndex = tracksDB.firstIndex(where: { $0.id == userTrack.trackId }) else { continue }
             tracks.append(AudioData(track: tracksDB[trackIndex]))
         }
         return tracks
@@ -141,7 +141,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             {
                 tracks = []
                 for userTrack in userTracksDB {
-                    guard let trackIndex = tracksDB.index(where: { $0.id == userTrack.trackId }) else { continue }
+                    guard let trackIndex = tracksDB.firstIndex(where: { $0.id == userTrack.trackId }) else { continue }
                     tracks?.append(AudioData(track: tracksDB[trackIndex]))
                 }
             }
@@ -197,7 +197,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         for key in from...tracklist.count - 1 {
             defer { lastKey = key }
             if tracklistPartForLoad.count >= apiLoadRate { break }
-            if let index = cachedTracks.index(where: { $0.id == tracklist[key] }) {
+            if let index = cachedTracks.firstIndex(where: { $0.id == tracklist[key] }) {
                 tracksForAdd.append(cachedTracks[index])
             } else {
                 tracklistPartForLoad.append(tracklist[key])
@@ -205,9 +205,9 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         }
         let addTracks: (_ loadedTracks: [AudioData]) -> Void = { [weak self] tracks in
             for key in from...lastKey {
-                if let indexCached = tracksForAdd.index(where: { $0.id == tracklist[key] }) {
+                if let indexCached = tracksForAdd.firstIndex(where: { $0.id == tracklist[key] }) {
                     self?.presenter.setNewTrack(tracksForAdd[indexCached])
-                } else if let indexLoaded = tracks.index(where: { $0.id == tracklist[key] }) {
+                } else if let indexLoaded = tracks.firstIndex(where: { $0.id == tracklist[key] }) {
                     self?.presenter.setNewTrack(tracks[indexLoaded])
                 }
             }

@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import Toast_Swift
 
 class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
@@ -31,8 +32,8 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         initLogo()
         initResetStack()
         repeatButton.setTitle(presenter.getButtonLabel(), for: .normal)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         presenter.setLoadLabel()
         repeatButton.layer.cornerRadius = 4
         repeatButton.clipsToBounds = true
@@ -141,7 +142,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardFrame = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         view.frame.origin.y = -keyboardFrame.height / (resetEmailField.isEditing ? 1.1 : 1.5)
     }
     

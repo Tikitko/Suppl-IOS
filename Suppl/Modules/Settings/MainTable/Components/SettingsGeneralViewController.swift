@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import Toast_Swift
 
 class SettingsGeneralViewController: UIViewController {
     
@@ -84,7 +85,7 @@ class SettingsGeneralViewController: UIViewController {
         settingsTable.allowsSelection = false
         if #available(iOS 11.0, *) {
             let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == AppStaticData.Consts.topConstraintIdentifier })?.constant ?? 10
-            settingsTable.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + offset, 0, bottomLayoutGuide.length + offset, 0)
+            settingsTable.contentInset = UIEdgeInsets(top: topLayoutGuide.length + offset, left: 0, bottom: bottomLayoutGuide.length + offset, right: 0)
         }
     }
     

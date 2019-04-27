@@ -13,7 +13,7 @@ protocol TrackTablePresenterProtocolView: class {
     func createRowActions(indexPath: IndexPath) -> [RowAction]?
     func reloadWhenChangingSettings()
     func rowEditStatus(indexPath: IndexPath) -> Bool
-    func rowEditType(indexPath: IndexPath) -> UITableViewCellEditingStyle
+    func rowEditType(indexPath: IndexPath) -> UITableViewCell.EditingStyle
     func openPlayer(trackIndex: Int)
     func willDisplayCellForRowAt(_ indexPath: IndexPath)
     func numberOfRowsInSection(_ section: Int) -> Int

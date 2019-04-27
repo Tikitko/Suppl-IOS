@@ -86,7 +86,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         playerTitleLabelBig.text = presenter.getTitle()
         view.insertSubview(tracksTableModule.view, belowSubview: playlistButtonBig)
         ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.view, parent: imageViewBig)
-        if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == AppStaticData.Consts.safeAreaMarginConstraintIdentifier }) {
+        if let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == AppStaticData.Consts.safeAreaMarginConstraintIdentifier }) {
             baseMargin = view.constraints[safeAreaMarginConstraintIndex].constant
         }
         presenter.setListener()
@@ -121,8 +121,8 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func updateTopMargin(rootSelf: Bool = false, _ margin: CGFloat? = nil, withBase: Bool = true) {
-        guard let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == AppStaticData.Consts.safeAreaMarginConstraintIdentifier }) else { return }
-        let rootViewController = rootSelf ? self : parentRootTabBarController
+        guard let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == AppStaticData.Consts.safeAreaMarginConstraintIdentifier }) else { return }
+        let rootViewController: UIViewController = rootSelf ? self : parentRootTabBarController
         let safeAreaMargin: CGFloat?
         if #available(iOS 11.0, *) {
             safeAreaMargin = rootViewController.view.safeAreaInsets.top

@@ -7,4 +7,5 @@ target 'Suppl' do
 
   # Pods for Suppl
   pod 'SwiftTheme'
+  pod 'Toast-Swift', '~> 5.0.0'
 end

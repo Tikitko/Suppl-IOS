@@ -82,7 +82,7 @@ final class TracklistManager {
             coreDataWorker.delete(track)
         }
         for (key, trackId) in tracklist.enumerated() {
-            if let readyTrackIndex = tracks.index(where: { $0.trackId == trackId as NSString }) {
+            if let readyTrackIndex = tracks.firstIndex(where: { $0.trackId == trackId as NSString }) {
                 tracks[readyTrackIndex].position = NSNumber(value: key)
             } else {
                 let newTrack = coreDataWorker.create(UserTrack.self)
@@ -107,7 +107,7 @@ final class TracklistManager {
                 inWorker.delete(track)
             }
             for (key, trackId) in tracklist.enumerated() {
-                if let readyTrackIndex = tracks.index(where: { $0.trackId == trackId as NSString }) {
+                if let readyTrackIndex = tracks.firstIndex(where: { $0.trackId == trackId as NSString }) {
                     tracks[readyTrackIndex].position = NSNumber(value: key)
                 } else {
                     let newTrack = inWorker.create(UserTrack.self)
@@ -170,7 +170,7 @@ final class TracklistManager {
             callback(false)
             return
         }
-        if let _ = tracklist.index(of: trackId) {
+        if let _ = tracklist.firstIndex(of: trackId) {
             callback(false)
             return
         }

@@ -8,7 +8,7 @@ final class PlayerManager: NSObject {
     static public let shared = PlayerManager()
     private override init() {
         super.init()
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        try? AVAudioSession.sharedInstance().setCategory(.playback)
         try? AVAudioSession.sharedInstance().setActive(true)
         UIApplication.shared.beginReceivingRemoteControlEvents()
     }
@@ -100,11 +100,11 @@ final class PlayerManager: NSObject {
     
     private func observePlayerItemStatus(_ statusNumber: NSNumber) {
         removePlayStatusObserver()
-        let status: AVPlayerItemStatus = AVPlayerItemStatus(rawValue: statusNumber.intValue)!
+        let status = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
         switch status {
         case .readyToPlay:
             guard let player = player, let item = player.currentItem else { return }
-            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, 1), queue: .main) { [weak self] time in
+            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: .main) { [weak self] time in
                 guard let `self` = self, item.status == .readyToPlay else { return }
                 self.sayToListeners({ $0.itemTimeChanged(item, time.seconds) })
                 self.nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
@@ -112,8 +112,8 @@ final class PlayerManager: NSObject {
             sayToListeners({ $0.itemReadyToPlay(item, currentTrack?.duration) })
             remoteCommands(isEnabled: true)
             play()
-        case .failed: break
-        case .unknown: break
+        case .failed, .unknown: break
+        @unknown default: break
         }
     }
     
@@ -350,7 +350,7 @@ final class PlayerManager: NSObject {
     
     public func remove(at: Int) {
         if playlist == nil { return }
-        guard let trackId = cachedTracksInfo?.index(where: { $0.id == playlist!.IDs[at] }) else { return }
+        guard let trackId = cachedTracksInfo?.firstIndex(where: { $0.id == playlist!.IDs[at] }) else { return }
         guard let newCurrent = playlist!.remove(at: at) else { return }
         let removedTrack = cachedTracksInfo!.remove(at: trackId)
         sayToListeners() {
@@ -369,7 +369,7 @@ final class PlayerManager: NSObject {
     public func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool = false) {
         guard let player = player, let currentItem = player.currentItem else { return }
         let setTime = Int64(withCurrentTime ? currentItem.currentTime().seconds + sec : sec)
-        player.seek(to: CMTimeMake(setTime, 1))
+        player.seek(to: CMTimeMake(value: setTime, timescale: 1))
     }
 
 }
