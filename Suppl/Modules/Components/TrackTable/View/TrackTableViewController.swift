@@ -70,7 +70,7 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
     var useLightStyle: Bool = false {
         didSet {
             tableView.backgroundColor = useLightStyle ? .clear : .white
-            tableView.theme_backgroundColor = useLightStyle ? ThemeColor.third.picker : [AppStaticData.Consts.widthColorHash]
+            tableView.theme_backgroundColor = useLightStyle ? ThemeColor.third.picker : [ThemeColor.widthColorHash]
         }
     }
     var cellSize: CGFloat {

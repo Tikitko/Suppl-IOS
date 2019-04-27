@@ -75,7 +75,7 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError(AppStaticData.Consts.initCoderNotImplemented)
+        fatalError("init(coder:) has not been implemented")
     }
     
     func reloadData() {

@@ -3,6 +3,10 @@ import UIKit
 
 class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProtocol {
     
+    private struct Constants {
+        static let safeAreaMarginConstraintIdentifier = "safeAreaMargin"
+    }
+    
     var presenter: SmallPlayerPresenterProtocolView!
     
     enum ShowType {
@@ -62,7 +66,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError(AppStaticData.Consts.initCoderNotImplemented)
+        fatalError("init(coder:) has not been implemented")
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -86,7 +90,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         playerTitleLabelBig.text = presenter.getTitle()
         view.insertSubview(tracksTableModule.view, belowSubview: playlistButtonBig)
         ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.view, parent: imageViewBig)
-        if let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == AppStaticData.Consts.safeAreaMarginConstraintIdentifier }) {
+        if let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == Constants.safeAreaMarginConstraintIdentifier }) {
             baseMargin = view.constraints[safeAreaMarginConstraintIndex].constant
         }
         presenter.setListener()
@@ -121,7 +125,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func updateTopMargin(rootSelf: Bool = false, _ margin: CGFloat? = nil, withBase: Bool = true) {
-        guard let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == AppStaticData.Consts.safeAreaMarginConstraintIdentifier }) else { return }
+        guard let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == Constants.safeAreaMarginConstraintIdentifier }) else { return }
         let rootViewController: UIViewController = rootSelf ? self : parentRootTabBarController
         let safeAreaMargin: CGFloat?
         if #available(iOS 11.0, *) {

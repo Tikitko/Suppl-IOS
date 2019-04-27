@@ -35,7 +35,7 @@ final class RootTabBarController: UITabBarController {
 
     func setTheme() {
         tabBar.theme_barTintColor = ThemeColor.second.picker
-        tabBar.theme_tintColor = [AppStaticData.Consts.widthColorHash]
+        tabBar.theme_tintColor = [ThemeColor.widthColorHash]
         tabBar.unselectedItemTintColor = .lightGray
     }
     

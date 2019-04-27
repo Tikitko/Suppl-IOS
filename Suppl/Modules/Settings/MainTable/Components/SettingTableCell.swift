@@ -56,7 +56,7 @@ class SettingTableCell: UITableViewCell {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError(AppStaticData.Consts.initCoderNotImplemented)
+        fatalError("init(coder:) has not been implemented")
     }
     
     @objc private func settingControlCallback(_ control: UIControl) {

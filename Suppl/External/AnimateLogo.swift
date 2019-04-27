@@ -116,7 +116,7 @@ class AnimateLogo {
         }
         CATransaction.begin()
         CATransaction.setCompletionBlock() { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
             self.layer.strokeEnd = 1
             self.layer.fillColor = self.color.cgColor

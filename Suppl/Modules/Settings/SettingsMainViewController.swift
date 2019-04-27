@@ -3,13 +3,17 @@ import UIKit
 
 class SettingsMainViewController: UIViewController, ControllerInfoProtocol {
     
+    private struct Constants {
+        static let settingsStoryboardName = "SettingsStoryboard"
+    }
+    
     public let name = LocalesManager.shared.get(.settingsTitle)
     public let image = #imageLiteral(resourceName: "icon_186")
     
     @IBOutlet weak var titleLabel: UILabel!
     
     static func initial() -> SettingsMainViewController {
-        let storyboard = UIStoryboard(name: AppStaticData.Consts.settingsStoryboardName, bundle: nil)
+        let storyboard = UIStoryboard(name: Constants.settingsStoryboardName, bundle: nil)
         return storyboard.instantiateInitialViewController() as! SettingsMainViewController
     }
     

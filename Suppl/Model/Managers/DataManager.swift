@@ -3,9 +3,15 @@ import UIKit
 
 final class DataManager {
     
+    private struct Constants {
+        static let cacheDirName = "SupplCache"
+        static let thumbsDirName = "thumbs"
+        static let fullJPGType = ".jpg"
+    }
+    
     static public let shared = DataManager()
     private init() {
-        thumbsCacheDirPath = baseCacheDirPath.appendingPathComponent(AppStaticData.Consts.thumbsDirName)
+        thumbsCacheDirPath = baseCacheDirPath.appendingPathComponent(Constants.thumbsDirName)
     }
     
     public static var documentsDirectory: URL {
@@ -13,7 +19,7 @@ final class DataManager {
     }
     private var cache = NSCache<NSString, NSData>()
     private let session = CommonSession()
-    public let baseCacheDirPath = DataManager.documentsDirectory.appendingPathComponent(AppStaticData.Consts.cacheDirName)
+    public let baseCacheDirPath = DataManager.documentsDirectory.appendingPathComponent(Constants.cacheDirName)
     private let thumbsCacheDirPath: URL
     
     public func getData(link: String, noCache: Bool = false, inMainQueue: Bool = true, callbackData: @escaping (Data) -> ()) {
@@ -22,7 +28,7 @@ final class DataManager {
             return
         }
         session.request(url: link, inMainQueue: inMainQueue) { [weak self] error, response, data in
-            guard let `self` = self, let data = data else { return }
+            guard let self = self, let data = data else { return }
             self.setToCache(link, data: data)
             callbackData(data)
         }
@@ -45,7 +51,7 @@ final class DataManager {
     
     public func getCachedImageAsData(link: String, imagesLifetime: Int = 6, backInMain: Bool = true, callbackImageData: @escaping (Data) -> ()) {
         DispatchQueue.global(qos: .utility).async() { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             let callback: (_ data: Data) -> Void = { data in
                 backInMain ? DispatchQueue.main.async { callbackImageData(data) } : callbackImageData(data)
             }
@@ -119,7 +125,7 @@ final class DataManager {
         )
         while let file = enumerator?.nextObject() {
             let filePathURL = file as! URL
-            if filePathURL.path.hasSuffix(AppStaticData.Consts.fullJPGType) {
+            if filePathURL.path.hasSuffix(Constants.fullJPGType) {
                 imageURLs.append(filePathURL.path)
             } else {
                 imageURLs += searchJPGImages(pathURL: filePathURL)

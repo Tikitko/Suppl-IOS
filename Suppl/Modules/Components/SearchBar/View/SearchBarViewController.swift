@@ -23,7 +23,7 @@ class SearchBarViewController: UIViewController, SearchBarViewControllerProtocol
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError(AppStaticData.Consts.initCoderNotImplemented)
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

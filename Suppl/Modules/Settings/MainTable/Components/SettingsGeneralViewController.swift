@@ -4,6 +4,10 @@ import Toast_Swift
 
 class SettingsGeneralViewController: UIViewController {
     
+    private struct Constants {
+        static let topConstraintIdentifier = "topConstraint"
+    }
+    
     @IBOutlet weak var settingsTable: UITableView!
     
     private lazy var settingsCells: [UITableViewCell] = [
@@ -84,7 +88,7 @@ class SettingsGeneralViewController: UIViewController {
         navigationItem.title = LocalesManager.shared.get(.titleSMain)
         settingsTable.allowsSelection = false
         if #available(iOS 11.0, *) {
-            let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == AppStaticData.Consts.topConstraintIdentifier })?.constant ?? 10
+            let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == Constants.topConstraintIdentifier })?.constant ?? 10
             settingsTable.contentInset = UIEdgeInsets(top: topLayoutGuide.length + offset, left: 0, bottom: bottomLayoutGuide.length + offset, right: 0)
         }
     }

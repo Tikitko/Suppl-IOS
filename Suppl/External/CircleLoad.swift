@@ -20,7 +20,7 @@ class CircleLoad: UIView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError(AppStaticData.Consts.initCoderNotImplemented)
+        fatalError("init(coder:) has not been implemented")
     }
     
     private override init(frame: CGRect) {

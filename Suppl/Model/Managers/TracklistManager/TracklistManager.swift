@@ -36,9 +36,8 @@ final class TracklistManager {
         guard let keys = AuthManager.shared.getAuthKeys(),
               let coreDataWorker = CoreDataManager.shared.getForegroundWorker()
             else { return nil }
-        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        let tracks = coreDataWorker.fetch(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor])
+        let tracks = coreDataWorker.fetch(UserTrack.self, predicate: keys.identifierPredicate, sortDescriptors: [sortDescriptor])
         var tracklist: [String] = []
         for track in tracks {
             tracklist.append(track.trackId as String)
@@ -53,9 +52,8 @@ final class TracklistManager {
             completion(nil)
             return
         }
-        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
-        coreDataWorker.fetch(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor]) { tracks in
+        coreDataWorker.fetch(UserTrack.self, predicate: keys.identifierPredicate, sortDescriptors: [sortDescriptor]) { tracks in
             var tracklist: [String]? = nil
             tracklist = []
             for track in tracks {
@@ -70,9 +68,8 @@ final class TracklistManager {
         guard let keys = AuthManager.shared.getAuthKeys(),
               let coreDataWorker = CoreDataManager.shared.getForegroundWorker()
             else { return }
-        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         guard let tracklist = tracklist else { return }
-        let tracks = coreDataWorker.fetch(UserTrack.self, predicate: predicate)
+        let tracks = coreDataWorker.fetch(UserTrack.self, predicate: keys.identifierPredicate)
         for track in tracks {
             guard !tracklist.contains(track.trackId as String) else { continue }
             coreDataWorker.delete([track])
@@ -95,9 +92,8 @@ final class TracklistManager {
               let coreDataWorker = CoreDataManager.shared.getBackgroundWorker(),
               let tracklist = tracklist
             else { return }
-        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         coreDataWorker.run { worker in
-            let tracks = worker.fetch(UserTrack.self, predicate: predicate)
+            let tracks = worker.fetch(UserTrack.self, predicate: keys.identifierPredicate)
             for track in tracks {
                 guard !tracklist.contains(track.trackId as String) else { continue }
                 worker.delete([track])
@@ -119,7 +115,7 @@ final class TracklistManager {
     public func update(callback: @escaping (Bool) -> () = { _ in }) {
         if OfflineModeManager.shared.offlineMode {
             getDBTracklistBackground() { [weak self] tracklist in
-                guard let `self` = self else {
+                guard let self = self else {
                     callback(false)
                     return
                 }
@@ -134,7 +130,7 @@ final class TracklistManager {
         }
         inUpdate = true
         APIManager.shared.tracklist.get(keys: keys) { [weak self] error, data in
-            guard let `self` = self else {
+            guard let self = self else {
                 callback(false)
                 return
             }
@@ -171,7 +167,7 @@ final class TracklistManager {
             return
         }
         APIManager.shared.tracklist.add(keys: keys, trackID: trackId, to: to) { [weak self] error, status in
-            guard let `self` = self, error == nil else {
+            guard let self = self, error == nil else {
                 callback(false)
                 return
             }
@@ -189,7 +185,7 @@ final class TracklistManager {
             return
         }
         APIManager.shared.tracklist.remove(keys: keys, from: from) { [weak self] error, status in
-            guard let `self` = self, error == nil else {
+            guard let self = self, error == nil else {
                 callback(false)
                 return
             }
@@ -207,7 +203,7 @@ final class TracklistManager {
             return
         }
         APIManager.shared.tracklist.move(keys: keys, from: from, to: to) { [weak self] error, status in
-            guard let `self` = self, error == nil else {
+            guard let self = self, error == nil else {
                 callback(false)
                 return
             }

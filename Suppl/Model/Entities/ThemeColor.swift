@@ -23,4 +23,8 @@ enum ThemeColor {
         return color.hexString(true)
     }
     
+    static var widthColorHash: String {
+        return "#FFF"
+    }
+    
 }

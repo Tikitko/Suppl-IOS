@@ -3,6 +3,13 @@ import UIKit
 
 class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePresenterProtocolView {
     
+    private struct Constants {
+        static let actionColorRedOneHash = "#FF0000"
+        static let actionColorGreenOneHash = "#4FAB5B"
+        static let actionColorRedTwoHash = "#900101"
+        static let actionColorGreenTwoHash = "#819D13"
+    }
+    
     var router: TrackTableRouterProtocol!
     var interactor: TrackTableInteractorProtocol!
     weak var view: TrackTableViewControllerProtocol!
@@ -118,7 +125,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
                     self?.interactor.removeTrack(indexTrack: indexTrack, track: self!.tracks[indexPath.row])
                 }
                 actions.append(RowAction(
-                    color: AppStaticData.Consts.actionColorRedOneHash,
+                    color: Constants.actionColorRedOneHash,
                     title: interactor.getLocaleString(.del),
                     action: action
                 ))
@@ -127,7 +134,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
                     self?.interactor.addTrack(trackId: thisTrack.id, track: self!.tracks[indexPath.row])
                 }
                 actions.append(RowAction(
-                    color: AppStaticData.Consts.actionColorGreenOneHash,
+                    color: Constants.actionColorGreenOneHash,
                     title: interactor.getLocaleString(.add),
                     action: action
                 ))
@@ -140,7 +147,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
                 self?.interactor.removeFromPlaylist(at: indexTracklist)
             }
             actions.append(RowAction(
-                color: AppStaticData.Consts.actionColorRedTwoHash,
+                color: Constants.actionColorRedTwoHash,
                 title: interactor.getLocaleString(.removeFromPlaylist),
                 action: action
             ))
@@ -149,7 +156,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
                 self?.interactor.insertInPlaylist(track: thisTrack)
             }
             actions.append(RowAction(
-                color: AppStaticData.Consts.actionColorGreenTwoHash,
+                color: Constants.actionColorGreenTwoHash,
                 title: interactor.getLocaleString(.insertInPlaylist),
                 action: action
             ))

@@ -46,11 +46,11 @@ class SettingsAccountViewController: UIViewController {
         self.emailField.text = String()
         self.emailField.placeholder = LocalesManager.shared.get(.install)
         APIManager.shared.user.updateEmail(keys: keys, email: email) { [weak self] error, data in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.emailField.placeholder = error != nil ? LocalesManager.shared.get(apiErrorCode: error!.code) : LocalesManager.shared.get(.emailSet)
             let when = DispatchTime.now() + 2
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.emailField.placeholder = lastPlacehilderText
                 self.emailField.text = email
             }
@@ -78,7 +78,7 @@ class SettingsAccountViewController: UIViewController {
         emailField.text = loadText
         identifierField.text = loadText
         APIManager.shared.user.get(keys: keys) { [weak self] error, data in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             guard let data = data else {
                 AuthManager.shared.setAuthWindow()
                 return

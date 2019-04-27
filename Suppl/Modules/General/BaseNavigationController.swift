@@ -15,7 +15,7 @@ final class BaseNavigationController: UINavigationController {
     
     func setTheme() {
         navigationBar.theme_barTintColor = ThemeColor.second.picker
-        navigationBar.theme_tintColor = [AppStaticData.Consts.widthColorHash]
+        navigationBar.theme_tintColor = [ThemeColor.widthColorHash]
         navigationBar.theme_titleTextAttributes = .pickerWithAttributes( [[.foregroundColor: UIColor.white]])
     }
     

@@ -105,7 +105,7 @@ final class PlayerManager: NSObject {
         case .readyToPlay:
             guard let player = player, let item = player.currentItem else { return }
             timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: .main) { [weak self] time in
-                guard let `self` = self, item.status == .readyToPlay else { return }
+                guard let self = self, item.status == .readyToPlay else { return }
                 self.sayToListeners({ $0.itemTimeChanged(item, time.seconds) })
                 self.nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
             }
@@ -254,7 +254,7 @@ final class PlayerManager: NSObject {
         nowPlayingCenter.nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
         guard SettingsManager.shared.loadImages.value else { return }
         DataManager.shared.getCachedImageAsData(link: track.images.last ?? String()) { [weak self] imageData in
-            guard let `self` = self,
+            guard let self = self,
                   track.id == self.currentTrack?.id,
                   let image = UIImage(data: imageData as Data)
                 else { return }

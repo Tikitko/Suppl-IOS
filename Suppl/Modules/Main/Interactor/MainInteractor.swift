@@ -22,7 +22,7 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
         inSearchWork = true
         APIManager.shared.audio.search(keys: keys, query: query, offset: offset) { [weak self] error, data in
             defer { self?.inSearchWork = false }
-            guard let `self` = self, let data = data else { return }
+            guard let self = self, let data = data else { return }
             self.presenter.searchResult(query: query, data: data)
         }
     }

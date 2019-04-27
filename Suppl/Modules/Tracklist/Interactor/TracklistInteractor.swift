@@ -102,10 +102,9 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         guard let keys = AuthManager.shared.getAuthKeys(),
               let coreDataWorker = CoreDataManager.shared.getForegroundWorker()
             else { return nil }
-        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         let tracksDB = coreDataWorker.fetch(Track.self)
-        let userTracksDB = coreDataWorker.fetch(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor])
+        let userTracksDB = coreDataWorker.fetch(UserTrack.self, predicate: keys.identifierPredicate, sortDescriptors: [sortDescriptor])
         var tracks: [AudioData] = []
         for userTrack in userTracksDB {
             guard let trackIndex = tracksDB.firstIndex(where: { $0.id == userTrack.trackId }) else { continue }
@@ -121,12 +120,11 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             completion(nil)
             return
         }
-        let predicate = NSPredicate(format: AppStaticData.Consts.userIdentifierPredicate, "\(keys.identifierKey)")
         let sortDescriptor = NSSortDescriptor(key: #keyPath(UserTrack.position), ascending: true)
         coreDataWorker.run { inWorker in
             var tracks: [AudioData] = []
             let tracksDB = inWorker.fetch(Track.self)
-            let userTracksDB = inWorker.fetch(UserTrack.self, predicate: predicate, sortDescriptors: [sortDescriptor])
+            let userTracksDB = inWorker.fetch(UserTrack.self, predicate: keys.identifierPredicate, sortDescriptors: [sortDescriptor])
             for userTrack in userTracksDB {
                 guard let trackIndex = tracksDB.firstIndex(where: { $0.id == userTrack.trackId }) else { continue }
                 tracks.append(AudioData(track: tracksDB[trackIndex]))

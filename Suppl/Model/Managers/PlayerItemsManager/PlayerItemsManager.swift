@@ -3,6 +3,12 @@ import AVFoundation
 
 final class PlayerItemsManager {
     
+    private struct Constants {
+        static let tracksDirName = "tracks"
+        static let MP3MimeType = "audio/mpeg"
+        static let MP3FileExtension = "mp3"
+    }
+    
     static public let shared = PlayerItemsManager()
     private init() {}
     
@@ -62,10 +68,10 @@ final class PlayerItemsManager {
         }
     }
     
-    private let itemMimeType = AppStaticData.Consts.MP3MimeType
-    private let itemFileExtension = AppStaticData.Consts.MP3FileExtension
+    private let itemMimeType = Constants.MP3MimeType
+    private let itemFileExtension = Constants.MP3FileExtension
     
-    private let tracksCacheDirPath = DataManager.shared.baseCacheDirPath.appendingPathComponent(AppStaticData.Consts.tracksDirName)
+    private let tracksCacheDirPath = DataManager.shared.baseCacheDirPath.appendingPathComponent(Constants.tracksDirName)
     private var downloadQueueItems: [NamedItem] = []
     private var waitingDelegates: [String: NSMapTable<NSString, AnyObject>] = [:]
     private weak var nowDownloading: CachingPlayerItem? = nil
@@ -123,7 +129,7 @@ final class PlayerItemsManager {
             return
         }
         APIManager.shared.audio.get(keys: keys, ids: [name]) { [weak self] error, data in
-            if let `self` = self,
+            if let self = self,
                let list = data?.list,
                list.count > 0,
                let trackURL = URL(string: list[0].track ?? String())
