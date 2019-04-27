@@ -126,7 +126,15 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
             self.view.layoutIfNeeded()
             self.tracksTableModule.view.layoutIfNeeded()
         }
-        animated ? UIView.animate(withDuration: 0.2, animations: changes) : changes()
+        if animated {
+            UIView.performWithoutAnimation {
+                self.tracksTableModule.view.layoutIfNeeded()
+                self.tracksTableModule.tableView.layoutIfNeeded()
+            }
+            UIView.animate(withDuration: 0.2, animations: changes)
+        } else {
+            changes()
+        }
     }
     
     @IBAction func updateButtonClick(_ sender: Any) {

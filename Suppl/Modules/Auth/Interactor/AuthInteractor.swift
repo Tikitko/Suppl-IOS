@@ -64,10 +64,12 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
     
     func loadCoreData() {
         CoreDataManager.shared.loadPersistentCoordinatorIfNeeded { [weak self] error in
-            if let _ = error {
-                self?.presenter.setAuthResult(.coreDataLoadError, blockOnError: true)
-            } else {
-                self?.presenter.coreDataLoaded()
+            DispatchQueue.main.async {
+                if let _ = error {
+                    self?.presenter.setAuthResult(.coreDataLoadError, blockOnError: true)
+                } else {
+                    self?.presenter.coreDataLoaded()
+                }
             }
         }
     }
