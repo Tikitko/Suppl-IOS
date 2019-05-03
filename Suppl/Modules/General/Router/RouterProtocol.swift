@@ -1,5 +1,5 @@
 import Foundation
 
-protocol BaseRouterProtocol {
+protocol RouterProtocol: class {
     var moduleNameId: String { get }
 }

@@ -3,10 +3,14 @@ import AVFoundation
 
 final class PlayerItemsManager {
     
-    static public let shared = PlayerItemsManager()
-    private init() {
-        tracksCacheDirPath = RemoteDataManager.shared.baseCacheDirPath.appendingPathComponent("tracks")
+    private struct Constants {
+        static let tracksDirName = "tracks"
+        static let MP3MimeType = "audio/mpeg"
+        static let MP3FileExtension = "mp3"
     }
+    
+    static public let shared = PlayerItemsManager()
+    private init() {}
     
     public enum ItemStatus {
         case downloading
@@ -64,20 +68,20 @@ final class PlayerItemsManager {
         }
     }
     
-    private let itemMimeType = "audio/mpeg"
-    private let itemFileExtension = "mp3"
+    private let itemMimeType = Constants.MP3MimeType
+    private let itemFileExtension = Constants.MP3FileExtension
     
-    private var tracksCacheDirPath: URL
+    private let tracksCacheDirPath = DataManager.shared.baseCacheDirPath.appendingPathComponent(Constants.tracksDirName)
     private var downloadQueueItems: [NamedItem] = []
     private var waitingDelegates: [String: NSMapTable<NSString, AnyObject>] = [:]
     private weak var nowDownloading: CachingPlayerItem? = nil
     
     private func saveFileInCacheDir(data: Data, name: String) -> Bool {
-        return RemoteDataManager.saveFile(data: data, name: name, path: tracksCacheDirPath)
+        return DataManager.saveFile(data: data, name: name, path: tracksCacheDirPath)
     }
     
     public func setListener(itemName: String, listenerName: String, delegate: PlayerItemDelegate) {
-        if let index = downloadQueueItems.index(where: { $0.name == itemName }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.name == itemName }) {
             downloadQueueItems[index].setListener(listenerName, delegate: delegate)
         } else {
             if waitingDelegates.index(forKey: itemName) == nil {
@@ -88,7 +92,7 @@ final class PlayerItemsManager {
     }
     
     public func removeListener(itemName: String, listenerName: String) {
-        if let index = downloadQueueItems.index(where: { $0.name == itemName }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.name == itemName }) {
             downloadQueueItems[index].removeListener(listenerName)
         }
         if waitingDelegates.index(forKey: itemName) != nil {
@@ -124,18 +128,18 @@ final class PlayerItemsManager {
             completion(false)
             return
         }
-        APIManager.shared.audio.get(keys: keys, ids: name) { [weak self] error, data in
-            if let `self` = self,
+        APIManager.shared.audio.get(keys: keys, ids: [name]) { [weak self] error, data in
+            if let self = self,
                let list = data?.list,
                list.count > 0,
-               let trackURL = URL(string: list[0].track ?? "")
+               let trackURL = URL(string: list[0].track ?? String())
             { completion(self.addItem(name, trackURL)) }
             else { completion(false) }
         }
     }
 
     public func removeActiveItem(_ name: String) -> Bool {
-        guard let index = downloadQueueItems.index(where: { $0.name == name }) else { return false }
+        guard let index = downloadQueueItems.firstIndex(where: { $0.name == name }) else { return false }
         downloadQueueItems[index].sayToListeners({ $0.itemStatusChanged(name, .cancel) })
         waitingDelegates[name] = downloadQueueItems[index].getAllListeners()
         downloadQueueItems[index].item.delegate = nil
@@ -172,7 +176,7 @@ final class PlayerItemsManager {
 
     public func getItem(_ name: String) -> AVPlayerItem? {
         var item: AVPlayerItem? = nil
-        if let index = downloadQueueItems.index(where: { $0.name == name }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.name == name }) {
             item = downloadQueueItems[index].item.copy() as? AVPlayerItem
         } else if let data = FileManager.default.contents(atPath: tracksCacheDirPath.appendingPathComponent(name).path) {
             item = CachingPlayerItem(data: data, mimeType: itemMimeType, fileExtension: itemFileExtension) as AVPlayerItem
@@ -198,7 +202,7 @@ final class PlayerItemsManager {
     
     public func getItemStatus(_ name: String) -> ItemStatus {
         if itemIsLoading(name) {
-            let index = downloadQueueItems.index(where: { $0.name == name })!
+            let index = downloadQueueItems.firstIndex(where: { $0.name == name })!
             return downloadQueueItems[index].item == nowDownloading ? .downloading : .inQueue
         }
         if itemIsSaved(name) {
@@ -208,7 +212,7 @@ final class PlayerItemsManager {
     }
     
     public func getItemLastLoadPercentages(_ name: String) -> Int? {
-        if let index = downloadQueueItems.index(where: { $0.name == name }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.name == name }) {
             return downloadQueueItems[index].lastLoadPercentages
         }
         return nil
@@ -232,7 +236,7 @@ final class PlayerItemsManager {
     }
     
     private func endDownload(forItem playerItem: CachingPlayerItem, data: Data?) {
-        if let index = downloadQueueItems.index(where: { $0.item == playerItem }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.item == playerItem }) {
             playerItem.delegate = nil
             let item = downloadQueueItems[index]
             let result = data != nil && saveFileInCacheDir(data: data!, name: item.name)
@@ -245,7 +249,7 @@ final class PlayerItemsManager {
     }
     
     private func changedProgress(forItem playerItem: CachingPlayerItem, didDownloadBytesSoFar bytesDownloaded: Int, outOf bytesExpected: Int) {
-        if let index = downloadQueueItems.index(where: { $0.item == playerItem }) {
+        if let index = downloadQueueItems.firstIndex(where: { $0.item == playerItem }) {
             let percentage = (bytesDownloaded * 100) / bytesExpected
             downloadQueueItems[index].lastLoadPercentages = percentage
             downloadQueueItems[index].sayToListeners({ $0.itemDownloadingProgressChanged(downloadQueueItems[index].name, percentage) })
@@ -257,19 +261,19 @@ final class PlayerItemsManager {
 extension PlayerItemsManager: CachingPlayerItemDelegate {
     
     func playerItem(_ playerItem: CachingPlayerItem, didFinishDownloadingData data: Data) {
-        DispatchQueue.main.sync { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.endDownload(forItem: playerItem, data: data)
         }
     }
 
     func playerItem(_ playerItem: CachingPlayerItem, didDownloadBytesSoFar bytesDownloaded: Int, outOf bytesExpected: Int) {
-        DispatchQueue.main.sync { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.changedProgress(forItem: playerItem, didDownloadBytesSoFar: bytesDownloaded, outOf: bytesExpected)
         }
     }
 
     func playerItem(_ playerItem: CachingPlayerItem, downloadingFailedWith error: Error) {
-        DispatchQueue.main.sync { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.endDownload(forItem: playerItem, data: nil)
         }
     }

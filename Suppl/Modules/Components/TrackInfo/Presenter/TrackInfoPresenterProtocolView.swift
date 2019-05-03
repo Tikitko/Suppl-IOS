@@ -7,5 +7,4 @@ protocol TrackInfoPresenterProtocolView: class {
     func clearTrack()
     func loadButtonClick()
     func requestOfflineMode()
-    func getCellSelectColor() -> UIColor
 }

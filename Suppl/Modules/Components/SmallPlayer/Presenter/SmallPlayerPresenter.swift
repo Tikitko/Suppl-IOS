@@ -24,7 +24,7 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     }
     
     func getTitle() -> String {
-        return interactor.getLocaleString(.playerTitle)
+        return "playerTitle".localizeKey
     }
     
     func navButtonClick(next: Bool) {

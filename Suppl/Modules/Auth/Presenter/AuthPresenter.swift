@@ -15,18 +15,18 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     }
     
     func getButtonLabel() -> String {
-        return interactor.getLocaleString(.loginIn)
+        return "loginIn".localizeKey
     }
     
     func getResetStackStrings() -> (title: String, field: String, button: String) {
-        let title = interactor.getLocaleString(.resetTitle)
-        let field = interactor.getLocaleString(.youEmail)
-        let button = interactor.getLocaleString(.send)
+        let title = "resetTitle".localizeKey
+        let field = "youEmail".localizeKey
+        let button = "send".localizeKey
         return (title, field, button)
     }
     
-    func setLabel(expression: LocalesManager.Expression) {
-        view.setLabel(interactor.getLocaleString(expression))
+    func setLabel(localizationKey: String) {
+        view.setLabel(localizationKey.localizeKey)
     }
     
     func setLabel(_ str: String) {
@@ -34,7 +34,7 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     }
     
     func setLoadLabel() {
-        setLabel(expression: .load)
+        setLabel(localizationKey: "load")
     }
     
     func firstStartAuth() {
@@ -56,30 +56,30 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     }
     
     func setAuthStarted(isReg: Bool) {
-        setLabel(expression: isReg ? .reg : .auth)
+        setLabel(localizationKey: isReg ? "reg" : "auth")
     }
     
     func setAuthResult(_ error: String?, blockOnError: Bool = false) {
         if let error = error {
             setLabel(error)
             if blockOnError { return }
-            QueueTemplate.continueAfter(showDelay) { [weak self] in
-                self?.setLabel(expression: .inputIdentifier)
+            DispatchQueue.continueAfter(showDelay) { [weak self] in
+                self?.setLabel(localizationKey: "inputIdentifier")
                 self?.view.enableButtons()
                 self?.view.stopAnim()
             }
         } else {
-            setLabel(expression: .coreDataLoading)
+            setLabel(localizationKey: "coreDataLoading")
             interactor.loadCoreData()
         }
     }
     
     func setRequestResetResult(_ errorId: Int?) {
         if let errorId = errorId {
-            view.showToast(interactor.getLocaleString(apiErrorCode: errorId))
+            view.showToast(errorId.localizeAPIErrorCode)
             view.enableResetForm(true, full: false)
         } else {
-            view.showToast(interactor.getLocaleString(.keySent))
+            view.showToast("keySent".localizeKey)
         }
     }
     
@@ -88,26 +88,26 @@ class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView 
     }
     
     func coreDataLoaded() {
-        setLabel(expression: .hi)
-        QueueTemplate.continueAfter(showDelay) { [weak self] in
+        setLabel(localizationKey: "hi")
+        DispatchQueue.continueAfter(showDelay) { [weak self] in
             self?.interactor.startAuthCheck()
             self?.router.goToRootTabBar()
         }
     }
     
-    func setAuthResult(_ expression: LocalesManager.Expression, blockOnError: Bool = false) {
-        setAuthResult(interactor.getLocaleString(expression), blockOnError: blockOnError)
+    func setAuthResult(localizationKey: String, blockOnError: Bool = false) {
+        setAuthResult(localizationKey.localizeKey, blockOnError: blockOnError)
     }
     
     func setAuthResult(apiErrorCode code: Int) {
-        setAuthResult(interactor.getLocaleString(apiErrorCode: code))
+        setAuthResult(code.localizeAPIErrorCode)
     }
     
     func repeatButtonClick(identifierText: String?) {
         guard let identifierText = identifierText else { return }
         view.disableButtons()
         view.startAnim()
-        setLabel(expression: .checkIdentifier)
+        setLabel(localizationKey: "checkIdentifier")
         startAuth(fromString: identifierText)
     }
 

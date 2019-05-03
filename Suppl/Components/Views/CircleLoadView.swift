@@ -1,7 +1,7 @@
 import UIKit
 import GLKit
 
-class CircleLoad: UIView {
+final class CircleLoad: UIView {
     
     private let offset: Float = 89.9
     

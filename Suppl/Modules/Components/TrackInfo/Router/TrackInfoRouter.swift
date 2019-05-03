@@ -1,7 +1,12 @@
 import Foundation
 import UIKit
 
-class TrackInfoRouter: BaseRouter, TrackInfoRouterProtocol {
+class TrackInfoRouter: Router, TrackInfoRouterProtocol {
+    
+    private struct Constants {
+        static let nibNameTrackInfoBig = "TrackInfoViewController"
+        static let nibNameTrackInfoSmall = "TrackInfoViewController_small"
+    }
     
     weak var viewController: UIViewController!
     
@@ -9,7 +14,7 @@ class TrackInfoRouter: BaseRouter, TrackInfoRouterProtocol {
         let router = TrackInfoRouter()
         let interactor = TrackInfoInteractor()
         let presenter = TrackInfoPresenter()
-        let viewController = TrackInfoViewController(nibName: small ? "TrackInfoViewController_small" : "TrackInfoViewController", bundle: nil)
+        let viewController = TrackInfoViewController(nibName: small ? Constants.nibNameTrackInfoSmall : Constants.nibNameTrackInfoBig, bundle: nil)
         
         presenter.interactor = interactor
         presenter.router = router

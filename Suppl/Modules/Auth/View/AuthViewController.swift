@@ -16,7 +16,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     @IBOutlet weak var resetEmailField: UITextField!
     @IBOutlet weak var resetSendButton: UIButton!
     
-    var logo: AnimateLogo!
+    var logoView: AnimateLogoView?
     var animInWork = false
     
     var resetKey: String?
@@ -31,8 +31,8 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         initLogo()
         initResetStack()
         repeatButton.setTitle(presenter.getButtonLabel(), for: .normal)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         presenter.setLoadLabel()
         repeatButton.layer.cornerRadius = 4
         repeatButton.clipsToBounds = true
@@ -45,15 +45,16 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
 
     func initLogo() {
         logoLabel.isHidden = true
-        logo = AnimateLogo.init(logoLabel.text ?? "", color: logoLabel.textColor ?? .white, fontName: logoLabel.font.fontName, fontSize: logoLabel.font.pointSize)
-        view.addSubview(logo.view)
-        let height = logo.view.frame.size.height
-        let width = logo.view.frame.size.width
-        logo.view.translatesAutoresizingMaskIntoConstraints = false
-        logo.view.centerXAnchor.constraint(equalTo: logoLabel.centerXAnchor).isActive = true
-        logo.view.centerYAnchor.constraint(equalTo: logoLabel.centerYAnchor).isActive = true
-        logo.view.heightAnchor.constraint(equalToConstant: height).isActive = true
-        logo.view.widthAnchor.constraint(equalToConstant: width).isActive = true
+        let logo = AnimateLogoView(logoLabel.text ?? String(), color: logoLabel.textColor ?? .white, fontName: logoLabel.font.fontName, fontSize: logoLabel.font.pointSize)
+        view.addSubview(logo)
+        let height = logo.frame.size.height
+        let width = logo.frame.size.width
+        logo.translatesAutoresizingMaskIntoConstraints = false
+        logo.centerXAnchor.constraint(equalTo: logoLabel.centerXAnchor).isActive = true
+        logo.centerYAnchor.constraint(equalTo: logoLabel.centerYAnchor).isActive = true
+        logo.heightAnchor.constraint(equalToConstant: height).isActive = true
+        logo.widthAnchor.constraint(equalToConstant: width).isActive = true
+        self.logoView = logo
     }
     
     func initResetStack() {
@@ -63,7 +64,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
         resetEmailField.text = String()
         resetEmailField.attributedPlaceholder = NSAttributedString(
             string: localedStrings.field,
-            attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)]
+            attributes: [.foregroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)]
         )
         resetTitleLabel.text = localedStrings.title
         resetSendButton.setTitle(localedStrings.button, for: .normal)
@@ -82,11 +83,11 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     }
 
     func setTheme() {
-        view.theme_backgroundColor = "firstColor"
-        identifierField.theme_backgroundColor = "secondColor"
-        repeatButton.theme_backgroundColor = "secondColor"
-        resetEmailField.theme_backgroundColor = "secondColor"
-        resetSendButton.theme_backgroundColor = "secondColor"
+        view.theme_backgroundColor = UIColor.Theme.first.picker
+        identifierField.theme_backgroundColor = UIColor.Theme.second.picker
+        repeatButton.theme_backgroundColor = UIColor.Theme.second.picker
+        resetEmailField.theme_backgroundColor = UIColor.Theme.second.picker
+        resetSendButton.theme_backgroundColor = UIColor.Theme.second.picker
     }
     
     func enableResetForm(_ enabled: Bool, full: Bool = true) {
@@ -130,21 +131,21 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     func startAnim() {
         guard !animInWork else { return }
         animInWork = true
-        logo?.startAnim()
+        logoView?.startAnim()
     }
     
     func stopAnim() {
         guard animInWork else { return }
         animInWork = false
-        logo?.stopAnim()
+        logoView?.stopAnim()
     }
     
-    @objc func keyboardWillShow(sender: NSNotification) {
-        guard let keyboardFrame = sender.userInfo![UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
+    @objc func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         view.frame.origin.y = -keyboardFrame.height / (resetEmailField.isEditing ? 1.1 : 1.5)
     }
     
-    @objc func keyboardWillHide(sender: NSNotification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
     }
     

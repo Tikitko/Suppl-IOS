@@ -1,6 +1,6 @@
 import Foundation
 
-class MainInteractor: BaseInteractor, MainInteractorProtocol {
+class MainInteractor: MainInteractorProtocol {
     
     weak var presenter: MainPresenterProtocolInteractor!
     
@@ -11,7 +11,7 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     }
     
     func loadRandomTracks() {
-        let baseQueries = AppStaticData.baseSearchQueriesList
+        let baseQueries = AppDelegate.baseSearchQueriesList
         let query = baseQueries[Int(arc4random_uniform(UInt32(baseQueries.count)))]
         searchTracks(query)
         presenter.searchQuery(query)
@@ -22,7 +22,7 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
         inSearchWork = true
         APIManager.shared.audio.search(keys: keys, query: query, offset: offset) { [weak self] error, data in
             defer { self?.inSearchWork = false }
-            guard let `self` = self, let data = data else { return }
+            guard let self = self, let data = data else { return }
             self.presenter.searchResult(query: query, data: data)
         }
     }

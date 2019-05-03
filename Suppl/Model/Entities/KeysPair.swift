@@ -9,6 +9,10 @@ struct KeysPair {
         get { return "\(identifierKey)\(accessKey)" }
     }
     
+    var identifierPredicate: NSPredicate {
+        return NSPredicate(format: "userIdentifier = %@", "\(identifierKey)")
+    }
+    
     init(_ identifierKey: Int, _ accessKey: Int) {
         self.identifierKey = identifierKey
         self.accessKey = accessKey

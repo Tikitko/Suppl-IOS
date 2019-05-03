@@ -1,6 +1,6 @@
 import Foundation
 
-protocol MainInteractorProtocol: class, BaseInteractorProtocol {
+protocol MainInteractorProtocol: class {
     func setListener(_ delegate: CommunicateManagerProtocol)
     func loadRandomTracks()
     func searchTracks(_ query: String, offset: Int)

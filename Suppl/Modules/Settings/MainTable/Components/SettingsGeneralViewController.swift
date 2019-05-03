@@ -3,36 +3,40 @@ import UIKit
 
 class SettingsGeneralViewController: UIViewController {
     
+    private struct Constants {
+        static let topConstraintIdentifier = "topConstraint"
+    }
+    
     @IBOutlet weak var settingsTable: UITableView!
     
     private lazy var settingsCells: [UITableViewCell] = [
         SettingTableCell(
-            labelText: LocalesManager.shared.get(.setting0),
+            labelText: "setting0".localizeKey,
             switchValue: SettingsManager.shared.autoNextTrack.value,
             switchCallback: { SettingsManager.shared.autoNextTrack.value = $0.isOn }
         ),
         SettingTableCell(
-            labelText: LocalesManager.shared.get(.setting1),
+            labelText: "setting1".localizeKey,
             switchValue: SettingsManager.shared.loadImages.value,
             switchCallback: { SettingsManager.shared.loadImages.value = $0.isOn }
         ),
         SettingTableCell(
-            labelText: LocalesManager.shared.get(.setting2),
+            labelText: "setting2".localizeKey,
             switchValue: SettingsManager.shared.roundIcons.value,
             switchCallback: { SettingsManager.shared.roundIcons.value = $0.isOn }
         ),
         SettingTableCell(
-            labelText: LocalesManager.shared.get(.setting7),
+            labelText: "setting7".localizeKey,
             switchValue: SettingsManager.shared.smallCell.value,
             switchCallback: { SettingsManager.shared.smallCell.value = $0.isOn }
         ),
         SettingTableCell(
-            labelText: LocalesManager.shared.get(.setting8),
+            labelText: "setting8".localizeKey,
             switchValue: SettingsManager.shared.hideLogo.value,
             switchCallback: { SettingsManager.shared.hideLogo.value = $0.isOn }
         ),
         SettingTableCell(
-            labelText: LocalesManager.shared.get(.setting4),
+            labelText: "setting4".localizeKey,
             switchValue: OfflineModeManager.shared.offlineMode,
             switchCallback: { switchElement in
                 if switchElement.isOn {
@@ -46,10 +50,10 @@ class SettingsGeneralViewController: UIViewController {
             }
         ),
         {
-            let themes = AppStaticData.themesList
+            let themes = AppDelegate.themesList
             var themeId: Int = themes.count > SettingsManager.shared.theme.value ? SettingsManager.shared.theme.value : 0
             return SettingTableCell(
-                labelText: LocalesManager.shared.get(.setting3),
+                labelText: "setting3".localizeKey,
                 buttonText: themes[themeId],
                 buttonCallback: { button in
                     themeId = themes.count > themeId + 1 ? themeId + 1 : 0
@@ -59,32 +63,32 @@ class SettingsGeneralViewController: UIViewController {
             )
         }(),
         SettingTableCell(
-            labelText: LocalesManager.shared.get(.setting5),
-            buttonText: LocalesManager.shared.get(.clear),
+            labelText: "setting5".localizeKey,
+            buttonText: "clear".localizeKey,
             buttonCallback: { [weak self] button in
-                RemoteDataManager.shared.resetAllCachedImages()
+                DataManager.shared.resetAllCachedImages()
                 NotificationCenter.default.post(name: .imagesCacheRemoved, object: nil, userInfo: nil)
-                self?.showToast(text: LocalesManager.shared.get(.imagesCacheRemoved))
+                self?.showToast(text: "imagesCacheRemoved".localizeKey)
             }
         ),
         SettingTableCell(
-            labelText: LocalesManager.shared.get(.setting6),
-            buttonText: LocalesManager.shared.get(.clear),
+            labelText: "setting6".localizeKey,
+            buttonText: "clear".localizeKey,
             buttonCallback: { [weak self] button in
                 PlayerItemsManager.shared.resetAllCachedItems()
                 NotificationCenter.default.post(name: .tracksCacheRemoved, object: nil, userInfo: nil)
-                self?.showToast(text: LocalesManager.shared.get(.tracksCacheRemoved))
+                self?.showToast(text: "tracksCacheRemoved".localizeKey)
             }
         )
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = LocalesManager.shared.get(.titleSMain)
+        navigationItem.title = "titleSMain".localizeKey
         settingsTable.allowsSelection = false
         if #available(iOS 11.0, *) {
-            let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == "topConstraint" })?.constant ?? 10
-            settingsTable.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + offset, 0, bottomLayoutGuide.length + offset, 0)
+            let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == Constants.topConstraintIdentifier })?.constant ?? 10
+            settingsTable.contentInset = UIEdgeInsets(top: topLayoutGuide.length + offset, left: 0, bottom: bottomLayoutGuide.length + offset, right: 0)
         }
     }
     

@@ -7,7 +7,7 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     weak var view: MainViewControllerProtocol!
     
     var searchData: AudioSearchData?
-    var thisQuery = ""
+    var thisQuery = String()
     
     var moduleNameId: String {
         get { return router.moduleNameId }
@@ -21,15 +21,15 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     }
     
     func getTitle() -> String {
-        return interactor.getLocaleString(.musicTitle)
+        return "musicTitle".localizeKey
     }
     
     func getLoadLabel() -> String {
-        return interactor.getLocaleString(.load)
+        return "load".localizeKey
     }
     
     func getSearchLabel() -> String {
-        return interactor.getLocaleString(.searchMain)
+        return "searchMain".localizeKey
     }
     
     func setInfo(_ text: String? = nil) {
@@ -49,7 +49,7 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     
     func clearData(withReload: Bool = true) {
         searchData = nil
-        thisQuery = ""
+        thisQuery = String()
         if withReload {
             view.reloadData()
         }
@@ -72,7 +72,7 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
         } else {
             searchData = data
         }
-        setInfo(searchData?.list.count == 0 ? interactor.getLocaleString(.notFound) : nil)
+        setInfo(searchData?.list.count == 0 ? "notFound".localizeKey : nil)
     }
     
 }

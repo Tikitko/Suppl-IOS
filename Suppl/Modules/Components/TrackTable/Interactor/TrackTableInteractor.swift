@@ -1,6 +1,6 @@
 import Foundation
 
-class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
+class TrackTableInteractor: TrackTableInteractorProtocol {
 
     weak var presenter: TrackTablePresenterProtocolInteractor!
     
@@ -68,10 +68,10 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     func addTrack(trackId: String, track: AudioData)  {
         TracklistManager.shared.add(trackId: trackId) { [weak self] status in
             guard status else {
-                self?.presenter.sendEditInfoToToast(expressionForTitle: .addError, track: track)
+                self?.presenter.sendEditInfoToToast(localizationKeyForTitle: "addError", track: track)
                 return
             }
-            self?.presenter.sendEditInfoToToast(expressionForTitle: .addOk, track: track)
+            self?.presenter.sendEditInfoToToast(localizationKeyForTitle: "addOk", track: track)
             self?.communicateDelegate?.addedTrack(withId: trackId)
         }
     }
@@ -79,10 +79,10 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     func removeTrack(indexTrack: Int, track: AudioData) {
         TracklistManager.shared.remove(from: indexTrack) { [weak self] status in
             guard status else {
-                self?.presenter.sendEditInfoToToast(expressionForTitle: .removeError, track: track)
+                self?.presenter.sendEditInfoToToast(localizationKeyForTitle: "removeError", track: track)
                 return
             }
-            self?.presenter.sendEditInfoToToast(expressionForTitle: .removeOk, track: track)
+            self?.presenter.sendEditInfoToToast(localizationKeyForTitle: "removeOk", track: track)
             self?.communicateDelegate?.removedTrack(fromIndex: indexTrack)
         }
     }
@@ -90,10 +90,10 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     func moveTrack(from: Int, to: Int, track: AudioData) {
         TracklistManager.shared.move(from: from, to: to) { [weak self] status in
             guard status else {
-                self?.presenter.sendEditInfoToToast(expressionForTitle: .moveError, track: track)
+                self?.presenter.sendEditInfoToToast(localizationKeyForTitle: "moveError", track: track)
                 return
             }
-            self?.presenter.sendEditInfoToToast(expressionForTitle: .moveOk, track: track)
+            self?.presenter.sendEditInfoToToast(localizationKeyForTitle: "moveOk", track: track)
             self?.communicateDelegate?.moveTrack(from: from, to: to)
         }
     }
@@ -120,7 +120,7 @@ class TrackTableInteractor: BaseInteractor, TrackTableInteractorProtocol {
     
     func loadImageData(link: String, callback: @escaping (_ data: Data) -> Void) {
         guard SettingsManager.shared.loadImages.value, !link.isEmpty else { return }
-        RemoteDataManager.shared.getCachedImageAsData(link: link, callbackImageData: callback)
+        DataManager.shared.getCachedImageAsData(link: link, callbackImageData: callback)
     }
   
 }

@@ -1,16 +1,20 @@
 PODS:
-  - SwiftTheme (0.4.1)
+  - SwiftTheme (0.4.4)
+  - Toast-Swift (5.0.0)
 
 DEPENDENCIES:
   - SwiftTheme
+  - Toast-Swift (~> 5.0.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - SwiftTheme
+    - Toast-Swift
 
 SPEC CHECKSUMS:
-  SwiftTheme: 36d71c4eed4b2c401c782cf036e4586c749a8173
+  SwiftTheme: a381f983da92153908b7a9eeb961b18b6d94d614
+  Toast-Swift: 36f4720243c8582c2be243a60a51e193c761f541
 
-PODFILE CHECKSUM: 390a0b2252178ce1f061e48cdc26946942d55fc4
+PODFILE CHECKSUM: 393cb52a02677c480e269796725b9d6402a0f181
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.6.1

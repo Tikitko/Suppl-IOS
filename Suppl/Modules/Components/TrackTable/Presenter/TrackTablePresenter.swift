@@ -3,16 +3,16 @@ import UIKit
 
 class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePresenterProtocolView {
     
+    private struct Constants {
+        static let actionColorRedOneHash = "#FF0000"
+        static let actionColorGreenOneHash = "#4FAB5B"
+        static let actionColorRedTwoHash = "#900101"
+        static let actionColorGreenTwoHash = "#819D13"
+    }
+    
     var router: TrackTableRouterProtocol!
     var interactor: TrackTableInteractorProtocol!
     weak var view: TrackTableViewControllerProtocol!
-
-    enum ActionColorHash: String {
-        case redOne = "#FF0000"
-        case greenOne = "#4FAB5B"
-        case redTwo = "#900101"
-        case greenTwo = "#819D13"
-    }
     
     var tracks: [AudioData] = []
     
@@ -120,13 +120,13 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         var actions: [RowAction] = []
         let thisTrack = tracks[indexPath.row]
         if canEdit {
-            if let indexTrack = tracklist.index(of: thisTrack.id) {
+            if let indexTrack = tracklist.firstIndex(of: thisTrack.id) {
                 let action: (IndexPath) -> Void = { [weak self] _ in
                     self?.interactor.removeTrack(indexTrack: indexTrack, track: self!.tracks[indexPath.row])
                 }
                 actions.append(RowAction(
-                    color: ActionColorHash.redOne.rawValue,
-                    title: interactor.getLocaleString(.del),
+                    color: Constants.actionColorRedOneHash,
+                    title: "del".localizeKey,
                     action: action
                 ))
             } else {
@@ -134,21 +134,21 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
                     self?.interactor.addTrack(trackId: thisTrack.id, track: self!.tracks[indexPath.row])
                 }
                 actions.append(RowAction(
-                    color: ActionColorHash.greenOne.rawValue,
-                    title: interactor.getLocaleString(.add),
+                    color: Constants.actionColorGreenOneHash,
+                    title: "add".localizeKey,
                     action: action
                 ))
             }
         }
         
         let playlist = frashPlaylist
-        if let indexTracklist = playlist?.IDs.index(where: { $0 == thisTrack.id }) {
+        if let indexTracklist = playlist?.IDs.firstIndex(where: { $0 == thisTrack.id }) {
             let action: (IndexPath) -> Void = { [weak self] _ in
                 self?.interactor.removeFromPlaylist(at: indexTracklist)
             }
             actions.append(RowAction(
-                color: ActionColorHash.redTwo.rawValue,
-                title: interactor.getLocaleString(.removeFromPlaylist),
+                color: Constants.actionColorRedTwoHash,
+                title: "removeFromPlaylist".localizeKey,
                 action: action
             ))
         } else {
@@ -156,8 +156,8 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
                 self?.interactor.insertInPlaylist(track: thisTrack)
             }
             actions.append(RowAction(
-                color: ActionColorHash.greenTwo.rawValue,
-                title: interactor.getLocaleString(.insertInPlaylist),
+                color: Constants.actionColorGreenTwoHash,
+                title: "insertInPlaylist".localizeKey,
                 action: action
             ))
         }
@@ -179,9 +179,9 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         return true
     }
     
-    func rowEditType(indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    func rowEditType(indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         guard tracks.count > indexPath.row, let tracklist = frashTracklist else { return .none }
-        return tracklist.index(of: tracks[indexPath.row].id) != nil ? .delete : .insert
+        return tracklist.firstIndex(of: tracks[indexPath.row].id) != nil ? .delete : .insert
     }
     
     func openPlayer(trackIndex: Int) {
@@ -204,9 +204,9 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         return tracks.count
     }
     
-    func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData) {
+    func sendEditInfoToToast(localizationKeyForTitle: String, track: AudioData) {
         router.showToastOnTop(
-            title: interactor.getLocaleString(expressionForTitle),
+            title: localizationKeyForTitle.localizeKey,
             body: "\(track.performer) - \(track.title)",
             duration: 2.0
         )
@@ -214,10 +214,6 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     
     func sayThatZonePassed(toTop: Bool) {
         interactor.communicateDelegate?.zoneRangePassed(toTop: toTop)
-    }
-    
-    func getCellSelectColor() -> UIColor {
-        return UIColor(rgba: interactor.getThemeColorHash(.first))
     }
     
     func getCell(small: Bool) -> (moduleNameId: String, controller: UIViewController) {
@@ -243,7 +239,7 @@ extension TrackTablePresenter: PlayerListenerDelegate {
     func trackInfoChanged(_ track: CurrentTrack, _ imageData: Data?) {
         guard imageData == nil,
               followCurrentTrack.0,
-              let index = tracks.index(where: { $0.id == track.id })
+              let index = tracks.firstIndex(where: { $0.id == track.id })
             else { return }
         view.followToIndex(index, inVisibilityZone: followCurrentTrack.inVisibilityZone)
     }

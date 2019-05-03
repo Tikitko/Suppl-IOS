@@ -3,6 +3,10 @@ import UIKit
 
 class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProtocol {
     
+    private struct Constants {
+        static let safeAreaMarginConstraintIdentifier = "safeAreaMargin"
+    }
+    
     var presenter: SmallPlayerPresenterProtocolView!
     
     enum ShowType {
@@ -44,7 +48,6 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     
     var marginsUpdating = false
     
-    let safeAreaMarginIdentifier = "safeAreaMargin"
     var baseMargin: CGFloat = 0
     var nowShowType: ShowType = .closed
     var closed: CGFloat = 0
@@ -86,8 +89,8 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         }
         playerTitleLabelBig.text = presenter.getTitle()
         view.insertSubview(tracksTableModule.view, belowSubview: playlistButtonBig)
-        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.view, parent: imageViewBig)
-        if let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) {
+        tracksTableModule.view.includeInside(imageViewBig)
+        if let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == Constants.safeAreaMarginConstraintIdentifier }) {
             baseMargin = view.constraints[safeAreaMarginConstraintIndex].constant
         }
         presenter.setListener()
@@ -122,8 +125,8 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func updateTopMargin(rootSelf: Bool = false, _ margin: CGFloat? = nil, withBase: Bool = true) {
-        guard let safeAreaMarginConstraintIndex = view.constraints.index(where: { $0.identifier == safeAreaMarginIdentifier }) else { return }
-        let rootViewController = rootSelf ? self : parentRootTabBarController
+        guard let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == Constants.safeAreaMarginConstraintIdentifier }) else { return }
+        let rootViewController: UIViewController = rootSelf ? self : parentRootTabBarController
         let safeAreaMargin: CGFloat?
         if #available(iOS 11.0, *) {
             safeAreaMargin = rootViewController.view.safeAreaInsets.top
@@ -231,10 +234,10 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func setTheme() {
-        view.theme_backgroundColor = "thirdColor"
-        smallPlayerView.theme_backgroundColor = "secondColor"
-        progressBar.theme_tintColor = "thirdColor"
-        imageViewBig.theme_backgroundColor = "secondColor"
+        view.theme_backgroundColor = UIColor.Theme.third.picker
+        smallPlayerView.theme_backgroundColor = UIColor.Theme.second.picker
+        progressBar.theme_tintColor = UIColor.Theme.third.picker
+        imageViewBig.theme_backgroundColor = UIColor.Theme.second.picker
     }
     
     func setTrackInfo(title: String, performer: String) {

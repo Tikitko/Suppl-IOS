@@ -19,14 +19,12 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
         super.viewDidLoad()
         setTheme()
         
-        let titles = presenter.getAllLocalizedStrings()
-        
-        titleLabel.text = titles[.filterTitle]
-        timeLabel.text = titles[.filterTime]
-        searchLabel.text = titles[.filterSearch]
-        searchTLabel.text = titles[.filterSearchT]
-        searchPLabel.text = titles[.filterSearchP]
-        okButton.setTitle(titles[.filterOK], for: .normal)
+        titleLabel.text = "filterTitle".localizeKey
+        timeLabel.text = "filterTime".localizeKey
+        searchLabel.text = "filterSearch".localizeKey
+        searchTLabel.text = "filterSearchT".localizeKey
+        searchPLabel.text = "filterSearchP".localizeKey
+        okButton.setTitle("filterOK".localizeKey, for: .normal)
         
         okButton.isEnabled = false
         okButton.isHidden = true
@@ -41,10 +39,10 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
     }
     
     func setTheme() {
-        okButton.theme_tintColor = "secondColor"
-        searchTitleSwitch.theme_onTintColor = "secondColor"
-        searchPerformerSwitch.theme_onTintColor = "secondColor"
-        timeSlider.theme_tintColor = "secondColor"
+        okButton.theme_tintColor = UIColor.Theme.second.picker
+        searchTitleSwitch.theme_onTintColor = UIColor.Theme.second.picker
+        searchPerformerSwitch.theme_onTintColor = UIColor.Theme.second.picker
+        timeSlider.theme_tintColor = UIColor.Theme.second.picker
     }
     
     @IBAction func timeChange(_ sender: Any) {

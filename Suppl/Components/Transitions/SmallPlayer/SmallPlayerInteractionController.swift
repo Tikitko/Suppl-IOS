@@ -1,6 +1,6 @@
 import UIKit
 
-class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
+final class SmallPlayerInteractionController: UIPercentDrivenInteractiveTransition {
     
     private weak var smallPlayerViewController: SmallPlayerViewController!
     

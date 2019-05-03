@@ -13,10 +13,10 @@ final class AudioService {
         )
     }
     
-    public func get(keys: KeysPair, ids: String, dataReport: @escaping (NSError?, AudioListData?) -> ()) {
+    public func get(keys: KeysPair, ids: [String], dataReport: @escaping (NSError?, AudioListData?) -> ()) {
         API.method(
             "audio.get",
-            query: keys.addToQuery(["ids": ids]),
+            query: keys.addToQuery(["ids": ids.joined(separator: ",")]),
             dataReport: dataReport,
             externalMethod: { $0.data }
         )

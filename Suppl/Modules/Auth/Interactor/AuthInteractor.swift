@@ -1,6 +1,6 @@
 import Foundation
 
-class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
+class AuthInteractor: AuthInteractorProtocol {
 
     weak var presenter: AuthPresenterProtocolInteractor!
     
@@ -9,7 +9,7 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
     }
     
     func requestIdentifierString() {
-        presenter.setIdentifier(AuthManager.shared.getAuthKeys(setFailAuth: false)?.string ?? "")
+        presenter.setIdentifier(AuthManager.shared.getAuthKeys(setFailAuth: false)?.string ?? String())
     }
 
     func startAuth(fromString input: String? = nil, resetKey: String? = nil, onlyInfo: Bool = false) {
@@ -17,12 +17,12 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
             if let _ = AuthManager.shared.getAuthKeys(setFailAuth: false) {
                 presenter.setAuthResult(nil, blockOnError: false)
             } else {
-                presenter.setAuthResult(.noOffline, blockOnError: true)
+                presenter.setAuthResult(localizationKey: "noOffline", blockOnError: true)
             }
             return
         }
         if onlyInfo {
-            presenter.setAuthResult(.inputIdentifier, blockOnError: false)
+            presenter.setAuthResult(localizationKey: "inputIdentifier", blockOnError: false)
             return
         }
         if let text = input {
@@ -31,7 +31,7 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
                 UserDefaultsManager.shared.identifierKey = Int(text[text.startIndex..<text.index(text.startIndex, offsetBy: half)])
                 UserDefaultsManager.shared.accessKey = Int(text[text.index(text.startIndex, offsetBy: half)..<text.endIndex])
             } else {
-                presenter.setAuthResult(.badIdentifier, blockOnError: false)
+                presenter.setAuthResult(localizationKey: "badIdentifier", blockOnError: false)
                 return
             }
         }
@@ -63,11 +63,13 @@ class AuthInteractor: BaseInteractor, AuthInteractorProtocol {
     }
     
     func loadCoreData() {
-        CoreDataManager.shared.initStack() { [weak self] error in
-            if let _ = error {
-                self?.presenter.setAuthResult(.coreDataLoadError, blockOnError: true)
-            } else {
-                self?.presenter.coreDataLoaded()
+        CoreDataManager.shared.loadPersistentCoordinatorIfNeeded { [weak self] error in
+            DispatchQueue.main.async {
+                if let _ = error {
+                    self?.presenter.setAuthResult(localizationKey: "coreDataLoadError", blockOnError: true)
+                } else {
+                    self?.presenter.coreDataLoaded()
+                }
             }
         }
     }

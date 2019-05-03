@@ -1,5 +1,5 @@
 import Foundation
 
-protocol TracklistRouterProtocol: class, BaseRouterProtocol {
+protocol TracklistRouterProtocol: RouterProtocol {
     func showFilter()
 }

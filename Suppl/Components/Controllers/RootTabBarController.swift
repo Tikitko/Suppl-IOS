@@ -22,10 +22,10 @@ final class RootTabBarController: UITabBarController {
         
         let NC = NotificationCenter.default
         if #available(iOS 11.0, *) {
-            NC.addObserver(self, selector: #selector(keyboardFrameWillChange), name: .UIKeyboardWillChangeFrame, object: nil)
+            NC.addObserver(self, selector: #selector(keyboardFrameWillChange), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         }
-        NC.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NC.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        NC.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NC.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         view.clipsToBounds = true
         smallPlayer = SmallPlayerRouter.setup(parentRootTabBarController: self)
@@ -34,8 +34,8 @@ final class RootTabBarController: UITabBarController {
     }
 
     func setTheme() {
-        tabBar.theme_barTintColor = "secondColor"
-        tabBar.theme_tintColor = ["#FFF"]
+        tabBar.theme_barTintColor = UIColor.Theme.second.picker
+        tabBar.theme_tintColor = [UIColor.Theme.widthColorHash]
         tabBar.unselectedItemTintColor = .lightGray
     }
     
@@ -67,17 +67,17 @@ final class RootTabBarController: UITabBarController {
     }
     
     @objc func tapAndHideKeyboard(_ gesture: UITapGestureRecognizer) {
-        guard gesture.state == UIGestureRecognizerState.ended else { return }
+        guard gesture.state == UIGestureRecognizer.State.ended else { return }
         view.endEditing(true)
     }
     
-    @objc func keyboardWillShow() {
+    @objc func keyboardWillShow(_ notification: Notification) {
         guard tapGestureRecognizer == nil else { return }
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAndHideKeyboard(_:)))
         view.addGestureRecognizer(tapGestureRecognizer!)
     }
     
-    @objc func keyboardWillHide() {
+    @objc func keyboardWillHide(_ notification: Notification) {
         guard let tapGestureRecognizer = tapGestureRecognizer else { return }
         view.removeGestureRecognizer(tapGestureRecognizer)
         self.tapGestureRecognizer = nil
@@ -86,17 +86,17 @@ final class RootTabBarController: UITabBarController {
     @available(iOS 11.0, *)
     @objc private func keyboardFrameWillChange(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-              let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             else { return }
         
         let keyboardFrameInView = view.convert(keyboardFrame, from: nil)
         let safeAreaFrame = view.safeAreaLayoutGuide.layoutFrame.insetBy(dx: 0, dy: -additionalSafeAreaInsets.bottom)
         let intersection = safeAreaFrame.intersection(keyboardFrameInView)
         
-        let animationDuration: TimeInterval = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
-        let animationCurveRawNSN = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
-        let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
-        let animationCurve = UIViewAnimationOptions(rawValue: animationCurveRaw)
+        let animationDuration: TimeInterval = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+        let animationCurveRawNSN = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+        let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
+        let animationCurve = UIView.AnimationOptions(rawValue: animationCurveRaw)
         
         UIView.animate(withDuration: animationDuration, delay: 0, options: animationCurve, animations: {
             self.additionalSafeAreaInsets.bottom = intersection.height - self.tabBar.frame.height

@@ -2,7 +2,7 @@ import CoreData
 import Foundation
 
 @objc(Track)
-class Track: CoreDataManager.CoreDataEntity {
+class Track: CoreDataManager.Entity {
     
     @NSManaged var id: NSString
     @NSManaged var title: NSString

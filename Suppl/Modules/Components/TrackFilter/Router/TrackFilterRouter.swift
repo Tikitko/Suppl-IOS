@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackFilterRouter: BaseRouter, TrackFilterRouterProtocol {
+class TrackFilterRouter: Router, TrackFilterRouterProtocol {
     
     weak var viewController: UIViewController!
 
