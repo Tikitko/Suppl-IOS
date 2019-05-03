@@ -1,6 +1,6 @@
 import UIKit
 
-class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+final class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     
     private weak var smallPlayerViewController: SmallPlayerViewController!
     
@@ -107,4 +107,5 @@ class SmallPlayerAnimationController: NSObject, UIViewControllerAnimatedTransiti
             }
         )
     }
+    
 }

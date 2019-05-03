@@ -1,6 +1,6 @@
 import Foundation
 
-protocol TracklistInteractorProtocol: class, BaseInteractorProtocol {
+protocol TracklistInteractorProtocol: class {
     func setListener(_ delegate: CommunicateManagerProtocol)
     func setTracklistListener(_ delegate: TracklistListenerDelegate)
     func listenSettings()

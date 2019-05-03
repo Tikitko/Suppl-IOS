@@ -1,10 +1,9 @@
 import Foundation
 import UIKit
 
-class AnimateLogo {
+final class AnimateLogoView: UIView {
     
-    private(set) var view: UIView!
-    private var layer: CAShapeLayer!
+    private weak var shapeLayer: CAShapeLayer?
     
     private var continueAnimation = true
     
@@ -14,14 +13,28 @@ class AnimateLogo {
     init(_ text: String, color: UIColor, fontName: String = "System", fontSize: CGFloat = 60, lineWidth: CGFloat = 2) {
         self.color = color
         self.lineWidth = lineWidth
+        
         let font = CTFontCreateWithName(fontName as CFString, fontSize, nil)
-        let wordBezierPath = AnimateLogo.getPathForWord(text, font: font, spacing: fontSize / 10)
-        let (view, layer) = getViewWithPath(wordBezierPath)
-        self.view = view
-        self.layer = layer
+        let wordBezierPath = type(of: self).path(word: text, font: font, spacing: fontSize / 10)
+        let wordPathBounds = wordBezierPath.cgPath.boundingBoxOfPath
+        
+        let layer = CAShapeLayer()
+        layer.path = wordBezierPath.cgPath
+        layer.lineWidth = lineWidth
+        layer.strokeColor = color.cgColor
+        layer.fillColor = color.cgColor
+        layer.position = CGPoint(x: -wordPathBounds.origin.x, y: -wordPathBounds.origin.y)
+        self.shapeLayer = layer
+        
+        super.init(frame: CGRect(origin: .zero, size: wordPathBounds.size))
+        self.layer.addSublayer(layer)
     }
     
-    public static func getPathForLetter(_ letter: Character, font: CTFont) -> UIBezierPath {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public static func path(letter: Character, font: CTFont) -> UIBezierPath {
         var path = UIBezierPath()
         var unichars = [UniChar]("\(letter)".utf16)
         var glyphs = [CGGlyph](repeating: 0, count: unichars.count)
@@ -33,35 +46,20 @@ class AnimateLogo {
         return path
     }
     
-    public static func getPathForWord(_ word: String, font: CTFont, spacing: CGFloat = 10) -> UIBezierPath {
-        let path = UIBezierPath()
+    public static func path(word: String, font: CTFont, spacing: CGFloat = 10) -> UIBezierPath {
+        let _path = UIBezierPath()
         var i: CGFloat = 0
         for letter in word {
-            let newPath = getPathForLetter(letter, font: font)
-            let actualPathRect = path.cgPath.boundingBox
+            let newPath = path(letter: letter, font: font)
+            let actualPathRect = _path.cgPath.boundingBox
             let transform = CGAffineTransform(translationX: (actualPathRect.width + min(i, 1) * spacing), y: 0)
             newPath.apply(transform)
-            path.append(newPath)
+            _path.append(newPath)
             i += 1
         }
-        path.apply(CGAffineTransform(scaleX: 1.0, y: -1.0))
-        path.apply(CGAffineTransform(translationX: 0, y: path.bounds.height))
-        return path
-    }
-    
-    private func getViewWithPath(_ wordBezierPath: UIBezierPath) -> (UIView, CAShapeLayer) {
-        let layer = CAShapeLayer()
-        layer.path = wordBezierPath.cgPath
-        layer.lineWidth = lineWidth
-        layer.strokeColor = color.cgColor
-        layer.fillColor = color.cgColor
-        
-        let pathBounds = wordBezierPath.cgPath.boundingBoxOfPath
-        let view = UIView(frame: CGRect(origin: .zero, size: pathBounds.size))
-        layer.position = CGPoint(x: -pathBounds.origin.x, y: -pathBounds.origin.y)
-        view.layer.addSublayer(layer)
-        
-        return (view, layer)
+        _path.apply(CGAffineTransform(scaleX: 1.0, y: -1.0))
+        _path.apply(CGAffineTransform(translationX: 0, y: _path.bounds.height))
+        return _path
     }
     
     private func createAnim() -> CAAnimation {
@@ -118,12 +116,12 @@ class AnimateLogo {
         CATransaction.setCompletionBlock() { [weak self] in
             guard let self = self else { return }
             CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-            self.layer.strokeEnd = 1
-            self.layer.fillColor = self.color.cgColor
+            self.shapeLayer?.strokeEnd = 1
+            self.shapeLayer?.fillColor = self.color.cgColor
             CATransaction.setValue(kCFBooleanFalse, forKey: kCATransactionDisableActions)
             self.startAnim()
         }
-        layer.add(createAnim(), forKey: nil)
+        shapeLayer?.add(createAnim(), forKey: nil)
         CATransaction.commit()
     }
     

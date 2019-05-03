@@ -1,6 +1,6 @@
 import Foundation
 
-protocol SmallPlayerInteractorProtocol: class, BaseInteractorProtocol {
+protocol SmallPlayerInteractorProtocol: class {
     func setListener(_ delegate: CommunicateManagerProtocol)
     func setPlayerListener(_ delegate: PlayerListenerDelegate)
     func setPlayerCurrentTime(_ sec: Double, withCurrentTime: Bool)

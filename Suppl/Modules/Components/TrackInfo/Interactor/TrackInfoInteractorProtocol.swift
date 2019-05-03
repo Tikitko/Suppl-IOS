@@ -1,6 +1,6 @@
 import Foundation
 
-protocol TrackInfoInteractorProtocol: class, BaseInteractorProtocol {
+protocol TrackInfoInteractorProtocol: class {
     func setListener(_ delegate: CommunicateManagerProtocol)
     func setPlayerListener(_ delegate: PlayerListenerDelegate)
     func requestAdditionalInfo(thisTrackId id: String, delegate: PlayerItemDelegate)

@@ -1,6 +1,6 @@
 import Foundation
 
-protocol TrackTableInteractorProtocol: class, BaseInteractorProtocol {
+protocol TrackTableInteractorProtocol: class {
     var communicateDelegate: TrackTableCommunicateProtocol? { get }
     func getCellDelegate(name: String) -> TrackInfoCommunicateProtocol?
     func setTracklistListener(_ delegate: TracklistListenerDelegate)

@@ -1,3 +1,3 @@
 import Foundation
 
-protocol SmallPlayerRouterProtocol: class, BaseRouterProtocol {}
+protocol SmallPlayerRouterProtocol: RouterProtocol {}

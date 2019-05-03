@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import Toast_Swift
 
 class AuthViewController: UIViewController, AuthViewControllerProtocol {
     
@@ -17,7 +16,7 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     @IBOutlet weak var resetEmailField: UITextField!
     @IBOutlet weak var resetSendButton: UIButton!
     
-    var logo: AnimateLogo?
+    var logoView: AnimateLogoView?
     var animInWork = false
     
     var resetKey: String?
@@ -46,16 +45,16 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
 
     func initLogo() {
         logoLabel.isHidden = true
-        let logo = AnimateLogo.init(logoLabel.text ?? String(), color: logoLabel.textColor ?? .white, fontName: logoLabel.font.fontName, fontSize: logoLabel.font.pointSize)
-        view.addSubview(logo.view)
-        let height = logo.view.frame.size.height
-        let width = logo.view.frame.size.width
-        logo.view.translatesAutoresizingMaskIntoConstraints = false
-        logo.view.centerXAnchor.constraint(equalTo: logoLabel.centerXAnchor).isActive = true
-        logo.view.centerYAnchor.constraint(equalTo: logoLabel.centerYAnchor).isActive = true
-        logo.view.heightAnchor.constraint(equalToConstant: height).isActive = true
-        logo.view.widthAnchor.constraint(equalToConstant: width).isActive = true
-        self.logo = logo
+        let logo = AnimateLogoView(logoLabel.text ?? String(), color: logoLabel.textColor ?? .white, fontName: logoLabel.font.fontName, fontSize: logoLabel.font.pointSize)
+        view.addSubview(logo)
+        let height = logo.frame.size.height
+        let width = logo.frame.size.width
+        logo.translatesAutoresizingMaskIntoConstraints = false
+        logo.centerXAnchor.constraint(equalTo: logoLabel.centerXAnchor).isActive = true
+        logo.centerYAnchor.constraint(equalTo: logoLabel.centerYAnchor).isActive = true
+        logo.heightAnchor.constraint(equalToConstant: height).isActive = true
+        logo.widthAnchor.constraint(equalToConstant: width).isActive = true
+        self.logoView = logo
     }
     
     func initResetStack() {
@@ -84,11 +83,11 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     }
 
     func setTheme() {
-        view.theme_backgroundColor = ThemeColor.first.picker
-        identifierField.theme_backgroundColor = ThemeColor.second.picker
-        repeatButton.theme_backgroundColor = ThemeColor.second.picker
-        resetEmailField.theme_backgroundColor = ThemeColor.second.picker
-        resetSendButton.theme_backgroundColor = ThemeColor.second.picker
+        view.theme_backgroundColor = UIColor.Theme.first.picker
+        identifierField.theme_backgroundColor = UIColor.Theme.second.picker
+        repeatButton.theme_backgroundColor = UIColor.Theme.second.picker
+        resetEmailField.theme_backgroundColor = UIColor.Theme.second.picker
+        resetSendButton.theme_backgroundColor = UIColor.Theme.second.picker
     }
     
     func enableResetForm(_ enabled: Bool, full: Bool = true) {
@@ -132,13 +131,13 @@ class AuthViewController: UIViewController, AuthViewControllerProtocol {
     func startAnim() {
         guard !animInWork else { return }
         animInWork = true
-        logo?.startAnim()
+        logoView?.startAnim()
     }
     
     func stopAnim() {
         guard animInWork else { return }
         animInWork = false
-        logo?.stopAnim()
+        logoView?.stopAnim()
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControllerProtocol, ControllerInfoProtocol {
+class TracklistViewController: OldSafeAreaViewController, TracklistViewControllerProtocol, ControllerInfoProtocol {
     
     var presenter: TracklistPresenterProtocolView!
     
@@ -34,9 +34,9 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
         navigationItem.title = name
         titleLabel.text = name
         view.addSubview(tracksTableModule.tableView)
-        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable)
+        tracksTableModule.tableView.includeInside(tracksTable)
         view.addSubview(searchModule.searchBar)
-        ViewIncludeConstraintsTemplate.inside(child: searchModule.searchBar, parent: searchBar)
+        searchModule.searchBar.includeInside(searchBar)
         searchModule.searchBar.placeholder = presenter.getSearchLabel()
         searchBar.isHidden = true
         tracksTable.isHidden = true
@@ -45,9 +45,9 @@ class TracklistViewController: OldSafeAreaUIViewController, TracklistViewControl
     }
     
     func setTheme() {
-        updateButton.theme_tintColor = ThemeColor.second.picker
-        filterButton.theme_tintColor = ThemeColor.second.picker
-        editButton.theme_tintColor = ThemeColor.second.picker
+        updateButton.theme_tintColor = UIColor.Theme.second.picker
+        filterButton.theme_tintColor = UIColor.Theme.second.picker
+        editButton.theme_tintColor = UIColor.Theme.second.picker
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class SmallPlayerRouter: BaseRouter, SmallPlayerRouterProtocol {
+class SmallPlayerRouter: Router, SmallPlayerRouterProtocol {
     
     weak var viewController: UIViewController!
     

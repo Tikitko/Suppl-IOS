@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class SearchBarRouter: BaseRouter, SearchBarRouterProtocol {
+class SearchBarRouter: Router, SearchBarRouterProtocol {
     
     weak var viewController: SearchBarViewController!
     

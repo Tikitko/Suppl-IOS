@@ -12,7 +12,7 @@ final class UserDefaultsManager {
     
     public let obj = UserDefaults()
     
-    public func keyGet<T>(_ key: String) -> T? {
+    public func keyGet<T>(_ key: String, _ type: T.Type = T.self) -> T? {
         return obj.object(forKey: key) as? T
     }
     

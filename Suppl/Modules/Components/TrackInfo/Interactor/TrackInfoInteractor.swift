@@ -1,6 +1,6 @@
 import Foundation
 
-class TrackInfoInteractor: BaseInteractor, TrackInfoInteractorProtocol {
+class TrackInfoInteractor: TrackInfoInteractorProtocol {
     
     weak var presenter: TrackInfoPresenterProtocolInteractor!
     

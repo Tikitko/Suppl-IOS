@@ -65,7 +65,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
     
     func setTheme() {
-        loadButton.theme_tintColor = ThemeColor.second.picker
+        loadButton.theme_tintColor = UIColor.Theme.second.picker
     }
 
     func setInfo(title: String, performer: String, durationString: String) {
@@ -124,7 +124,7 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
     }
     
     func setSelected(_ value: Bool, instantly: Bool = false) {
-        let result = value ? (!lightStyle ? UIColor(white: 0.96, alpha: 1.0) : ThemeColor.second.color) : nil
+        let result = value ? (!lightStyle ? UIColor(white: 0.96, alpha: 1.0) : UIColor.Theme.second.color) : nil
         setBackgroundColor(result, duration: !instantly ? 0.3 : nil)
     }
     

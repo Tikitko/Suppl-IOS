@@ -15,11 +15,11 @@ class SettingsAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = LocalesManager.shared.get(.titleSAccount)
-        identifierLabel.text = LocalesManager.shared.get(.youIdentifierLabel)
-        accountOutButton.setTitle(LocalesManager.shared.get(.identifierButton), for: .normal)
-        emailLabel.text = LocalesManager.shared.get(.youEmailLabel)
-        emailButton.setTitle(LocalesManager.shared.get(.emailButton), for: .normal)
+        navigationItem.title = "titleSAccount".localizeKey
+        identifierLabel.text = "youIdentifierLabel".localizeKey
+        accountOutButton.setTitle("identifierButton".localizeKey, for: .normal)
+        emailLabel.text = "youEmailLabel".localizeKey
+        emailButton.setTitle("emailButton".localizeKey, for: .normal)
         setTheme()
         getAccount()
         emailField.delegate = self
@@ -44,10 +44,10 @@ class SettingsAccountViewController: UIViewController {
         guard let email = self.emailField.text else { return }
         let lastPlacehilderText = emailField.placeholder
         self.emailField.text = String()
-        self.emailField.placeholder = LocalesManager.shared.get(.install)
+        self.emailField.placeholder = "install".localizeKey
         APIManager.shared.user.updateEmail(keys: keys, email: email) { [weak self] error, data in
             guard let self = self else { return }
-            self.emailField.placeholder = error != nil ? LocalesManager.shared.get(apiErrorCode: error!.code) : LocalesManager.shared.get(.emailSet)
+            self.emailField.placeholder = error != nil ? error!.code.localizeAPIErrorCode : "emailSet".localizeKey
             let when = DispatchTime.now() + 2
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                 guard let self = self else { return }
@@ -58,14 +58,14 @@ class SettingsAccountViewController: UIViewController {
     }
     
     func setTheme() {
-        emailButton.theme_backgroundColor = ThemeColor.second.picker
-        accountOutButton.theme_backgroundColor = ThemeColor.second.picker
+        emailButton.theme_backgroundColor = UIColor.Theme.second.picker
+        accountOutButton.theme_backgroundColor = UIColor.Theme.second.picker
     }
     
     private func getAccount() {
         guard let keys = AuthManager.shared.getAuthKeys() else { return }
         if OfflineModeManager.shared.offlineMode {
-            emailField.text = LocalesManager.shared.get(.noInOffline)
+            emailField.text = "noInOffline".localizeKey
             identifierField.text = String(keys.identifierKey) + String(keys.accessKey)
             emailButton.isHidden = true
             self.accountOutButton.isEnabled = true
@@ -73,7 +73,7 @@ class SettingsAccountViewController: UIViewController {
             identifierField.isEnabled = false
             return
         }
-        let loadText: String = LocalesManager.shared.get(.getInfo)
+        let loadText: String = "getInfo".localizeKey
         emailField.isEnabled = false
         emailField.text = loadText
         identifierField.text = loadText
@@ -85,7 +85,7 @@ class SettingsAccountViewController: UIViewController {
             }
             self.emailField.isEnabled = true
             self.emailButton.isEnabled = true
-            self.emailField.placeholder = LocalesManager.shared.get(.youEmail)
+            self.emailField.placeholder = "youEmail".localizeKey
             self.emailField.text = data.email ?? String()
             self.accountOutButton.isEnabled = true
             self.identifierField.text = String(keys.identifierKey) + String(keys.accessKey)

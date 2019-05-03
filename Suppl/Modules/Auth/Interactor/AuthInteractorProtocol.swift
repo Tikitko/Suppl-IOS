@@ -1,6 +1,6 @@
 import Foundation
 
-protocol AuthInteractorProtocol: class, BaseInteractorProtocol {
+protocol AuthInteractorProtocol: class {
     func requestIdentifierString()
     func startAuthCheck()
     func startAuth(fromString input: String?, resetKey: String?, onlyInfo: Bool)

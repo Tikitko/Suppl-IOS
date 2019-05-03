@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtocol, ControllerInfoProtocol {
+class MainViewController: OldSafeAreaViewController, MainViewControllerProtocol, ControllerInfoProtocol {
     
     var presenter: MainPresenterProtocolView!
     
@@ -39,9 +39,9 @@ class MainViewController: OldSafeAreaUIViewController, MainViewControllerProtoco
         navigationItem.title = name
         titleLabel.text = name
         view.addSubview(tracksTableModule.tableView)
-        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.tableView, parent: tracksTable)
+        tracksTableModule.tableView.includeInside(tracksTable)
         view.addSubview(searchModule.searchBar)
-        ViewIncludeConstraintsTemplate.inside(child: searchModule.searchBar, parent: tracksSearch)
+        searchModule.searchBar.includeInside(tracksSearch)
         searchModule.searchBar.placeholder = presenter.getSearchLabel()
         tracksSearch.isHidden = true
         tracksTable.isHidden = true

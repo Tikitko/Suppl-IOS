@@ -126,7 +126,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
                 }
                 actions.append(RowAction(
                     color: Constants.actionColorRedOneHash,
-                    title: interactor.getLocaleString(.del),
+                    title: "del".localizeKey,
                     action: action
                 ))
             } else {
@@ -135,7 +135,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
                 }
                 actions.append(RowAction(
                     color: Constants.actionColorGreenOneHash,
-                    title: interactor.getLocaleString(.add),
+                    title: "add".localizeKey,
                     action: action
                 ))
             }
@@ -148,7 +148,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
             }
             actions.append(RowAction(
                 color: Constants.actionColorRedTwoHash,
-                title: interactor.getLocaleString(.removeFromPlaylist),
+                title: "removeFromPlaylist".localizeKey,
                 action: action
             ))
         } else {
@@ -157,7 +157,7 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
             }
             actions.append(RowAction(
                 color: Constants.actionColorGreenTwoHash,
-                title: interactor.getLocaleString(.insertInPlaylist),
+                title: "insertInPlaylist".localizeKey,
                 action: action
             ))
         }
@@ -204,9 +204,9 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         return tracks.count
     }
     
-    func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData) {
+    func sendEditInfoToToast(localizationKeyForTitle: String, track: AudioData) {
         router.showToastOnTop(
-            title: interactor.getLocaleString(expressionForTitle),
+            title: localizationKeyForTitle.localizeKey,
             body: "\(track.performer) - \(track.title)",
             duration: 2.0
         )

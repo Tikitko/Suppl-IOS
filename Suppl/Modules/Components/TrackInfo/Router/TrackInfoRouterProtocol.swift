@@ -1,3 +1,3 @@
 import Foundation
 
-protocol TrackInfoRouterProtocol: class, BaseRouterProtocol {}
+protocol TrackInfoRouterProtocol: RouterProtocol {}

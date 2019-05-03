@@ -7,5 +7,5 @@ protocol TrackTablePresenterProtocolInteractor: class {
     var moduleNameId: String { get }
     func setCellSetting(_ value: Bool)
     func reloadData()
-    func sendEditInfoToToast(expressionForTitle: LocalesManager.Expression, track: AudioData)
+    func sendEditInfoToToast(localizationKeyForTitle: String, track: AudioData)
 }

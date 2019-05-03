@@ -21,15 +21,15 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     }
     
     func getTitle() -> String {
-        return interactor.getLocaleString(.musicTitle)
+        return "musicTitle".localizeKey
     }
     
     func getLoadLabel() -> String {
-        return interactor.getLocaleString(.load)
+        return "load".localizeKey
     }
     
     func getSearchLabel() -> String {
-        return interactor.getLocaleString(.searchMain)
+        return "searchMain".localizeKey
     }
     
     func setInfo(_ text: String? = nil) {
@@ -72,7 +72,7 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
         } else {
             searchData = data
         }
-        setInfo(searchData?.list.count == 0 ? interactor.getLocaleString(.notFound) : nil)
+        setInfo(searchData?.list.count == 0 ? "notFound".localizeKey : nil)
     }
     
 }

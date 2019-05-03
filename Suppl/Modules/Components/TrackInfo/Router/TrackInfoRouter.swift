@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackInfoRouter: BaseRouter, TrackInfoRouterProtocol {
+class TrackInfoRouter: Router, TrackInfoRouterProtocol {
     
     private struct Constants {
         static let nibNameTrackInfoBig = "TrackInfoViewController"

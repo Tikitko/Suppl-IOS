@@ -18,8 +18,9 @@ final class SettingsManager {
                 return returnValue
             }
             set(value) {
-                UserDefaultsManager.shared.keySet(name, value: value)
-                NotificationCenter.default.post(name: notification, object: nil, userInfo: nil)
+                let newValue = value ?? `default`
+                UserDefaultsManager.shared.keySet(name, value: newValue)
+                NotificationCenter.default.post(name: notification, object: nil, userInfo: ["value": newValue])
             }
         }
         fileprivate init(_ name: String, _ default: T, _ notification: Notification.Name) {

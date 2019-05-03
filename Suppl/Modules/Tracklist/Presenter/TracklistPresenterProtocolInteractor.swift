@@ -7,6 +7,6 @@ protocol TracklistPresenterProtocolInteractor: class {
     func tracklistUpdateResult(status: Bool)
     func clearTracks()
     func setNewTrack(_ track: AudioData)
-    func setUpdateResult(_ status: LocalesManager.Expression?)
+    func setUpdateResult(localizationKey: String?)
     func offlineStatus(_ isOn: Bool)
 }

@@ -14,7 +14,7 @@ class SettingsMainTableCell: UITableViewCell {
     }
     
     func setTheme() {
-        sImage.theme_tintColor = ThemeColor.second.picker
+        sImage.theme_tintColor = UIColor.Theme.second.picker
     }
     
     public func setImage(_ image: UIImage?) {

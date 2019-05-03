@@ -6,17 +6,6 @@ class TrackFilterPresenter: TrackFilterPresenterProtocolInteractor, TrackFilterP
     var interactor: TrackFilterInteractorProtocol!
     weak var view: TrackFilterViewControllerProtocol!
     
-    func getAllLocalizedStrings() -> [LocalesManager.Expression: String] {
-        return interactor.getLocaleStrings([
-            .filterOK,
-            .filterTitle,
-            .filterTime,
-            .filterSearch,
-            .filterSearchT,
-            .filterSearchP
-        ])
-    }
-    
     func timeValue() -> Float? {
         return interactor.communicateDelegate?.timeValue()
     }

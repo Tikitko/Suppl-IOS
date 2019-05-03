@@ -1,6 +1,6 @@
 import Foundation
 
-class MainInteractor: BaseInteractor, MainInteractorProtocol {
+class MainInteractor: MainInteractorProtocol {
     
     weak var presenter: MainPresenterProtocolInteractor!
     
@@ -11,7 +11,7 @@ class MainInteractor: BaseInteractor, MainInteractorProtocol {
     }
     
     func loadRandomTracks() {
-        let baseQueries = AppStaticData.baseSearchQueriesList
+        let baseQueries = AppDelegate.baseSearchQueriesList
         let query = baseQueries[Int(arc4random_uniform(UInt32(baseQueries.count)))]
         searchTracks(query)
         presenter.searchQuery(query)

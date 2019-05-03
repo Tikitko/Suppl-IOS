@@ -28,15 +28,15 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
     }
     
     func getTitle() -> String {
-        return interactor.getLocaleString(.tracklistTitle)
+        return "tracklistTitle".localizeKey
     }
     
     func getLoadLabel() -> String {
-        return interactor.getLocaleString(.load)
+        return "load".localizeKey
     }
     
     func getSearchLabel() -> String {
-        return interactor.getLocaleString(.searchTracklist)
+        return "searchTracklist".localizeKey
     }
     
     func load() {
@@ -86,13 +86,13 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         tracks.append(track)
     }
     
-    func setUpdateResult(_ status: LocalesManager.Expression?) {
+    func setUpdateResult(localizationKey: String?) {
         if let _ = nowQuery {
             searchNowQuery()
         } else {
             view.reloadData()
             interactor.saveTracks(tracks)
-            setInfo(status != nil ? interactor.getLocaleString(status!) : nil)
+            setInfo(localizationKey?.localizeKey)
         }
     }
     
@@ -117,7 +117,7 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
             foundTracks?.append(track)
         }
         view.reloadData()
-        setInfo(foundTracks?.count == 0 ? interactor.getLocaleString(.notFound) : nil)
+        setInfo(foundTracks?.count == 0 ? "notFound".localizeKey : nil)
     }
     
 }
@@ -176,7 +176,7 @@ extension TracklistPresenter: TrackFilterCommunicateProtocol {
         if value == 1 {
             foundTracks = nil
         } else {
-            setInfo(foundTracks?.count == 0 ? interactor.getLocaleString(.notFound) : nil)
+            setInfo(foundTracks?.count == 0 ? "notFound".localizeKey : nil)
         }
         view.reloadData()
     }

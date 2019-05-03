@@ -89,7 +89,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         }
         playerTitleLabelBig.text = presenter.getTitle()
         view.insertSubview(tracksTableModule.view, belowSubview: playlistButtonBig)
-        ViewIncludeConstraintsTemplate.inside(child: tracksTableModule.view, parent: imageViewBig)
+        tracksTableModule.view.includeInside(imageViewBig)
         if let safeAreaMarginConstraintIndex = view.constraints.firstIndex(where: { $0.identifier == Constants.safeAreaMarginConstraintIdentifier }) {
             baseMargin = view.constraints[safeAreaMarginConstraintIndex].constant
         }
@@ -234,10 +234,10 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     func setTheme() {
-        view.theme_backgroundColor = ThemeColor.third.picker
-        smallPlayerView.theme_backgroundColor = ThemeColor.second.picker
-        progressBar.theme_tintColor = ThemeColor.third.picker
-        imageViewBig.theme_backgroundColor = ThemeColor.second.picker
+        view.theme_backgroundColor = UIColor.Theme.third.picker
+        smallPlayerView.theme_backgroundColor = UIColor.Theme.second.picker
+        progressBar.theme_tintColor = UIColor.Theme.third.picker
+        imageViewBig.theme_backgroundColor = UIColor.Theme.second.picker
     }
     
     func setTrackInfo(title: String, performer: String) {

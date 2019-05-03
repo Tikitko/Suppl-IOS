@@ -13,6 +13,7 @@
 
 import Foundation
 import UIKit
+import SwiftTheme
 import Toast_Swift
 
 @UIApplicationMain
@@ -24,36 +25,98 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        ToastManager.shared.isQueueEnabled = true
-        ThemeMainManager.shared.set()
-        AuthManager.shared.setAuthWindow()
+        initToastManager()
+        initThemeManager()
+        initAuthManager()
         
         return true
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return processDeepLink(url)
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        stopAuthCheck()
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        startAuthCheck()
+    }
+
+    func applicationWillTerminate(_ application: UIApplication) {
+        stopAuthCheck()
+    }    
+
+}
+
+private extension AppDelegate {
+    
+    func initToastManager() {
+        ToastManager.shared.isQueueEnabled = true
+    }
+    
+    func initThemeManager() {
+        func setTheme(_ themeId: Int) {
+            ThemeManager.setTheme(plistName: type(of: self).themesList[themeId], path: .mainBundle)
+        }
+        setTheme(SettingsManager.shared.theme.value)
+        NotificationCenter.default.addObserver(forName: .themeSettingChanged, object: nil, queue: .main) { setTheme($0.value()!) }
+    }
+    
+    func initAuthManager() {
+        AuthManager.shared.setAuthWindow()
+    }
+    
+    func processDeepLink(_ url: URL) -> Bool {
         switch url.host {
         case "resetKey":
             if let authVC = UIApplication.shared.keyWindow?.rootViewController as? AuthViewController {
                 authVC.resetKey = url.lastPathComponent
                 authVC.viewDidAppear(false)
+                return true
             }
-            return true
-        default: return false
+            fallthrough
+        default:
+            return false
         }
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        let _ = AuthManager.shared.stopAuthCheck()
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
+    
+    func startAuthCheck() {
         if UIApplication.shared.keyWindow?.rootViewController is AuthViewController { return }
-        let _ = AuthManager.shared.startAuthCheck(startNow: true)
+        _ = AuthManager.shared.startAuthCheck(startNow: true)
     }
+    
+    func stopAuthCheck() {
+        _ = AuthManager.shared.stopAuthCheck()
+    }
+    
+}
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        let _ = AuthManager.shared.stopAuthCheck()
-    }    
-
+extension AppDelegate {
+    
+    public static let baseSearchQueriesList = [
+        "Pink Floyd",
+        "Led Zeppelin",
+        "Rolling Stones",
+        "Queen",
+        "Nirvana",
+        "The Beatles",
+        "Metallica",
+        "Bon Jovi",
+        "AC/DC",
+        "Red Hot Chili Peppers"
+    ]
+    
+    public static let themesList = [
+        "Purple",
+        "Blue",
+        "Black"
+    ]
+    
+    public static let locales = [
+        "en",
+        "ru"
+    ]
+    
 }

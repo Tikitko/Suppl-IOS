@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TracklistRouter: BaseRouter, TracklistRouterProtocol {
+class TracklistRouter: Router, TracklistRouterProtocol {
     
     weak var viewController: UIViewController!
     

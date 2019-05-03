@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
-import Toast_Swift
 
-class TrackTableRouter: BaseRouter, TrackTableRouterProtocol {
+class TrackTableRouter: Router, TrackTableRouterProtocol {
     
     weak var viewController: UITableViewController!
     

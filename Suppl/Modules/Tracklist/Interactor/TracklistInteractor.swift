@@ -1,6 +1,6 @@
 import Foundation
 
-class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
+class TracklistInteractor: TracklistInteractorProtocol {
     
     weak var presenter: TracklistPresenterProtocolInteractor!
     
@@ -30,7 +30,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         guard !inSearchWork, let tracklist = TracklistManager.shared.tracklist else { return }
         presenter.clearTracks()
         if tracklist.count == 0 {
-            presenter.setUpdateResult(.emptyTracklist)
+            presenter.setUpdateResult(localizationKey: "emptyTracklist")
             return
         }
         inSearchWork = true
@@ -43,14 +43,14 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         if OfflineModeManager.shared.offlineMode {
             guard let cachedTracks = cachedTracks, cachedTracks.count > 0 else {
                 inSearchWork = false
-                presenter.setUpdateResult(.emptyTracklist)
+                presenter.setUpdateResult(localizationKey: "emptyTracklist")
                 return
             }
             for track in cachedTracks {
                 presenter.setNewTrack(track)
             }
             inSearchWork = false
-            presenter.setUpdateResult(nil)
+            presenter.setUpdateResult(localizationKey: nil)
         } else {
             recursiveTracksLoadNew(cachedTracks: cachedTracks ?? [], tracklist: tracklist)
         }
@@ -140,7 +140,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
             else { return }
         let partCount = Int(ceil(Double(tracklist.count) / Double(count))) - 1
         if partCount * count < from {
-            presenter.setUpdateResult(nil)
+            presenter.setUpdateResult(localizationKey: nil)
             inSearchWork = false
             return
         }
@@ -171,7 +171,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
               let tracklist = tracklist ?? TracklistManager.shared.tracklist
             else { return }
         if from > tracklist.count - 1 {
-            presenter.setUpdateResult(nil)
+            presenter.setUpdateResult(localizationKey: nil)
             inSearchWork = false
             return
         }
@@ -203,7 +203,7 @@ class TracklistInteractor: BaseInteractor, TracklistInteractorProtocol {
         }
         APIManager.shared.audio.get(keys: keys, ids: tracklistPartForLoad) { [weak self] error, data in
             guard let data = data, data.list.count == tracklistPartForLoad.count else {
-                self?.presenter.setUpdateResult(.serverError)
+                self?.presenter.setUpdateResult(localizationKey: "serverError")
                 self?.inSearchWork = false
                 return
             }

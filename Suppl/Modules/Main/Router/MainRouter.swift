@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class MainRouter: BaseRouter, MainRouterProtocol {
+class MainRouter: Router, MainRouterProtocol {
     
     weak var viewController: UIViewController!
     

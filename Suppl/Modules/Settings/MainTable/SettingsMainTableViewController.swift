@@ -10,8 +10,8 @@ class SettingsMainTableViewController: UITableViewController {
     }
     
     private lazy var sectionCellConfigurations: [CellConfig] = [
-        CellConfig(title: LocalesManager.shared.get(.titleSMain), image: #imageLiteral(resourceName: "icon_247"), segueIdentifier: "Settings1"),
-        CellConfig(title: LocalesManager.shared.get(.titleSAccount), image: #imageLiteral(resourceName: "icon_266"), segueIdentifier: "Settings2")
+        CellConfig(title: "titleSMain".localizeKey, image: #imageLiteral(resourceName: "icon_247"), segueIdentifier: "Settings1"),
+        CellConfig(title: "titleSAccount".localizeKey, image: #imageLiteral(resourceName: "icon_266"), segueIdentifier: "Settings2")
     ]
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

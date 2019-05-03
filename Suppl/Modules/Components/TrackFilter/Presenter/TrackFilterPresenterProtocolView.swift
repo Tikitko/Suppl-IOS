@@ -2,8 +2,6 @@ import Foundation
 
 protocol TrackFilterPresenterProtocolView: class {
     
-    func getAllLocalizedStrings() -> [LocalesManager.Expression: String]
-    
     func timeValue() -> Float?
     func titleValue() -> Bool?
     func performerValue() -> Bool?

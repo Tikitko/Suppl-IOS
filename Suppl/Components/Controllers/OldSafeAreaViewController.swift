@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class OldSafeAreaUIViewController: UIViewController {
+class OldSafeAreaViewController: UIViewController {
     
     private struct Constants {
         static let topSafeAreaConstraintIdentifier = "topSafeAreaConstraint"
