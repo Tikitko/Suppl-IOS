@@ -8,6 +8,7 @@ class SettingsGeneralViewController: UIViewController {
     }
     
     @IBOutlet weak var settingsTable: UITableView!
+    @IBOutlet weak var versionLabel: UILabel!
     
     private lazy var settingsCells: [UITableViewCell] = [
         SettingTableCell(
@@ -85,11 +86,17 @@ class SettingsGeneralViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "titleSMain".localizeKey
+        setVersionLabel()
         settingsTable.allowsSelection = false
         if #available(iOS 11.0, *) {
             let offset: CGFloat = settingsTable.constraints.first(where: { $0.identifier == Constants.topConstraintIdentifier })?.constant ?? 10
             settingsTable.contentInset = UIEdgeInsets(top: topLayoutGuide.length + offset, left: 0, bottom: bottomLayoutGuide.length + offset, right: 0)
         }
+    }
+    
+    func setVersionLabel() {
+        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+        versionLabel.text = "\("appVersion".localizeKey) \(appVersion)"
     }
     
     func showToast(text: String) {
