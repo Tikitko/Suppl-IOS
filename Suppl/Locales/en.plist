@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>APIRequestError_2</key>
-    <string>Connection error</string>
-    <key>APIRequestError_1</key>
-    <string>Error retrieving data</string>
+	<key>appVersion</key>
+	<string>App version:</string>
+	<key>APIRequestError_2</key>
+	<string>Connection error</string>
+	<key>APIRequestError_1</key>
+	<string>Error retrieving data</string>
 	<key>removeFromPlaylist</key>
 	<string>Remove from current playlist</string>
 	<key>insertInPlaylist</key>
