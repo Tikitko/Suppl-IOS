@@ -188,7 +188,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
             view.isHidden = false
         case .closed:
             if #available(iOS 11.0, *) {
-                parentRootTabBarController.additionalSafeAreaInsets.bottom = 0
+                setBottomAdditionalSafeAreaInsetForControllers(0)
             }
         default: break
         }
@@ -199,12 +199,20 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
         case .partOpened:
             if #available(iOS 11.0, *) {
                 let additionalSafeArea = parentRootTabBarController.tabBar.frame.height + smallPlayerView.frame.height
-                parentRootTabBarController.additionalSafeAreaInsets.bottom = additionalSafeArea
+                setBottomAdditionalSafeAreaInsetForControllers(additionalSafeArea)
             }
         case .closed:
             clearPlayer()
             view.isHidden = true
         default: break
+        }
+    }
+    
+    @available(iOS 11.0, *)
+    func setBottomAdditionalSafeAreaInsetForControllers(_ bottomEdgeSize: CGFloat) {
+        guard let controllers = parentRootTabBarController.viewControllers else { return }
+        for controller in controllers {
+            controller.additionalSafeAreaInsets.bottom = bottomEdgeSize
         }
     }
     
