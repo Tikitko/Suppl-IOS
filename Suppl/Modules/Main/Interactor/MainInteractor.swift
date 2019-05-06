@@ -28,7 +28,7 @@ class MainInteractor: MainInteractorProtocol {
     }
     
     func listenSettings() {
-        NotificationCenter.default.addObserver(self, selector: #selector(requestHideLogoSetting), name: .hideLogoSettingChanged, object: nil)
+        SettingsManager.shared.hideLogo.addObserver(self, selector: #selector(requestHideLogoSetting))
     }
     
     @objc func requestHideLogoSetting() {
