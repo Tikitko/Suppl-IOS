@@ -2,7 +2,7 @@ import Foundation
 
 final class AudioService {
     
-    private let API = APIRequest()
+    private let API = APISession()
     
     public func search(keys: KeysPair, query: String, offset: Int = 0, dataReport: @escaping (NSError?, AudioSearchData?) -> ()) {
         API.method(

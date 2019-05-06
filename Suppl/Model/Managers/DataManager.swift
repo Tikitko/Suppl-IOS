@@ -27,7 +27,7 @@ final class DataManager {
             callbackData(cachedVersion)
             return
         }
-        session.request(url: link, inMainQueue: inMainQueue) { [weak self] error, response, data in
+        session.request(url: link, queue: inMainQueue ? .main : nil) { [weak self] error, response, data in
             guard let self = self, let data = data else { return }
             self.setToCache(link, data: data)
             callbackData(data)

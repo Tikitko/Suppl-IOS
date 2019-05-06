@@ -15,11 +15,15 @@ class CommonSession {
         defaultSession = URLSession(configuration: sessionConfig)
     }
     
-    public func request(url: String, query: Dictionary<String, String> = [:], inMainQueue: Bool = true, taskCallback: @escaping (Error?, URLResponse?, Data?) -> ()) {
+    public func request(url: String, query: Dictionary<String, String> = [:], queue: DispatchQueue? = .main, taskCallback: @escaping (Error?, URLResponse?, Data?) -> ()) {
         var urlComponents = URLComponents(string: url)
         urlComponents?.queryItems = query.map { URLQueryItem(name: "\($0)", value: "\($1)") }
         defaultSession.dataTask(with: urlComponents!.url!) { data, response, error in
-            !inMainQueue ? taskCallback(error, response, data) : DispatchQueue.main.async() { taskCallback(error, response, data) }
+            if let queue = queue {
+                queue.async { taskCallback(error, response, data) }
+            } else {
+                taskCallback(error, response, data)
+            }
         }.resume()
     }
     

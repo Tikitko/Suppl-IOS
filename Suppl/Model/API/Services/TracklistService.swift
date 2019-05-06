@@ -2,7 +2,7 @@ import Foundation
 
 final class TracklistService {
     
-    private let API = APIRequest()
+    private let API = APISession()
 
     public func get(keys: KeysPair, dataReport: @escaping (NSError?, TracklistData?) -> ()) {
         API.method(
