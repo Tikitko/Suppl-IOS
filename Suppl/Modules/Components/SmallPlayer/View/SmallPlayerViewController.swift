@@ -54,8 +54,6 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     var opened: CGFloat = 0
     var partOpened: CGFloat = 0
     
-    var useOldAnimation = false
-    
     convenience init(table: UITableViewController) {
         self.init()
         tracksTableModule = table
@@ -76,7 +74,7 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     override func viewDidLoad() {
         super.viewDidLoad()
         transitioningDelegate = self
-        if useOldAnimation {
+        if AppDelegate.oldPlayerAnimation {
             playerTitleLabelBig.addGestureRecognizer(
                 UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction(_:)))
             )

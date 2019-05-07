@@ -97,6 +97,7 @@ private extension AppDelegate {
 extension AppDelegate {
     
     public static let enableBackendFixes = true
+    public static let oldPlayerAnimation = false
     
     public static let baseSearchQueriesList = [
         "Pink Floyd",
