@@ -104,12 +104,22 @@ final class PlayerManager: NSObject {
         switch status {
         case .readyToPlay:
             guard let player = player, let item = player.currentItem else { return }
-            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: .main) { [weak self] time in
-                guard let self = self, item.status == .readyToPlay else { return }
-                self.sayToListeners({ $0.itemTimeChanged(item, time.seconds) })
-                self.nowPlayingCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.seconds
-            }
             sayToListeners({ $0.itemReadyToPlay(item, currentTrack?.duration) })
+            timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: .main) { [weak self, weak player, weak item] time in
+                guard let self = self, let player = player, let item = item, item.status == .readyToPlay else { return }
+                self.sayToListeners({ $0.itemTimeChanged(item, time.seconds) })
+                switch player.timeControlStatus {
+                case .waitingToPlayAtSpecifiedRate, .paused:
+                    self.currentTrack?.elapsedPlaybackTime = time.seconds
+                    self.currentTrack?.playbackRate = 0
+                    self.nowPlayingCenter.nowPlayingInfo = self.currentTrack?.nowPlayingInfo
+                case .playing:
+                    self.currentTrack?.elapsedPlaybackTime = time.seconds
+                    self.currentTrack?.playbackRate = 1
+                    self.nowPlayingCenter.nowPlayingInfo = self.currentTrack?.nowPlayingInfo
+                @unknown default: break
+                }
+            }
             remoteCommands(isEnabled: true)
             play()
         case .failed, .unknown: break
@@ -241,17 +251,10 @@ final class PlayerManager: NSObject {
             id: track.id,
             title: track.title,
             performer: track.performer,
-            duration: track.duration,
-            image: nil
+            duration: track.duration
         )
         sayToListeners({ $0.trackInfoChanged(currentTrack!, nil) })
-        let nowPlayingInfo = [
-            MPMediaItemPropertyTitle: track.title,
-            MPMediaItemPropertyArtist: track.performer,
-            MPMediaItemPropertyPlaybackDuration: track.duration,
-            MPNowPlayingInfoPropertyPlaybackRate: NSNumber(value: 1.0 as Float)
-        ] as [String: Any]
-        nowPlayingCenter.nowPlayingInfo = nowPlayingInfo as [String: AnyObject]?
+        nowPlayingCenter.nowPlayingInfo = currentTrack?.nowPlayingInfo
         guard SettingsManager.shared.loadImages.value else { return }
         DataManager.shared.getCachedImageAsData(link: track.images.last ?? String()) { [weak self] imageData in
             guard let self = self,
@@ -260,8 +263,7 @@ final class PlayerManager: NSObject {
                 else { return }
             self.currentTrack?.image = image
             self.sayToListeners({ $0.trackInfoChanged(self.currentTrack!, imageData as Data) })
-            let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { _ in image })
-            self.nowPlayingCenter.nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
+            self.nowPlayingCenter.nowPlayingInfo = self.currentTrack?.nowPlayingInfo
         }
     }
     

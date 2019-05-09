@@ -110,7 +110,7 @@ extension MainPresenter: TrackTableCommunicateProtocol {
     
     func cellShowAt(_ indexPath: IndexPath) {
         guard let data = searchData else { return }
-        if data.list.count - 10 == indexPath.row, data.hasMore {
+        if data.list.count - 10 == indexPath.row, data.hasMore, /* Backend fix: Start */ (!AppDelegate.enableBackendFixes || data.totalCount != 0 && data.nextOffset != 0) /* Backend fix: End */ {
             interactor.searchTracks(thisQuery, offset: data.nextOffset)
         }
     }

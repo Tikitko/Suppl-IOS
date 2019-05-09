@@ -2,7 +2,7 @@ import Foundation
 
 final class UserService {
     
-    private let API = APIRequest()
+    private let API = APISession()
     
     public func register(dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
         API.method(

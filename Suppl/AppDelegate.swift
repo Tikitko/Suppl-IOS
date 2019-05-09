@@ -60,8 +60,9 @@ private extension AppDelegate {
         func setTheme(_ themeId: Int) {
             ThemeManager.setTheme(plistName: type(of: self).themesList[themeId], path: .mainBundle)
         }
-        setTheme(SettingsManager.shared.theme.value)
-        NotificationCenter.default.addObserver(forName: .themeSettingChanged, object: nil, queue: .main) { setTheme($0.value()!) }
+        let themeSetting = SettingsManager.shared.theme
+        setTheme(themeSetting.value)
+        themeSetting.addObserver(queue: .main) { setTheme($0.value()!) }
     }
     
     func initAuthManager() {
@@ -94,6 +95,9 @@ private extension AppDelegate {
 }
 
 extension AppDelegate {
+    
+    public static let enableBackendFixes = true
+    public static let oldPlayerAnimation = false
     
     public static let baseSearchQueriesList = [
         "Pink Floyd",

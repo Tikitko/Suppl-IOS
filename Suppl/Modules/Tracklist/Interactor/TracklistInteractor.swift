@@ -19,7 +19,7 @@ class TracklistInteractor: TracklistInteractorProtocol {
     }
     
     func listenSettings() {
-        NotificationCenter.default.addObserver(self, selector: #selector(requestHideLogoSetting), name: .hideLogoSettingChanged, object: nil)
+        SettingsManager.shared.hideLogo.addObserver(self, selector: #selector(requestHideLogoSetting))
     }
     
     @objc func requestHideLogoSetting() {
@@ -52,7 +52,7 @@ class TracklistInteractor: TracklistInteractorProtocol {
             inSearchWork = false
             presenter.setUpdateResult(localizationKey: nil)
         } else {
-            recursiveTracksLoadNew(cachedTracks: cachedTracks ?? [], tracklist: tracklist)
+            recursiveTracksLoadNew(cachedTracks: cachedTracks ?? [], tracklist: tracklist, apiLoadRate: /* Backend fix: Start */ AppDelegate.enableBackendFixes ? 1 : 10 /* Backend fix: End */)
         }
     }
     
@@ -153,7 +153,7 @@ class TracklistInteractor: TracklistInteractorProtocol {
             for track in data.list {
                 self?.presenter.setNewTrack(track)
             }
-            self?.recursiveTracksLoad(from: from + count)
+            self?.recursiveTracksLoad(from: from + count, packCount: count)
         }
     }
     
@@ -179,8 +179,8 @@ class TracklistInteractor: TracklistInteractorProtocol {
         var tracksForAdd: [AudioData] = []
         var tracklistPartForLoad: [String] = []
         for key in from...tracklist.count - 1 {
-            defer { lastKey = key }
             if tracklistPartForLoad.count >= apiLoadRate { break }
+            defer { lastKey = key }
             if let index = cachedTracks.firstIndex(where: { $0.id == tracklist[key] }) {
                 tracksForAdd.append(cachedTracks[index])
             } else {
@@ -195,7 +195,7 @@ class TracklistInteractor: TracklistInteractorProtocol {
                     self?.presenter.setNewTrack(tracks[indexLoaded])
                 }
             }
-            self?.recursiveTracksLoadNew(cachedTracks: cachedTracks, tracklist: tracklist, from: lastKey + 1)
+            self?.recursiveTracksLoadNew(cachedTracks: cachedTracks, tracklist: tracklist, from: lastKey + 1, apiLoadRate: apiLoadRate)
         }
         if tracklistPartForLoad.count == 0 {
             addTracks([])
