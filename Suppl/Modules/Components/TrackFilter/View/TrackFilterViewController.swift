@@ -1,9 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackFilterViewController: UIViewController, TrackFilterViewControllerProtocol {
-    
-    var presenter: TrackFilterPresenterProtocolView!
+class TrackFilterViewController: ViperDefaultView<TrackFilterPresenterProtocolView>, TrackFilterViewControllerProtocol {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!

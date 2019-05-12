@@ -1,37 +1,23 @@
 import Foundation
 import UIKit
 
-class TracklistRouter: Router, TracklistRouterProtocol {
+class TracklistRouter: ViperRouter, ViperConstructorProtocol, TracklistRouterProtocol {
+    typealias VIEW = TracklistViewController
+    typealias PRESENTER = TracklistPresenter
+    typealias INTERACTOR = TracklistInteractor
     
-    weak var viewController: UIViewController!
+    let moduleNameId: String
+    
+    required init(moduleId: String, args: [String : Any]) {
+        moduleNameId = moduleId
+        super.init()
+    }
     
     func showFilter() {
         guard let viewController = viewController as? TracklistViewController else { return }
-        let filterView = TrackFilterRouter.setup(parentModuleNameId: moduleNameId)
+        let filterView = TrackFilterRouter.setup(args: ["parentModuleNameId": moduleNameId])
         viewController.setFilterThenPopover(filterController: filterView)
         viewController.present(filterView, animated: true, completion: nil)
     }
-    
-    static func setup() -> UIViewController {
-        let router = TracklistRouter()
-        let interactor = TracklistInteractor()
-        let presenter = TracklistPresenter()
-        let table = TrackTableRouter.setup(parentModuleNameId: router.moduleNameId)
-        let search = SearchBarRouter.setup(parentModuleNameId: router.moduleNameId)
-        let viewController = TracklistViewController(table: table, search: search)
-        
-        presenter.interactor = interactor
-        presenter.router = router
-        presenter.view = viewController
-        
-        router.viewController = viewController
-        
-        viewController.presenter = presenter
-        
-        interactor.presenter = presenter
-        
-        return viewController
-    }
-    
     
 }

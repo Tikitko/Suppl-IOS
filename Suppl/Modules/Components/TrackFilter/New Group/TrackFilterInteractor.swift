@@ -1,12 +1,12 @@
 import Foundation
 
-class TrackFilterInteractor: TrackFilterInteractorProtocol {
-    
-    weak var presenter: TrackFilterPresenterProtocolInteractor!
+class TrackFilterInteractor: ViperInteractor<TrackFilterPresenterProtocolInteractor>, TrackFilterInteractorProtocol {
     
     let parentModuleNameId: String
-    init(parentModuleNameId: String) {
-        self.parentModuleNameId = parentModuleNameId
+    
+    required init(moduleId: String, args: [String : Any]) {
+        self.parentModuleNameId = args["parentModuleNameId"] as! String
+        super.init()
     }
     
     var communicateDelegate: TrackFilterCommunicateProtocol? {

@@ -1,3 +1,3 @@
 import Foundation
 
-protocol SearchBarRouterProtocol: RouterProtocol {}
+protocol SearchBarRouterProtocol {}

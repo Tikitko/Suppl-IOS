@@ -1,31 +1,14 @@
 import Foundation
 import UIKit
 
-class TrackTableRouter: Router, TrackTableRouterProtocol {
+class TrackTableRouter: ViperRouter, ViperConstructorProtocol, TrackTableRouterProtocol {
+    typealias VIEW = TrackTableViewController
+    typealias PRESENTER = TrackTablePresenter
+    typealias INTERACTOR = TrackTableInteractor
     
-    weak var viewController: UITableViewController!
-    
-    static func setup(parentModuleNameId: String) -> UITableViewController {
-        let router = TrackTableRouter()
-        let interactor = TrackTableInteractor(parentModuleNameId: parentModuleNameId)
-        let presenter = TrackTablePresenter()
-        let viewController = TrackTableViewController()
-        
-        presenter.interactor = interactor
-        presenter.router = router
-        presenter.view = viewController
-        
-        router.viewController = viewController
-        
-        viewController.presenter = presenter
-        
-        interactor.presenter = presenter
-        
-        return viewController
-    }
-    
-    func createCell(small: Bool) -> (moduleNameId: String, controller: UIViewController) {
-        return TrackInfoRouter.setup(small: small)
+    func createCell(isSmall: Bool) -> (moduleNameId: String, controller: UIViewController) {
+        let moduleId = TrackInfoRouter.generateModuleId()
+        return (moduleId.value, TrackInfoRouter.setup(moduleId: moduleId, args: ["isSmall": isSmall]))
     }
     
     func showToastOnTop(title: String, body: String, duration: Double = 2.0) {

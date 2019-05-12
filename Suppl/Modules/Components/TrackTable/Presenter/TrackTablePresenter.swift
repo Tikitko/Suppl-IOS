@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePresenterProtocolView {
+class TrackTablePresenter: ViperPresenter<TrackTableRouterProtocol, TrackTableInteractorProtocol, TrackTableViewControllerProtocol>, TrackTablePresenterProtocolView, TrackTablePresenterProtocolInteractor {
     
     private struct Constants {
         static let actionColorRedOneHash = "#FF0000"
@@ -9,10 +9,6 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         static let actionColorRedTwoHash = "#900101"
         static let actionColorGreenTwoHash = "#819D13"
     }
-    
-    var router: TrackTableRouterProtocol!
-    var interactor: TrackTableInteractorProtocol!
-    weak var view: TrackTableViewControllerProtocol!
     
     var tracks: [AudioData] = []
     
@@ -24,8 +20,11 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
     
     var followCurrentTrack: (Bool, inVisibilityZone: Bool) = (false, false)
     
-    var moduleNameId: String {
-        get { return router.moduleNameId }
+    let moduleNameId: String
+    
+    required init(moduleId: String, args: [String : Any]) {
+        moduleNameId = moduleId
+        super.init()
     }
     
     func updateTracks() {
@@ -216,8 +215,8 @@ class TrackTablePresenter: TrackTablePresenterProtocolInteractor, TrackTablePres
         interactor.communicateDelegate?.zoneRangePassed(toTop: toTop)
     }
     
-    func getCell(small: Bool) -> (moduleNameId: String, controller: UIViewController) {
-        return router.createCell(small: small)
+    func getCell(isSmall: Bool) -> (moduleNameId: String, controller: UIViewController) {
+        return router.createCell(isSmall: isSmall)
     }
     
 }

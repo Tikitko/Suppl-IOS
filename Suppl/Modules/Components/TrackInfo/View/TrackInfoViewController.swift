@@ -1,9 +1,12 @@
 import Foundation
 import UIKit
 
-class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol {
-
-    var presenter: TrackInfoPresenterProtocolView!
+class TrackInfoViewController: ViperDefaultView<TrackInfoPresenterProtocolView>, TrackInfoViewControllerProtocol {
+    
+    private struct Constants {
+        static let nibNameTrackInfoBig = "TrackInfoViewController"
+        static let nibNameTrackInfoSmall = "TrackInfoViewController_small"
+    }
 
     @IBOutlet weak var trackTitle: UILabel!
     @IBOutlet weak var trackPerformer: UILabel!
@@ -39,6 +42,15 @@ class TrackInfoViewController: UIViewController, TrackInfoViewControllerProtocol
             case .сancel: return #imageLiteral(resourceName: "icon_182")
             }
         }
+    }
+    
+    required init(moduleId: String, args: [String : Any]) {
+        let isSmall = args["isSmall"] as! Bool
+        super.init(nibName: isSmall ? Constants.nibNameTrackInfoSmall : Constants.nibNameTrackInfoBig, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {

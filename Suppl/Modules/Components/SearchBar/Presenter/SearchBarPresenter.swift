@@ -1,12 +1,9 @@
 import Foundation
 
-class SearchBarPresenter: SearchBarPresenterProtocolInteractor, SearchBarPresenterProtocolView {
-    
-    var router: SearchBarRouterProtocol!
-    var interactor: SearchBarInteractorProtocol!
-    weak var view: SearchBarViewControllerProtocol!
+class SearchBarPresenter: ViperPresenter<SearchBarRouterProtocol, SearchBarInteractorProtocol, SearchBarViewControllerProtocol>, SearchBarPresenterProtocolInteractor, SearchBarPresenterProtocolView {
     
     func searchButtonClicked(query: String) {
         interactor.communicateDelegate?.searchButtonClicked(query: query)
     }
+    
 }

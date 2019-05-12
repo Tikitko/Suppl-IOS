@@ -1,8 +1,6 @@
 import Foundation
 
-class SmallPlayerInteractor: SmallPlayerInteractorProtocol {
-    
-    weak var presenter: SmallPlayerPresenterProtocolInteractor!
+class SmallPlayerInteractor: ViperInteractor<SmallPlayerPresenterProtocolInteractor>, SmallPlayerInteractorProtocol {
 
     func setListener(_ delegate: CommunicateManagerProtocol) {
         ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)

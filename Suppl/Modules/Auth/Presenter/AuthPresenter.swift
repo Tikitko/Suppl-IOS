@@ -1,17 +1,14 @@
 import Foundation
 
-class AuthPresenter: AuthPresenterProtocolInteractor, AuthPresenterProtocolView {
-    
-    var router: AuthRouterProtocol!
-    var interactor: AuthInteractorProtocol!
-    weak var view: AuthViewControllerProtocol!
+class AuthPresenter: ViperPresenter<AuthRouterProtocol, AuthInteractorProtocol, AuthViewControllerProtocol>, AuthPresenterProtocolView, AuthPresenterProtocolInteractor {
     
     let noAuthOnShow: Bool
     
     let showDelay = 2.2
     
-    init(noAuth noAuthOnShow: Bool = false) {
-        self.noAuthOnShow = noAuthOnShow
+    required init(moduleId: String, args: [String : Any]) {
+        self.noAuthOnShow = (args["noAuthOnShow"] as? Bool) ?? false
+        super.init()
     }
     
     func getButtonLabel() -> String {

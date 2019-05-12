@@ -1,8 +1,6 @@
 import Foundation
 
-class TrackInfoInteractor: TrackInfoInteractorProtocol {
-    
-    weak var presenter: TrackInfoPresenterProtocolInteractor!
+class TrackInfoInteractor: ViperInteractor<TrackInfoPresenterProtocolInteractor>, TrackInfoInteractorProtocol {
     
     func setListener(_ delegate: CommunicateManagerProtocol) {
         ModulesCommunicateManager.shared.setListener(name: presenter.moduleNameId, delegate: delegate)

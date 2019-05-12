@@ -1,18 +1,17 @@
 import Foundation
 import UIKit
 
-class TrackInfoPresenter: TrackInfoPresenterProtocolInteractor, TrackInfoPresenterProtocolView {
-    
-    var router: TrackInfoRouterProtocol!
-    var interactor: TrackInfoInteractorProtocol!
-    weak var view: TrackInfoViewControllerProtocol!
+class TrackInfoPresenter: ViperPresenter<TrackInfoRouterProtocol, TrackInfoInteractorProtocol, TrackInfoViewControllerProtocol>, TrackInfoPresenterProtocolInteractor, TrackInfoPresenterProtocolView {
     
     var trackId: String?
     var downloadStatusWorking: PlayerItemsManager.ItemStatusWorking?
     var isOffline: Bool = true
     
-    var moduleNameId: String {
-        get { return router.moduleNameId }
+    let moduleNameId: String
+    
+    required init(moduleId: String, args: [String : Any]) {
+        moduleNameId = moduleId
+        super.init()
     }
     
     func setListeners() {

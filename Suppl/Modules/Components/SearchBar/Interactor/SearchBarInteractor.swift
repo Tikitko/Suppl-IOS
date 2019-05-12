@@ -1,12 +1,12 @@
 import Foundation
 
-class SearchBarInteractor: SearchBarInteractorProtocol {
-    
-    weak var presenter: SearchBarPresenterProtocolInteractor!
+class SearchBarInteractor: ViperInteractor<SearchBarPresenterProtocolInteractor>, SearchBarInteractorProtocol {
     
     let parentModuleNameId: String
-    init(parentModuleNameId: String) {
-        self.parentModuleNameId = parentModuleNameId
+    
+    required init(moduleId: String, args: [String : Any]) {
+        self.parentModuleNameId = args["parentModuleNameId"] as! String
+        super.init()
     }
     
     var communicateDelegate: SearchCommunicateProtocol? {

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0E0641A020273A8900998D8A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E06419F20273A8900998D8A /* DataManager.swift */; };
 		0E0641A2202756CD00998D8A /* TracklistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0641A1202756CD00998D8A /* TracklistManager.swift */; };
+		0E0A397E22876BDA003A2EBC /* ReferenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A397D22876BDA003A2EBC /* ReferenceProtocol.swift */; };
+		0E0A398022876BF4003A2EBC /* WeakReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A397F22876BF4003A2EBC /* WeakReference.swift */; };
+		0E0A398222876C07003A2EBC /* StrongReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A398122876C07003A2EBC /* StrongReference.swift */; };
+		0E0A398422876DBA003A2EBC /* ViperTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A398322876DBA003A2EBC /* ViperTemplates.swift */; };
 		0E0A98412033141600E91922 /* TrackFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A983F2033141500E91922 /* TrackFilterViewController.swift */; };
 		0E0A98422033141600E91922 /* TrackFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0A98402033141500E91922 /* TrackFilterViewController.xib */; };
 		0E0E4638227B4C92002E93EA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0E4637227B4C92002E93EA /* StringExtensions.swift */; };
@@ -165,6 +169,10 @@
 /* Begin PBXFileReference section */
 		0E06419F20273A8900998D8A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0E0641A1202756CD00998D8A /* TracklistManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistManager.swift; sourceTree = "<group>"; };
+		0E0A397D22876BDA003A2EBC /* ReferenceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceProtocol.swift; sourceTree = "<group>"; };
+		0E0A397F22876BF4003A2EBC /* WeakReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReference.swift; sourceTree = "<group>"; };
+		0E0A398122876C07003A2EBC /* StrongReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrongReference.swift; sourceTree = "<group>"; };
+		0E0A398322876DBA003A2EBC /* ViperTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViperTemplates.swift; sourceTree = "<group>"; };
 		0E0A983F2033141500E91922 /* TrackFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackFilterViewController.swift; sourceTree = "<group>"; };
 		0E0A98402033141500E91922 /* TrackFilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackFilterViewController.xib; sourceTree = "<group>"; };
 		0E0E4637227B4C92002E93EA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -335,6 +343,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E0A397C22876BCC003A2EBC /* Reference */ = {
+			isa = PBXGroup;
+			children = (
+				0E0A397D22876BDA003A2EBC /* ReferenceProtocol.swift */,
+				0E0A397F22876BF4003A2EBC /* WeakReference.swift */,
+				0E0A398122876C07003A2EBC /* StrongReference.swift */,
+			);
+			path = Reference;
+			sourceTree = "<group>";
+		};
 		0E0A983E2033141500E91922 /* TrackFilter */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,6 +470,8 @@
 			isa = PBXGroup;
 			children = (
 				8C95DEBF20B5966F0081C477 /* Router */,
+				0E0A397C22876BCC003A2EBC /* Reference */,
+				0E0A398322876DBA003A2EBC /* ViperTemplates.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -1238,6 +1258,7 @@
 				8C285F772088818A007427E7 /* TrackTableRouter.swift in Sources */,
 				8C71CE2B2080BE9100AC4BDB /* AuthInteractor.swift in Sources */,
 				8C285F7320888126007427E7 /* TrackTableInteractor.swift in Sources */,
+				0E0A398422876DBA003A2EBC /* ViperTemplates.swift in Sources */,
 				8C3E0D0B20E0BF4700B2F0B5 /* SmallPlayerInteractionController.swift in Sources */,
 				8C32F88D20A03AB80059C1F4 /* SmallPlayerRouterProtocol.swift in Sources */,
 				8C0CB620208DDB0F00456A68 /* TracklistInteractor.swift in Sources */,
@@ -1259,6 +1280,7 @@
 				0E0E463E227B6477002E93EA /* IntExtensions.swift in Sources */,
 				8C285F7B208881CC007427E7 /* TrackTablePresenter.swift in Sources */,
 				8C3B74EE2090780600D0AF3E /* SearchBarRouterProtocol.swift in Sources */,
+				0E0A398222876C07003A2EBC /* StrongReference.swift in Sources */,
 				8C05DCCE20BEAF5D00AD67F4 /* UserTrack.swift in Sources */,
 				8C285F712088811C007427E7 /* TrackTableInteractorProtocol.swift in Sources */,
 				8C3F087C20AD906700129A75 /* Router.swift in Sources */,
@@ -1267,6 +1289,7 @@
 				8C95706E20BFE8A900A3EF3A /* OfflineModeManager.swift in Sources */,
 				8C0CB611208DCD6500456A68 /* MainRouter.swift in Sources */,
 				8C20889C2089D7F0000505F9 /* Playlist.swift in Sources */,
+				0E0A398022876BF4003A2EBC /* WeakReference.swift in Sources */,
 				8CCAC58F2020566F00D91687 /* BaseNavigationController.swift in Sources */,
 				8C67F603201B174200333EB2 /* CommonSession.swift in Sources */,
 				8C75D09D20A9694200DB0F0D /* DispatchQueueExtensions.swift in Sources */,
@@ -1301,6 +1324,7 @@
 				8C0CB60D208DCD3400456A68 /* MainInteractor.swift in Sources */,
 				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
 				8C3C6B332092F5F700272018 /* SearchBarInteractor.swift in Sources */,
+				0E0A397E22876BDA003A2EBC /* ReferenceProtocol.swift in Sources */,
 				8C3B74F02090781200D0AF3E /* SearchBarRouter.swift in Sources */,
 				8C0E1B9A2091E66000CE5C12 /* ModulesCommunicateManager.swift in Sources */,
 				8C0CB5F6208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift in Sources */,

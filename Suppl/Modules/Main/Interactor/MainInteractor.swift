@@ -1,8 +1,6 @@
 import Foundation
 
-class MainInteractor: MainInteractorProtocol {
-    
-    weak var presenter: MainPresenterProtocolInteractor!
+class MainInteractor: ViperInteractor<MainPresenterProtocolInteractor>, MainInteractorProtocol {
     
     var inSearchWork = false
     

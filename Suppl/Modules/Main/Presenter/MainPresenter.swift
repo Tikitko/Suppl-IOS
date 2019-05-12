@@ -1,16 +1,15 @@
 import Foundation
 
-class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView {
-    
-    var router: MainRouterProtocol!
-    var interactor: MainInteractorProtocol!
-    weak var view: MainViewControllerProtocol!
+class MainPresenter: ViperPresenter<MainRouterProtocol, MainInteractorProtocol, MainViewControllerProtocol>, MainPresenterProtocolInteractor, MainPresenterProtocolView {
     
     var searchData: AudioSearchData?
     var thisQuery = String()
     
-    var moduleNameId: String {
-        get { return router.moduleNameId }
+    let moduleNameId: String
+    
+    required init(moduleId: String, args: [String : Any]) {
+        moduleNameId = moduleId
+        super.init()
     }
     
     var canHideLogo: Bool? {

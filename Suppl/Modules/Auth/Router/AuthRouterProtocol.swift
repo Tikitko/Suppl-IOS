@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-protocol AuthRouterProtocol: RouterProtocol {
+protocol AuthRouterProtocol: class {
     func goToRootTabBar()
-    static func setup(noAuth noAuthOnShow: Bool) -> UIViewController
 }

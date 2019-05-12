@@ -1,3 +1,3 @@
 import Foundation
 
-protocol MainRouterProtocol: RouterProtocol {}
+protocol MainRouterProtocol: class {}
