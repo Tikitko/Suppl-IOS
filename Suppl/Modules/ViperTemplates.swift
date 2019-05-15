@@ -212,6 +212,11 @@ class ViperInteractor<PRESENTER>: ViperBaseIntercator {
 }
 
 
+// BuildingRouter
+
+typealias ViperBuildingRouter = ViperRouter & ViperBuilderProtocol
+
+
 // ModuleID
 
 struct ViperModuleID<TYPE: ViperBaseRouter>: Equatable {
@@ -226,11 +231,6 @@ struct ViperModuleID<TYPE: ViperBaseRouter>: Equatable {
     }
     
 }
-
-
-// BuildingRouter
-
-typealias ViperBuildingRouter = ViperRouter & ViperBuilderProtocol
 
 
 // BuilderProtocol

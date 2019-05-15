@@ -36,18 +36,18 @@ final class RootTabBarController: UITabBarController {
     
     func createPlayerModule() -> UIViewController {
         let moduleId = SmallPlayerRouter.generateModuleId()
-        let table = TrackTableRouter.setup(args: ["parentModuleNameId": moduleId.value])
-        let playerModule = SmallPlayerRouter.setup(moduleId: moduleId, args: [
+        let table = TrackTableRouter.setup(args: ["parentModuleId": moduleId.value])
+        let module = SmallPlayerRouter.setup(moduleId: moduleId, args: [
             "table": table,
             "parentRootTabBarController": self
         ])
-        return playerModule
+        return module
     }
     
     func createMainModule() -> UIViewController {
         let moduleId = MainRouter.generateModuleId()
-        let table = TrackTableRouter.setup(args: ["parentModuleNameId": moduleId.value])
-        let search = SearchBarRouter.setup(args: ["parentModuleNameId": moduleId.value])
+        let table = TrackTableRouter.setup(args: ["parentModuleId": moduleId.value])
+        let search = SearchBarRouter.setup(args: ["parentModuleId": moduleId.value])
         let module = MainRouter.setup(moduleId: moduleId, args: [
             "table": table,
             "search": search
@@ -57,8 +57,8 @@ final class RootTabBarController: UITabBarController {
     
     func createTracklistModule() -> UIViewController {
         let moduleId = TracklistRouter.generateModuleId()
-        let table = TrackTableRouter.setup(args: ["parentModuleNameId": moduleId.value])
-        let search = SearchBarRouter.setup(args: ["parentModuleNameId": moduleId.value])
+        let table = TrackTableRouter.setup(args: ["parentModuleId": moduleId.value])
+        let search = SearchBarRouter.setup(args: ["parentModuleId": moduleId.value])
         let module = TracklistRouter.setup(moduleId: moduleId, args: [
             "table": table,
             "search": search

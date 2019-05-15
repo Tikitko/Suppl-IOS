@@ -15,7 +15,7 @@ class TracklistRouter: ViperBuildingRouter, TracklistRouterProtocol {
     
     func showFilter() {
         guard let viewController = viewController as? TracklistViewController else { return }
-        let filterView = TrackFilterRouter.setup(args: ["parentModuleNameId": moduleNameId])
+        let filterView = TrackFilterRouter.setup(args: ["parentModuleId": moduleNameId])
         viewController.setFilterThenPopover(filterController: filterView)
         viewController.present(filterView, animated: true, completion: nil)
     }

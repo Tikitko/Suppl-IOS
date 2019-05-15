@@ -7,7 +7,7 @@ class TrackTableInteractor: ViperInteractor<TrackTablePresenterProtocolInteracto
     let parentModuleNameId: String
     
     required init(moduleId: String, args: [String : Any]) {
-        self.parentModuleNameId = args["parentModuleNameId"] as! String
+        self.parentModuleNameId = args["parentModuleId"] as! String
         super.init()
     }
     
