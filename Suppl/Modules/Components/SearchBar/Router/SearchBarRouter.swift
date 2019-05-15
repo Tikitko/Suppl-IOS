@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class SearchBarRouter: ViperRouter, ViperConstructorProtocol, SearchBarRouterProtocol {
+class SearchBarRouter: ViperBuildingRouter, SearchBarRouterProtocol {
     typealias VIEW = SearchBarViewController
     typealias PRESENTER = SearchBarPresenter
     typealias INTERACTOR = SearchBarInteractor

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackTableRouter: ViperRouter, ViperConstructorProtocol, TrackTableRouterProtocol {
+class TrackTableRouter: ViperBuildingRouter, TrackTableRouterProtocol {
     typealias VIEW = TrackTableViewController
     typealias PRESENTER = TrackTablePresenter
     typealias INTERACTOR = TrackTableInteractor

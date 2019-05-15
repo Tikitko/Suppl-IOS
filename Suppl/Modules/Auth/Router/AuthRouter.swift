@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class AuthRouter: ViperRouter, ViperConstructorProtocol, AuthRouterProtocol {
+class AuthRouter: ViperBuildingRouter, AuthRouterProtocol {
     typealias VIEW = AuthViewController
     typealias PRESENTER = AuthPresenter
     typealias INTERACTOR = AuthInteractor

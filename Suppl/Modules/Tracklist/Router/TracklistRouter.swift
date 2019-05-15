@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TracklistRouter: ViperRouter, ViperConstructorProtocol, TracklistRouterProtocol {
+class TracklistRouter: ViperBuildingRouter, TracklistRouterProtocol {
     typealias VIEW = TracklistViewController
     typealias PRESENTER = TracklistPresenter
     typealias INTERACTOR = TracklistInteractor

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class MainRouter: ViperRouter, ViperConstructorProtocol, MainRouterProtocol {
+class MainRouter: ViperBuildingRouter, MainRouterProtocol {
     typealias VIEW = MainViewController
     typealias PRESENTER = MainPresenter
     typealias INTERACTOR = MainInteractor
