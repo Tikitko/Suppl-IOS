@@ -35,35 +35,34 @@ final class RootTabBarController: UITabBarController {
     }
     
     func createPlayerModule() -> UIViewController {
-        let moduleId = SmallPlayerRouter.generateModuleId()
-        let table = TrackTableRouter.setup(args: ["parentModuleId": moduleId.value])
-        let module = SmallPlayerRouter.setup(moduleId: moduleId, args: [
-            "table": table,
-            "parentRootTabBarController": self
-        ])
-        return module
+        return SmallPlayerRouter.setup(
+            submodulesBuilders: [
+                "table": TrackTableRouter.self
+            ],
+            args: [
+                "parentRootTabBarController": self
+            ]
+        ).viewController
     }
     
     func createMainModule() -> UIViewController {
-        let moduleId = MainRouter.generateModuleId()
-        let table = TrackTableRouter.setup(args: ["parentModuleId": moduleId.value])
-        let search = SearchBarRouter.setup(args: ["parentModuleId": moduleId.value])
-        let module = MainRouter.setup(moduleId: moduleId, args: [
-            "table": table,
-            "search": search
-        ])
-        return module
+        return MainRouter.setup(
+            submodulesBuilders: [
+                "table": TrackTableRouter.self,
+                "search": SearchBarRouter.self
+            ],
+            args: [:]
+        ).viewController
     }
     
     func createTracklistModule() -> UIViewController {
-        let moduleId = TracklistRouter.generateModuleId()
-        let table = TrackTableRouter.setup(args: ["parentModuleId": moduleId.value])
-        let search = SearchBarRouter.setup(args: ["parentModuleId": moduleId.value])
-        let module = TracklistRouter.setup(moduleId: moduleId, args: [
-            "table": table,
-            "search": search
-        ])
-        return module
+        return TracklistRouter.setup(
+            submodulesBuilders: [
+                "table": TrackTableRouter.self,
+                "search": SearchBarRouter.self
+            ],
+            args: [:]
+        ).viewController
     }
 
     func setTheme() {

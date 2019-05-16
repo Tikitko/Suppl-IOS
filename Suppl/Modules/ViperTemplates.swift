@@ -168,28 +168,6 @@ class ViperPresenter<ROUTER, INTERACTOR, VIEW>: ViperBasePresenter {
 }
 
 
-// Router
-
-private protocol ViperBaseRouterProtocol: class {
-    var _view: ViperBaseViewProtocol? { get set }
-    init(moduleId: String, args: [String : Any])
-}
-
-class ViperBaseRouter: ViperBaseRouterProtocol {
-    fileprivate weak var _view: ViperBaseViewProtocol?
-    
-    required init(moduleId: String, args: [String : Any]) {}
-    init() {}
-    
-}
-
-class ViperRouter: ViperBaseRouter {
-    var viewController: UIViewController! {
-        return _view as? UIViewController
-    }
-}
-
-
 // Interactor
 
 private protocol ViperBaseInteractorProtocol: class {
@@ -212,58 +190,89 @@ class ViperInteractor<PRESENTER>: ViperBaseIntercator {
 }
 
 
-// BuildingRouter
+// Router
 
-typealias ViperBuildingRouter = ViperRouter & ViperBuilderProtocol
+private protocol ViperBaseRouterProtocol: class {
+    var _view: ViperBaseViewProtocol? { get set }
+    init(moduleId: String, args: [String : Any])
+}
 
-
-// ModuleID
-
-struct ViperModuleID<TYPE: ViperBaseRouter>: Equatable {
-    let value: String
+class ViperBaseRouter: ViperBaseRouterProtocol {
+    fileprivate weak var _view: ViperBaseViewProtocol?
     
-    fileprivate static func generate<TYPE: ViperBaseRouter>(_ type: TYPE.Type? = nil) -> ViperModuleID<TYPE> {
-        return .init(value: "\(NSStringFromClass(TYPE.self))-\(arc4random_uniform(1000000001))")
-    }
-    
-    private init(value: String) {
-        self.value = value
-    }
+    required init(moduleId: String, args: [String : Any]) {}
+    init() {}
     
 }
 
+class ViperRouter: ViperBaseRouter {
+    var viewController: UIViewController! {
+        return _view as? UIViewController
+    }
+}
 
-// BuilderProtocol
 
-protocol ViperBuilderProtocol {
+// AssemblyRouter
+
+typealias ViperAssemblyRouter = ViperRouter & ViperBuilderProtocol
+
+
+// Builder
+
+typealias ViperBuilderProtocol = ViperBuildInfoProtocol & ViperBuildableProtocol
+
+protocol ViperBuildInfoProtocol {
     associatedtype VIEW: UIViewController & ViperViewProtocol
     associatedtype PRESENTER: ViperBasePresenter
-    associatedtype ROUTER: ViperBaseRouter & ViperBuilderProtocol = Self
     associatedtype INTERACTOR: ViperBaseIntercator
+    associatedtype ROUTER: ViperBaseRouter & ViperBuildInfoProtocol = Self
 }
 
-extension ViperBuilderProtocol {
+protocol ViperBuildableProtocol {
+    static func setup(args: [String: Any]) -> (id: String, viewController: UIViewController)
+    static func setup(submodulesBuilders: [String: ViperBuildableProtocol.Type], args: [String: Any]) -> (submodulesIds: [String: String], id: String, viewController: UIViewController)
+}
+
+extension ViperBuildableProtocol where Self: ViperBuildInfoProtocol {
     
-    static func generateModuleId() -> ViperModuleID<ROUTER> {
-        return .generate()
+    private static func generateModuleId() -> String {
+        return "\(arc4random_uniform(1000000001)):\(Date().timeIntervalSince1970):\(NSStringFromClass(ROUTER.self))"
     }
     
-    static func setup(moduleId: ViperModuleID<ROUTER>? = nil, args: [String: Any] = [:]) -> UIViewController {
-        let moduleId = moduleId ?? generateModuleId()
-        
-        let view = VIEW(moduleId: moduleId.value, args: args) as! UIViewController & ViperBaseViewProtocol
-        let presenter = PRESENTER(moduleId: moduleId.value, args: args)
-        let router = ROUTER(moduleId: moduleId.value, args: args)
-        let interactor = INTERACTOR(moduleId: moduleId.value, args: args)
+    private static func setup(moduleId: String, args: [String: Any]) -> UIViewController {
+        let view = VIEW(moduleId: moduleId, args: args) as! ViperBaseViewProtocol
+        let presenter = PRESENTER(moduleId: moduleId, args: args)
+        let interactor = INTERACTOR(moduleId: moduleId, args: args)
+        let router = ROUTER(moduleId: moduleId, args: args)
         
         view._presenter = presenter
         presenter._interactor = interactor
         presenter._router = router
         presenter._view = view
-        router._view = view
         interactor._presenter = presenter
+        router._view = view
         
-        return view
+        return view as! UIViewController
+    }
+    
+    static func setup(args: [String: Any]) -> (id: String, viewController: UIViewController) {
+        let moduleId = generateModuleId()
+        return (moduleId, setup(moduleId: moduleId, args: args))
+    }
+    
+    static func setup(submodulesBuilders: [String: ViperBuildableProtocol.Type], args: [String: Any]) -> (submodulesIds: [String: String], id: String, viewController: UIViewController) {
+        let moduleId = generateModuleId()
+        
+        var submodulesIds = [String: String]()
+        var submodulesControllers = [String: UIViewController]()
+        for (submoduleName, submoduleBuilder) in submodulesBuilders {
+            let submoduleInfo = submoduleBuilder.setup(args: args.merging(["parentModuleId": moduleId], uniquingKeysWith: { $1 }))
+            submodulesIds[submoduleName] = submoduleInfo.id
+            submodulesControllers[submoduleName] = submoduleInfo.viewController
+        }
+        
+        let viewController = setup(moduleId: moduleId, args: args.merging(submodulesControllers, uniquingKeysWith: { $1 }))
+        return (submodulesIds, moduleId, viewController)
     }
     
 }

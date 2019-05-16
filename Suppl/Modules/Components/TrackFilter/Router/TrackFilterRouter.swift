@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackFilterRouter: ViperBuildingRouter, TrackFilterRouterProtocol {
+class TrackFilterRouter: ViperAssemblyRouter, TrackFilterRouterProtocol {
     typealias VIEW = TrackFilterViewController
     typealias PRESENTER = TrackFilterPresenter
     typealias INTERACTOR = TrackFilterInteractor

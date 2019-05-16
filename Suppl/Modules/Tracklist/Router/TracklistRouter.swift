@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class TracklistRouter: ViperBuildingRouter, TracklistRouterProtocol {
+class TracklistRouter: ViperAssemblyRouter, TracklistRouterProtocol {
     typealias VIEW = TracklistViewController
     typealias PRESENTER = TracklistPresenter
     typealias INTERACTOR = TracklistInteractor
@@ -15,7 +15,7 @@ class TracklistRouter: ViperBuildingRouter, TracklistRouterProtocol {
     
     func showFilter() {
         guard let viewController = viewController as? TracklistViewController else { return }
-        let filterView = TrackFilterRouter.setup(args: ["parentModuleId": moduleNameId])
+        let filterView = TrackFilterRouter.setup(args: ["parentModuleId": moduleNameId]).viewController
         viewController.setFilterThenPopover(filterController: filterView)
         viewController.present(filterView, animated: true, completion: nil)
     }

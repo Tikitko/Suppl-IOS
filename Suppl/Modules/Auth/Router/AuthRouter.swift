@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-class AuthRouter: ViperBuildingRouter, AuthRouterProtocol {
+class AuthRouter: ViperAssemblyRouter, AuthRouterProtocol {
     typealias VIEW = AuthViewController
     typealias PRESENTER = AuthPresenter
     typealias INTERACTOR = AuthInteractor
@@ -11,7 +11,7 @@ class AuthRouter: ViperBuildingRouter, AuthRouterProtocol {
     }
     
     static func setSelf(noAuth noAuthOnShow: Bool = false) {
-        UIApplication.shared.keyWindow?.rootViewController = setup(args: ["noAuthOnShow": noAuthOnShow])
+        UIApplication.shared.keyWindow?.rootViewController = setup(args: ["noAuthOnShow": noAuthOnShow]).viewController
     }
     
 }
