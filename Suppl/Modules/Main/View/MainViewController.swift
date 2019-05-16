@@ -18,7 +18,7 @@ class MainViewController: ViperOldSafeAreaDefaultView<MainPresenterProtocolView>
     
     lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: tracksSearch.topAnchor, constant: 0)
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         tracksTableModule = args["table"] as? UITableViewController
         searchModule = args["search"] as? SearchBarViewController
         super.init()

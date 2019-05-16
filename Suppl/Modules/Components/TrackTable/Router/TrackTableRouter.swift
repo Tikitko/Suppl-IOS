@@ -6,9 +6,8 @@ class TrackTableRouter: ViperAssemblyRouter, TrackTableRouterProtocol {
     typealias PRESENTER = TrackTablePresenter
     typealias INTERACTOR = TrackTableInteractor
     
-    func createCell(isSmall: Bool) -> (moduleNameId: String, controller: UIViewController) {
-        let moduleInfo = TrackInfoRouter.setup(args: ["isSmall": isSmall])
-        return (moduleInfo.id, moduleInfo.viewController)
+    func createCell(isSmall: Bool) -> (moduleId: String, viewController: UIViewController) {
+        return TrackInfoRouter.setup(args: ["isSmall": isSmall])
     }
     
     func showToastOnTop(title: String, body: String, duration: Double = 2.0) {

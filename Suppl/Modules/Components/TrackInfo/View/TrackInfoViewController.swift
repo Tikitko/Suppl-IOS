@@ -44,7 +44,7 @@ class TrackInfoViewController: ViperDefaultView<TrackInfoPresenterProtocolView>,
         }
     }
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         let isSmall = args["isSmall"] as! Bool
         super.init(nibName: isSmall ? Constants.nibNameTrackInfoSmall : Constants.nibNameTrackInfoBig, bundle: nil)
     }

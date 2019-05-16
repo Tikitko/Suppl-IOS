@@ -6,7 +6,7 @@ class AuthPresenter: ViperPresenter<AuthRouterProtocol, AuthInteractorProtocol, 
     
     let showDelay = 2.2
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         self.noAuthOnShow = (args["noAuthOnShow"] as? Bool) ?? false
         super.init()
     }

@@ -50,8 +50,7 @@ final class RootTabBarController: UITabBarController {
             submodulesBuilders: [
                 "table": TrackTableRouter.self,
                 "search": SearchBarRouter.self
-            ],
-            args: [:]
+            ]
         ).viewController
     }
     
@@ -59,9 +58,9 @@ final class RootTabBarController: UITabBarController {
         return TracklistRouter.setup(
             submodulesBuilders: [
                 "table": TrackTableRouter.self,
-                "search": SearchBarRouter.self
-            ],
-            args: [:]
+                "search": SearchBarRouter.self,
+                "filter": TrackFilterRouter.self
+            ]
         ).viewController
     }
 

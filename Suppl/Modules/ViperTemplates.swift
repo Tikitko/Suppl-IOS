@@ -7,12 +7,12 @@ import UIKit
 // View: Protocols
 
 protocol ViperViewProtocol: class {
-    init(moduleId: String, args: [String : Any])
+    init(moduleId: String, parentModuleId: String?, args: [String : Any])
 }
 
 private protocol ViperBaseViewProtocol: class {
     var _presenter: ViperBasePresenterProtocol? { get set }
-    init(moduleId: String, args: [String : Any])
+    init(moduleId: String, parentModuleId: String?, args: [String : Any])
 }
 
 
@@ -25,7 +25,7 @@ class ViperBaseDefaultView: UIViewController, ViperViewProtocol, ViperBaseViewPr
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,7 +55,7 @@ class ViperBaseOldSafeAreaDefaultView: OldSafeAreaViewController, ViperViewProto
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -85,7 +85,7 @@ class ViperBaseTableView: UITableViewController, ViperViewProtocol, ViperBaseVie
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -115,7 +115,7 @@ class ViperBaseCollectionView: UICollectionViewController, ViperViewProtocol, Vi
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -142,7 +142,7 @@ private protocol ViperBasePresenterProtocol: class {
     var _router: ViperBaseRouterProtocol? { get set }
     var _interactor: ViperBaseInteractorProtocol? { get set }
     var _view: ViperBaseViewProtocol? { get set }
-    init(moduleId: String, args: [String : Any])
+    init(moduleId: String, parentModuleId: String?, args: [String : Any])
 }
 
 class ViperBasePresenter: ViperBasePresenterProtocol {
@@ -150,7 +150,7 @@ class ViperBasePresenter: ViperBasePresenterProtocol {
     fileprivate var _interactor: ViperBaseInteractorProtocol?
     fileprivate weak var _view: ViperBaseViewProtocol?
     
-    required init(moduleId: String, args: [String : Any]) {}
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {}
     init() {}
     
 }
@@ -172,13 +172,13 @@ class ViperPresenter<ROUTER, INTERACTOR, VIEW>: ViperBasePresenter {
 
 private protocol ViperBaseInteractorProtocol: class {
     var _presenter: ViperBasePresenterProtocol? { get set }
-    init(moduleId: String, args: [String : Any])
+    init(moduleId: String, parentModuleId: String?, args: [String : Any])
 }
 
 class ViperBaseIntercator: ViperBaseInteractorProtocol {
     fileprivate weak var _presenter: ViperBasePresenterProtocol?
     
-    required init(moduleId: String, args: [String : Any]) {}
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {}
     init() {}
     
 }
@@ -194,13 +194,13 @@ class ViperInteractor<PRESENTER>: ViperBaseIntercator {
 
 private protocol ViperBaseRouterProtocol: class {
     var _view: ViperBaseViewProtocol? { get set }
-    init(moduleId: String, args: [String : Any])
+    init(moduleId: String, parentModuleId: String?, args: [String : Any])
 }
 
 class ViperBaseRouter: ViperBaseRouterProtocol {
     fileprivate weak var _view: ViperBaseViewProtocol?
     
-    required init(moduleId: String, args: [String : Any]) {}
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {}
     init() {}
     
 }
@@ -214,36 +214,58 @@ class ViperRouter: ViperBaseRouter {
 
 // AssemblyRouter
 
-typealias ViperAssemblyRouter = ViperRouter & ViperBuilderProtocol
+typealias ViperAssemblyRouter = ViperRouter & ViperModuleBuilderProtocol
 
 
 // Builder
 
-typealias ViperBuilderProtocol = ViperBuildInfoProtocol & ViperBuildableProtocol
+typealias ViperModuleBuilderProtocol = ViperModuleBuildComponentsProtocol & ViperModuleBuildableProtocol
 
-protocol ViperBuildInfoProtocol {
+protocol ViperModuleBuildComponentsProtocol {
     associatedtype VIEW: UIViewController & ViperViewProtocol
     associatedtype PRESENTER: ViperBasePresenter
     associatedtype INTERACTOR: ViperBaseIntercator
-    associatedtype ROUTER: ViperBaseRouter & ViperBuildInfoProtocol = Self
+    associatedtype ROUTER: ViperBaseRouter & ViperModuleBuildComponentsProtocol = Self
 }
 
-protocol ViperBuildableProtocol {
-    static func setup(args: [String: Any]) -> (id: String, viewController: UIViewController)
-    static func setup(submodulesBuilders: [String: ViperBuildableProtocol.Type], args: [String: Any]) -> (submodulesIds: [String: String], id: String, viewController: UIViewController)
+typealias ViperModuleInfo = (id: String, viewController: UIViewController)
+
+struct ViperModuleBuildInfo {
+    let args: [String: Any]
+    let submodules: [String: UIViewController]?
+    fileprivate let parentModuleId: String?
+    init(_ args: [String: Any] = [:]) {
+        self.args = args
+        self.submodules = nil
+        self.parentModuleId = nil
+    }
+    fileprivate init(_ args: [String: Any] = [:], parentModuleId: String) {
+        self.args = args
+        self.submodules = nil
+        self.parentModuleId = parentModuleId
+    }
+    fileprivate init(_ args: [String: Any] = [:], submodules: [String: UIViewController]) {
+        self.args = args
+        self.submodules = submodules
+        self.parentModuleId = nil
+    }
 }
 
-extension ViperBuildableProtocol where Self: ViperBuildInfoProtocol {
+protocol ViperModuleBuildableProtocol {
+    static func build(submodulesBuilders: [String: ViperModuleBuildableProtocol.Type], buildInfo: ViperModuleBuildInfo) -> (submodulesIds: [String: String], moduleInfo: ViperModuleInfo)
+}
+
+extension ViperModuleBuildableProtocol where Self: ViperModuleBuildComponentsProtocol {
     
     private static func generateModuleId() -> String {
-        return "\(arc4random_uniform(1000000001)):\(Date().timeIntervalSince1970):\(NSStringFromClass(ROUTER.self))"
+        return "\(arc4random_uniform(1000001)):\(Int(Date().timeIntervalSince1970)):\(NSStringFromClass(ROUTER.self))"
     }
     
-    private static func setup(moduleId: String, args: [String: Any]) -> UIViewController {
-        let view = VIEW(moduleId: moduleId, args: args) as! ViperBaseViewProtocol
-        let presenter = PRESENTER(moduleId: moduleId, args: args)
-        let interactor = INTERACTOR(moduleId: moduleId, args: args)
-        let router = ROUTER(moduleId: moduleId, args: args)
+    private static func build(moduleId: String, parentModuleId: String?, args: [String: Any]) -> UIViewController {
+        let view = VIEW(moduleId: moduleId, parentModuleId: parentModuleId, args: args) as! ViperBaseViewProtocol
+        let presenter = PRESENTER(moduleId: moduleId, parentModuleId: parentModuleId, args: args)
+        let interactor = INTERACTOR(moduleId: moduleId, parentModuleId: parentModuleId, args: args)
+        let router = ROUTER(moduleId: moduleId, parentModuleId: parentModuleId, args: args)
         
         view._presenter = presenter
         presenter._interactor = interactor
@@ -255,24 +277,20 @@ extension ViperBuildableProtocol where Self: ViperBuildInfoProtocol {
         return view as! UIViewController
     }
     
-    static func setup(args: [String: Any]) -> (id: String, viewController: UIViewController) {
-        let moduleId = generateModuleId()
-        return (moduleId, setup(moduleId: moduleId, args: args))
-    }
-    
-    static func setup(submodulesBuilders: [String: ViperBuildableProtocol.Type], args: [String: Any]) -> (submodulesIds: [String: String], id: String, viewController: UIViewController) {
+    static func build(submodulesBuilders: [String: ViperModuleBuildableProtocol.Type] = [:], buildInfo: ViperModuleBuildInfo = .init()) -> (submodulesIds: [String: String], moduleInfo: ViperModuleInfo) {
         let moduleId = generateModuleId()
         
-        var submodulesIds = [String: String]()
-        var submodulesControllers = [String: UIViewController]()
+        var submodulesIds: [String: String] = [:]
+        var submodulesControllers: [String: UIViewController] = [:]
         for (submoduleName, submoduleBuilder) in submodulesBuilders {
-            let submoduleInfo = submoduleBuilder.setup(args: args.merging(["parentModuleId": moduleId], uniquingKeysWith: { $1 }))
+            let submoduleBuildInfo = ViperModuleBuildInfo(buildInfo.args, parentModuleId: moduleId)
+            let submoduleInfo = submoduleBuilder.build(submodulesBuilders: [:], buildInfo: submoduleBuildInfo).moduleInfo
             submodulesIds[submoduleName] = submoduleInfo.id
             submodulesControllers[submoduleName] = submoduleInfo.viewController
         }
         
-        let viewController = setup(moduleId: moduleId, args: args.merging(submodulesControllers, uniquingKeysWith: { $1 }))
-        return (submodulesIds, moduleId, viewController)
+        let viewController = setup(moduleId: moduleId, parentModuleId: nil, args: args.merging(submodulesControllers, uniquingKeysWith: { $1 }))
+        return (submodulesIds, (moduleId, viewController))
     }
     
 }

@@ -4,8 +4,8 @@ class SearchBarInteractor: ViperInteractor<SearchBarPresenterProtocolInteractor>
     
     let parentModuleNameId: String
     
-    required init(moduleId: String, args: [String : Any]) {
-        self.parentModuleNameId = args["parentModuleId"] as! String
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
+        self.parentModuleNameId = parentModuleId!
         super.init()
     }
     

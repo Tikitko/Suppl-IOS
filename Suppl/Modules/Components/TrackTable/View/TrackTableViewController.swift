@@ -21,8 +21,8 @@ final class TrackTableViewController: ViperTableView<TrackTablePresenterProtocol
             trackInfoController?.view.removeFromSuperview()
             self.isSmall = isSmall
             let trackInfoBox = myController!.presenter.getCell(isSmall: isSmall)
-            cellModuleNameId = trackInfoBox.moduleNameId
-            trackInfoController = trackInfoBox.controller
+            cellModuleNameId = trackInfoBox.moduleId
+            trackInfoController = trackInfoBox.viewController
             trackInfoController!.view.frame = contentView.bounds
             trackInfoController!.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             contentView.addSubview(trackInfoController!.view)

@@ -26,14 +26,14 @@ class TrackFilterViewController: ViperDefaultView<TrackFilterPresenterProtocolVi
         
         okButton.isEnabled = false
         okButton.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         
         timeSlider.value = presenter.timeValue() ?? 1
         searchTitleSwitch.isOn = presenter.titleValue() ?? true
         searchPerformerSwitch.isOn = presenter.performerValue() ?? true
- 
-        timeSlider.isEnabled = true
-        searchTitleSwitch.isEnabled = true
-        searchPerformerSwitch.isEnabled =  true
     }
     
     func setTheme() {

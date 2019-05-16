@@ -22,7 +22,7 @@ class TrackTablePresenter: ViperPresenter<TrackTableRouterProtocol, TrackTableIn
     
     let moduleNameId: String
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         moduleNameId = moduleId
         super.init()
     }
@@ -215,7 +215,7 @@ class TrackTablePresenter: ViperPresenter<TrackTableRouterProtocol, TrackTableIn
         interactor.communicateDelegate?.zoneRangePassed(toTop: toTop)
     }
     
-    func getCell(isSmall: Bool) -> (moduleNameId: String, controller: UIViewController) {
+    func getCell(isSmall: Bool) -> (moduleId: String, viewController: UIViewController) {
         return router.createCell(isSmall: isSmall)
     }
     

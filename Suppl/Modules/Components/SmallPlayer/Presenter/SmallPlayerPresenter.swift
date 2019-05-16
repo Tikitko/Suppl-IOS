@@ -12,7 +12,7 @@ class SmallPlayerPresenter: ViperPresenter<SmallPlayerRouterProtocol, SmallPlaye
     
     let moduleNameId: String
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         moduleNameId = moduleId
         super.init()
     }

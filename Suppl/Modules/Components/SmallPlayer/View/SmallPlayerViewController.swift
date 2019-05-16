@@ -52,7 +52,7 @@ class SmallPlayerViewController: ViperDefaultView<SmallPlayerPresenterProtocolVi
     var opened: CGFloat = 0
     var partOpened: CGFloat = 0
     
-    required init(moduleId: String, args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
         let tracksTableModule = args["table"] as! UITableViewController
         let parentRootTabBarController = args["parentRootTabBarController"] as! RootTabBarController
         super.init()
