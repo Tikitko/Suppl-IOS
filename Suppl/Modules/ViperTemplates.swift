@@ -232,6 +232,12 @@ typealias ViperModuleInfo = (id: String, viewController: UIViewController)
 
 enum ViperModuleBuilderInfo {
     indirect case submodule(name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo])
+    var info: (name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo]) {
+        guard case .submodule(let builderInfo) = self else {
+            fatalError()
+        }
+        return builderInfo
+    }
 }
 
 typealias ViperModuleBuilder = (name: String, builder: () -> ViperModuleInfo)
@@ -286,20 +292,24 @@ extension ViperModuleBuildableProtocol where Self: ViperModuleBuildComponentsPro
     static func build(submodulesBuildersInfo: [ViperModuleBuilderInfo] = [], buildInfo: ViperModuleBuildInfo) -> (submodulesBuilders: [ViperModuleBuilder], moduleInfo: ViperModuleInfo) {
         let moduleId = generateModuleId()
         
-        var submodulesIds: [String: String] = [:]
-        var submodulesControllers: [String: UIViewController] = [:]
-        for submoduleBuilderInfo in submodulesBuildersInfo {
-            guard case .submodule(let submoduleName, let submoduleType, let submoduleSubmodulesBuildersInfo) = submoduleBuilderInfo else {
-                continue
+        let submodulesBuilders: [ViperModuleBuilder] = submodulesBuildersInfo
+            .map { $0.info }
+            .map { submoduleBuilderInfo -> ViperModuleBuilder in
+                return (submoduleBuilderInfo.name, { () -> ViperModuleInfo in
+                    let submoduleBuildInfo = ViperModuleBuildInfo(buildInfo.args, parentModuleId: moduleId)
+                    let submoduleInfo = submoduleBuilderInfo.type.build(submodulesBuildersInfo: submoduleBuilderInfo.submodulesBuildersInfo, buildInfo: submoduleBuildInfo).moduleInfo
+                    return submoduleInfo
+                })
             }
+        for submoduleBuilderInfo in submodulesBuildersInfo {
+            let submoduleBuilderInfo = submoduleBuilderInfo.info
             let submoduleBuildInfo = ViperModuleBuildInfo(buildInfo.args, parentModuleId: moduleId)
-            let submoduleInfo = submoduleBuilder.build(submodulesBuilders: [:], buildInfo: submoduleBuildInfo).moduleInfo
-            submodulesIds[submoduleName] = submoduleInfo.id
-            submodulesControllers[submoduleName] = submoduleInfo.viewController
+            let submoduleInfo = submoduleBuilderInfo.type.build(submodulesBuildersInfo: submoduleBuilderInfo.submodulesBuildersInfo, buildInfo: submoduleBuildInfo)
+            submodulesBuilders.append((submoduleBuilderInfo.))
         }
         
-        let viewController = setup(moduleId: moduleId, parentModuleId: nil, args: args.merging(submodulesControllers, uniquingKeysWith: { $1 }))
-        return (submodulesIds, (moduleId, viewController))
+        let viewController = build(moduleId: moduleId, parentModuleId: buildInfo.parentModuleId, args: buildInfo.args)
+        return (submodulesBuilders, (moduleId, viewController))
     }
     
 }
