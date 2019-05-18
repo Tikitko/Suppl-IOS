@@ -11,4 +11,5 @@ protocol SmallPlayerPresenterProtocolView: class {
     func rewindM()
     func mixButtonClick()
     func removePlayer()
+    func createTrackTableModule() -> UITableViewController
 }

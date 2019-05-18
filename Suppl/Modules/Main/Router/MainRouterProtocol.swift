@@ -1,3 +1,7 @@
 import Foundation
+import UIKit
 
-protocol MainRouterProtocol: class {}
+protocol MainRouterProtocol: class {
+    func createTrackTableModule() -> UITableViewController
+    func createSearchBarModule() -> SearchBarViewController
+}

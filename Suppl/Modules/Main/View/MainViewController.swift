@@ -18,17 +18,9 @@ class MainViewController: ViperOldSafeAreaDefaultView<MainPresenterProtocolView>
     
     lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: tracksSearch.topAnchor, constant: 0)
     
-    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
-        tracksTableModule = args["table"] as? UITableViewController
-        searchModule = args["search"] as? SearchBarViewController
-        super.init()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
+        tracksTableModule = presenter.createTrackTableModule()
+        searchModule = presenter.createSearchBarModule()
         super.viewDidLoad()
         navigationItem.title = name
         titleLabel.text = name

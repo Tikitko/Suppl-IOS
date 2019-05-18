@@ -24,6 +24,8 @@ class TracklistViewController: ViperOldSafeAreaDefaultView<TracklistPresenterPro
     var buttonsIsOff = false
     
     override func viewDidLoad() {
+        tracksTableModule = presenter.createTrackTableModule()
+        searchModule = presenter.createSearchBarModule()
         super.viewDidLoad()
         setTheme()
         updateButton.setImage(#imageLiteral(resourceName: "icon_020").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -60,16 +62,6 @@ class TracklistViewController: ViperOldSafeAreaDefaultView<TracklistPresenterPro
         case .compact: topClearConstraint.constant = 0
         default: break
         }
-    }
-    
-    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
-        tracksTableModule = args["table"] as? UITableViewController
-        searchModule = args["search"] as? SearchBarViewController
-        super.init()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func reloadData() {

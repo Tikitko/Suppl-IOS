@@ -47,6 +47,14 @@ class TracklistPresenter: ViperPresenter<TracklistRouterProtocol, TracklistInter
         interactor.updateTracks()
     }
     
+    func createTrackTableModule() -> UITableViewController {
+        return router.createTrackTableModule()
+    }
+    
+    func createSearchBarModule() -> SearchBarViewController {
+        return router.createSearchBarModule()
+    }
+    
     func setInfo(_ text: String? = nil) {
         view.setLabel(text)
     }

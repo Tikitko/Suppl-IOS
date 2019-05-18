@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class MainPresenter: ViperPresenter<MainRouterProtocol, MainInteractorProtocol, MainViewControllerProtocol>, MainPresenterProtocolInteractor, MainPresenterProtocolView {
     
@@ -37,6 +38,14 @@ class MainPresenter: ViperPresenter<MainRouterProtocol, MainInteractorProtocol, 
     
     func searchQuery(_ query: String) {
         view.setSearchQuery(query)
+    }
+    
+    func createTrackTableModule() -> UITableViewController {
+        return router.createTrackTableModule()
+    }
+    
+    func createSearchBarModule() -> SearchBarViewController {
+        return router.createSearchBarModule()
     }
     
     func load() {

@@ -26,6 +26,10 @@ class SmallPlayerPresenter: ViperPresenter<SmallPlayerRouterProtocol, SmallPlaye
         return "playerTitle".localizeKey
     }
     
+    func createTrackTableModule() -> UITableViewController {
+        return router.createTrackTableModule()
+    }
+    
     func navButtonClick(next: Bool) {
         next ? interactor.callNextTrack() : interactor.callPrevTrack()
     }

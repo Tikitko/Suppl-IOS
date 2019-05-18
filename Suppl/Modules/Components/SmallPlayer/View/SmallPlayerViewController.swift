@@ -53,11 +53,8 @@ class SmallPlayerViewController: ViperDefaultView<SmallPlayerPresenterProtocolVi
     var partOpened: CGFloat = 0
     
     required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
-        let tracksTableModule = args["table"] as! UITableViewController
-        let parentRootTabBarController = args["parentRootTabBarController"] as! RootTabBarController
+        self.parentRootTabBarController = (args[String(describing: RootTabBarController.self)] as! RootTabBarController)
         super.init()
-        self.tracksTableModule = tracksTableModule
-        self.parentRootTabBarController = parentRootTabBarController
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -69,6 +66,7 @@ class SmallPlayerViewController: ViperDefaultView<SmallPlayerPresenterProtocolVi
     }
     
     override func viewDidLoad() {
+        tracksTableModule = presenter.createTrackTableModule()
         super.viewDidLoad()
         setInParent()
         transitioningDelegate = self

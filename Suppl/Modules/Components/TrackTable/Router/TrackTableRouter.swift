@@ -6,8 +6,25 @@ class TrackTableRouter: ViperAssemblyRouter, TrackTableRouterProtocol {
     typealias PRESENTER = TrackTablePresenter
     typealias INTERACTOR = TrackTableInteractor
     
+    static let submoduleName = "TrackTable"
+    private static let submoduleCellName = "TrackInfo"
+    
+    let cellModuleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
+    
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleBuilder], args: [String : Any]) {
+        cellModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackTableRouter.submoduleCellName })!.builder
+        super.init()
+    }
+    
+    static var submoduleBuildInfo: ViperModuleBuilderInfo {
+        return .submodule(name: submoduleName, type: TrackTableRouter.self, submodulesBuildersInfo: [
+            .submodule(name: submoduleCellName, type: TrackInfoRouter.self, submodulesBuildersInfo: [])
+        ])
+    }
+    
     func createCell(isSmall: Bool) -> (moduleId: String, viewController: UIViewController) {
-        return TrackInfoRouter.setup(args: ["isSmall": isSmall])
+        let cellModule = cellModuleBuilder(.init(["isSmall": isSmall]))
+        return (cellModule.id, cellModule.viewController)
     }
     
     func showToastOnTop(title: String, body: String, duration: Double = 2.0) {

@@ -11,7 +11,7 @@ class AuthRouter: ViperAssemblyRouter, AuthRouterProtocol {
     }
     
     static func setSelf(noAuth noAuthOnShow: Bool = false) {
-        UIApplication.shared.keyWindow?.rootViewController = setup(args: ["noAuthOnShow": noAuthOnShow]).viewController
+        UIApplication.shared.keyWindow?.rootViewController = build(buildInfo: .init(["noAuthOnShow": noAuthOnShow])).viewController
     }
     
 }

@@ -13,10 +13,10 @@ final class RootTabBarController: UITabBarController {
         setTheme()
         tabBar.isTranslucent = false
         
-        var controllers: [UIViewController] = [createTracklistModule(), SettingsMainViewController.initial()]
+        var controllers: [UIViewController] = [TracklistRouter.fullBuild(), SettingsMainViewController.initial()]
         controllers[0].loadViewIfNeeded()
         if !OfflineModeManager.shared.offlineMode {
-            controllers.insert(createMainModule(), at: 0)
+            controllers.insert(MainRouter.fullBuild(), at: 0)
         }
         setupControllers(controllers)
         
@@ -28,40 +28,10 @@ final class RootTabBarController: UITabBarController {
         NC.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         view.clipsToBounds = true
-        smallPlayer = createPlayerModule()
+        smallPlayer = SmallPlayerRouter.fullBuild(rootTabBarController: self)
         smallPlayer.loadViewIfNeeded()
         
         TracklistManager.shared.update()
-    }
-    
-    func createPlayerModule() -> UIViewController {
-        return SmallPlayerRouter.setup(
-            submodulesBuilders: [
-                "table": TrackTableRouter.self
-            ],
-            args: [
-                "parentRootTabBarController": self
-            ]
-        ).viewController
-    }
-    
-    func createMainModule() -> UIViewController {
-        return MainRouter.setup(
-            submodulesBuilders: [
-                "table": TrackTableRouter.self,
-                "search": SearchBarRouter.self
-            ]
-        ).viewController
-    }
-    
-    func createTracklistModule() -> UIViewController {
-        return TracklistRouter.setup(
-            submodulesBuilders: [
-                "table": TrackTableRouter.self,
-                "search": SearchBarRouter.self,
-                "filter": TrackFilterRouter.self
-            ]
-        ).viewController
     }
 
     func setTheme() {

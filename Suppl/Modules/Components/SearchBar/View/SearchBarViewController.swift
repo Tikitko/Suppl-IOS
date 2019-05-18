@@ -4,14 +4,14 @@ import UIKit
 class SearchBarViewController: ViperDefaultView<SearchBarPresenterProtocolView>, SearchBarViewControllerProtocol {
     
     override func loadView() {
-        view = createSearchBarView()
+        view = createSearchBarModuleView()
     }
     
     var searchBarView: UISearchBar {
         return view as! UISearchBar
     }
     
-    private func createSearchBarView() -> UISearchBar {
+    private func createSearchBarModuleView() -> UISearchBar {
         let searchBarView = UISearchBar()
         searchBarView.searchBarStyle = .minimal
         searchBarView.isTranslucent = false
