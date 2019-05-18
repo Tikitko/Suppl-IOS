@@ -230,14 +230,10 @@ protocol ViperModuleBuildComponentsProtocol {
 
 typealias ViperModuleInfo = (id: String, viewController: UIViewController)
 
-enum ViperModuleBuilderInfo {
-    indirect case submodule(name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo])
-    var unwrapped: (name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo]) {
-        guard case .submodule(let builderInfo) = self else {
-            fatalError()
-        }
-        return builderInfo
-    }
+struct ViperModuleBuilderInfo {
+    let name: String
+    let type: ViperModuleBuildableProtocol.Type
+    let submodulesBuildersInfo: [ViperModuleBuilderInfo]
 }
 
 typealias ViperModuleBuilder = (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
@@ -286,14 +282,8 @@ extension ViperModuleBuildableProtocol where Self: ViperModuleBuildComponentsPro
         let moduleId = generateModuleId()
         let parentModuleId = buildInfo.parentModuleId
         let submodulesBuilders: [ViperModuleNamedBuilder] = submodulesBuildersInfo
-            .map { $0.unwrapped }
-            .map { submoduleBuilderInfo -> ViperModuleNamedBuilder in
-                let submoduleName = submoduleBuilderInfo.name
-                let submoduleBuilder: ViperModuleBuilder = { buildInfo in
-                    let submoduleBuildInfo = ViperModuleBuildInfo(buildInfo.args, parentModuleId: moduleId)
-                    return submoduleBuilderInfo.type.build(submodulesBuildersInfo: submoduleBuilderInfo.submodulesBuildersInfo, buildInfo: submoduleBuildInfo)
-                }
-                return (submoduleName, submoduleBuilder)
+            .map { builderInfo -> ViperModuleNamedBuilder in
+                return (builderInfo.name, { builderInfo.type.build(submodulesBuildersInfo: builderInfo.submodulesBuildersInfo, buildInfo: .init($0.args, parentModuleId: moduleId)) })
             }
         let args = buildInfo.args
         return (moduleId, build(moduleId: moduleId, parentModuleId: parentModuleId, submodulesBuilders: submodulesBuilders, args: args))
