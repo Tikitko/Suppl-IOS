@@ -71,9 +71,9 @@ class AuthPresenter: ViperPresenter<AuthRouterProtocol, AuthInteractorProtocol, 
         }
     }
     
-    func setRequestResetResult(_ errorId: Int?) {
-        if let errorId = errorId {
-            view.showToast(errorId.localizeAPIErrorCode)
+    func setRequestResetResult(_ errorString: String?) {
+        if let errorString = errorString {
+            view.showToast(errorString)
             view.enableResetForm(true, full: false)
         } else {
             view.showToast("keySent".localizeKey)
@@ -96,8 +96,8 @@ class AuthPresenter: ViperPresenter<AuthRouterProtocol, AuthInteractorProtocol, 
         setAuthResult(localizationKey.localizeKey, blockOnError: blockOnError)
     }
     
-    func setAuthResult(apiErrorCode code: Int) {
-        setAuthResult(code.localizeAPIErrorCode)
+    func setAuthResult(errorString: String) {
+        setAuthResult(errorString)
     }
     
     func repeatButtonClick(identifierText: String?) {

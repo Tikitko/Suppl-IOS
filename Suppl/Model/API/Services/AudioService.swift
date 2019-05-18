@@ -4,21 +4,21 @@ final class AudioService {
     
     private let API = APISession()
     
-    public func search(keys: KeysPair, query: String, offset: Int = 0, dataReport: @escaping (NSError?, AudioSearchData?) -> ()) {
+    public func search(keys: KeysPair, query: String, offset: Int = 0, completionHandler: @escaping (APISession.ResponseError?, AudioSearchData?) -> ()) {
         API.method(
             "audio.search",
             query: keys.addToQuery(["query": query, "offset": String(offset)]),
-            dataReport: dataReport,
-            externalMethod: { $0.data }
+            wrapper: { $0.data },
+            completionHandler: completionHandler
         )
     }
     
-    public func get(keys: KeysPair, ids: [String], dataReport: @escaping (NSError?, AudioListData?) -> ()) {
+    public func get(keys: KeysPair, ids: [String], completionHandler: @escaping (APISession.ResponseError?, AudioListData?) -> ()) {
         API.method(
             "audio.get",
             query: keys.addToQuery(["ids": ids.joined(separator: ",")]),
-            dataReport: dataReport,
-            externalMethod: { $0.data }
+            wrapper: { $0.data },
+            completionHandler: completionHandler
         )
     }
  

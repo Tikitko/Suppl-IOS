@@ -58,12 +58,12 @@ final class AuthManager {
         return nil
     }
     
-    public func authorization(keys: KeysPair? = nil, callback: @escaping (NSError?, UserData?) -> Void) {
+    public func authorization(keys: KeysPair? = nil, callback: @escaping (APISession.ResponseError?, UserData?) -> Void) {
         guard let keys = keys ?? getAuthKeys() else { return }
-        APIManager.shared.user.get(keys: keys, dataReport: callback)
+        APIManager.shared.user.get(keys: keys, completionHandler: callback)
     }
     
-    public func registration(callback: @escaping (NSError?, UserSecretData?) -> Void) {
+    public func registration(callback: @escaping (APISession.ResponseError?, UserSecretData?) -> Void) {
         APIManager.shared.user.register() { error, data in
             if let data = data {
                 UserDefaultsManager.shared.identifierKey = data.identifierKey
@@ -73,7 +73,7 @@ final class AuthManager {
         }
     }
     
-    public func reset(resetKey: String, callback: @escaping (NSError?, UserSecretData?) -> Void) {
+    public func reset(resetKey: String, callback: @escaping (APISession.ResponseError?, UserSecretData?) -> Void) {
         APIManager.shared.user.reset(resetKey: resetKey) { error, data in
             if let data = data {
                 UserDefaultsManager.shared.identifierKey = data.identifierKey

@@ -134,7 +134,7 @@ final class TracklistManager {
                 callback(false)
                 return
             }
-            if let error = error, error.code == 40 {
+            if let error = error, case .api(let id, _) = error, id == 40 {
                 self.tracklist = []
                 self.inUpdate = false
                 callback(true)

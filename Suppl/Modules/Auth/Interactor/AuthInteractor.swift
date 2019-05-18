@@ -39,24 +39,24 @@ class AuthInteractor: ViperInteractor<AuthPresenterProtocolInteractor>, AuthInte
                 if let data = data {
                     self?.presenter.setIdentifier(KeysPair(data.identifierKey, data.accessKey).string)
                 }
-                self?.sendAuthResult(error)
+                self?.sendAuthResult(apiSessionError: error)
             }
         } else if let keys = AuthManager.shared.getAuthKeys(setFailAuth: false) {
             presenter.setAuthStarted(isReg: false)
             AuthManager.shared.authorization(keys: keys) { [weak self] error, data in
-                self?.sendAuthResult(error)
+                self?.sendAuthResult(apiSessionError: error)
             }
         } else {
             presenter.setAuthStarted(isReg: true)
             AuthManager.shared.registration() { [weak self] error, data in
-                self?.sendAuthResult(error)
+                self?.sendAuthResult(apiSessionError: error)
             }
         }
     }
     
     func requestResetKey(forEmail email: String) {
         APIManager.shared.user.sendResetKey(email: email) { [weak self] error, status in
-            self?.presenter.setRequestResetResult(error?.code)
+            self?.presenter.setRequestResetResult(error?.localizeError)
         }
     }
     
@@ -72,9 +72,9 @@ class AuthInteractor: ViperInteractor<AuthPresenterProtocolInteractor>, AuthInte
         }
     }
     
-    func sendAuthResult(_ error: NSError?) {
-        if let error = error {
-            presenter.setAuthResult(apiErrorCode: error.code)
+    func sendAuthResult(apiSessionError: APISession.ResponseError?) {
+        if let apiSessionError = apiSessionError {
+            presenter.setAuthResult(errorString: apiSessionError.localizeError)
         } else {
             presenter.setAuthResult(nil, blockOnError: false)
         }

@@ -19,9 +19,17 @@ final class LocalesManager {
         return locale[key] ?? key
     }
     
-    public func localized(apiErrorCode code: Int) -> String {
-        let keyString = code >= 0 ? "APIError_\(code)" : "APIRequestError_\(code * -1)"
-        return locale[keyString] ?? keyString
+    public func localized(apiSessionError: APISession.ResponseError) -> String {
+        let keyString: String
+        switch apiSessionError {
+        case .api(let id, _):
+            keyString = "APIError_\(id)"
+        case .parsing:
+            keyString = "APIRequestError_1"
+        case .web(_):
+            keyString = "APIRequestError_2"
+        }
+        return localized(keyString)
     }
     
 }

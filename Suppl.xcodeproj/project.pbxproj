@@ -14,7 +14,6 @@
 		0E0E4638227B4C92002E93EA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0E4637227B4C92002E93EA /* StringExtensions.swift */; };
 		0E0E463A227B56F5002E93EA /* NotificationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0E4639227B56F5002E93EA /* NotificationExtensions.swift */; };
 		0E0E463C227B6214002E93EA /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0E463B227B6214002E93EA /* UIColorExtensions.swift */; };
-		0E0E463E227B6477002E93EA /* IntExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0E463D227B6477002E93EA /* IntExtensions.swift */; };
 		0E0F520D2025F3E1000C6DD3 /* TrackInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F520C2025F3E1000C6DD3 /* TrackInfoViewController.swift */; };
 		0E0F520F2025F414000C6DD3 /* TrackInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E0F520E2025F414000C6DD3 /* TrackInfoViewController.xib */; };
 		0E12FABE2030604200EE3422 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E12FABD2030604200EE3422 /* SettingsManager.swift */; };
@@ -24,11 +23,11 @@
 		0E2B1499228C8B1F001CA399 /* ViperTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A398322876DBA003A2EBC /* ViperTemplates.swift */; };
 		0E466276201F87A30037FD0E /* TracklistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466275201F87A30037FD0E /* TracklistData.swift */; };
 		0E466278201F88890037FD0E /* TracklistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E466277201F88890037FD0E /* TracklistService.swift */; };
+		0E9A0156229060810000647F /* APISessionResponseErrorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A0155229060810000647F /* APISessionResponseErrorExtensions.swift */; };
 		0EEC5A902020EB5D0028694E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */; };
 		0EEC5A94202118DA0028694E /* ControllerInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */; };
 		0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEC5AA8202135AA0028694E /* TracklistViewController.swift */; };
 		0EEC5AAB202135B50028694E /* TracklistViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EEC5AAA202135B50028694E /* TracklistViewController.xib */; };
-		0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF1AFB2201F9E44006B2761 /* ResponseData.swift */; };
 		4C501C538AB7351FFAA0F3A7 /* Pods_Suppl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC594A90A504837522D11FA5 /* Pods_Suppl.framework */; };
 		8C05DCCE20BEAF5D00AD67F4 /* UserTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C05DCCD20BEAF5D00AD67F4 /* UserTrack.swift */; };
 		8C0CB5F6208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0CB5F5208DA7ED00456A68 /* TrackFilterViewControllerProtocol.swift */; };
@@ -170,7 +169,6 @@
 		0E0E4637227B4C92002E93EA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		0E0E4639227B56F5002E93EA /* NotificationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtensions.swift; sourceTree = "<group>"; };
 		0E0E463B227B6214002E93EA /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
-		0E0E463D227B6477002E93EA /* IntExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtensions.swift; sourceTree = "<group>"; };
 		0E0F520C2025F3E1000C6DD3 /* TrackInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInfoViewController.swift; sourceTree = "<group>"; };
 		0E0F520E2025F414000C6DD3 /* TrackInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackInfoViewController.xib; sourceTree = "<group>"; };
 		0E12FABD2030604200EE3422 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
@@ -180,11 +178,11 @@
 		0E12FACD2030E97A00EE3422 /* Suppl-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Suppl-Bridging-Header.h"; sourceTree = "<group>"; };
 		0E466275201F87A30037FD0E /* TracklistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistData.swift; sourceTree = "<group>"; };
 		0E466277201F88890037FD0E /* TracklistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistService.swift; sourceTree = "<group>"; };
+		0E9A0155229060810000647F /* APISessionResponseErrorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISessionResponseErrorExtensions.swift; sourceTree = "<group>"; };
 		0EEC5A8F2020EB5D0028694E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		0EEC5A93202118DA0028694E /* ControllerInfoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfoProtocol.swift; sourceTree = "<group>"; };
 		0EEC5AA8202135AA0028694E /* TracklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracklistViewController.swift; sourceTree = "<group>"; };
 		0EEC5AAA202135B50028694E /* TracklistViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TracklistViewController.xib; sourceTree = "<group>"; };
-		0EF1AFB2201F9E44006B2761 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
 		27028F1F091779E3391AF02A /* Pods-Suppl.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Suppl.release.xcconfig"; path = "Pods/Target Support Files/Pods-Suppl/Pods-Suppl.release.xcconfig"; sourceTree = "<group>"; };
 		574C548F0169B641AE8964C1 /* Pods-Suppl.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Suppl.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Suppl/Pods-Suppl.debug.xcconfig"; sourceTree = "<group>"; };
 		8C05DCCD20BEAF5D00AD67F4 /* UserTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTrack.swift; sourceTree = "<group>"; };
@@ -397,7 +395,7 @@
 				0E0E4637227B4C92002E93EA /* StringExtensions.swift */,
 				0E0E4639227B56F5002E93EA /* NotificationExtensions.swift */,
 				0E0E463B227B6214002E93EA /* UIColorExtensions.swift */,
-				0E0E463D227B6477002E93EA /* IntExtensions.swift */,
+				0E9A0155229060810000647F /* APISessionResponseErrorExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -980,7 +978,6 @@
 				8C67F5FE201B174200333EB2 /* AudioListData.swift */,
 				8C67F5FF201B174200333EB2 /* AudioData.swift */,
 				0E466275201F87A30037FD0E /* TracklistData.swift */,
-				0EF1AFB2201F9E44006B2761 /* ResponseData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1238,7 +1235,6 @@
 				8C3594CE20BD81E500E5E0DB /* DataModel.xcdatamodeld in Sources */,
 				8C67F601201B174200333EB2 /* UserService.swift in Sources */,
 				0EEC5AA9202135AA0028694E /* TracklistViewController.swift in Sources */,
-				0E0E463E227B6477002E93EA /* IntExtensions.swift in Sources */,
 				8C285F7B208881CC007427E7 /* TrackTablePresenter.swift in Sources */,
 				8C3B74EE2090780600D0AF3E /* SearchBarRouterProtocol.swift in Sources */,
 				8C05DCCE20BEAF5D00AD67F4 /* UserTrack.swift in Sources */,
@@ -1252,6 +1248,7 @@
 				8C67F603201B174200333EB2 /* CommonSession.swift in Sources */,
 				8C75D09D20A9694200DB0F0D /* DispatchQueueExtensions.swift in Sources */,
 				8C4C043420C9635D006CC269 /* SmallPlayerPresenterProtocolInteractor.swift in Sources */,
+				0E9A0156229060810000647F /* APISessionResponseErrorExtensions.swift in Sources */,
 				8C285F7520888173007427E7 /* TrackTableRouterProtocol.swift in Sources */,
 				8C67F606201B174200333EB2 /* AudioSearchData.swift in Sources */,
 				8C4C044020C964C4006CC269 /* MainPresenterProtocolInteractor.swift in Sources */,
@@ -1280,7 +1277,6 @@
 				8C67F5E0201B153100333EB2 /* AppDelegate.swift in Sources */,
 				8C4C043A20C9641E006CC269 /* TrackFilterPresenterProtocolInteractor.swift in Sources */,
 				8C0CB60D208DCD3400456A68 /* MainInteractor.swift in Sources */,
-				0EF1AFB3201F9E44006B2761 /* ResponseData.swift in Sources */,
 				8C3C6B332092F5F700272018 /* SearchBarInteractor.swift in Sources */,
 				8C3B74F02090781200D0AF3E /* SearchBarRouter.swift in Sources */,
 				8C0E1B9A2091E66000CE5C12 /* ModulesCommunicateManager.swift in Sources */,

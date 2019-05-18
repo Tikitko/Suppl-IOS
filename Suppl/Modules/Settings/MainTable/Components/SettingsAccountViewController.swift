@@ -47,7 +47,11 @@ class SettingsAccountViewController: UIViewController {
         self.emailField.placeholder = "install".localizeKey
         APIManager.shared.user.updateEmail(keys: keys, email: email) { [weak self] error, data in
             guard let self = self else { return }
-            self.emailField.placeholder = error != nil ? error!.code.localizeAPIErrorCode : "emailSet".localizeKey
+            if let error = error {
+                self.emailField.placeholder = error.localizeError
+            } else {
+                self.emailField.placeholder = "emailSet".localizeKey
+            }
             let when = DispatchTime.now() + 2
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                 guard let self = self else { return }

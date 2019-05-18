@@ -4,48 +4,48 @@ final class UserService {
     
     private let API = APISession()
     
-    public func register(dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
+    public func register(completionHandler: @escaping (APISession.ResponseError?, UserSecretData?) -> ()) {
         API.method(
             "user.register",
             query: [:],
-            dataReport: dataReport,
-            externalMethod: { $0.data }
+            wrapper: { $0.data },
+            completionHandler: completionHandler
         )
     }
     
-    public func get(keys: KeysPair, dataReport: @escaping (NSError?, UserData?) -> ()) {
+    public func get(keys: KeysPair, completionHandler: @escaping (APISession.ResponseError?, UserData?) -> ()) {
         API.method(
             "user.get",
             query: keys.addToQuery([:]),
-            dataReport: dataReport,
-            externalMethod: { $0.data }
+            wrapper: { $0.data },
+            completionHandler: completionHandler
         )
     }
     
-    public func updateEmail(keys: KeysPair, email: String, dataReport: @escaping (NSError?, Bool?) -> ()) {
+    public func updateEmail(keys: KeysPair, email: String, completionHandler: @escaping (APISession.ResponseError?, Bool?) -> ()) {
         API.method(
             "user.updateEmail",
             query: keys.addToQuery(["reset_email": email]),
-            dataReport: dataReport,
-            externalMethod: { $0.status == 1 }
+            wrapper: { $0.status == 1 },
+            completionHandler: completionHandler
         )
     }
     
-    public func sendResetKey(email: String, dataReport: @escaping (NSError?, Bool?) -> ()) {
+    public func sendResetKey(email: String, completionHandler: @escaping (APISession.ResponseError?, Bool?) -> ()) {
         API.method(
             "user.sendResetKey",
             query: ["reset_email": email],
-            dataReport: dataReport,
-            externalMethod: { $0.status == 1 }
+            wrapper: { $0.status == 1 },
+            completionHandler: completionHandler
         )
     }
     
-    public func reset(resetKey: String, dataReport: @escaping (NSError?, UserSecretData?) -> ()) {
+    public func reset(resetKey: String, completionHandler: @escaping (APISession.ResponseError?, UserSecretData?) -> ()) {
         API.method(
             "user.reset",
             query: ["reset_key": resetKey],
-            dataReport: dataReport,
-            externalMethod: { $0.data }
+            wrapper: { $0.data },
+            completionHandler: completionHandler
         )
     }
     
