@@ -1,11 +1,7 @@
 import Foundation
 import UIKit
 
-class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresenterProtocolView {
-    
-    var router: TracklistRouterProtocol!
-    var interactor: TracklistInteractorProtocol!
-    weak var view: TracklistViewControllerProtocol!
+class TracklistPresenter: ViperPresenter<TracklistRouterProtocol, TracklistInteractorProtocol, TracklistViewControllerProtocol>, TracklistPresenterProtocolInteractor, TracklistPresenterProtocolView {
     
     var tracks: [AudioData] = []
     
@@ -16,8 +12,11 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
     var searchTimeRate: Float = 1
     var updateTrysCount = 0
     
-    var moduleNameId: String {
-        get { return router.moduleNameId }
+    let moduleNameId: String
+    
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
+        moduleNameId = moduleId
+        super.init()
     }
     
     var canHideLogo: Bool? {
@@ -46,6 +45,14 @@ class TracklistPresenter: TracklistPresenterProtocolInteractor, TracklistPresent
         interactor.listenSettings()
         interactor.requestHideLogoSetting()
         interactor.updateTracks()
+    }
+    
+    func createTrackTableModule() -> UITableViewController {
+        return router.createTrackTableModule()
+    }
+    
+    func createSearchBarModule() -> SearchBarViewController {
+        return router.createSearchBarModule()
     }
     
     func setInfo(_ text: String? = nil) {

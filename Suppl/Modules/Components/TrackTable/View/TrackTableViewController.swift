@@ -1,9 +1,7 @@
 import Foundation
 import UIKit
 
-final class TrackTableViewController: UITableViewController, TrackTableViewControllerProtocol {
-    
-    var presenter: TrackTablePresenterProtocolView!
+final class TrackTableViewController: ViperTableView<TrackTablePresenterProtocolView>, TrackTableViewControllerProtocol {
     
     private class UITableViewWithReload: UITableView {
         weak var myController: TrackTableViewController!
@@ -18,13 +16,13 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         weak var myController: TrackTableViewController?
         private(set) var cellModuleNameId: String?
         private var trackInfoController: UIViewController?
-        private(set) var small: Bool?
-        func initInfoController(small: Bool = false) {
+        private(set) var isSmall: Bool?
+        func initInfoController(isSmall: Bool = false) {
             trackInfoController?.view.removeFromSuperview()
-            self.small = small
-            let trackInfoBox = myController!.presenter.getCell(small: small)
-            cellModuleNameId = trackInfoBox.moduleNameId
-            trackInfoController = trackInfoBox.controller
+            self.isSmall = isSmall
+            let trackInfoBox = myController!.presenter.getCell(isSmall: isSmall)
+            cellModuleNameId = trackInfoBox.moduleId
+            trackInfoController = trackInfoBox.viewController
             trackInfoController!.view.frame = contentView.bounds
             trackInfoController!.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             contentView.addSubview(trackInfoController!.view)
@@ -161,8 +159,8 @@ final class TrackTableViewController: UITableViewController, TrackTableViewContr
         if cell.myController == nil {
             cell.myController = self
         }
-        if cell.cellModuleNameId == nil || cell.small != smallCells {
-            cell.initInfoController(small: smallCells)
+        if cell.cellModuleNameId == nil || cell.isSmall != smallCells {
+            cell.initInfoController(isSmall: smallCells)
             presenter.setCellSetup(name: cell.cellModuleNameId!, light: useLightStyle, downloadButton: allowDownloadButton)
         }
         presenter.updateCellInfo(trackIndex: indexPath.row, name: cell.cellModuleNameId!)

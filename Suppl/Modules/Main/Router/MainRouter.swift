@@ -1,29 +1,35 @@
 import Foundation
 import UIKit
 
-class MainRouter: Router, MainRouterProtocol {
+class MainRouter: ViperAssemblyRouter, MainRouterProtocol {
+    typealias VIEW = MainViewController
+    typealias PRESENTER = MainPresenter
+    typealias INTERACTOR = MainInteractor
     
-    weak var viewController: UIViewController!
+    static func fullBuild() -> UIViewController {
+        return build(
+            submodulesBuildersInfo: [
+                TrackTableRouter.submoduleBuildInfo,
+                SearchBarRouter.submoduleBuildInfo
+            ]
+        ).viewController
+    }
     
-    static func setup() -> UIViewController {
-        let router = MainRouter()
-        let interactor = MainInteractor()
-        let presenter = MainPresenter()
-        let table = TrackTableRouter.setup(parentModuleNameId: router.moduleNameId)
-        let search = SearchBarRouter.setup(parentModuleNameId: router.moduleNameId)
-        let viewController = MainViewController(table: table, search: search)
-        
-        presenter.interactor = interactor
-        presenter.router = router
-        presenter.view = viewController
-        
-        router.viewController = viewController
-        
-        viewController.presenter = presenter
-        
-        interactor.presenter = presenter
-        
-        return viewController
+    let trackTableModuleBuilder: ViperModuleBuilder
+    let searchBarModuleBuilder: ViperModuleBuilder
+    
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any]) {
+        trackTableModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackTableRouter.submoduleName })!.builder
+        searchBarModuleBuilder = submodulesBuilders.first(where: { $0.name == SearchBarRouter.submoduleName })!.builder
+        super.init()
+    }
+    
+    func createTrackTableModule() -> UITableViewController {
+        return trackTableModuleBuilder(.init()).viewController as! UITableViewController
+    }
+    
+    func createSearchBarModule() -> SearchBarViewController {
+        return searchBarModuleBuilder(.init()).viewController as! SearchBarViewController
     }
     
 }

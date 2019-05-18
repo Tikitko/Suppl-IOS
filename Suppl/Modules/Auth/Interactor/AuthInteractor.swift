@@ -1,8 +1,6 @@
 import Foundation
 
-class AuthInteractor: AuthInteractorProtocol {
-
-    weak var presenter: AuthPresenterProtocolInteractor!
+class AuthInteractor: ViperInteractor<AuthPresenterProtocolInteractor>, AuthInteractorProtocol {
     
     func startAuthCheck() {
         let _ = AuthManager.shared.startAuthCheck()

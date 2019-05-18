@@ -1,30 +1,25 @@
 import Foundation
 import UIKit
 
-class SearchBarViewController: UIViewController, SearchBarViewControllerProtocol {
+class SearchBarViewController: ViperDefaultView<SearchBarPresenterProtocolView>, SearchBarViewControllerProtocol {
     
-    var presenter: SearchBarPresenterProtocolView!
-    
-    let searchBar = UISearchBar()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        searchBar.frame = view.bounds
-        searchBar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(searchBar)
+    override func loadView() {
+        view = createSearchBarModuleView()
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        searchBar.searchBarStyle = .minimal
-        searchBar.isTranslucent = false
-        searchBar.backgroundColor = .white
-        searchBar.delegate = self
+    var searchBarView: UISearchBar {
+        return view as! UISearchBar
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func createSearchBarModuleView() -> UISearchBar {
+        let searchBarView = UISearchBar()
+        searchBarView.searchBarStyle = .minimal
+        searchBarView.isTranslucent = false
+        searchBarView.backgroundColor = .white
+        searchBarView.delegate = self
+        return searchBarView
     }
+    
 }
 
 extension SearchBarViewController: UISearchBarDelegate {

@@ -1,10 +1,6 @@
 import Foundation
 
-class TrackFilterPresenter: TrackFilterPresenterProtocolInteractor, TrackFilterPresenterProtocolView {
-    
-    var router: TrackFilterRouterProtocol!
-    var interactor: TrackFilterInteractorProtocol!
-    weak var view: TrackFilterViewControllerProtocol!
+class TrackFilterPresenter: ViperPresenter<TrackFilterRouterProtocol, TrackFilterInteractorProtocol, TrackFilterViewControllerProtocol>, TrackFilterPresenterProtocolInteractor, TrackFilterPresenterProtocolView {
     
     func timeValue() -> Float? {
         return interactor.communicateDelegate?.timeValue()

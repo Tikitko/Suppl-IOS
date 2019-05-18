@@ -2,11 +2,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerPresenterProtocolView {
-    
-    var router: SmallPlayerRouterProtocol!
-    var interactor: SmallPlayerInteractorProtocol!
-    weak var view: SmallPlayerViewControllerProtocol!
+class SmallPlayerPresenter: ViperPresenter<SmallPlayerRouterProtocol, SmallPlayerInteractorProtocol, SmallPlayerViewControllerProtocol>, SmallPlayerPresenterProtocolInteractor, SmallPlayerPresenterProtocolView {
     
     let rewindCount: Double = 15
 
@@ -14,8 +10,11 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
         didSet { view.reloadTableData() }
     }
     
-    var moduleNameId: String {
-        get { return router.moduleNameId }
+    let moduleNameId: String
+    
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
+        moduleNameId = moduleId
+        super.init()
     }
     
     func setListener() {
@@ -25,6 +24,10 @@ class SmallPlayerPresenter: SmallPlayerPresenterProtocolInteractor, SmallPlayerP
     
     func getTitle() -> String {
         return "playerTitle".localizeKey
+    }
+    
+    func createTrackTableModule() -> UITableViewController {
+        return router.createTrackTableModule()
     }
     
     func navButtonClick(next: Bool) {

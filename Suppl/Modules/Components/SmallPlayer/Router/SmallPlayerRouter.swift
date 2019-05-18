@@ -1,35 +1,31 @@
 import Foundation
 import UIKit
 
-class SmallPlayerRouter: Router, SmallPlayerRouterProtocol {
+class SmallPlayerRouter: ViperAssemblyRouter, SmallPlayerRouterProtocol {
+    typealias VIEW = SmallPlayerViewController
+    typealias PRESENTER = SmallPlayerPresenter
+    typealias INTERACTOR = SmallPlayerInteractor
     
-    weak var viewController: UIViewController!
+    let trackTableModuleBuilder: ViperModuleBuilder
     
-    static func setup() -> UIViewController {
-        let router = SmallPlayerRouter()
-        let interactor = SmallPlayerInteractor()
-        let presenter = SmallPlayerPresenter()
-        let table = TrackTableRouter.setup(parentModuleNameId: router.moduleNameId)
-        let viewController = SmallPlayerViewController(table: table)
-        
-        presenter.interactor = interactor
-        presenter.router = router
-        presenter.view = viewController
-        
-        router.viewController = viewController
-        
-        viewController.presenter = presenter
-        
-        interactor.presenter = presenter
-        
-        return viewController
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any]) {
+        trackTableModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackTableRouter.submoduleName })!.builder
+        super.init()
     }
     
-    static func setup(parentRootTabBarController: RootTabBarController) -> UIViewController {
-        let player = SmallPlayerRouter.setup() as! SmallPlayerViewController
-        player.parentRootTabBarController = parentRootTabBarController
-        player.setInParent()
-        return player
+    func createTrackTableModule() -> UITableViewController {
+        return trackTableModuleBuilder(.init()).viewController as! UITableViewController
+    }
+    
+    static func fullBuild(rootTabBarController: RootTabBarController) -> UIViewController{
+        return build(
+            submodulesBuildersInfo: [
+                TrackTableRouter.submoduleBuildInfo
+            ],
+            buildInfo: .init([
+                String(describing: RootTabBarController.self): rootTabBarController
+            ])
+        ).viewController
     }
     
 }

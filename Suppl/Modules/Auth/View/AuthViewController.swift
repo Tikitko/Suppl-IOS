@@ -1,9 +1,6 @@
 import Foundation
 import UIKit
-
-class AuthViewController: UIViewController, AuthViewControllerProtocol {
-    
-    var presenter: AuthPresenterProtocolView!
+class AuthViewController: ViperDefaultView<AuthPresenterProtocolView>, AuthViewControllerProtocol {
     
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!

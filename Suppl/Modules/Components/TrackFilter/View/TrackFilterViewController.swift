@@ -1,9 +1,7 @@
 import Foundation
 import UIKit
 
-class TrackFilterViewController: UIViewController, TrackFilterViewControllerProtocol {
-    
-    var presenter: TrackFilterPresenterProtocolView!
+class TrackFilterViewController: ViperDefaultView<TrackFilterPresenterProtocolView>, TrackFilterViewControllerProtocol {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
@@ -28,14 +26,14 @@ class TrackFilterViewController: UIViewController, TrackFilterViewControllerProt
         
         okButton.isEnabled = false
         okButton.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         
         timeSlider.value = presenter.timeValue() ?? 1
         searchTitleSwitch.isOn = presenter.titleValue() ?? true
         searchPerformerSwitch.isOn = presenter.performerValue() ?? true
- 
-        timeSlider.isEnabled = true
-        searchTitleSwitch.isEnabled = true
-        searchPerformerSwitch.isEnabled =  true
     }
     
     func setTheme() {

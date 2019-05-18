@@ -1,16 +1,16 @@
 import Foundation
+import UIKit
 
-class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView {
-    
-    var router: MainRouterProtocol!
-    var interactor: MainInteractorProtocol!
-    weak var view: MainViewControllerProtocol!
+class MainPresenter: ViperPresenter<MainRouterProtocol, MainInteractorProtocol, MainViewControllerProtocol>, MainPresenterProtocolInteractor, MainPresenterProtocolView {
     
     var searchData: AudioSearchData?
     var thisQuery = String()
     
-    var moduleNameId: String {
-        get { return router.moduleNameId }
+    let moduleNameId: String
+    
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
+        moduleNameId = moduleId
+        super.init()
     }
     
     var canHideLogo: Bool? {
@@ -38,6 +38,14 @@ class MainPresenter: MainPresenterProtocolInteractor, MainPresenterProtocolView 
     
     func searchQuery(_ query: String) {
         view.setSearchQuery(query)
+    }
+    
+    func createTrackTableModule() -> UITableViewController {
+        return router.createTrackTableModule()
+    }
+    
+    func createSearchBarModule() -> SearchBarViewController {
+        return router.createSearchBarModule()
     }
     
     func load() {

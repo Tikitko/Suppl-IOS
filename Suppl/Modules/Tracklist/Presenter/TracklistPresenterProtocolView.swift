@@ -9,4 +9,6 @@ protocol TracklistPresenterProtocolView: class {
     func getEditPermission() -> Bool
     func updateButtonClick()
     func filterButtonClick()
+    func createTrackTableModule() -> UITableViewController
+    func createSearchBarModule() -> SearchBarViewController
 }

@@ -1,8 +1,6 @@
 import Foundation
 
-class TracklistInteractor: TracklistInteractorProtocol {
-    
-    weak var presenter: TracklistPresenterProtocolInteractor!
+class TracklistInteractor: ViperInteractor<TracklistPresenterProtocolInteractor>, TracklistInteractorProtocol {
     
     var inSearchWork = false
     

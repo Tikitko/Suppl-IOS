@@ -1,27 +1,15 @@
 import Foundation
 import UIKit
 
-class SearchBarRouter: Router, SearchBarRouterProtocol {
+class SearchBarRouter: ViperAssemblyRouter, SearchBarRouterProtocol {
+    typealias VIEW = SearchBarViewController
+    typealias PRESENTER = SearchBarPresenter
+    typealias INTERACTOR = SearchBarInteractor
     
-    weak var viewController: SearchBarViewController!
+    static let submoduleName = "SearchBar"
     
-    static func setup(parentModuleNameId: String) -> SearchBarViewController {
-        let router = SearchBarRouter()
-        let interactor = SearchBarInteractor(parentModuleNameId: parentModuleNameId)
-        let presenter = SearchBarPresenter()
-        let viewController = SearchBarViewController()
-        
-        presenter.interactor = interactor
-        presenter.router = router
-        presenter.view = viewController
-        
-        router.viewController = viewController
-        
-        viewController.presenter = presenter
-        
-        interactor.presenter = presenter
-        
-        return viewController
+    static var submoduleBuildInfo: ViperModuleBuilderInfo {
+        return .submodule(name: submoduleName, type: SearchBarRouter.self, submodulesBuildersInfo: [])
     }
     
 }

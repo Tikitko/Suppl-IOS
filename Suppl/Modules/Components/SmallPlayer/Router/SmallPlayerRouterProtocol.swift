@@ -1,3 +1,6 @@
 import Foundation
+import UIKit
 
-protocol SmallPlayerRouterProtocol: RouterProtocol {}
+protocol SmallPlayerRouterProtocol {
+    func createTrackTableModule() -> UITableViewController
+}

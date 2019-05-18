@@ -13,10 +13,10 @@ final class RootTabBarController: UITabBarController {
         setTheme()
         tabBar.isTranslucent = false
         
-        var controllers: [UIViewController] = [TracklistRouter.setup(), SettingsMainViewController.initial()]
+        var controllers: [UIViewController] = [TracklistRouter.fullBuild(), SettingsMainViewController.initial()]
         controllers[0].loadViewIfNeeded()
         if !OfflineModeManager.shared.offlineMode {
-            controllers.insert(MainRouter.setup(), at: 0)
+            controllers.insert(MainRouter.fullBuild(), at: 0)
         }
         setupControllers(controllers)
         
@@ -28,7 +28,8 @@ final class RootTabBarController: UITabBarController {
         NC.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         view.clipsToBounds = true
-        smallPlayer = SmallPlayerRouter.setup(parentRootTabBarController: self)
+        smallPlayer = SmallPlayerRouter.fullBuild(rootTabBarController: self)
+        smallPlayer.loadViewIfNeeded()
         
         TracklistManager.shared.update()
     }

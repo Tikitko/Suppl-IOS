@@ -1,13 +1,11 @@
 import Foundation
 import UIKit
 
-class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProtocol {
+class SmallPlayerViewController: ViperDefaultView<SmallPlayerPresenterProtocolView>, SmallPlayerViewControllerProtocol {
     
     private struct Constants {
         static let safeAreaMarginConstraintIdentifier = "safeAreaMargin"
     }
-    
-    var presenter: SmallPlayerPresenterProtocolView!
     
     enum ShowType {
         case closed
@@ -54,13 +52,9 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     var opened: CGFloat = 0
     var partOpened: CGFloat = 0
     
-    convenience init(table: UITableViewController) {
-        self.init()
-        tracksTableModule = table
-    }
-    
-    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    required init(moduleId: String, parentModuleId: String?, args: [String : Any]) {
+        self.parentRootTabBarController = (args[String(describing: RootTabBarController.self)] as! RootTabBarController)
+        super.init()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,7 +66,9 @@ class SmallPlayerViewController: UIViewController, SmallPlayerViewControllerProt
     }
     
     override func viewDidLoad() {
+        tracksTableModule = presenter.createTrackTableModule()
         super.viewDidLoad()
+        setInParent()
         transitioningDelegate = self
         if AppDelegate.oldPlayerAnimation {
             playerTitleLabelBig.addGestureRecognizer(

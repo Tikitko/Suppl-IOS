@@ -1,9 +1,7 @@
 import Foundation
 import UIKit
 
-class MainViewController: OldSafeAreaViewController, MainViewControllerProtocol, ControllerInfoProtocol {
-    
-    var presenter: MainPresenterProtocolView!
+class MainViewController: ViperOldSafeAreaDefaultView<MainPresenterProtocolView>, MainViewControllerProtocol, ControllerInfoProtocol {
     
     public lazy var name = {
         return presenter.getTitle()
@@ -20,29 +18,17 @@ class MainViewController: OldSafeAreaViewController, MainViewControllerProtocol,
     
     lazy var topClearConstraint = tracksTableModule.tableView.topAnchor.constraint(equalTo: tracksSearch.topAnchor, constant: 0)
     
-    convenience init(table: UITableViewController, search: SearchBarViewController) {
-        self.init()
-        tracksTableModule = table
-        searchModule = search
-    }
-    
-    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
+        tracksTableModule = presenter.createTrackTableModule()
+        searchModule = presenter.createSearchBarModule()
         super.viewDidLoad()
         navigationItem.title = name
         titleLabel.text = name
         view.addSubview(tracksTableModule.tableView)
         tracksTableModule.tableView.includeInside(tracksTable)
-        view.addSubview(searchModule.searchBar)
-        searchModule.searchBar.includeInside(tracksSearch)
-        searchModule.searchBar.placeholder = presenter.getSearchLabel()
+        view.addSubview(searchModule.searchBarView)
+        searchModule.searchBarView.includeInside(tracksSearch)
+        searchModule.searchBarView.placeholder = presenter.getSearchLabel()
         tracksSearch.isHidden = true
         tracksTable.isHidden = true
         setLabel(presenter.getLoadLabel())
@@ -68,7 +54,7 @@ class MainViewController: OldSafeAreaViewController, MainViewControllerProtocol,
     }
     
     func setSearchQuery(_ query: String) {
-        searchModule.searchBar.text = query
+        searchModule.searchBarView.text = query
     }
     
     func setLabel(_ text: String?) {
@@ -83,9 +69,9 @@ class MainViewController: OldSafeAreaViewController, MainViewControllerProtocol,
     
     func setHideHeader(_ value: Bool, animated: Bool = false) {
         let alphaValue: CGFloat = value ? 0 : 1
-        guard searchModule.searchBar.alpha != alphaValue else { return }
+        guard searchModule.searchBarView.alpha != alphaValue else { return }
         let changes = {
-            self.searchModule.searchBar.alpha = alphaValue
+            self.searchModule.searchBarView.alpha = alphaValue
             self.topClearConstraint.isActive = value
             self.view.layoutIfNeeded()
         }

@@ -1,31 +1,30 @@
 import Foundation
 import UIKit
 
-class TrackTableRouter: Router, TrackTableRouterProtocol {
+class TrackTableRouter: ViperAssemblyRouter, TrackTableRouterProtocol {
+    typealias VIEW = TrackTableViewController
+    typealias PRESENTER = TrackTablePresenter
+    typealias INTERACTOR = TrackTableInteractor
     
-    weak var viewController: UITableViewController!
+    static let submoduleName = "TrackTable"
+    private static let submoduleCellName = "TrackInfo"
     
-    static func setup(parentModuleNameId: String) -> UITableViewController {
-        let router = TrackTableRouter()
-        let interactor = TrackTableInteractor(parentModuleNameId: parentModuleNameId)
-        let presenter = TrackTablePresenter()
-        let viewController = TrackTableViewController()
-        
-        presenter.interactor = interactor
-        presenter.router = router
-        presenter.view = viewController
-        
-        router.viewController = viewController
-        
-        viewController.presenter = presenter
-        
-        interactor.presenter = presenter
-        
-        return viewController
+    let cellModuleBuilder: ViperModuleBuilder
+    
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any]) {
+        cellModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackTableRouter.submoduleCellName })!.builder
+        super.init()
     }
     
-    func createCell(small: Bool) -> (moduleNameId: String, controller: UIViewController) {
-        return TrackInfoRouter.setup(small: small)
+    static var submoduleBuildInfo: ViperModuleBuilderInfo {
+        return .submodule(name: submoduleName, type: TrackTableRouter.self, submodulesBuildersInfo: [
+            .submodule(name: submoduleCellName, type: TrackInfoRouter.self, submodulesBuildersInfo: [])
+        ])
+    }
+    
+    func createCell(isSmall: Bool) -> (moduleId: String, viewController: UIViewController) {
+        let cellModule = cellModuleBuilder(.init(["isSmall": isSmall]))
+        return (cellModule.id, cellModule.viewController)
     }
     
     func showToastOnTop(title: String, body: String, duration: Double = 2.0) {

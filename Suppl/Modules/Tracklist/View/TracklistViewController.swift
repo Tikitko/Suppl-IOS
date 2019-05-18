@@ -1,9 +1,7 @@
 import Foundation
 import UIKit
 
-class TracklistViewController: OldSafeAreaViewController, TracklistViewControllerProtocol, ControllerInfoProtocol {
-    
-    var presenter: TracklistPresenterProtocolView!
+class TracklistViewController: ViperOldSafeAreaDefaultView<TracklistPresenterProtocolView>, TracklistViewControllerProtocol, ControllerInfoProtocol {
     
     public lazy var name = {
         return presenter.getTitle()
@@ -26,6 +24,8 @@ class TracklistViewController: OldSafeAreaViewController, TracklistViewControlle
     var buttonsIsOff = false
     
     override func viewDidLoad() {
+        tracksTableModule = presenter.createTrackTableModule()
+        searchModule = presenter.createSearchBarModule()
         super.viewDidLoad()
         setTheme()
         updateButton.setImage(#imageLiteral(resourceName: "icon_020").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -35,9 +35,9 @@ class TracklistViewController: OldSafeAreaViewController, TracklistViewControlle
         titleLabel.text = name
         view.addSubview(tracksTableModule.tableView)
         tracksTableModule.tableView.includeInside(tracksTable)
-        view.addSubview(searchModule.searchBar)
-        searchModule.searchBar.includeInside(searchBar)
-        searchModule.searchBar.placeholder = presenter.getSearchLabel()
+        view.addSubview(searchModule.searchBarView)
+        searchModule.searchBarView.includeInside(searchBar)
+        searchModule.searchBarView.placeholder = presenter.getSearchLabel()
         searchBar.isHidden = true
         tracksTable.isHidden = true
         setLabel(presenter.getLoadLabel())
@@ -64,20 +64,6 @@ class TracklistViewController: OldSafeAreaViewController, TracklistViewControlle
         }
     }
     
-    convenience init(table: UITableViewController, search: SearchBarViewController) {
-        self.init()
-        tracksTableModule = table
-        searchModule = search
-    }
-
-    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     func reloadData() {
         editButton.isEnabled = presenter.getEditPermission() && !buttonsIsOff
         if !editButton.isEnabled, tracksTableModule.isEditing {
@@ -87,7 +73,7 @@ class TracklistViewController: OldSafeAreaViewController, TracklistViewControlle
     }
     
     func clearSearch() {
-        searchModule.searchBar.text = nil
+        searchModule.searchBarView.text = nil
     }
     
     func offButtons() {
@@ -116,9 +102,9 @@ class TracklistViewController: OldSafeAreaViewController, TracklistViewControlle
     
     func setHideHeader(_ value: Bool, animated: Bool = false) {
         let alphaValue: CGFloat = value ? 0 : 1
-        guard self.searchModule.searchBar.alpha != alphaValue else { return }
+        guard self.searchModule.searchBarView.alpha != alphaValue else { return }
         let changes = {
-            self.searchModule.searchBar.alpha = alphaValue
+            self.searchModule.searchBarView.alpha = alphaValue
             self.topClearConstraint.isActive = value
             self.filterButton.alpha = alphaValue
             self.updateButton.alpha = alphaValue

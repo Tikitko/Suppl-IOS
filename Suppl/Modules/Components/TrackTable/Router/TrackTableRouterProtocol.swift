@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-protocol TrackTableRouterProtocol: RouterProtocol {
-    func createCell(small: Bool) -> (moduleNameId: String, controller: UIViewController)
+protocol TrackTableRouterProtocol: class {
+    func createCell(isSmall: Bool) -> (moduleId: String, viewController: UIViewController)
     func showToastOnTop(title: String, body: String, duration: Double)
 }
