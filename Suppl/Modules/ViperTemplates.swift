@@ -232,7 +232,7 @@ typealias ViperModuleInfo = (id: String, viewController: UIViewController)
 
 enum ViperModuleBuilderInfo {
     indirect case submodule(name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo])
-    var unwrap: (name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo]) {
+    var unwrapped: (name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo]) {
         guard case .submodule(let builderInfo) = self else {
             fatalError()
         }
@@ -286,7 +286,7 @@ extension ViperModuleBuildableProtocol where Self: ViperModuleBuildComponentsPro
         let moduleId = generateModuleId()
         let parentModuleId = buildInfo.parentModuleId
         let submodulesBuilders: [ViperModuleNamedBuilder] = submodulesBuildersInfo
-            .map { $0.unwrap }
+            .map { $0.unwrapped }
             .map { submoduleBuilderInfo -> ViperModuleNamedBuilder in
                 let submoduleName = submoduleBuilderInfo.name
                 let submoduleBuilder: ViperModuleBuilder = { buildInfo in
