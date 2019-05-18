@@ -15,10 +15,10 @@ class MainRouter: ViperAssemblyRouter, MainRouterProtocol {
         ).viewController
     }
     
-    let trackTableModuleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
-    let searchBarModuleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
+    let trackTableModuleBuilder: ViperModuleBuilder
+    let searchBarModuleBuilder: ViperModuleBuilder
     
-    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleBuilder], args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any]) {
         trackTableModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackTableRouter.submoduleName })!.builder
         searchBarModuleBuilder = submodulesBuilders.first(where: { $0.name == SearchBarRouter.submoduleName })!.builder
         super.init()

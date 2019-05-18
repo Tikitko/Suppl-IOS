@@ -16,11 +16,11 @@ class TracklistRouter: ViperAssemblyRouter, TracklistRouterProtocol {
         ).viewController
     }
     
-    let filterModuleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
-    let trackTableModuleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
-    let searchBarModuleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
+    let filterModuleBuilder: ViperModuleBuilder
+    let trackTableModuleBuilder: ViperModuleBuilder
+    let searchBarModuleBuilder: ViperModuleBuilder
     
-    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleBuilder], args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any]) {
         filterModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackFilterRouter.submoduleName })!.builder
         trackTableModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackTableRouter.submoduleName })!.builder
         searchBarModuleBuilder = submodulesBuilders.first(where: { $0.name == SearchBarRouter.submoduleName })!.builder

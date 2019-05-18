@@ -9,9 +9,9 @@ class TrackTableRouter: ViperAssemblyRouter, TrackTableRouterProtocol {
     static let submoduleName = "TrackTable"
     private static let submoduleCellName = "TrackInfo"
     
-    let cellModuleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
+    let cellModuleBuilder: ViperModuleBuilder
     
-    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleBuilder], args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any]) {
         cellModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackTableRouter.submoduleCellName })!.builder
         super.init()
     }

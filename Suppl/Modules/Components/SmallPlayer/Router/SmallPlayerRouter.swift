@@ -6,9 +6,9 @@ class SmallPlayerRouter: ViperAssemblyRouter, SmallPlayerRouterProtocol {
     typealias PRESENTER = SmallPlayerPresenter
     typealias INTERACTOR = SmallPlayerInteractor
     
-    let trackTableModuleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
+    let trackTableModuleBuilder: ViperModuleBuilder
     
-    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleBuilder], args: [String : Any]) {
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any]) {
         trackTableModuleBuilder = submodulesBuilders.first(where: { $0.name == TrackTableRouter.submoduleName })!.builder
         super.init()
     }

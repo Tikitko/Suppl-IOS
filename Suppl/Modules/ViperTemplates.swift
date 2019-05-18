@@ -194,13 +194,13 @@ class ViperInteractor<PRESENTER>: ViperBaseIntercator {
 
 private protocol ViperBaseRouterProtocol: class {
     var _view: ViperBaseViewProtocol? { get set }
-    init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleBuilder], args: [String : Any])
+    init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any])
 }
 
 class ViperBaseRouter: ViperBaseRouterProtocol {
     fileprivate weak var _view: ViperBaseViewProtocol?
     
-    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleBuilder], args: [String : Any]) {}
+    required init(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String : Any]) {}
     init() {}
     
 }
@@ -217,7 +217,7 @@ class ViperRouter: ViperBaseRouter {
 typealias ViperAssemblyRouter = ViperRouter & ViperModuleBuilderProtocol
 
 
-// Builder
+// ModuleBuilder
 
 typealias ViperModuleBuilderProtocol = ViperModuleBuildComponentsProtocol & ViperModuleBuildableProtocol
 
@@ -240,7 +240,8 @@ enum ViperModuleBuilderInfo {
     }
 }
 
-typealias ViperModuleBuilder = (name: String, builder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo)
+typealias ViperModuleBuilder = (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
+typealias ViperModuleNamedBuilder = (name: String, builder: ViperModuleBuilder)
 
 struct ViperModuleBuildInfo {
     let args: [String: Any]
@@ -265,7 +266,7 @@ extension ViperModuleBuildableProtocol where Self: ViperModuleBuildComponentsPro
         return "\(arc4random_uniform(1000001)):\(Int(Date().timeIntervalSince1970)):\(NSStringFromClass(ROUTER.self))"
     }
     
-    private static func build(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleBuilder], args: [String: Any]) -> UIViewController {
+    private static func build(moduleId: String, parentModuleId: String?, submodulesBuilders: [ViperModuleNamedBuilder], args: [String: Any]) -> UIViewController {
         let view = VIEW(moduleId: moduleId, parentModuleId: parentModuleId, args: args) as! ViperBaseViewProtocol
         let presenter = PRESENTER(moduleId: moduleId, parentModuleId: parentModuleId, args: args)
         let interactor = INTERACTOR(moduleId: moduleId, parentModuleId: parentModuleId, args: args)
@@ -283,20 +284,19 @@ extension ViperModuleBuildableProtocol where Self: ViperModuleBuildComponentsPro
     
     static func build(submodulesBuildersInfo: [ViperModuleBuilderInfo] = [], buildInfo: ViperModuleBuildInfo = .init()) -> ViperModuleInfo {
         let moduleId = generateModuleId()
-        
-        let submodulesBuilders: [ViperModuleBuilder] = submodulesBuildersInfo
+        let parentModuleId = buildInfo.parentModuleId
+        let submodulesBuilders: [ViperModuleNamedBuilder] = submodulesBuildersInfo
             .map { $0.unwrap }
-            .map { submoduleBuilderInfo -> ViperModuleBuilder in
+            .map { submoduleBuilderInfo -> ViperModuleNamedBuilder in
                 let submoduleName = submoduleBuilderInfo.name
-                let submoduleBuilder: (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo = { buildInfo in
+                let submoduleBuilder: ViperModuleBuilder = { buildInfo in
                     let submoduleBuildInfo = ViperModuleBuildInfo(buildInfo.args, parentModuleId: moduleId)
                     return submoduleBuilderInfo.type.build(submodulesBuildersInfo: submoduleBuilderInfo.submodulesBuildersInfo, buildInfo: submoduleBuildInfo)
                 }
                 return (submoduleName, submoduleBuilder)
             }
-        
-        let viewController = build(moduleId: moduleId, parentModuleId: buildInfo.parentModuleId, submodulesBuilders: submodulesBuilders, args: buildInfo.args)
-        return (moduleId, viewController)
+        let args = buildInfo.args
+        return (moduleId, build(moduleId: moduleId, parentModuleId: parentModuleId, submodulesBuilders: submodulesBuilders, args: args))
     }
     
 }
