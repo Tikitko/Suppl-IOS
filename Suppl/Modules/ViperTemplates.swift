@@ -234,6 +234,14 @@ struct ViperModuleBuilderInfo {
     let name: String
     let type: ViperModuleBuildableProtocol.Type
     let submodulesBuildersInfo: [ViperModuleBuilderInfo]
+    fileprivate func createNamedBuilder(parentModuleId: String) -> ViperModuleNamedBuilder {
+        let builder: ViperModuleBuilder = { buildInfo in
+            let buildInfo = ViperModuleBuildInfo(buildInfo.args, parentModuleId: parentModuleId)
+            let moduleInfo = self.type.build(submodulesBuildersInfo: self.submodulesBuildersInfo, buildInfo: buildInfo)
+            return moduleInfo
+        }
+        return (name, builder)
+    }
 }
 
 typealias ViperModuleBuilder = (_ buildInfo: ViperModuleBuildInfo) -> ViperModuleInfo
@@ -281,10 +289,7 @@ extension ViperModuleBuildableProtocol where Self: ViperModuleBuildComponentsPro
     static func build(submodulesBuildersInfo: [ViperModuleBuilderInfo] = [], buildInfo: ViperModuleBuildInfo = .init()) -> ViperModuleInfo {
         let moduleId = generateModuleId()
         let parentModuleId = buildInfo.parentModuleId
-        let submodulesBuilders: [ViperModuleNamedBuilder] = submodulesBuildersInfo
-            .map { builderInfo -> ViperModuleNamedBuilder in
-                return (builderInfo.name, { builderInfo.type.build(submodulesBuildersInfo: builderInfo.submodulesBuildersInfo, buildInfo: .init($0.args, parentModuleId: moduleId)) })
-            }
+        let submodulesBuilders = submodulesBuildersInfo.map { $0.createNamedBuilder(parentModuleId: moduleId) }
         let args = buildInfo.args
         return (moduleId, build(moduleId: moduleId, parentModuleId: parentModuleId, submodulesBuilders: submodulesBuilders, args: args))
     }
