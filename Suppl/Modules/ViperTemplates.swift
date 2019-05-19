@@ -230,13 +230,17 @@ protocol ViperModuleBuildComponentsProtocol {
 
 typealias ViperModuleInfo = (id: String, viewController: UIViewController)
 
-enum ViperModuleBuilderInfo {
-    indirect case submodule(name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo])
-    var unwrapped: (name: String, type: ViperModuleBuildableProtocol.Type, submodulesBuildersInfo: [ViperModuleBuilderInfo]) {
-        guard case .submodule(let builderInfo) = self else {
-            fatalError()
+struct ViperModuleBuilderInfo {
+    let name: String
+    let type: ViperModuleBuildableProtocol.Type
+    let submodulesBuildersInfo: [ViperModuleBuilderInfo]
+    fileprivate func createNamedBuilder(parentModuleId: String) -> ViperModuleNamedBuilder {
+        let builder: ViperModuleBuilder = { buildInfo in
+            let buildInfo = ViperModuleBuildInfo(buildInfo.args, parentModuleId: parentModuleId)
+            let moduleInfo = self.type.build(submodulesBuildersInfo: self.submodulesBuildersInfo, buildInfo: buildInfo)
+            return moduleInfo
         }
-        return builderInfo
+        return (name, builder)
     }
 }
 
@@ -285,16 +289,7 @@ extension ViperModuleBuildableProtocol where Self: ViperModuleBuildComponentsPro
     static func build(submodulesBuildersInfo: [ViperModuleBuilderInfo] = [], buildInfo: ViperModuleBuildInfo = .init()) -> ViperModuleInfo {
         let moduleId = generateModuleId()
         let parentModuleId = buildInfo.parentModuleId
-        let submodulesBuilders: [ViperModuleNamedBuilder] = submodulesBuildersInfo
-            .map { $0.unwrapped }
-            .map { submoduleBuilderInfo -> ViperModuleNamedBuilder in
-                let submoduleName = submoduleBuilderInfo.name
-                let submoduleBuilder: ViperModuleBuilder = { buildInfo in
-                    let submoduleBuildInfo = ViperModuleBuildInfo(buildInfo.args, parentModuleId: moduleId)
-                    return submoduleBuilderInfo.type.build(submodulesBuildersInfo: submoduleBuilderInfo.submodulesBuildersInfo, buildInfo: submoduleBuildInfo)
-                }
-                return (submoduleName, submoduleBuilder)
-            }
+        let submodulesBuilders = submodulesBuildersInfo.map { $0.createNamedBuilder(parentModuleId: moduleId) }
         let args = buildInfo.args
         return (moduleId, build(moduleId: moduleId, parentModuleId: parentModuleId, submodulesBuilders: submodulesBuilders, args: args))
     }

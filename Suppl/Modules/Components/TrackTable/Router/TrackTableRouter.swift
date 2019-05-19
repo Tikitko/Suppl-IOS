@@ -17,8 +17,8 @@ class TrackTableRouter: ViperAssemblyRouter, TrackTableRouterProtocol {
     }
     
     static var submoduleBuildInfo: ViperModuleBuilderInfo {
-        return .submodule(name: submoduleName, type: TrackTableRouter.self, submodulesBuildersInfo: [
-            .submodule(name: submoduleCellName, type: TrackInfoRouter.self, submodulesBuildersInfo: [])
+        return .init(name: submoduleName, type: TrackTableRouter.self, submodulesBuildersInfo: [
+            .init(name: submoduleCellName, type: TrackInfoRouter.self, submodulesBuildersInfo: [])
         ])
     }
     

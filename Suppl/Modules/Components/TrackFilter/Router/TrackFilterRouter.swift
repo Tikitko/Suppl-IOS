@@ -9,6 +9,6 @@ class TrackFilterRouter: ViperAssemblyRouter, TrackFilterRouterProtocol {
     static let submoduleName = "TrackFilter"
     
     static var submoduleBuildInfo: ViperModuleBuilderInfo {
-        return .submodule(name: submoduleName, type: TrackFilterRouter.self, submodulesBuildersInfo: [])
+        return .init(name: submoduleName, type: TrackFilterRouter.self, submodulesBuildersInfo: [])
     }
 }

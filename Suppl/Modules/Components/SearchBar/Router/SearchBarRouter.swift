@@ -9,7 +9,7 @@ class SearchBarRouter: ViperAssemblyRouter, SearchBarRouterProtocol {
     static let submoduleName = "SearchBar"
     
     static var submoduleBuildInfo: ViperModuleBuilderInfo {
-        return .submodule(name: submoduleName, type: SearchBarRouter.self, submodulesBuildersInfo: [])
+        return .init(name: submoduleName, type: SearchBarRouter.self, submodulesBuildersInfo: [])
     }
     
 }
